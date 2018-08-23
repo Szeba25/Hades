@@ -1,0 +1,12 @@
+# Gradle temp files
+
+.gradle/
+
+# IDEA project files
+
+.idea/
+
+# Build files
+
+build/
+out/
