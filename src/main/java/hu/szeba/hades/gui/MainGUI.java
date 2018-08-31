@@ -27,6 +27,7 @@ public class MainGUI {
 
         codeArea = new RSyntaxTextArea();
         codeArea.setAutoIndentEnabled(true);
+        codeArea.setCodeFoldingEnabled(true);
         codeArea.setSyntaxEditingStyle(RSyntaxTextArea.SYNTAX_STYLE_C);
         codeArea.setCurrentLineHighlightColor(new Color(10, 30, 140, 50));
         codeArea.setFont(new Font("Consolas", Font.PLAIN, 14));
