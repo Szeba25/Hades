@@ -18,11 +18,6 @@ public class CampaignSelector {
     private JButton startButton;
 
     public CampaignSelector() {
-        create();
-        show();
-    }
-
-    private void create() {
         mainFrame = new JFrame();
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setResizable(true);
@@ -74,7 +69,7 @@ public class CampaignSelector {
         mainFrame.pack();
     }
 
-    private void show() {
+    public void show() {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
     }

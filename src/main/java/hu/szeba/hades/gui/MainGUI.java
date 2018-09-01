@@ -15,10 +15,7 @@ public class MainGUI {
 
     private JMenuBar menuBar;
 
-    public MainGUI() {
-        create();
-        show();
-    }
+    public MainGUI() {}
 
     private void create() {
         mainFrame = new JFrame();
