@@ -1,6 +1,6 @@
 package hu.szeba.hades.model.compiler;
 
-import hu.szeba.hades.model.task.RunnableProgram;
+import hu.szeba.hades.model.task.Program;
 import hu.szeba.hades.model.task.Task;
 
 import java.io.File;
@@ -14,6 +14,6 @@ public abstract class Compiler {
     }
 
     public abstract void compile(Task task);
-    public abstract RunnableProgram getRunnableProgram();
+    public abstract Program getRunnableProgram();
 
 }

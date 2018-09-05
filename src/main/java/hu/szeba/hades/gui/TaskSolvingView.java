@@ -6,7 +6,7 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 import javax.swing.*;
 import java.awt.*;
 
-public class MainGUI {
+public class TaskSolvingView {
 
     private JFrame mainFrame;
 
@@ -15,7 +15,7 @@ public class MainGUI {
 
     private JMenuBar menuBar;
 
-    public MainGUI() {}
+    public TaskSolvingView() {}
 
     private void create() {
         mainFrame = new JFrame();
