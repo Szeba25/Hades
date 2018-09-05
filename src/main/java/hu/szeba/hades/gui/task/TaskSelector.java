@@ -1,10 +1,14 @@
 package hu.szeba.hades.gui.task;
 
+import hu.szeba.hades.model.campaign.Campaign;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class TaskSelector {
+
+    private Campaign referencedCampaign;
 
     private JFrame mainFrame;
 
@@ -17,7 +21,9 @@ public class TaskSelector {
     private JTextArea descriptionArea;
     private JButton startButton;
 
-    public TaskSelector() {
+    public TaskSelector(Campaign campaign) {
+        referencedCampaign = campaign;
+
         mainFrame = new JFrame();
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setResizable(true);
@@ -33,7 +39,7 @@ public class TaskSelector {
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         rightPanel.setBorder(new EmptyBorder(5, 0, 5, 5));
 
-        String[] tasks = {"Task 1", "Task 2", "Task 3"};
+        String[] tasks = campaign.getTaskNames();
         taskList = new JList(tasks);
         taskList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         taskList.setFixedCellWidth(200);

@@ -1,7 +1,5 @@
 package hu.szeba.hades.meta;
 
-import org.apache.commons.io.filefilter.DirectoryFileFilter;
-
 import java.io.File;
 
 public class Options {
@@ -20,12 +18,17 @@ public class Options {
         System.out.println(compilerPath.exists());
         System.out.println(campaignDatabasePath.exists());
         System.out.println(workingDirectoryPath.exists());
-
-        String[] directories = campaignDatabasePath.list(DirectoryFileFilter.INSTANCE);
-        for (int i = 0; i < directories.length; i++) {
-            System.out.println(directories[i]);
-        }
-
     }
 
+    public File getCompilerPath() {
+        return compilerPath;
+    }
+
+    public File getCampaignDatabasePath() {
+        return campaignDatabasePath;
+    }
+
+    public File getWorkingDirectoryPath() {
+        return workingDirectoryPath;
+    }
 }
