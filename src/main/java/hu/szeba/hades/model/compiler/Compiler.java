@@ -5,15 +5,9 @@ import hu.szeba.hades.model.task.Task;
 
 import java.io.File;
 
-public abstract class Compiler {
+public interface Compiler {
 
-    private File compilerPath;
-
-    public Compiler(File compilerPath) {
-        this.compilerPath = compilerPath;
-    }
-
-    public abstract void compile(Task task);
-    public abstract Program getRunnableProgram();
+    void compile(Task task);
+    Program getProgram();
 
 }

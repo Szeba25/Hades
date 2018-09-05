@@ -16,8 +16,11 @@ public class Main {
                 new File("D:/Egyetem/MinGW/bin"),
                 new File("D:/Egyetem/Szakdolgozat/hades_Campaigns"),
                 new File("D:/Egyetem/Szakdolgozat/hades_WorkingDirectory"));
-
         taskSelector = new TaskSelector();
+        showTaskSelector();
+    }
+
+    private void showTaskSelector() {
         taskSelector.show();
     }
 
