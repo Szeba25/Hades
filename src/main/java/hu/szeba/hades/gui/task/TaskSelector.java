@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class TaskSelector {
 
-    private Campaign referencedCampaign;
+    private Campaign campaign;
 
     private JFrame mainFrame;
 
@@ -22,7 +22,7 @@ public class TaskSelector {
     private JButton startButton;
 
     public TaskSelector(Campaign campaign) {
-        referencedCampaign = campaign;
+        this.campaign = campaign;
 
         mainFrame = new JFrame();
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
