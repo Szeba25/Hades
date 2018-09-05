@@ -15,17 +15,9 @@ public class Campaign {
     private List<Task> tasks;
 
     public Campaign(File campaignDatabaseDirectory, String campaignName) {
-        campaignDirectory = new File(campaignDatabaseDirectory, campaignName);
+        this.campaignDirectory = new File(campaignDatabaseDirectory, campaignName);
         this.campaignName = campaignName;
         loadTasks();
-    }
-
-    public String[] getTaskNames() {
-        String[] taskNames = new String[tasks.size()];
-        for (int i = 0; i < tasks.size(); i++) {
-            taskNames[i] = tasks.get(i).getName();
-        }
-        return taskNames;
     }
 
     private void loadTasks() {
@@ -34,6 +26,14 @@ public class Campaign {
         for (String taskName : taskNames) {
             tasks.add(TaskFactory.createTask(campaignDirectory, taskName));
         }
+    }
+
+    public String[] getTaskNames() {
+        String[] taskNames = new String[tasks.size()];
+        for (int i = 0; i < tasks.size(); i++) {
+            taskNames[i] = tasks.get(i).getName();
+        }
+        return taskNames;
     }
 
 }
