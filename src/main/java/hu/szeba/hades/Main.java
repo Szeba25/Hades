@@ -1,6 +1,6 @@
 package hu.szeba.hades;
 
-import hu.szeba.hades.gui.TaskSelector;
+import hu.szeba.hades.gui.task.TaskSelector;
 import hu.szeba.hades.meta.Options;
 
 import javax.swing.*;

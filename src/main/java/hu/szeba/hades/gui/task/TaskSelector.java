@@ -1,4 +1,4 @@
-package hu.szeba.hades.gui;
+package hu.szeba.hades.gui.task;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
