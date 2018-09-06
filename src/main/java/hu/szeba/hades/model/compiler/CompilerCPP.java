@@ -2,6 +2,7 @@ package hu.szeba.hades.model.compiler;
 
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.program.Program;
+import hu.szeba.hades.model.task.program.ProgramCPP;
 
 import java.io.File;
 
@@ -14,12 +15,8 @@ public class CompilerCPP implements Compiler {
     }
 
     @Override
-    public void compile(Task task) {
-
+    public Program compile(Task task) {
+        return new ProgramCPP();
     }
 
-    @Override
-    public Program getProgram() {
-        return null;
-    }
 }

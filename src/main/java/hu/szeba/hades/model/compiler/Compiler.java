@@ -7,7 +7,6 @@ import java.io.File;
 
 public interface Compiler {
 
-    void compile(Task task);
-    Program getProgram();
+    Program compile(Task task);
 
 }
