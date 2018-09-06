@@ -2,7 +2,13 @@ package hu.szeba.hades.model.task;
 
 public class SourceFile {
 
+    private String name;
     private String data;
+
+    public SourceFile(String name) {
+        this.name = name;
+        this.data = "";
+    }
 
     public String getData() {
         return data;

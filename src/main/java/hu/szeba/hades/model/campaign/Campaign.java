@@ -1,18 +1,16 @@
 package hu.szeba.hades.model.campaign;
 
 import hu.szeba.hades.model.task.Task;
-import hu.szeba.hades.model.task.TaskFactory;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Campaign {
 
     private File campaignDirectory;
     private String campaignName;
-    private List<Task> tasks;
+    private Map<String, Task> tasks;
 
     public Campaign(File campaignDatabaseDirectory, String campaignName) {
         this.campaignDirectory = new File(campaignDatabaseDirectory, campaignName);
@@ -21,18 +19,21 @@ public class Campaign {
     }
 
     private void loadTasks() {
-        tasks = new ArrayList<>();
+        tasks = new HashMap<>();
         String[] taskNames = campaignDirectory.list(DirectoryFileFilter.INSTANCE);
         for (String taskName : taskNames) {
-            tasks.add(TaskFactory.createTask(campaignDirectory, taskName));
+            tasks.put(taskName, new Task(campaignDirectory, taskName));
         }
     }
 
     public String[] getTaskNames() {
         String[] taskNames = new String[tasks.size()];
-        for (int i = 0; i < tasks.size(); i++) {
-            taskNames[i] = tasks.get(i).getName();
+        int i = 0;
+        for (String taskName : tasks.keySet()) {
+            taskNames[i] = taskName;
+            i++;
         }
+        Arrays.sort(taskNames);
         return taskNames;
     }
 
