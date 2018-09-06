@@ -18,7 +18,15 @@ public class Task {
         sources = new ArrayList<>();
     }
 
-    public String getName() {
+    public String getTaskName() {
         return taskName;
+    }
+
+    public List<Solution> getSolutions() {
+        return solutions;
+    }
+
+    public List<SourceFile> getSources() {
+        return sources;
     }
 }
