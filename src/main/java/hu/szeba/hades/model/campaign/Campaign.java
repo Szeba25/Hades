@@ -38,7 +38,7 @@ public class Campaign {
     }
 
     public Task createTask(String taskName) {
-        return new Task(options, campaignDirectory, campaignWorkingDirectory, taskName);
+        return new Task(campaignDirectory, campaignWorkingDirectory, taskName);
     }
 
 }
