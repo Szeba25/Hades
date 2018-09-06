@@ -20,6 +20,7 @@ public class Main {
     private Main() {
         options = new Options(
                 new File("D:/Egyetem/MinGW/bin"),
+                new File("D:/Egyetem/MinGW/bin"),
                 new File("D:/Egyetem/Szakdolgozat/hades_Campaigns"),
                 new File("D:/Egyetem/Szakdolgozat/hades_WorkingDirectory"));
 
