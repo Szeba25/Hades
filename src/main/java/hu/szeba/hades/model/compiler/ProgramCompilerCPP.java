@@ -9,9 +9,11 @@ import java.io.File;
 public class ProgramCompilerCPP implements ProgramCompiler {
 
     private File compilerPath;
+    private File taskWorkingDirectory;
 
-    public ProgramCompilerCPP(File compilerPath) {
+    public ProgramCompilerCPP(File compilerPath, File taskWorkingDirectory) {
         this.compilerPath = compilerPath;
+        this.taskWorkingDirectory = taskWorkingDirectory;
     }
 
     @Override

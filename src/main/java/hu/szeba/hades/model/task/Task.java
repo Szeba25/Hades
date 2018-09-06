@@ -25,6 +25,10 @@ public class Task {
         sources = new ArrayList<>();
     }
 
+    public File getTaskWorkingDirectory() {
+        return taskWorkingDirectory;
+    }
+
     public String getTaskName() {
         return taskName;
     }
