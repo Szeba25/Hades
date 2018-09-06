@@ -11,14 +11,14 @@ public class Campaign {
 
     private Options options;
     private File campaignDirectory;
-    private File workingCampaignDirectory;
+    private File campaignWorkingDirectory;
     private String campaignName;
     private String[] taskNames;
 
     public Campaign(Options options, String campaignName) {
         this.options = options;
         this.campaignDirectory = new File(options.getCampaignDatabasePath(), campaignName);
-        this.workingCampaignDirectory = new File(options.getWorkingDirectoryPath(), campaignName);
+        this.campaignWorkingDirectory = new File(options.getWorkingDirectoryPath(), campaignName);
         this.campaignName = campaignName;
         loadTaskNames();
     }
@@ -38,7 +38,7 @@ public class Campaign {
     }
 
     public Task createTask(String taskName) {
-        return new Task(campaignDirectory, workingCampaignDirectory, taskName);
+        return new Task(campaignDirectory, campaignWorkingDirectory, taskName);
     }
 
 }
