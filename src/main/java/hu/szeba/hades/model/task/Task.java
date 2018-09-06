@@ -6,9 +6,13 @@ import java.util.List;
 
 public class Task {
 
+    public static final int TYPE_C = 0;
+    public static final int TYPE_CPP = 1;
+
     private File taskDirectory;
     private File taskWorkingDirectory;
     private String taskName;
+    private int taskType;
     private List<Solution> solutions;
     private List<SourceFile> sources;
 
@@ -16,12 +20,17 @@ public class Task {
         taskDirectory = new File(campaignDirectory, taskName);
         taskWorkingDirectory = new File(campaignWorkingDirectory, taskName);
         this.taskName = taskName;
+        this.taskType = TYPE_C;
         solutions = new ArrayList<>();
         sources = new ArrayList<>();
     }
 
     public String getTaskName() {
         return taskName;
+    }
+
+    public int getTaskType() {
+        return taskType;
     }
 
     public List<Solution> getSolutions() {

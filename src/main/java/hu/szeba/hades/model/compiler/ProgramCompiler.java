@@ -5,7 +5,7 @@ import hu.szeba.hades.model.task.Task;
 
 import java.io.File;
 
-public interface Compiler {
+public interface ProgramCompiler {
 
     Program compile(Task task);
 
