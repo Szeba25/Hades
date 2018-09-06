@@ -1,24 +1,25 @@
 package hu.szeba.hades.model.campaign;
 
-import java.io.File;
+import hu.szeba.hades.meta.Options;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class CampaignDatabase {
 
-    private File campaignDatabasePath;
+    private Options options;
     private Map<String, Campaign> campaigns;
 
-    public CampaignDatabase(File campaignDatabasePath) {
-        this.campaignDatabasePath = campaignDatabasePath;
+    public CampaignDatabase(Options options) {
+        this.options = options;
         campaigns = new HashMap<>();
     }
 
-    public Campaign loadCampaign(File campaignDatabasePath, String campaignName) {
+    public Campaign loadCampaign(String campaignName) {
         if (campaigns.containsKey(campaignName)) {
             return campaigns.get(campaignName);
         } else {
-            Campaign newCampaign = new Campaign(campaignDatabasePath, campaignName);
+            Campaign newCampaign = new Campaign(options.getCampaignDatabasePath(), campaignName);
             campaigns.put(campaignName, newCampaign);
             return newCampaign;
         }

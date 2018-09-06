@@ -23,9 +23,9 @@ public class Main {
                 new File("D:/Egyetem/Szakdolgozat/hades_Campaigns"),
                 new File("D:/Egyetem/Szakdolgozat/hades_WorkingDirectory"));
 
-        campaignDatabase = new CampaignDatabase(options.getCampaignDatabasePath());
+        campaignDatabase = new CampaignDatabase(options);
 
-        campaign = campaignDatabase.loadCampaign(options.getCampaignDatabasePath(), "practice");
+        campaign = campaignDatabase.loadCampaign("practice");
 
         taskSelectorControl = new TaskSelectorControl(campaign);
         taskSelectorView = new TaskSelectorView(taskSelectorControl);
