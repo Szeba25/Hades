@@ -1,5 +1,6 @@
 package hu.szeba.hades.gui.task;
 
+import hu.szeba.hades.control.TaskSolvingControl;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
@@ -8,6 +9,8 @@ import java.awt.*;
 
 public class TaskSolvingView {
 
+    private TaskSolvingControl control;
+
     private JFrame mainFrame;
 
     private RSyntaxTextArea codeArea;
@@ -15,9 +18,9 @@ public class TaskSolvingView {
 
     private JMenuBar menuBar;
 
-    public TaskSolvingView() {}
+    public TaskSolvingView(TaskSolvingControl control) {
+        this.control = control;
 
-    private void create() {
         mainFrame = new JFrame();
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setLayout(new BorderLayout());
