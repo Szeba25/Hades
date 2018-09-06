@@ -1,6 +1,6 @@
 package hu.szeba.hades.gui.task;
 
-import hu.szeba.hades.control.TaskSolvingControl;
+import hu.szeba.hades.control.task.TaskSolvingControl;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
