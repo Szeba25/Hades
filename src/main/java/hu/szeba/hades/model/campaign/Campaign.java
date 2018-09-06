@@ -17,10 +17,6 @@ public class Campaign {
         loadTaskNames();
     }
 
-    public String[] getTaskNames() {
-        return taskNames;
-    }
-
     private void loadTaskNames() {
         taskNames = campaignDirectory.list(DirectoryFileFilter.INSTANCE);
         int i = 0;
@@ -30,4 +26,9 @@ public class Campaign {
         }
         Arrays.sort(taskNames);
     }
+
+    public String[] getTaskNames() {
+        return taskNames;
+    }
+
 }
