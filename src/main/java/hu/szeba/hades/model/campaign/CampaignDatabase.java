@@ -19,7 +19,7 @@ public class CampaignDatabase {
         if (campaigns.containsKey(campaignName)) {
             return campaigns.get(campaignName);
         } else {
-            Campaign newCampaign = new Campaign(options.getCampaignDatabasePath(), campaignName);
+            Campaign newCampaign = new Campaign(options, campaignName);
             campaigns.put(campaignName, newCampaign);
             return newCampaign;
         }

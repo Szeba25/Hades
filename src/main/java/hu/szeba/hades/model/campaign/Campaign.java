@@ -1,5 +1,7 @@
 package hu.szeba.hades.model.campaign;
 
+import hu.szeba.hades.meta.Options;
+import hu.szeba.hades.model.task.Task;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 
 import java.io.File;
@@ -11,8 +13,8 @@ public class Campaign {
     private String campaignName;
     private String[] taskNames;
 
-    public Campaign(File campaignDatabaseDirectory, String campaignName) {
-        this.campaignDirectory = new File(campaignDatabaseDirectory, campaignName);
+    public Campaign(Options options, String campaignName) {
+        this.campaignDirectory = new File(options.getCampaignDatabasePath(), campaignName);
         this.campaignName = campaignName;
         loadTaskNames();
     }
@@ -29,6 +31,10 @@ public class Campaign {
 
     public String[] getTaskNames() {
         return taskNames;
+    }
+
+    public Task createTask(String taskName) {
+        return new Task(campaignDirectory, taskName);
     }
 
 }
