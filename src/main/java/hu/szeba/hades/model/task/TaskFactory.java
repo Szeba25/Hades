@@ -12,7 +12,7 @@ public class TaskFactory {
         File taskDirectory = new File(campaignDirectory, taskName);
         File taskWorkingDirectory = new File(campaignWorkingDirectory, taskName);
 
-        int taskType = TYPE_C; // TODO: Replace with proper type loading.
+        int taskType = TYPE_C; // TODO: Replace with proper type loading!
 
         switch (taskType) {
             case TYPE_C:

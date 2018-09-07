@@ -6,14 +6,10 @@ import hu.szeba.hades.model.task.program.ProgramC;
 
 import java.io.File;
 
-public class ProgramCompilerC implements ProgramCompiler {
-
-    private File compilerPath;
-    private File taskWorkingDirectory;
+public class ProgramCompilerC extends ProgramCompiler {
 
     public ProgramCompilerC(File compilerPath, File taskWorkingDirectory) {
-        this.compilerPath = compilerPath;
-        this.taskWorkingDirectory = taskWorkingDirectory;
+        super(compilerPath, taskWorkingDirectory);
     }
 
     @Override

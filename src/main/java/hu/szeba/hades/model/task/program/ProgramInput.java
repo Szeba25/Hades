@@ -1,18 +1,16 @@
 package hu.szeba.hades.model.task.program;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ProgramInput {
 
-    private List<String> input;
+    private String input;
 
     public ProgramInput(File inputFilePath) {
-        input = new ArrayList<>();
+        input = ""; // TODO: Load from file!
     }
 
-    public List<String> getInput() {
+    public String getInput() {
         return input;
     }
 }

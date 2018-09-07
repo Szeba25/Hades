@@ -5,8 +5,16 @@ import hu.szeba.hades.model.task.Task;
 
 import java.io.File;
 
-public interface ProgramCompiler {
+public abstract class ProgramCompiler {
 
-    Program compile(Task task);
+    protected File compilerPath;
+    protected File taskWorkingDirectory;
+
+    public ProgramCompiler(File compilerPath, File taskWorkingDirectory) {
+        this.compilerPath = compilerPath;
+        this.taskWorkingDirectory = taskWorkingDirectory;
+    }
+
+    public abstract Program compile(Task task);
 
 }
