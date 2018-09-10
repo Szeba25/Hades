@@ -9,16 +9,16 @@ import java.io.File;
 
 public abstract class Task implements TaskSolvingControl {
 
-    private TaskData taskData;
-    private ProgramCompiler programCompiler;
-    private Program program;
+    protected TaskData taskData;
+    protected ProgramCompiler programCompiler;
+    protected Program program;
 
     public Task(TaskData taskData) {
         this.taskData = taskData;
-        programCompiler = createCompiler(taskData.getTaskWorkingDirectory());
+        programCompiler = createCompiler();
         program = null;
     }
 
-    abstract ProgramCompiler createCompiler(File taskWorkingDirectory);
+    abstract ProgramCompiler createCompiler();
 
 }
