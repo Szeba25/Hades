@@ -1,5 +1,8 @@
 package hu.szeba.hades.model.task;
 
+import hu.szeba.hades.model.task.data.Solution;
+import hu.szeba.hades.model.task.data.SourceFile;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
