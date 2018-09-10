@@ -5,6 +5,7 @@ import hu.szeba.hades.control.task.TaskSelectorControl;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class TaskSelectorView {
 
@@ -57,6 +58,16 @@ public class TaskSelectorView {
         startButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
         startButton.setFocusPainted(false);
         startButton.setMaximumSize(new Dimension(120, 30));
+
+        startButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (taskList.getSelectedValue() != null) {
+                    // Create the task, for testing purposes.
+                    control.createTask(taskList.getSelectedValue().toString());
+                }
+            }
+        });
 
         leftPanel.add(taskListScroller);
 

@@ -17,6 +17,9 @@ public abstract class Task implements TaskSolvingControl {
         this.taskData = taskData;
         programCompiler = createCompiler();
         program = null;
+
+        // TODO: Remove this!
+        System.out.println("Task successfully created!");
     }
 
     abstract ProgramCompiler createCompiler();
