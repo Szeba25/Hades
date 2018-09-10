@@ -1,8 +1,6 @@
 package hu.szeba.hades.model.campaign;
 
 import hu.szeba.hades.meta.Options;
-import hu.szeba.hades.model.task.Task;
-import hu.szeba.hades.model.task.TaskFactory;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 
 import java.io.File;
@@ -36,10 +34,6 @@ public class Campaign {
 
     public String[] getTaskNames() {
         return taskNames;
-    }
-
-    public Task createTask(String taskName) {
-        return TaskFactory.createTask(campaignDirectory, campaignWorkingDirectory, taskName);
     }
 
 }
