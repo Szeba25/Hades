@@ -1,8 +1,19 @@
 package hu.szeba.hades.control.task;
 
-public interface TaskSolvingControl {
+public class TaskSolvingControl {
 
-    void compile();
-    void run();
+    private TaskSolvingControlMethods task;
+
+    public TaskSolvingControl(TaskSolvingControlMethods task) {
+        this.task = task;
+    }
+
+    public void compile() {
+        task.compile();
+    }
+
+    public void run() {
+        task.run();
+    }
 
 }

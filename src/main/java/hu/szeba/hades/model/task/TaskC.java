@@ -20,15 +20,11 @@ public class TaskC extends Task {
 
     @Override
     public void compile() {
-        program = programCompiler.compile(
-                taskData.getSources(),
-                taskData.getTaskWorkingDirectory());
+
     }
 
     @Override
     public void run() {
-        if (program != null) {
-            // TODO: Run with program inputs, and produce results!
-        }
+
     }
 }

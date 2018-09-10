@@ -1,13 +1,12 @@
 package hu.szeba.hades.model.task;
 
-import hu.szeba.hades.control.task.TaskSolvingControl;
+import hu.szeba.hades.control.task.TaskSolvingControlMethods;
+import hu.szeba.hades.gui.task.TaskSolvingViewMethods;
 import hu.szeba.hades.model.compiler.ProgramCompiler;
 import hu.szeba.hades.model.task.data.TaskData;
 import hu.szeba.hades.model.task.program.Program;
 
-import java.io.File;
-
-public abstract class Task implements TaskSolvingControl {
+public abstract class Task implements TaskSolvingControlMethods, TaskSolvingViewMethods {
 
     protected TaskData taskData;
     protected ProgramCompiler programCompiler;

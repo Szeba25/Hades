@@ -2,9 +2,16 @@ package hu.szeba.hades.control.task;
 
 import hu.szeba.hades.model.task.Task;
 
-public interface TaskSelectorControl {
+public class TaskSelectorControl {
 
-    String[] getTaskNames();
-    Task createTask(String taskName);
+    private TaskSelectorControlMethods campaign;
+
+    public TaskSelectorControl(TaskSelectorControlMethods campaign) {
+        this.campaign = campaign;
+    }
+
+    public Task createTask(String taskName) {
+        return campaign.createTask(taskName);
+    }
 
 }
