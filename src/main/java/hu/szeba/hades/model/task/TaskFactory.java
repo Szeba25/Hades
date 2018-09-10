@@ -12,13 +12,14 @@ public class TaskFactory {
                                   File campaignWorkingDirectory,
                                   String taskName) {
 
-        TaskData taskData = new TaskData(
-                new File(campaignDirectory, taskName),
-                new File(campaignWorkingDirectory, taskName),
-                taskName);
+        // Get new paths to the task itself.
+        File taskDirectory = new File(campaignDirectory, taskName);
+        File taskWorkingDirectory = new File(campaignWorkingDirectory, taskName);
 
-        // TODO: Read this from file!
+        // TODO: Read this from file! (based on the above paths)
         String language = C;
+
+        TaskData taskData = new TaskData(taskDirectory, taskWorkingDirectory, taskName, language);
 
         switch (language) {
             case C:
