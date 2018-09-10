@@ -1,6 +1,6 @@
 package hu.szeba.hades.model.compiler;
 
-import hu.szeba.hades.model.task.Task;
+import hu.szeba.hades.model.task.data.TaskData;
 import hu.szeba.hades.model.task.program.Program;
 import hu.szeba.hades.model.task.program.ProgramC;
 
@@ -13,7 +13,7 @@ public class ProgramCompilerC extends ProgramCompiler {
     }
 
     @Override
-    public Program compile(Task task) {
+    public Program compile(TaskData taskData) {
         return new ProgramC();
     }
 

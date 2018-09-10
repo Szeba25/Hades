@@ -4,40 +4,31 @@ import java.io.File;
 
 public class Options {
 
-    private File compilerPath_C;
-    private File compilerPath_CPP;
-    private File campaignDatabasePath;
-    private File workingDirectoryPath;
+    private static File compilerPath_C;
+    private static File campaignDatabasePath;
+    private static File workingDirectoryPath;
 
-    public Options(File compilerPath_C,
-                   File compilerPath_CPP,
-                   File campaignDatabasePath,
-                   File workingDirectoryPath) {
-        this.compilerPath_C = compilerPath_C;
-        this.compilerPath_CPP = compilerPath_CPP;
-        this.campaignDatabasePath = campaignDatabasePath;
-        this.workingDirectoryPath = workingDirectoryPath;
+    public static void initialize() {
+        compilerPath_C = new File("D:/Egyetem/MinGW/bin");
+        campaignDatabasePath = new File("D:/Egyetem/Szakdolgozat/hades_Campaigns");
+        workingDirectoryPath = new File("D:/Egyetem/Szakdolgozat/hades_WorkingDirectory");
+        checkPaths();
     }
 
-    public void checkPaths() {
-        System.out.println(compilerPath_C.exists());
-        System.out.println(campaignDatabasePath.exists());
-        System.out.println(workingDirectoryPath.exists());
-    }
-
-    public File getCompilerPath_C() {
+    public static File getCompilerPath_C() {
         return compilerPath_C;
     }
 
-    public File getCompilerPath_CPP() {
-        return compilerPath_CPP;
-    }
-
-    public File getCampaignDatabasePath() {
+    public static File getCampaignDatabasePath() {
         return campaignDatabasePath;
     }
 
-    public File getWorkingDirectoryPath() {
-        return workingDirectoryPath;
+    public static File getWorkingDirectoryPath() { return workingDirectoryPath; }
+
+    private static void checkPaths() {
+        System.out.println("Check -> Compiler path for C exists: " + compilerPath_C.exists());
+        System.out.println("Check -> Campaign database path exists: " + campaignDatabasePath.exists());
+        System.out.println("Check -> Working directory exists: " + workingDirectoryPath.exists());
     }
+
 }

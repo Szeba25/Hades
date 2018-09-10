@@ -1,17 +1,13 @@
 package hu.szeba.hades.model.campaign;
 
-import hu.szeba.hades.meta.Options;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class CampaignDatabase {
 
-    private Options options;
     private Map<String, Campaign> campaigns;
 
-    public CampaignDatabase(Options options) {
-        this.options = options;
+    public CampaignDatabase() {
         campaigns = new HashMap<>();
     }
 
@@ -19,7 +15,7 @@ public class CampaignDatabase {
         if (campaigns.containsKey(campaignName)) {
             return campaigns.get(campaignName);
         } else {
-            Campaign newCampaign = new Campaign(options, campaignName);
+            Campaign newCampaign = new Campaign(campaignName);
             campaigns.put(campaignName, newCampaign);
             return newCampaign;
         }

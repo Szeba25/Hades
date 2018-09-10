@@ -8,16 +8,14 @@ import java.util.Arrays;
 
 public class Campaign {
 
-    private Options options;
     private File campaignDirectory;
     private File campaignWorkingDirectory;
     private String campaignName;
     private String[] taskNames;
 
-    public Campaign(Options options, String campaignName) {
-        this.options = options;
-        this.campaignDirectory = new File(options.getCampaignDatabasePath(), campaignName);
-        this.campaignWorkingDirectory = new File(options.getWorkingDirectoryPath(), campaignName);
+    public Campaign(String campaignName) {
+        this.campaignDirectory = new File(Options.getCampaignDatabasePath(), campaignName);
+        this.campaignWorkingDirectory = new File(Options.getWorkingDirectoryPath(), campaignName);
         this.campaignName = campaignName;
         loadTaskNames();
     }

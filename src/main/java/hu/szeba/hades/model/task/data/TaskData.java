@@ -22,4 +22,23 @@ public class TaskData {
         sources = new ArrayList<>();
     }
 
+    public File getTaskDirectory() {
+        return taskDirectory;
+    }
+
+    public File getTaskWorkingDirectory() {
+        return taskWorkingDirectory;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public List<Solution> getSolutions() {
+        return solutions;
+    }
+
+    public List<SourceFile> getSources() {
+        return sources;
+    }
 }

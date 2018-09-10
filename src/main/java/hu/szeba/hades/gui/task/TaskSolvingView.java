@@ -19,6 +19,7 @@ public class TaskSolvingView {
     private JMenuBar menuBar;
 
     public TaskSolvingView(TaskSolvingControl control) {
+
         this.control = control;
 
         mainFrame = new JFrame();

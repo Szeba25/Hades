@@ -22,6 +22,7 @@ public class TaskSelectorView {
     private JButton startButton;
 
     public TaskSelectorView(TaskSelectorControl control) {
+
         this.control = control;
 
         mainFrame = new JFrame();
