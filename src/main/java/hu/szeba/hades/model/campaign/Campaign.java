@@ -1,12 +1,13 @@
 package hu.szeba.hades.model.campaign;
 
+import hu.szeba.hades.control.task.TaskSelectorControl;
 import hu.szeba.hades.meta.Options;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 
 import java.io.File;
 import java.util.Arrays;
 
-public class Campaign {
+public class Campaign implements TaskSelectorControl {
 
     private File campaignDirectory;
     private File campaignWorkingDirectory;
@@ -30,8 +31,8 @@ public class Campaign {
         Arrays.sort(taskNames);
     }
 
+    @Override
     public String[] getTaskNames() {
         return taskNames;
     }
-
 }

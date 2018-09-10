@@ -14,8 +14,12 @@ public class TaskC extends Task {
     }
 
     @Override
-    protected ProgramCompiler createCompiler(File taskWorkingDirectory) {
+    ProgramCompiler createCompiler(File taskWorkingDirectory) {
         return new ProgramCompilerC(Options.getCompilerPath_C(), taskWorkingDirectory);
     }
 
+    @Override
+    public void testMethod() {
+
+    }
 }

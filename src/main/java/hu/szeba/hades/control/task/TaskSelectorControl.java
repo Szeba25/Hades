@@ -1,16 +1,7 @@
 package hu.szeba.hades.control.task;
 
-import hu.szeba.hades.model.campaign.Campaign;
+public interface TaskSelectorControl {
 
-public class TaskSelectorControl {
+    String[] getTaskNames();
 
-    private Campaign campaign;
-
-    public TaskSelectorControl(Campaign campaign) {
-        this.campaign = campaign;
-    }
-
-    public String[] getTaskNames() {
-        return campaign.getTaskNames();
-    }
 }

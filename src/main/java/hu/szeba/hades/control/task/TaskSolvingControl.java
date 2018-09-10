@@ -1,9 +1,7 @@
 package hu.szeba.hades.control.task;
 
-import hu.szeba.hades.model.task.Task;
+public interface TaskSolvingControl {
 
-public class TaskSolvingControl {
-
-    public TaskSolvingControl(Task currentTask) {}
+    void testMethod();
 
 }
