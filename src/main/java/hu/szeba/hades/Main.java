@@ -20,7 +20,7 @@ public class Main {
         campaignDatabase = new CampaignDatabase();
         campaign = campaignDatabase.loadCampaign("practice");
         taskSelectorControl = new TaskSelectorControl(campaign);
-        taskSelectorView = new TaskSelectorView(taskSelectorControl);
+        taskSelectorView = new TaskSelectorView(taskSelectorControl, campaign);
         showTaskSelector();
     }
 
