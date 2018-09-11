@@ -1,7 +1,7 @@
 package hu.szeba.hades;
 
 import hu.szeba.hades.control.campaign.TaskSelectorControl;
-import hu.szeba.hades.gui.campaign.TaskSelectorView;
+import hu.szeba.hades.view.campaign.TaskSelectorView;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.model.campaign.Campaign;
 import hu.szeba.hades.model.campaign.CampaignDatabase;

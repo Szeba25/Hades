@@ -1,11 +1,10 @@
-package hu.szeba.hades.gui.campaign;
+package hu.szeba.hades.view.campaign;
 
 import hu.szeba.hades.control.campaign.TaskSelectorControl;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 public class TaskSelectorView {
 

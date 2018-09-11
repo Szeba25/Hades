@@ -1,4 +1,4 @@
-package hu.szeba.hades.gui.task;
+package hu.szeba.hades.view.task;
 
 import hu.szeba.hades.control.task.TaskSolvingControl;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
