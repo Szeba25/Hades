@@ -76,8 +76,8 @@ public class TaskSelectorView extends BaseView {
         });
     }
 
-    public void registerTaskSelectorController(TaskSelectorController controller) {
-        this.taskSelectorController = controller;
+    public void registerTaskSelectorController(TaskSelectorController taskSelectorController) {
+        this.taskSelectorController = taskSelectorController;
     }
 
     public void setTaskListContents(String[] tasks) {
