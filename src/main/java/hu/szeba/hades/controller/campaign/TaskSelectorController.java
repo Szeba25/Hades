@@ -28,7 +28,7 @@ public class TaskSelectorController {
             Task task = campaign.createTask(selectedTaskName);
             TaskSolvingView taskSolvingView = new TaskSolvingView(taskSelectorView);
             TaskSolvingController taskSolvingController = new TaskSolvingController(taskSolvingView, task);
-            taskSolvingView.registerController(taskSolvingController);
+            taskSolvingView.registerTaskSolvingController(taskSolvingController);
             taskSolvingView.showViewMaximized();
         }
     }

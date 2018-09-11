@@ -68,7 +68,7 @@ public class TaskSolvingView extends BaseView {
         });
     }
 
-    public void registerController(TaskSolvingController taskSolvingController) {
+    public void registerTaskSolvingController(TaskSolvingController taskSolvingController) {
         this.taskSolvingController = taskSolvingController;
     }
 
