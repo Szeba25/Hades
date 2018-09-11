@@ -1,7 +1,7 @@
 package hu.szeba.hades.view.task;
 
 import hu.szeba.hades.controller.task.TaskSolvingController;
-import hu.szeba.hades.view.campaign.TaskSelectorView;
+import hu.szeba.hades.view.BaseView;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
@@ -10,32 +10,26 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class TaskSolvingView {
+public class TaskSolvingView extends BaseView {
 
-    private TaskSolvingController controller;
+    private TaskSolvingController taskSolvingController;
 
-    private TaskSelectorView parentView;
-
-    private JFrame mainFrame;
+    private BaseView parentView;
 
     private RSyntaxTextArea codeArea;
     private RTextScrollPane codeScroll;
 
     private JMenuBar menuBar;
 
-    public TaskSolvingView(TaskSelectorView parentView) {
-        initialize(parentView);
-        setupEvents();
+    public TaskSolvingView(BaseView parentView) {
+        super();
+        this.parentView = parentView;
     }
 
-    private void initialize(TaskSelectorView parentView) {
-        controller = null;
-
-        this.parentView = parentView;
-
-        mainFrame = new JFrame();
-        mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        mainFrame.setLayout(new BorderLayout());
+    @Override
+    public void initializeComponents() {
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setLayout(new BorderLayout());
 
         codeArea = new RSyntaxTextArea();
         codeArea.setAutoIndentEnabled(true);
@@ -57,32 +51,25 @@ public class TaskSolvingView {
         menuBar.add(buildMenu);
         menuBar.add(helpMenu);
 
-        mainFrame.getContentPane().add(codeScroll, BorderLayout.CENTER);
-        mainFrame.getContentPane().add(menuBar, BorderLayout.NORTH);
-        mainFrame.pack();
+        this.getContentPane().add(codeScroll, BorderLayout.CENTER);
+        this.getContentPane().add(menuBar, BorderLayout.NORTH);
+        this.pack();
     }
 
-    private void setupEvents() {
-        mainFrame.addWindowListener(new WindowAdapter() {
+    @Override
+    public void setupEvents() {
+        this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent event) {
                 super.windowClosing(event);
-                parentView.show();
+                parentView.setLocationRelativeTo(null);
+                parentView.setVisible(true);
             }
         });
     }
 
-    public void registerController(TaskSolvingController controller) {
-        this.controller = controller;
-    }
-
-    public void show() {
-        mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        mainFrame.setVisible(true);
-    }
-
-    public void hide() {
-        mainFrame.setVisible(false);
+    public void registerController(TaskSolvingController taskSolvingController) {
+        this.taskSolvingController = taskSolvingController;
     }
 
 }

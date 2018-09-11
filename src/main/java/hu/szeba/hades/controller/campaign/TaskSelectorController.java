@@ -24,12 +24,12 @@ public class TaskSelectorController {
     public void loadNewTask() {
         String selectedTaskName = taskSelectorView.getSelectedTaskName();
         if (selectedTaskName != null) {
-            taskSelectorView.hide();
+            taskSelectorView.hideView();
             Task task = campaign.createTask(selectedTaskName);
             TaskSolvingView taskSolvingView = new TaskSolvingView(taskSelectorView);
             TaskSolvingController taskSolvingController = new TaskSolvingController(taskSolvingView, task);
             taskSolvingView.registerController(taskSolvingController);
-            taskSolvingView.show();
+            taskSolvingView.showViewMaximized();
         }
     }
 }

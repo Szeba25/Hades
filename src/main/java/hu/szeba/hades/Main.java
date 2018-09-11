@@ -29,7 +29,7 @@ public class Main {
     }
 
     private void start() {
-        taskSelectorView.show();
+        taskSelectorView.showView();
     }
 
     public static void main(String[] args) {

@@ -1,16 +1,15 @@
 package hu.szeba.hades.view.campaign;
 
 import hu.szeba.hades.controller.campaign.TaskSelectorController;
+import hu.szeba.hades.view.BaseView;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class TaskSelectorView {
+public class TaskSelectorView extends BaseView {
 
-    private TaskSelectorController controller;
-
-    private JFrame mainFrame;
+    private TaskSelectorController taskSelectorController;
 
     private JPanel leftPanel;
     private JPanel rightPanel;
@@ -22,19 +21,16 @@ public class TaskSelectorView {
     private JButton startButton;
 
     public TaskSelectorView() {
-        initialize();
-        setupEvents();
+        super();
     }
 
-    public void initialize() {
-        controller = null;
-
-        mainFrame = new JFrame();
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setResizable(true);
-        mainFrame.setLayout(new BorderLayout());
-        mainFrame.setMinimumSize(new Dimension(640, 480));
-        mainFrame.setTitle("Hades: Please select a task");
+    @Override
+    public void initializeComponents() {
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(true);
+        this.setLayout(new BorderLayout());
+        this.setMinimumSize(new Dimension(640, 480));
+        this.setTitle("Hades: Please select a task");
 
         leftPanel = new JPanel();
         leftPanel.setLayout(new BorderLayout());
@@ -68,28 +64,20 @@ public class TaskSelectorView {
         rightPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         rightPanel.add(startButton);
 
-        mainFrame.getContentPane().add(leftPanel, BorderLayout.WEST);
-        mainFrame.getContentPane().add(rightPanel, BorderLayout.CENTER);
-        mainFrame.pack();
+        this.getContentPane().add(leftPanel, BorderLayout.WEST);
+        this.getContentPane().add(rightPanel, BorderLayout.CENTER);
+        this.pack();
     }
 
+    @Override
     public void setupEvents() {
         startButton.addActionListener(event -> {
-            controller.loadNewTask();
+            taskSelectorController.loadNewTask();
         });
     }
 
     public void registerController(TaskSelectorController controller) {
-        this.controller = controller;
-    }
-
-    public void show() {
-        mainFrame.setLocationRelativeTo(null);
-        mainFrame.setVisible(true);
-    }
-
-    public void hide() {
-        mainFrame.setVisible(false);
+        this.taskSelectorController = controller;
     }
 
     public void setTaskListContents(String[] tasks) {
