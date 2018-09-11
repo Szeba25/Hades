@@ -1,6 +1,7 @@
 package hu.szeba.hades.view.task;
 
 import hu.szeba.hades.controller.task.TaskSolvingController;
+import hu.szeba.hades.controller.task.TaskSolvingControllerRegister;
 import hu.szeba.hades.view.BaseView;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -10,7 +11,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class TaskSolvingView extends BaseView {
+public class TaskSolvingView extends BaseView implements TaskSolvingControllerRegister {
 
     private TaskSolvingController taskSolvingController;
 
@@ -62,12 +63,12 @@ public class TaskSolvingView extends BaseView {
             @Override
             public void windowClosing(WindowEvent event) {
                 super.windowClosing(event);
-                parentView.setLocationRelativeTo(null);
-                parentView.setVisible(true);
+                parentView.showView();
             }
         });
     }
 
+    @Override
     public void registerTaskSolvingController(TaskSolvingController taskSolvingController) {
         this.taskSolvingController = taskSolvingController;
     }

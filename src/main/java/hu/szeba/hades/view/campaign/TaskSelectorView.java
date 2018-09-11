@@ -1,13 +1,14 @@
 package hu.szeba.hades.view.campaign;
 
 import hu.szeba.hades.controller.campaign.TaskSelectorController;
+import hu.szeba.hades.controller.campaign.TaskSelectorControllerRegister;
 import hu.szeba.hades.view.BaseView;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class TaskSelectorView extends BaseView {
+public class TaskSelectorView extends BaseView implements TaskSelectorControllerRegister {
 
     private TaskSelectorController taskSelectorController;
 
@@ -76,6 +77,7 @@ public class TaskSelectorView extends BaseView {
         });
     }
 
+    @Override
     public void registerTaskSelectorController(TaskSelectorController taskSelectorController) {
         this.taskSelectorController = taskSelectorController;
     }

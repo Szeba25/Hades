@@ -13,6 +13,7 @@ public class TaskSelectorController {
 
     public TaskSelectorController(TaskSelectorView taskSelectorView, Campaign campaign) {
         this.taskSelectorView = taskSelectorView;
+        this.taskSelectorView.registerTaskSelectorController(this);
         this.campaign = campaign;
         setTaskListContents();
     }
@@ -28,7 +29,6 @@ public class TaskSelectorController {
             Task task = campaign.createTask(selectedTaskName);
             TaskSolvingView taskSolvingView = new TaskSolvingView(taskSelectorView);
             TaskSolvingController taskSolvingController = new TaskSolvingController(taskSolvingView, task);
-            taskSolvingView.registerTaskSolvingController(taskSolvingController);
             taskSolvingView.showViewMaximized();
         }
     }

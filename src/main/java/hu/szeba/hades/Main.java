@@ -23,7 +23,6 @@ public class Main {
 
         taskSelectorView = new TaskSelectorView();
         taskSelectorController = new TaskSelectorController(taskSelectorView, campaign);
-        taskSelectorView.registerTaskSelectorController(taskSelectorController);
 
         start();
     }
