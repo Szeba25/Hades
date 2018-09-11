@@ -1,15 +1,20 @@
 package hu.szeba.hades.view.task;
 
-import hu.szeba.hades.control.task.TaskSolvingControl;
+import hu.szeba.hades.controller.task.TaskSolvingController;
+import hu.szeba.hades.view.campaign.TaskSelectorView;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class TaskSolvingView {
 
-    private TaskSolvingControl control;
+    private TaskSolvingController controller;
+
+    private TaskSelectorView parentView;
 
     private JFrame mainFrame;
 
@@ -18,11 +23,18 @@ public class TaskSolvingView {
 
     private JMenuBar menuBar;
 
-    public TaskSolvingView(TaskSolvingControl control) {
-        this.control = control;
+    public TaskSolvingView(TaskSelectorView parentView) {
+        initialize(parentView);
+        setupEvents();
+    }
+
+    private void initialize(TaskSelectorView parentView) {
+        controller = null;
+
+        this.parentView = parentView;
 
         mainFrame = new JFrame();
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         mainFrame.setLayout(new BorderLayout());
 
         codeArea = new RSyntaxTextArea();
@@ -50,9 +62,27 @@ public class TaskSolvingView {
         mainFrame.pack();
     }
 
-    private void show() {
-        mainFrame.setLocationRelativeTo(null);
+    private void setupEvents() {
+        mainFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent event) {
+                super.windowClosing(event);
+                parentView.show();
+            }
+        });
+    }
+
+    public void registerController(TaskSolvingController controller) {
+        this.controller = controller;
+    }
+
+    public void show() {
+        mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         mainFrame.setVisible(true);
+    }
+
+    public void hide() {
+        mainFrame.setVisible(false);
     }
 
 }

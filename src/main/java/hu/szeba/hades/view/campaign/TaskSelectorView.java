@@ -1,6 +1,6 @@
 package hu.szeba.hades.view.campaign;
 
-import hu.szeba.hades.control.campaign.TaskSelectorControl;
+import hu.szeba.hades.controller.campaign.TaskSelectorController;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class TaskSelectorView {
 
-    private TaskSelectorControl control;
+    private TaskSelectorController controller;
 
     private JFrame mainFrame;
 
@@ -21,8 +21,13 @@ public class TaskSelectorView {
     private JTextArea descriptionArea;
     private JButton startButton;
 
-    public TaskSelectorView(TaskSelectorControl control) {
-        this.control = control;
+    public TaskSelectorView() {
+        initialize();
+        setupEvents();
+    }
+
+    public void initialize() {
+        controller = null;
 
         mainFrame = new JFrame();
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,8 +44,7 @@ public class TaskSelectorView {
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         rightPanel.setBorder(new EmptyBorder(5, 0, 5, 5));
 
-        String[] tasks = control.getTaskNames();
-        taskList = new JList(tasks);
+        taskList = new JList();
         taskList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         taskList.setFixedCellWidth(200);
 
@@ -67,8 +71,16 @@ public class TaskSelectorView {
         mainFrame.getContentPane().add(leftPanel, BorderLayout.WEST);
         mainFrame.getContentPane().add(rightPanel, BorderLayout.CENTER);
         mainFrame.pack();
+    }
 
-        setActionListeners();
+    public void setupEvents() {
+        startButton.addActionListener(event -> {
+            controller.loadNewTask();
+        });
+    }
+
+    public void registerController(TaskSelectorController controller) {
+        this.controller = controller;
     }
 
     public void show() {
@@ -76,13 +88,20 @@ public class TaskSelectorView {
         mainFrame.setVisible(true);
     }
 
-    private void setActionListeners() {
-        startButton.addActionListener(event -> {
-            if (taskList.getSelectedValue() != null) {
-                // Create the task, for testing purposes.
-                control.createTask(taskList.getSelectedValue().toString());
-            }
-        });
+    public void hide() {
+        mainFrame.setVisible(false);
+    }
+
+    public void setTaskListContents(String[] tasks) {
+        taskList.setListData(tasks);
+    }
+
+    public String getSelectedTaskName() {
+        if (taskList.getSelectedValue() != null) {
+            return taskList.getSelectedValue().toString();
+        } else {
+            return null;
+        }
     }
 
 }

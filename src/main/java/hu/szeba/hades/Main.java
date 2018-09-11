@@ -1,6 +1,6 @@
 package hu.szeba.hades;
 
-import hu.szeba.hades.control.campaign.TaskSelectorControl;
+import hu.szeba.hades.controller.campaign.TaskSelectorController;
 import hu.szeba.hades.view.campaign.TaskSelectorView;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.model.campaign.Campaign;
@@ -12,21 +12,23 @@ public class Main {
 
     private CampaignDatabase campaignDatabase;
     private Campaign campaign;
-    private TaskSelectorControl taskSelectorControl;
     private TaskSelectorView taskSelectorView;
+    private TaskSelectorController taskSelectorController;
 
     private Main() {
         Options.initialize();
+
         campaignDatabase = new CampaignDatabase();
         campaign = campaignDatabase.loadCampaign("practice");
 
-        taskSelectorControl = new TaskSelectorControl(campaign);
-        taskSelectorView = new TaskSelectorView(taskSelectorControl);
+        taskSelectorView = new TaskSelectorView();
+        taskSelectorController = new TaskSelectorController(taskSelectorView, campaign);
+        taskSelectorView.registerController(taskSelectorController);
 
-        showTaskSelector();
+        start();
     }
 
-    private void showTaskSelector() {
+    private void start() {
         taskSelectorView.show();
     }
 
