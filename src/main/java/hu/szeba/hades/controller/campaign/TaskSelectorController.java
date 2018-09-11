@@ -8,25 +8,25 @@ import hu.szeba.hades.view.task.TaskSolvingView;
 
 public class TaskSelectorController {
 
-    private TaskSelectorView view;
+    private TaskSelectorView taskSelectorView;
     private Campaign campaign;
 
-    public TaskSelectorController(TaskSelectorView view, Campaign campaign) {
-        this.view = view;
+    public TaskSelectorController(TaskSelectorView taskSelectorView, Campaign campaign) {
+        this.taskSelectorView = taskSelectorView;
         this.campaign = campaign;
         setTaskListContents();
     }
 
     private void setTaskListContents() {
-        view.setTaskListContents(campaign.getTaskNames());
+        taskSelectorView.setTaskListContents(campaign.getTaskNames());
     }
 
     public void loadNewTask() {
-        String selectedTaskName = view.getSelectedTaskName();
+        String selectedTaskName = taskSelectorView.getSelectedTaskName();
         if (selectedTaskName != null) {
-            view.hide();
+            taskSelectorView.hide();
             Task task = campaign.createTask(selectedTaskName);
-            TaskSolvingView taskSolvingView = new TaskSolvingView(view);
+            TaskSolvingView taskSolvingView = new TaskSolvingView(taskSelectorView);
             TaskSolvingController taskSolvingController = new TaskSolvingController(taskSolvingView, task);
             taskSolvingView.registerController(taskSolvingController);
             taskSolvingView.show();
