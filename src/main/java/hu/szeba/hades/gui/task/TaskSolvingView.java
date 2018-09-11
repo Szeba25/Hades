@@ -10,7 +10,6 @@ import java.awt.*;
 public class TaskSolvingView {
 
     private TaskSolvingControl control;
-    private TaskSolvingViewMethods viewMethods;
 
     private JFrame mainFrame;
 
@@ -19,9 +18,8 @@ public class TaskSolvingView {
 
     private JMenuBar menuBar;
 
-    public TaskSolvingView(TaskSolvingControl control, TaskSolvingViewMethods viewMethods) {
+    public TaskSolvingView(TaskSolvingControl control) {
         this.control = control;
-        this.viewMethods = viewMethods;
 
         mainFrame = new JFrame();
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

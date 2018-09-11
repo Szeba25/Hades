@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 public class TaskSelectorView {
 
     private TaskSelectorControl control;
-    private TaskSelectorViewMethods viewMethods;
 
     private JFrame mainFrame;
 
@@ -23,9 +22,8 @@ public class TaskSelectorView {
     private JTextArea descriptionArea;
     private JButton startButton;
 
-    public TaskSelectorView(TaskSelectorControl control, TaskSelectorViewMethods viewMethods) {
+    public TaskSelectorView(TaskSelectorControl control) {
         this.control = control;
-        this.viewMethods = viewMethods;
 
         mainFrame = new JFrame();
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,7 +40,7 @@ public class TaskSelectorView {
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         rightPanel.setBorder(new EmptyBorder(5, 0, 5, 5));
 
-        String[] tasks = viewMethods.getTaskNames();
+        String[] tasks = control.getTaskNames();
         taskList = new JList(tasks);
         taskList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         taskList.setFixedCellWidth(200);

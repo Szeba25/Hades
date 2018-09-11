@@ -1,7 +1,5 @@
 package hu.szeba.hades.model.campaign;
 
-import hu.szeba.hades.control.task.TaskSelectorControlMethods;
-import hu.szeba.hades.gui.task.TaskSelectorViewMethods;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.TaskFactory;
@@ -10,7 +8,7 @@ import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import java.io.File;
 import java.util.Arrays;
 
-public class Campaign implements TaskSelectorControlMethods, TaskSelectorViewMethods {
+public class Campaign {
 
     private File campaignDirectory;
     private File campaignWorkingDirectory;
@@ -34,12 +32,10 @@ public class Campaign implements TaskSelectorControlMethods, TaskSelectorViewMet
         Arrays.sort(taskNames);
     }
 
-    @Override
     public Task createTask(String taskName) {
         return TaskFactory.createTask(campaignDirectory, campaignWorkingDirectory, taskName);
     }
 
-    @Override
     public String[] getTaskNames() {
         return taskNames;
     }

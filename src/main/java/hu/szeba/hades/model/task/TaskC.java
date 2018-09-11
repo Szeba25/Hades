@@ -18,13 +18,4 @@ public class TaskC extends Task {
         return new ProgramCompilerC(Options.getCompilerPath_C());
     }
 
-    @Override
-    public void compile() {
-
-    }
-
-    @Override
-    public void run() {
-
-    }
 }

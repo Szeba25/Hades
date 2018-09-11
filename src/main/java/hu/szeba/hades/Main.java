@@ -19,8 +19,10 @@ public class Main {
         Options.initialize();
         campaignDatabase = new CampaignDatabase();
         campaign = campaignDatabase.loadCampaign("practice");
+
         taskSelectorControl = new TaskSelectorControl(campaign);
-        taskSelectorView = new TaskSelectorView(taskSelectorControl, campaign);
+        taskSelectorView = new TaskSelectorView(taskSelectorControl);
+
         showTaskSelector();
     }
 
