@@ -1,6 +1,6 @@
-package hu.szeba.hades.gui.task;
+package hu.szeba.hades.gui.campaign;
 
-import hu.szeba.hades.control.task.TaskSelectorControl;
+import hu.szeba.hades.control.campaign.TaskSelectorControl;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -59,16 +59,6 @@ public class TaskSelectorView {
         startButton.setFocusPainted(false);
         startButton.setMaximumSize(new Dimension(120, 30));
 
-        startButton.addActionListener(new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (taskList.getSelectedValue() != null) {
-                    // Create the task, for testing purposes.
-                    control.createTask(taskList.getSelectedValue().toString());
-                }
-            }
-        });
-
         leftPanel.add(taskListScroller);
 
         rightPanel.add(descriptionArea);
@@ -78,11 +68,22 @@ public class TaskSelectorView {
         mainFrame.getContentPane().add(leftPanel, BorderLayout.WEST);
         mainFrame.getContentPane().add(rightPanel, BorderLayout.CENTER);
         mainFrame.pack();
+
+        setActionListeners();
     }
 
     public void show() {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
+    }
+
+    private void setActionListeners() {
+        startButton.addActionListener(event -> {
+            if (taskList.getSelectedValue() != null) {
+                // Create the task, for testing purposes.
+                control.createTask(taskList.getSelectedValue().toString());
+            }
+        });
     }
 
 }

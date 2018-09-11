@@ -1,4 +1,4 @@
-package hu.szeba.hades.control.task;
+package hu.szeba.hades.control.campaign;
 
 import hu.szeba.hades.model.campaign.Campaign;
 import hu.szeba.hades.model.task.Task;
