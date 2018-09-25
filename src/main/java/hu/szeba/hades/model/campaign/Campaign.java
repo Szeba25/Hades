@@ -20,8 +20,10 @@ public class Campaign {
     private String[] taskNames;
 
     public Campaign(String campaignName) {
-        this.campaignDirectory = new File(Options.getCampaignDatabasePath(), campaignName);
-        this.campaignWorkingDirectory = new File(Options.getWorkingDirectoryPath(), campaignName);
+        this.campaignDirectory =
+                new File(Options.getCampaignDatabasePath(), "campaigns/" + campaignName);
+        this.campaignWorkingDirectory =
+                new File(Options.getWorkingDirectoryPath(), "campaigns/" + campaignName);
         this.campaignName = campaignName;
 
         // TODO: Replace with loading from campaign (module) metadata.
@@ -31,18 +33,16 @@ public class Campaign {
     }
 
     private void loadTaskNames() {
-        taskNames = campaignDirectory.list(DirectoryFileFilter.INSTANCE);
-        int i = 0;
-        for (String taskName : taskNames) {
-            taskNames[i] = taskName;
-            i++;
-        }
-        Arrays.sort(taskNames);
+        // TODO: Read from meta file.
+        taskNames = new String[3];
+        taskNames[0] = "Task1";
+        taskNames[1] = "Task2";
+        taskNames[2] = "Task3";
     }
 
     public Task createTask(String taskName) throws UnsupportedProgrammingLanguageException {
         TaskFactory taskFactory = TaskFactoryDecider.decideFactory(language);
-        return taskFactory.getTask(campaignDirectory, campaignWorkingDirectory, taskName);
+        return taskFactory.getTask(taskName);
     }
 
     public String[] getTaskNames() {

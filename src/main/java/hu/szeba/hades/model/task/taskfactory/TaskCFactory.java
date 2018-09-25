@@ -11,13 +11,9 @@ import java.io.File;
 public class TaskCFactory implements TaskFactory {
 
     @Override
-    public Task getTask(File campaignDirectory, File campaignWorkingDirectory, String taskName) {
-
-        File taskDirectory = new File(campaignDirectory, taskName);
-        File taskWorkingDirectory = new File(campaignWorkingDirectory, taskName);
-        TaskData taskData = new TaskData(taskDirectory, taskWorkingDirectory, taskName);
+    public Task getTask(String taskName) {
+        TaskData taskData = new TaskData(taskName);
         ProgramCompiler programCompiler = new ProgramCompilerC(Options.getCompilerPath_C());
-
         return new Task(taskData, programCompiler);
     }
 

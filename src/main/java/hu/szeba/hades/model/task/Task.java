@@ -13,7 +13,6 @@ public class Task {
     protected ResultMatcher resultMatcher;
 
     public Task(TaskData taskData, ProgramCompiler programCompiler) {
-
         this.taskData = taskData;
         this.programCompiler = programCompiler;
         program = null;
@@ -21,6 +20,8 @@ public class Task {
 
         // TODO: Remove this!
         System.out.println("Task successfully created!");
+        System.out.println("Task directory: " + taskData.getTaskDirectory().getAbsolutePath());
+        System.out.println("Task working directory: " + taskData.getTaskWorkingDirectory().getAbsolutePath());
     }
 
 }
