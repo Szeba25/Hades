@@ -1,10 +1,7 @@
 package hu.szeba.hades.model.campaign;
 
 import hu.szeba.hades.meta.Options;
-import hu.szeba.hades.model.task.Task;
-import hu.szeba.hades.model.task.TaskFactory;
-import hu.szeba.hades.model.task.TaskFactoryDecider;
-import hu.szeba.hades.model.task.UnsupportedProgrammingLanguageException;
+import hu.szeba.hades.model.task.*;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 
 import java.io.File;
@@ -24,7 +21,7 @@ public class Campaign {
         this.campaignName = campaignName;
 
         // TODO: Replace with loading from campaign (module) metadata.
-        language = TaskFactoryDecider.SupportedLanguages.C;
+        language = SupportedLanguages.C;
 
         loadTaskNames();
     }
