@@ -2,6 +2,7 @@ package hu.szeba.hades.view.campaign;
 
 import hu.szeba.hades.controller.campaign.TaskSelectorController;
 import hu.szeba.hades.controller.campaign.TaskSelectorControllerRegister;
+import hu.szeba.hades.model.task.UnsupportedProgrammingLanguageException;
 import hu.szeba.hades.view.BaseView;
 
 import javax.swing.*;
@@ -73,7 +74,11 @@ public class TaskSelectorView extends BaseView implements TaskSelectorController
     @Override
     public void setupEvents() {
         startButton.addActionListener(event -> {
-            taskSelectorController.loadNewTask();
+            try {
+                taskSelectorController.loadNewTask();
+            } catch (UnsupportedProgrammingLanguageException e) {
+                e.printStackTrace();
+            }
         });
     }
 

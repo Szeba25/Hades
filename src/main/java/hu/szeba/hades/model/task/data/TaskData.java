@@ -14,15 +14,12 @@ public class TaskData {
     private List<Solution> solutions;
     private List<SourceFile> sources;
 
-    private String language;
-
-    public TaskData(File taskDirectory, File taskWorkingDirectory, String taskName, String language) {
+    public TaskData(File taskDirectory, File taskWorkingDirectory, String taskName) {
         this.taskDirectory = taskDirectory;
         this.taskWorkingDirectory = taskWorkingDirectory;
         this.taskName = taskName;
         solutions = new ArrayList<>();
         sources = new ArrayList<>();
-        this.language = language;
     }
 
     public File getTaskDirectory() {
@@ -45,7 +42,4 @@ public class TaskData {
         return sources;
     }
 
-    public String getLanguage() {
-        return language;
-    }
 }

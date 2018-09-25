@@ -3,6 +3,8 @@ package hu.szeba.hades.model.campaign;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.TaskFactory;
+import hu.szeba.hades.model.task.TaskFactoryDecider;
+import hu.szeba.hades.model.task.UnsupportedProgrammingLanguageException;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 
 import java.io.File;
@@ -13,12 +15,17 @@ public class Campaign {
     private File campaignDirectory;
     private File campaignWorkingDirectory;
     private String campaignName;
+    private String language;
     private String[] taskNames;
 
     public Campaign(String campaignName) {
         this.campaignDirectory = new File(Options.getCampaignDatabasePath(), campaignName);
         this.campaignWorkingDirectory = new File(Options.getWorkingDirectoryPath(), campaignName);
         this.campaignName = campaignName;
+
+        // TODO: Replace with loading from campaign (module) metadata.
+        language = TaskFactoryDecider.SupportedLanguages.C;
+
         loadTaskNames();
     }
 
@@ -32,8 +39,9 @@ public class Campaign {
         Arrays.sort(taskNames);
     }
 
-    public Task createTask(String taskName) {
-        return TaskFactory.createTask(campaignDirectory, campaignWorkingDirectory, taskName);
+    public Task createTask(String taskName) throws UnsupportedProgrammingLanguageException {
+        TaskFactory taskFactory = TaskFactoryDecider.decideFactory(language);
+        return taskFactory.getTask(campaignDirectory, campaignWorkingDirectory, taskName);
     }
 
     public String[] getTaskNames() {
