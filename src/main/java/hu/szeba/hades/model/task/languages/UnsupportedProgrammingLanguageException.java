@@ -1,4 +1,4 @@
-package hu.szeba.hades.model.task;
+package hu.szeba.hades.model.task.languages;
 
 public class UnsupportedProgrammingLanguageException extends Exception {
 

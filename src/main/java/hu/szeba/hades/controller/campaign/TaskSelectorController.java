@@ -3,7 +3,7 @@ package hu.szeba.hades.controller.campaign;
 import hu.szeba.hades.controller.task.TaskSolvingController;
 import hu.szeba.hades.model.campaign.Campaign;
 import hu.szeba.hades.model.task.Task;
-import hu.szeba.hades.model.task.UnsupportedProgrammingLanguageException;
+import hu.szeba.hades.model.task.languages.UnsupportedProgrammingLanguageException;
 import hu.szeba.hades.view.campaign.TaskSelectorView;
 import hu.szeba.hades.view.task.TaskSolvingView;
 

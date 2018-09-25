@@ -1,5 +1,6 @@
-package hu.szeba.hades.model.task;
+package hu.szeba.hades.model.task.taskfactory;
 
+import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.TaskData;
 
 import java.io.File;

@@ -1,4 +1,7 @@
-package hu.szeba.hades.model.task;
+package hu.szeba.hades.model.task.taskfactory;
+
+import hu.szeba.hades.model.task.languages.UnsupportedProgrammingLanguageException;
+import hu.szeba.hades.model.task.languages.SupportedLanguages;
 
 public class TaskFactoryDecider {
 

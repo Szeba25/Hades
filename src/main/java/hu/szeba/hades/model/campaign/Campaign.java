@@ -2,6 +2,10 @@ package hu.szeba.hades.model.campaign;
 
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.model.task.*;
+import hu.szeba.hades.model.task.languages.SupportedLanguages;
+import hu.szeba.hades.model.task.languages.UnsupportedProgrammingLanguageException;
+import hu.szeba.hades.model.task.taskfactory.TaskFactory;
+import hu.szeba.hades.model.task.taskfactory.TaskFactoryDecider;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 
 import java.io.File;

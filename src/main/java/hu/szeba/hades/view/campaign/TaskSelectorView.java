@@ -2,7 +2,7 @@ package hu.szeba.hades.view.campaign;
 
 import hu.szeba.hades.controller.campaign.TaskSelectorController;
 import hu.szeba.hades.controller.campaign.TaskSelectorControllerRegister;
-import hu.szeba.hades.model.task.UnsupportedProgrammingLanguageException;
+import hu.szeba.hades.model.task.languages.UnsupportedProgrammingLanguageException;
 import hu.szeba.hades.view.BaseView;
 
 import javax.swing.*;
