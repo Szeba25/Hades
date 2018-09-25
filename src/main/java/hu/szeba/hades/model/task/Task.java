@@ -7,10 +7,10 @@ import hu.szeba.hades.model.task.result.ResultMatcher;
 
 public class Task {
 
-    protected TaskData taskData;
-    protected ProgramCompiler programCompiler;
-    protected Program program;
-    protected ResultMatcher resultMatcher;
+    private TaskData taskData;
+    private ProgramCompiler programCompiler;
+    private Program program;
+    private ResultMatcher resultMatcher;
 
     public Task(TaskData taskData, ProgramCompiler programCompiler) {
         this.taskData = taskData;
@@ -24,4 +24,15 @@ public class Task {
         System.out.println("Task working directory: " + taskData.getTaskWorkingDirectory().getAbsolutePath());
     }
 
+    public void compile() {
+        program = programCompiler.compile(taskData.getSources(), taskData.getTaskWorkingDirectory());
+    }
+
+    public void run() {
+        // TODO: Make program running work.
+    }
+
+    public ResultMatcher getResultMatcher() {
+        return resultMatcher;
+    }
 }
