@@ -25,7 +25,7 @@ public class TaskData {
     }
 
     private File getTaskDirectory(String taskName) {
-        return new File(Options.getCampaignDatabasePath(), "tasks/" + taskName);
+        return new File(Options.getDatabasePath(), "tasks/" + taskName);
     }
 
     private File getTaskWorkingDirectory(String taskName) {

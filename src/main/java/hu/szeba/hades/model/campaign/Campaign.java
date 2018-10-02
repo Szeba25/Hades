@@ -6,10 +6,8 @@ import hu.szeba.hades.model.task.languages.SupportedLanguages;
 import hu.szeba.hades.model.task.languages.UnsupportedProgrammingLanguageException;
 import hu.szeba.hades.model.task.taskfactory.TaskFactory;
 import hu.szeba.hades.model.task.taskfactory.TaskFactoryDecider;
-import org.apache.commons.io.filefilter.DirectoryFileFilter;
 
 import java.io.File;
-import java.util.Arrays;
 
 public class Campaign {
 
@@ -21,7 +19,7 @@ public class Campaign {
 
     public Campaign(String campaignName) {
         this.campaignDirectory =
-                new File(Options.getCampaignDatabasePath(), "campaigns/" + campaignName);
+                new File(Options.getDatabasePath(), "campaigns/" + campaignName);
         this.campaignWorkingDirectory =
                 new File(Options.getWorkingDirectoryPath(), "campaigns/" + campaignName);
         this.campaignName = campaignName;
