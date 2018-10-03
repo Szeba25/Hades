@@ -10,7 +10,7 @@ public class Options {
 
     public static void initialize() {
         compilerPath_C = new File("D:/Egyetem/MinGW/bin");
-        databasePath = new File("D:/Egyetem/Szakdolgozat/hades_Campaigns");
+        databasePath = new File("D:/Egyetem/Szakdolgozat/hades_Database");
         workingDirectoryPath = new File("D:/Egyetem/Szakdolgozat/hades_WorkingDirectory");
         checkPaths();
     }
