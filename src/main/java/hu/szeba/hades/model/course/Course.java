@@ -2,7 +2,6 @@ package hu.szeba.hades.model.course;
 
 import hu.szeba.hades.model.campaign.Campaign;
 import hu.szeba.hades.model.campaign.CampaignCollection;
-import hu.szeba.hades.model.task.languages.SupportedLanguages;
 
 public class Course {
 
@@ -15,7 +14,7 @@ public class Course {
         campaignCollection = new CampaignCollection(courseName);
 
         // TODO: Read from config file!
-        language = SupportedLanguages.C;
+        language = "C";
     }
 
     public Campaign loadCampaign(String campaignName) {
