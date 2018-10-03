@@ -3,19 +3,21 @@ package hu.szeba.hades.model.campaign;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CampaignDatabase {
+public class CampaignCollection {
 
+    private String courseName;
     private Map<String, Campaign> campaigns;
 
-    public CampaignDatabase() {
+    public CampaignCollection(String courseName) {
+        this.courseName = courseName;
         campaigns = new HashMap<>();
     }
 
-    public Campaign loadCampaign(String campaignName) {
+    public Campaign loadCampaign(String campaignName, String language) {
         if (campaigns.containsKey(campaignName)) {
             return campaigns.get(campaignName);
         } else {
-            Campaign newCampaign = new Campaign(campaignName);
+            Campaign newCampaign = new Campaign(courseName, campaignName, language);
             campaigns.put(campaignName, newCampaign);
             return newCampaign;
         }

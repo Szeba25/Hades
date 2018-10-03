@@ -14,7 +14,6 @@ public class TaskSelectorController {
 
     public TaskSelectorController(TaskSelectorView taskSelectorView, Campaign campaign) {
         this.taskSelectorView = taskSelectorView;
-        this.taskSelectorView.registerTaskSelectorController(this);
         this.campaign = campaign;
         setTaskListContents();
     }
@@ -28,8 +27,7 @@ public class TaskSelectorController {
         if (selectedTaskName != null) {
             Task task = campaign.createTask(selectedTaskName);
             taskSelectorView.hideView();
-            TaskSolvingView taskSolvingView = new TaskSolvingView(taskSelectorView);
-            TaskSolvingController taskSolvingController = new TaskSolvingController(taskSolvingView, task);
+            TaskSolvingView taskSolvingView = new TaskSolvingView(taskSelectorView, task);
             taskSolvingView.showViewMaximized();
         }
     }

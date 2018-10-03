@@ -14,20 +14,24 @@ public class Campaign {
     private File campaignDirectory;
     private File campaignWorkingDirectory;
     private String campaignName;
-    private String language;
     private String[] taskNames;
 
-    public Campaign(String campaignName) {
+    // Language cannot change!
+    private final String language;
+
+    public Campaign(String courseName, String campaignName, String language) {
         this.campaignDirectory =
-                new File(Options.getDatabasePath(), "campaigns/" + campaignName);
+                new File(Options.getDatabasePath(),
+                        "courses/" + courseName + "/" + campaignName);
         this.campaignWorkingDirectory =
-                new File(Options.getWorkingDirectoryPath(), "campaigns/" + campaignName);
+                new File(Options.getWorkingDirectoryPath(),
+                        "courses/" + courseName + "/" + campaignName);
         this.campaignName = campaignName;
 
-        // TODO: Replace with loading from campaign (module) metadata.
-        language = SupportedLanguages.C;
+        this.language = language;
 
         loadTaskNames();
+
     }
 
     private void loadTaskNames() {
@@ -39,8 +43,7 @@ public class Campaign {
     }
 
     public Task createTask(String taskName) throws UnsupportedProgrammingLanguageException {
-        TaskFactory taskFactory = TaskFactoryDecider.decideFactory(language);
-        return taskFactory.getTask(taskName);
+        return TaskFactoryDecider.decideFactory(language).getTask(taskName);
     }
 
     public String[] getTaskNames() {

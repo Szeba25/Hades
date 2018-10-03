@@ -10,7 +10,6 @@ public class TaskSolvingController {
 
     public TaskSolvingController(TaskSolvingView taskSolvingView, Task task) {
         this.taskSolvingView = taskSolvingView;
-        this.taskSolvingView.registerTaskSolvingController(this);
         this.task = task;
     }
 

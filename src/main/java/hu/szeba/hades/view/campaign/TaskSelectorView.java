@@ -1,7 +1,7 @@
 package hu.szeba.hades.view.campaign;
 
 import hu.szeba.hades.controller.campaign.TaskSelectorController;
-import hu.szeba.hades.controller.campaign.TaskSelectorControllerRegister;
+import hu.szeba.hades.model.campaign.Campaign;
 import hu.szeba.hades.model.task.languages.UnsupportedProgrammingLanguageException;
 import hu.szeba.hades.view.BaseView;
 
@@ -9,7 +9,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class TaskSelectorView extends BaseView implements TaskSelectorControllerRegister {
+public class TaskSelectorView extends BaseView {
 
     private TaskSelectorController taskSelectorController;
 
@@ -22,8 +22,9 @@ public class TaskSelectorView extends BaseView implements TaskSelectorController
     private JTextArea descriptionArea;
     private JButton startButton;
 
-    public TaskSelectorView() {
+    public TaskSelectorView(Campaign campaign) {
         super();
+        taskSelectorController = new TaskSelectorController(this, campaign);
     }
 
     @Override
@@ -80,11 +81,6 @@ public class TaskSelectorView extends BaseView implements TaskSelectorController
                 e.printStackTrace();
             }
         });
-    }
-
-    @Override
-    public void registerTaskSelectorController(TaskSelectorController taskSelectorController) {
-        this.taskSelectorController = taskSelectorController;
     }
 
     public void setTaskListContents(String[] tasks) {

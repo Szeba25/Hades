@@ -1,7 +1,7 @@
 package hu.szeba.hades.view.task;
 
 import hu.szeba.hades.controller.task.TaskSolvingController;
-import hu.szeba.hades.controller.task.TaskSolvingControllerRegister;
+import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.view.BaseView;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -11,20 +11,21 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class TaskSolvingView extends BaseView implements TaskSolvingControllerRegister {
-
-    private TaskSolvingController taskSolvingController;
+public class TaskSolvingView extends BaseView {
 
     private BaseView parentView;
+
+    private TaskSolvingController taskSolvingController;
 
     private RSyntaxTextArea codeArea;
     private RTextScrollPane codeScroll;
 
     private JMenuBar menuBar;
 
-    public TaskSolvingView(BaseView parentView) {
+    public TaskSolvingView(BaseView parentView, Task task) {
         super();
         this.parentView = parentView;
+        this.taskSolvingController = new TaskSolvingController(this, task);
     }
 
     @Override
@@ -66,11 +67,6 @@ public class TaskSolvingView extends BaseView implements TaskSolvingControllerRe
                 parentView.showView();
             }
         });
-    }
-
-    @Override
-    public void registerTaskSolvingController(TaskSolvingController taskSolvingController) {
-        this.taskSolvingController = taskSolvingController;
     }
 
 }

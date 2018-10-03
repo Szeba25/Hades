@@ -12,7 +12,6 @@ public class CourseDatabase {
     }
 
     public Course loadCourse(String courseName) {
-
         if (courses.containsKey(courseName)) {
             return courses.get(courseName);
         } else {
@@ -20,7 +19,6 @@ public class CourseDatabase {
             courses.put(courseName, newCourse);
             return newCourse;
         }
-
     }
 
 }
