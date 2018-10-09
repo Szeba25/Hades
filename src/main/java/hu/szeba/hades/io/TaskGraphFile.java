@@ -47,7 +47,7 @@ public class TaskGraphFile {
                     task2 = null;
                     break;
                 default:
-                    // Do nothing...
+                    // Do nothing if empty line...
                     break;
             }
         }
