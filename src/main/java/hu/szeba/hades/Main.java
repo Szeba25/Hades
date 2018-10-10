@@ -4,6 +4,7 @@ import hu.szeba.hades.io.StoryXMLFile;
 import hu.szeba.hades.io.TaskGraphFile;
 import hu.szeba.hades.model.course.Course;
 import hu.szeba.hades.model.course.CourseDatabase;
+import hu.szeba.hades.model.task.graph.AdjacencyMatrix;
 import hu.szeba.hades.view.campaign.TaskSelectorView;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.model.campaign.Campaign;
@@ -22,6 +23,8 @@ public class Main {
     private TaskSelectorView taskSelectorView;
 
     private Main() {
+        // GUI
+        /*
         Options.initialize();
 
         courseDatabase = new CourseDatabase();
@@ -30,7 +33,10 @@ public class Main {
 
         taskSelectorView = new TaskSelectorView(campaign);
 
-        //start();
+        start();
+        */
+
+        // TESTS
         tests();
     }
 
@@ -41,6 +47,7 @@ public class Main {
     private void tests() {
         // Story xml test:
         try {
+            System.out.println("---> XML parser:");
             StoryXMLFile storyXmlFile = new StoryXMLFile(
                     new File("D:/Egyetem/Szakdolgozat/hades_Database/courses/prog1/practice/story.xml"));
             storyXmlFile.printStoryContents();
@@ -49,9 +56,14 @@ public class Main {
         }
         // Task graph test:
         try {
+            System.out.println("---> Task graph file parser:");
             TaskGraphFile taskGraphFile = new TaskGraphFile(
-                    new File("D:/Egyetem/Szakdolgozat/hades_Database/courses/prog1/practice/tasks.dat"));
+                    new File("D:/Egyetem/Szakdolgozat/hades_Database/courses/prog1/practice/tasks.graph"));
             taskGraphFile.printContents();
+            System.out.println("---> Adjacency matrix:");
+            AdjacencyMatrix matrix = new AdjacencyMatrix(taskGraphFile.getTuples());
+            matrix.print();
+            matrix.printConnectedNodes("task3");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -22,7 +22,6 @@ public class StoryXMLFile {
         factory.setIgnoringElementContentWhitespace(true);
         DocumentBuilder builder = factory.newDocumentBuilder();
 
-        // Finally load the xml document
         this.document = builder.parse(file);
         this.documentElement = this.document.getDocumentElement();
         this.documentElement.normalize();
