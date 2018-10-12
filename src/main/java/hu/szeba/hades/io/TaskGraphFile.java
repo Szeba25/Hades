@@ -11,11 +11,9 @@ import java.util.List;
 
 public class TaskGraphFile {
 
-    private File file;
     private List<Tuple> tuples;
 
     public TaskGraphFile(File file) throws IOException {
-        this.file = file;
         this.tuples = new ArrayList<>();
 
         ArrayList<String> strings = new ArrayList<>();

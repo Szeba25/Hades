@@ -14,6 +14,7 @@ import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 
 public class Main {
 
@@ -23,14 +24,14 @@ public class Main {
     private TaskSelectorView taskSelectorView;
 
     private Main() {
-        // GUI
-        /*
         Options.initialize();
 
         courseDatabase = new CourseDatabase();
         course = courseDatabase.loadCourse("prog1");
         campaign = course.loadCampaign("practice");
 
+        // GUI
+        /*
         taskSelectorView = new TaskSelectorView(campaign);
 
         start();
@@ -49,7 +50,7 @@ public class Main {
         try {
             System.out.println("---> XML parser:");
             StoryXMLFile storyXmlFile = new StoryXMLFile(
-                    new File("D:/Egyetem/Szakdolgozat/hades_Database/courses/prog1/practice/story.xml"));
+                    new File(Main.class.getResource("story_test.xml").getFile()));
             storyXmlFile.printStoryContents();
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
@@ -58,7 +59,7 @@ public class Main {
         try {
             System.out.println("---> Task graph file parser:");
             TaskGraphFile taskGraphFile = new TaskGraphFile(
-                    new File("D:/Egyetem/Szakdolgozat/hades_Database/courses/prog1/practice/tasks.graph"));
+                    new File(Main.class.getResource("tasks_test.graph").getFile()));
             taskGraphFile.printContents();
             System.out.println("---> Adjacency matrix:");
             AdjacencyMatrix matrix = new AdjacencyMatrix(taskGraphFile.getTuples());

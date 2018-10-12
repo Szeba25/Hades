@@ -13,7 +13,7 @@ public class TaskCFactory implements TaskFactory {
     @Override
     public Task getTask(String taskName) {
         TaskData taskData = new TaskData(taskName);
-        ProgramCompiler programCompiler = new ProgramCompilerC(Options.getCompilerPath_C());
+        ProgramCompiler programCompiler = new ProgramCompilerC(Options.getPathTo("compiler_c"));
         return new Task(taskData, programCompiler);
     }
 
