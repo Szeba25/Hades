@@ -15,6 +15,7 @@ public class ProgramCompilerC extends ProgramCompiler {
 
     @Override
     public Program compile(List<SourceFile> sources, File taskWorkingDirectory) {
+        System.out.println(compilerPath.getAbsolutePath());
         return new ProgramC();
     }
 
