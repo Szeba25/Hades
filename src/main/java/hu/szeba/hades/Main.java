@@ -24,7 +24,11 @@ public class Main {
     private TaskSelectorView taskSelectorView;
 
     private Main() {
-        Options.initialize();
+        try {
+            Options.initialize();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         courseDatabase = new CourseDatabase();
         course = courseDatabase.loadCourse("prog1");
@@ -33,7 +37,6 @@ public class Main {
         // GUI
         /*
         taskSelectorView = new TaskSelectorView(campaign);
-
         start();
         */
 

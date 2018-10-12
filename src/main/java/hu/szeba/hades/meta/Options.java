@@ -1,20 +1,23 @@
 package hu.szeba.hades.meta;
 
+import hu.szeba.hades.io.DataFile;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Options {
 
     private static Map<String, File> paths;
-    private static File databasePath;
-    private static File workingDirectoryPath;
 
-    public static void initialize() {
+    public static void initialize() throws IOException {
         paths = new HashMap<>();
-        paths.put("compiler_c", new File("C:/Users/Zsuzsy/Desktop/Szeba/MinGW"));
-        databasePath = new File("D:/Egyetem/Szakdolgozat/hades_Database");
-        workingDirectoryPath = new File("D:/Egyetem/Szakdolgozat/hades_WorkingDirectory");
+        DataFile pathsFile = new DataFile(new File("hades_paths.dat"));
+        for (int i = 0; i < pathsFile.getLineCount(); i++) {
+            paths.put(pathsFile.getData(i, 0),
+                    new File(pathsFile.getData(i, 1)));
+        }
         checkPaths();
     }
 
@@ -23,14 +26,12 @@ public class Options {
     }
 
     public static File getDatabasePath() {
-        return databasePath;
+        return paths.get("database");
     }
 
-    public static File getWorkingDirectoryPath() { return workingDirectoryPath; }
+    public static File getWorkingDirectoryPath() { return paths.get("working_directory"); }
 
     private static void checkPaths() {
-        System.out.println("Check -> Campaign database path exists: " + databasePath.exists());
-        System.out.println("Check -> Working directory exists: " + workingDirectoryPath.exists());
         paths.forEach((location, file) -> System.out.println("Check -> " + location + " exists: " + file.exists()));
     }
 
