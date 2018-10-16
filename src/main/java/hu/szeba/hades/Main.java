@@ -2,6 +2,8 @@ package hu.szeba.hades;
 
 import hu.szeba.hades.io.StoryXMLFile;
 import hu.szeba.hades.io.TaskGraphFile;
+import hu.szeba.hades.model.compiler.ProgramCompiler;
+import hu.szeba.hades.model.compiler.ProgramCompilerC;
 import hu.szeba.hades.model.course.Course;
 import hu.szeba.hades.model.course.CourseDatabase;
 import hu.szeba.hades.model.task.graph.AdjacencyMatrix;
@@ -68,6 +70,13 @@ public class Main {
             AdjacencyMatrix matrix = new AdjacencyMatrix(taskGraphFile.getTuples());
             matrix.print();
             matrix.printConnectedNodes("task3");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // Compiler test:
+        ProgramCompiler programCompiler = new ProgramCompilerC(Options.getPathTo("compiler_c"));
+        try {
+            programCompiler.compile(null, Options.getWorkingDirectoryPath());
         } catch (IOException e) {
             e.printStackTrace();
         }

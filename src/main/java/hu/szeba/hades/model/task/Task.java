@@ -5,6 +5,8 @@ import hu.szeba.hades.model.task.data.TaskData;
 import hu.szeba.hades.model.task.program.Program;
 import hu.szeba.hades.model.task.result.ResultMatcher;
 
+import java.io.IOException;
+
 public class Task {
 
     private TaskData taskData;
@@ -24,7 +26,7 @@ public class Task {
         System.out.println("Task working directory: " + taskData.getTaskWorkingDirectory().getAbsolutePath());
     }
 
-    public void compile() {
+    public void compile() throws IOException {
         program = programCompiler.compile(taskData.getSources(), taskData.getTaskWorkingDirectory());
     }
 
