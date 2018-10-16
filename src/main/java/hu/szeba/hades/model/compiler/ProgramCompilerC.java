@@ -17,7 +17,7 @@ public class ProgramCompilerC extends ProgramCompiler {
 
     @Override
     public Program compile(List<SourceFile> sources, File taskWorkingDirectory) throws IOException, InterruptedException {
-        String finalProcessPath = compilerPath.getAbsolutePath() + "/bin/gcc.exe";
+        String finalProcessPath = compilerPath.getAbsolutePath() + "/bin/gcc";
         System.out.println(finalProcessPath);
 
         String cTestResource = new File(ProgramCompilerC.class.getResource("test.c").getFile()).getAbsolutePath();

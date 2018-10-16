@@ -1,3 +1,6 @@
+# GCC things
+*.gcno
+
 # Gradle temp files
 
 .gradle/
