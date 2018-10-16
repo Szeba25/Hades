@@ -26,6 +26,7 @@ public class Main {
     private TaskSelectorView taskSelectorView;
 
     private Main() {
+
         try {
             Options.initialize();
         } catch (IOException e) {
