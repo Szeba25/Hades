@@ -15,6 +15,6 @@ public abstract class ProgramCompiler {
         this.compilerPath = compilerPath;
     }
 
-    public abstract Program compile(List<SourceFile> sources, File taskWorkingDirectory) throws IOException;
+    public abstract Program compile(List<SourceFile> sources, File taskWorkingDirectory) throws IOException, InterruptedException;
 
 }

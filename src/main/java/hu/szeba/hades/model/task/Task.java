@@ -26,7 +26,7 @@ public class Task {
         System.out.println("Task working directory: " + taskData.getTaskWorkingDirectory().getAbsolutePath());
     }
 
-    public void compile() throws IOException {
+    public void compile() throws IOException, InterruptedException {
         program = programCompiler.compile(taskData.getSources(), taskData.getTaskWorkingDirectory());
     }
 

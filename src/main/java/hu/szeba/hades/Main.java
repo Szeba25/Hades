@@ -77,7 +77,7 @@ public class Main {
         ProgramCompiler programCompiler = new ProgramCompilerC(Options.getPathTo("compiler_c"));
         try {
             programCompiler.compile(null, Options.getWorkingDirectoryPath());
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
