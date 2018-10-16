@@ -26,10 +26,9 @@ public class ProgramCompilerC extends ProgramCompiler {
 
         ProcessBuilder processBuilder =
                 new ProcessBuilder(finalProcessPath,
-                        cTestResource, "-o", "D:/program.exe");
+                        cTestResource, "-o", taskWorkingDirectory + "/program.exe");
 
         Map<String, String> envs = processBuilder.environment();
-        System.out.println(envs.get("Path"));
         envs.put("Path", compilerPath.getAbsolutePath() + "/bin");
 
         Process process = processBuilder.start();
