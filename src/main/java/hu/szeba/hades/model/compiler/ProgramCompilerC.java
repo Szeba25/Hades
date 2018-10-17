@@ -17,7 +17,7 @@ public class ProgramCompilerC extends ProgramCompiler {
 
     @Override
     public Program compile(List<SourceFile> sources, File taskWorkingDirectory) throws IOException, InterruptedException {
-        String finalProcessPath = compilerPath.getAbsolutePath() + "/bin/gcc";
+        String finalProcessPath = compilerPath.getAbsolutePath() + "\\bin\\gcc";
         System.out.println(finalProcessPath);
 
         String cTestResource = new File(ProgramCompilerC.class.getResource("test.c").getFile()).getAbsolutePath();
@@ -26,10 +26,10 @@ public class ProgramCompilerC extends ProgramCompiler {
 
         ProcessBuilder processBuilder =
                 new ProcessBuilder(finalProcessPath,
-                        cTestResource, "-o", taskWorkingDirectory + "/program.exe");
+                        cTestResource, "-o", taskWorkingDirectory + "\\program.exe");
 
         Map<String, String> envs = processBuilder.environment();
-        envs.put("Path", compilerPath.getAbsolutePath() + "/bin");
+        envs.put("Path", compilerPath.getAbsolutePath() + "\\bin");
 
         Process process = processBuilder.start();
 
