@@ -53,6 +53,7 @@ public class Main {
 
     private void tests() {
         // Story xml test:
+        /*
         try {
             System.out.println("---> XML parser:");
             StoryXMLFile storyXmlFile = new StoryXMLFile(
@@ -74,6 +75,7 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
         // Compiler test:
         ProgramCompiler programCompiler = new ProgramCompilerC(Options.getPathTo("compiler_c"));
         try {
