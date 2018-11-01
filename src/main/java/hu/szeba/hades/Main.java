@@ -52,21 +52,22 @@ public class Main {
     }
 
     private void tests() {
-        // Story xml test:
         /*
+        // Story xml test:
         try {
             System.out.println("---> XML parser:");
             StoryXMLFile storyXmlFile = new StoryXMLFile(
-                    new File(Main.class.getResource("story_test.xml").getFile()));
+                    new File(Options.getWorkingDirectoryPath(), "story_test.xml"));
             storyXmlFile.printStoryContents();
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
+
         // Task graph test:
         try {
             System.out.println("---> Task graph file parser:");
             TaskGraphFile taskGraphFile = new TaskGraphFile(
-                    new File(Main.class.getResource("tasks_test.graph").getFile()));
+                    new File(Options.getWorkingDirectoryPath(), "tasks_test.graph"));
             taskGraphFile.printContents();
             System.out.println("---> Adjacency matrix:");
             AdjacencyMatrix matrix = new AdjacencyMatrix(taskGraphFile.getTuples());
