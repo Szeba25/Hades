@@ -1,13 +1,12 @@
 package hu.szeba.hades.model.compiler;
 
-import hu.szeba.hades.Main;
 import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.model.task.program.Program;
 import hu.szeba.hades.model.task.program.ProgramC;
 
 import java.io.*;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class ProgramCompilerC extends ProgramCompiler {
 
@@ -18,15 +17,17 @@ public class ProgramCompilerC extends ProgramCompiler {
     @Override
     public Program compile(List<SourceFile> sources, File taskWorkingDirectory) throws IOException, InterruptedException {
         String finalProcessPath = compilerPath.getAbsolutePath() + "/bin/gcc";
-        System.out.println(finalProcessPath);
 
-        ProcessBuilder processBuilder =
-                new ProcessBuilder(finalProcessPath,
-                        "test.c", "-o", "program.exe");
+        List<String> commands = new LinkedList<>();
+        commands.add(finalProcessPath);
+        for (SourceFile s : sources)
+            commands.add(s.getName());
+        commands.add("-o");
+        commands.add("program.exe");
+
+        ProcessBuilder processBuilder = new ProcessBuilder(commands);
         processBuilder.directory(taskWorkingDirectory);
-
-        Map<String, String> envs = processBuilder.environment();
-        envs.put("Path", compilerPath.getAbsolutePath() + "/bin");
+        processBuilder.environment().put("Path", compilerPath.getAbsolutePath() + "/bin");
 
         Process process = processBuilder.start();
 
@@ -46,7 +47,7 @@ public class ProgramCompilerC extends ProgramCompiler {
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
         StringBuilder builder = new StringBuilder();
         String line = reader.readLine();
-        while (line != null) {
+        while (line != null && !line.equals("")) {
             builder.append(line);
             builder.append(System.getProperty("line.separator"));
             line = reader.readLine();

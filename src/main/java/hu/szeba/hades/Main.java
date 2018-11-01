@@ -6,6 +6,7 @@ import hu.szeba.hades.model.compiler.ProgramCompiler;
 import hu.szeba.hades.model.compiler.ProgramCompilerC;
 import hu.szeba.hades.model.course.Course;
 import hu.szeba.hades.model.course.CourseDatabase;
+import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.model.task.graph.AdjacencyMatrix;
 import hu.szeba.hades.view.campaign.TaskSelectorView;
 import hu.szeba.hades.meta.Options;
@@ -17,6 +18,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Main {
 
@@ -79,8 +82,10 @@ public class Main {
         */
         // Compiler test:
         ProgramCompiler programCompiler = new ProgramCompilerC(Options.getPathTo("compiler_c"));
+        List<SourceFile> sources = new LinkedList<>();
+        sources.add(new SourceFile("test.c"));
         try {
-            programCompiler.compile(null, Options.getWorkingDirectoryPath());
+            programCompiler.compile(sources, Options.getWorkingDirectoryPath());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
