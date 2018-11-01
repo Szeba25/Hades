@@ -28,6 +28,15 @@ public class TaskData {
         this.taskName = taskName;
         solutions = new ArrayList<>();
         sources = new ArrayList<>();
+        makeSolutions();
+        makeSources();
+    }
+
+    private void makeSolutions() { }
+
+    private void makeSources() {
+        // TODO: Replace with config file that lists sources!!!
+        sources.add(new SourceFile("main.c"));
     }
 
     private File getTaskDirectory(String taskName) {
