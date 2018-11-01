@@ -79,7 +79,7 @@ public class TaskSelectorView extends BaseView {
         startButton.addActionListener((event) -> {
             try {
                 taskSelectorController.loadNewTask();
-            } catch (UnsupportedProgrammingLanguageException |IOException e) {
+            } catch (UnsupportedProgrammingLanguageException | IOException e) {
                 e.printStackTrace();
             }
         });
