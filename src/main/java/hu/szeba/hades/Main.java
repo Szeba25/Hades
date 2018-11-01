@@ -40,55 +40,12 @@ public class Main {
         course = courseDatabase.loadCourse("prog1");
         campaign = course.loadCampaign("practice");
 
-        // GUI
-        /*
         taskSelectorView = new TaskSelectorView(campaign);
         start();
-        */
-
-        // TESTS
-        tests();
     }
 
     private void start() {
         taskSelectorView.showView();
-    }
-
-    private void tests() {
-        /*
-        // Story xml test:
-        try {
-            System.out.println("---> XML parser:");
-            StoryXMLFile storyXmlFile = new StoryXMLFile(
-                    new File(Options.getWorkingDirectoryPath(), "story_test.xml"));
-            storyXmlFile.printStoryContents();
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
-        }
-
-        // Task graph test:
-        try {
-            System.out.println("---> Task graph file parser:");
-            TaskGraphFile taskGraphFile = new TaskGraphFile(
-                    new File(Options.getWorkingDirectoryPath(), "tasks_test.graph"));
-            taskGraphFile.printContents();
-            System.out.println("---> Adjacency matrix:");
-            AdjacencyMatrix matrix = new AdjacencyMatrix(taskGraphFile.getTuples());
-            matrix.print();
-            matrix.printConnectedNodes("task3");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
-        // Compiler test:
-        ProgramCompiler programCompiler = new ProgramCompilerC(Options.getPathTo("compiler_c"));
-        List<SourceFile> sources = new LinkedList<>();
-        sources.add(new SourceFile("test.c"));
-        try {
-            programCompiler.compile(sources, Options.getWorkingDirectoryPath());
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public static void main(String[] args) {
