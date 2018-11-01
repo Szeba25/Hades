@@ -81,6 +81,8 @@ public class AdjacencyMatrix {
     }
 
     public List<String> getNodeNames() {
+        // Return a list of node names EXCLUDING the NULL node.
+        // Filter the list using the stream API
         List<String> filtered = new LinkedList<>();
         Arrays.stream(nodesByIndex).filter((s) -> !s.equals("NULL")).forEach(filtered::add);
         return filtered;

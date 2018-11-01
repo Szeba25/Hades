@@ -19,7 +19,6 @@ public class Campaign {
     private AdjacencyMatrix taskMatrix;
     private List<String> taskNames;
 
-    // Language cannot change!
     private final String language;
 
     public Campaign(String courseName, String campaignName, String language) throws IOException {
