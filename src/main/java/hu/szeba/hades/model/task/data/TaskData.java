@@ -1,8 +1,10 @@
 package hu.szeba.hades.model.task.data;
 
 import hu.szeba.hades.meta.Options;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +18,13 @@ public class TaskData {
     private List<Solution> solutions;
     private List<SourceFile> sources;
 
-    public TaskData(String taskName) {
+    public TaskData(String taskName) throws IOException {
         this.taskDirectory = getTaskDirectory(taskName);
         this.taskWorkingDirectory = getTaskWorkingDirectory(taskName);
+        if (!taskWorkingDirectory.exists()) {
+            FileUtils.forceMkdir(taskWorkingDirectory);
+            FileUtils.copyDirectory(taskDirectory, taskWorkingDirectory);
+        }
         this.taskName = taskName;
         solutions = new ArrayList<>();
         sources = new ArrayList<>();

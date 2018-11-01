@@ -37,7 +37,7 @@ public class Campaign {
         taskNames = taskMatrix.getNodeNames();
     }
 
-    public Task createTask(String taskName) throws UnsupportedProgrammingLanguageException {
+    public Task createTask(String taskName) throws UnsupportedProgrammingLanguageException, IOException {
         return TaskFactoryDecider.decideFactory(language).getTask(taskName);
     }
 

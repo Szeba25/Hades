@@ -7,6 +7,8 @@ import hu.szeba.hades.model.task.languages.UnsupportedProgrammingLanguageExcepti
 import hu.szeba.hades.view.campaign.TaskSelectorView;
 import hu.szeba.hades.view.task.TaskSolvingView;
 
+import java.io.IOException;
+
 public class TaskSelectorController {
 
     private TaskSelectorView taskSelectorView;
@@ -22,7 +24,7 @@ public class TaskSelectorController {
         taskSelectorView.setTaskListContents(campaign.getTaskNames());
     }
 
-    public void loadNewTask() throws UnsupportedProgrammingLanguageException {
+    public void loadNewTask() throws UnsupportedProgrammingLanguageException, IOException {
         String selectedTaskName = taskSelectorView.getSelectedTaskName();
         if (selectedTaskName != null) {
             Task task = campaign.createTask(selectedTaskName);

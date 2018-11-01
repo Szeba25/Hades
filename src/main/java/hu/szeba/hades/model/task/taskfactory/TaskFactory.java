@@ -5,9 +5,10 @@ import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.TaskData;
 
 import java.io.File;
+import java.io.IOException;
 
 public interface TaskFactory {
 
-    Task getTask(String taskName);
+    Task getTask(String taskName) throws IOException;
 
 }

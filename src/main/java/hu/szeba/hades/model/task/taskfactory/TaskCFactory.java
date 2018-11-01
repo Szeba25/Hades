@@ -7,11 +7,12 @@ import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.TaskData;
 
 import java.io.File;
+import java.io.IOException;
 
 public class TaskCFactory implements TaskFactory {
 
     @Override
-    public Task getTask(String taskName) {
+    public Task getTask(String taskName) throws IOException {
         TaskData taskData = new TaskData(taskName);
         ProgramCompiler programCompiler = new ProgramCompilerC(Options.getPathTo("compiler_c"));
         return new Task(taskData, programCompiler);
