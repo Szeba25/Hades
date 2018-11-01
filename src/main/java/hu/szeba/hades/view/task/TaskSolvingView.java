@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 public class TaskSolvingView extends BaseView {
 
@@ -21,6 +22,7 @@ public class TaskSolvingView extends BaseView {
     private RTextScrollPane codeScroll;
 
     private JMenuBar menuBar;
+    private JMenuItem compileMenuItem;
 
     public TaskSolvingView(BaseView parentView, Task task) {
         super();
@@ -46,8 +48,9 @@ public class TaskSolvingView extends BaseView {
 
         menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
-        fileMenu.add(new JMenuItem("Open"));
         JMenu buildMenu = new JMenu("Build");
+        compileMenuItem = new JMenuItem("Compile");
+        buildMenu.add(compileMenuItem);
         JMenu helpMenu = new JMenu("Help");
         menuBar.add(fileMenu);
         menuBar.add(buildMenu);
@@ -63,8 +66,15 @@ public class TaskSolvingView extends BaseView {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent event) {
-                super.windowClosing(event);
-                parentView.showView();
+            super.windowClosing(event);
+            parentView.showView();
+            }
+        });
+        compileMenuItem.addActionListener((event) -> {
+            try {
+                taskSolvingController.compile();
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
             }
         });
     }
