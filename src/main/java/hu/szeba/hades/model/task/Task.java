@@ -19,20 +19,13 @@ public class Task {
         this.programCompiler = programCompiler;
         program = null;
         resultMatcher = new ResultMatcher();
-
-        // TODO: Remove this!
-        System.out.println("Task successfully created!");
-        System.out.println("Task directory: " + taskData.getTaskDirectory().getAbsolutePath());
-        System.out.println("Task working directory: " + taskData.getTaskWorkingDirectory().getAbsolutePath());
     }
 
     public void compile() throws IOException, InterruptedException {
         program = programCompiler.compile(taskData.getSources(), taskData.getTaskWorkingDirectory());
     }
 
-    public void run() {
-        // TODO: Make program running work.
-    }
+    public void run() {}
 
     public ResultMatcher getResultMatcher() {
         return resultMatcher;
