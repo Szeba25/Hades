@@ -1,6 +1,7 @@
 package hu.szeba.hades.model.task.graph;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AdjacencyMatrix {
 
@@ -83,9 +84,7 @@ public class AdjacencyMatrix {
     public List<String> getNodeNames() {
         // Return a list of node names EXCLUDING the NULL node.
         // Filter the list using the stream API
-        List<String> filtered = new LinkedList<>();
-        Arrays.stream(nodesByIndex).filter((s) -> !s.equals("NULL")).forEach(filtered::add);
-        return filtered;
+        return Arrays.stream(nodesByIndex).filter((s) -> !s.equals("NULL")).collect(Collectors.toList());
     }
 
     private String edgeValueToPrintValue(boolean edgeValue) {

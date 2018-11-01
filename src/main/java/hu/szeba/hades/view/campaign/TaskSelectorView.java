@@ -75,7 +75,7 @@ public class TaskSelectorView extends BaseView {
 
     @Override
     public void setupEvents() {
-        startButton.addActionListener(event -> {
+        startButton.addActionListener((event) -> {
             try {
                 taskSelectorController.loadNewTask();
             } catch (UnsupportedProgrammingLanguageException e) {

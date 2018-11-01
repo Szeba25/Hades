@@ -17,23 +17,16 @@ public class Main {
     private TaskSelectorView taskSelectorView;
 
     private Main() {
-
         try {
             Options.initialize();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        courseDatabase = new CourseDatabase();
-        course = courseDatabase.loadCourse("prog1");
-        try {
+            courseDatabase = new CourseDatabase();
+            course = courseDatabase.loadCourse("prog1");
             campaign = course.loadCampaign("practice");
+            taskSelectorView = new TaskSelectorView(campaign);
+            start();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        taskSelectorView = new TaskSelectorView(campaign);
-        start();
     }
 
     private void start() {
