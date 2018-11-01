@@ -5,8 +5,12 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 public class TaskData {
 
@@ -34,9 +38,12 @@ public class TaskData {
 
     private void makeSolutions() { }
 
-    private void makeSources() {
+    private void makeSources() throws IOException {
         // TODO: Replace with config file that lists sources!!!
-        sources.add(new SourceFile("main.c"));
+        SourceFile src = new SourceFile("main.c");
+        src.setData(String.join("\n", Files.readAllLines(
+                        Paths.get(new File(taskWorkingDirectory, "main.c").getAbsolutePath()))));
+        sources.add(src);
     }
 
     private File getTaskDirectory(String taskName) {

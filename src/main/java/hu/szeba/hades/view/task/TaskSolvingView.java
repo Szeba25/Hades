@@ -36,6 +36,7 @@ public class TaskSolvingView extends BaseView {
         this.setLayout(new BorderLayout());
 
         codeArea = new RSyntaxTextArea();
+        codeArea.setTabSize(4);
         codeArea.setAutoIndentEnabled(true);
         codeArea.setCodeFoldingEnabled(true);
         codeArea.setSyntaxEditingStyle(RSyntaxTextArea.SYNTAX_STYLE_C);
@@ -77,6 +78,10 @@ public class TaskSolvingView extends BaseView {
                 e.printStackTrace();
             }
         });
+    }
+
+    public void setTestSourceEditing(String text) {
+        codeArea.setText(text);
     }
 
 }

@@ -30,4 +30,8 @@ public class Task {
     public ResultMatcher getResultMatcher() {
         return resultMatcher;
     }
+
+    public String getFirstSourceContent() {
+        return taskData.getSources().get(0).getData();
+    }
 }

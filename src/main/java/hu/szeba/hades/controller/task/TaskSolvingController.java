@@ -13,6 +13,7 @@ public class TaskSolvingController {
     public TaskSolvingController(TaskSolvingView taskSolvingView, Task task) {
         this.taskSolvingView = taskSolvingView;
         this.task = task;
+        this.taskSolvingView.setTestSourceEditing(task.getFirstSourceContent());
     }
 
     public void compile() throws IOException, InterruptedException {
