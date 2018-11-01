@@ -22,22 +22,17 @@ public class Campaign {
     private final String language;
 
     public Campaign(String courseName, String campaignName, String language) throws IOException {
-        this.campaignDirectory =
-                new File(Options.getDatabasePath(),
-                        "courses/" + courseName + "/" + campaignName);
-        this.campaignWorkingDirectory =
-                new File(Options.getWorkingDirectoryPath(),
-                        "courses/" + courseName + "/" + campaignName);
+        this.campaignDirectory = new File(Options.getDatabasePath(),
+                "courses/" + courseName + "/" + campaignName);
+        this.campaignWorkingDirectory = new File(Options.getWorkingDirectoryPath(),
+                "courses/" + courseName + "/" + campaignName);
         this.campaignName = campaignName;
-
         this.language = language;
-
         loadTaskNames();
     }
 
     private void loadTaskNames() throws IOException {
-        TaskGraphFile taskGraphFile = new TaskGraphFile(
-                new File(campaignDirectory, "tasks.graph"));
+        TaskGraphFile taskGraphFile = new TaskGraphFile(new File(campaignDirectory, "tasks.graph"));
         taskMatrix = new AdjacencyMatrix(taskGraphFile.getTuples());
         taskNames = taskMatrix.getNodeNames();
     }
