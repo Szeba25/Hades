@@ -38,7 +38,11 @@ public class Main {
 
         courseDatabase = new CourseDatabase();
         course = courseDatabase.loadCourse("prog1");
-        campaign = course.loadCampaign("practice");
+        try {
+            campaign = course.loadCampaign("practice");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         taskSelectorView = new TaskSelectorView(campaign);
         start();

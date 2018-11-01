@@ -1,5 +1,6 @@
 package hu.szeba.hades.model.campaign;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +14,7 @@ public class CampaignCollection {
         campaigns = new HashMap<>();
     }
 
-    public Campaign loadCampaign(String campaignName, String language) {
+    public Campaign loadCampaign(String campaignName, String language) throws IOException {
         if (campaigns.containsKey(campaignName)) {
             return campaigns.get(campaignName);
         } else {

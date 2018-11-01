@@ -8,6 +8,7 @@ import hu.szeba.hades.view.BaseView;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.List;
 
 public class TaskSelectorView extends BaseView {
 
@@ -83,8 +84,8 @@ public class TaskSelectorView extends BaseView {
         });
     }
 
-    public void setTaskListContents(String[] tasks) {
-        taskList.setListData(tasks);
+    public void setTaskListContents(List<String> tasks) {
+        taskList.setListData(tasks.toArray());
     }
 
     public String getSelectedTaskName() {

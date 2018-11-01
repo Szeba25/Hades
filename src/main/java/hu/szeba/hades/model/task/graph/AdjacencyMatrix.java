@@ -1,8 +1,6 @@
 package hu.szeba.hades.model.task.graph;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class AdjacencyMatrix {
 
@@ -80,6 +78,12 @@ public class AdjacencyMatrix {
                 System.out.println("* " + nodesByIndex[j]);
             }
         }
+    }
+
+    public List<String> getNodeNames() {
+        List<String> filtered = new LinkedList<>();
+        Arrays.stream(nodesByIndex).filter((s) -> !s.equals("NULL")).forEach(filtered::add);
+        return filtered;
     }
 
     private String edgeValueToPrintValue(boolean edgeValue) {
