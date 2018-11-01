@@ -12,11 +12,11 @@ public class DataFile {
 
     private List<String[]> content;
 
-    public DataFile(File file) throws IOException {
+    public DataFile(File file, String separator) throws IOException {
         content = new ArrayList<>();
         Files.lines(Paths.get(file.getAbsolutePath())).forEach(
             (line) -> {
-                if (!line.equals("")) content.add(line.split(Pattern.quote("|")));
+                if (!line.equals("")) content.add(line.split(Pattern.quote(separator)));
             }
         );
     }

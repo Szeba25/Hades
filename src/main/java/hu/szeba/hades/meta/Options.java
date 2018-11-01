@@ -1,5 +1,6 @@
 package hu.szeba.hades.meta;
 
+import hu.szeba.hades.io.ConfigFile;
 import hu.szeba.hades.io.DataFile;
 
 import java.io.File;
@@ -13,7 +14,7 @@ public class Options {
 
     public static void initialize() throws IOException {
         paths = new HashMap<>();
-        DataFile pathsFile = new DataFile(new File("hades_paths.dat"));
+        DataFile pathsFile = new ConfigFile(new File("hades_paths.conf"));
         for (int i = 0; i < pathsFile.getLineCount(); i++) {
             paths.put(pathsFile.getData(i, 0),
                     new File(pathsFile.getData(i, 1)));
