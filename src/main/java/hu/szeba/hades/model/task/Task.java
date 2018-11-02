@@ -36,9 +36,11 @@ public class Task {
         return taskData.getSources().get(0).getData();
     }
 
-    public void setFirstSourceContent(String data) throws IOException {
-        SourceFile sourceFile = taskData.getSources().get(0);
-        sourceFile.setData(data);
-        sourceFile.save();
+    public void setFirstSourceContent(String data) {
+        taskData.getSources().get(0).setData(data);
+    }
+
+    public void saveFirstSource() throws IOException {
+        taskData.getSources().get(0).save();
     }
 }

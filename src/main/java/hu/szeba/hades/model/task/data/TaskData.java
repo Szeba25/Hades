@@ -1,16 +1,13 @@
 package hu.szeba.hades.model.task.data;
 
+import hu.szeba.hades.io.DataFile;
 import hu.szeba.hades.meta.Options;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringJoiner;
-import java.util.stream.Collectors;
 
 public class TaskData {
 
@@ -39,8 +36,10 @@ public class TaskData {
     private void makeSolutions() { }
 
     private void makeSources() throws IOException {
-        // TODO: Replace with config file that lists sources!!!
-        sources.add(new SourceFile(new File(taskWorkingDirectory, "main.c")));
+        DataFile sourceList = new DataFile(new File(taskWorkingDirectory, ".meta/sources.dat"));
+        for (int i = 0; i < sourceList.getLineCount(); i++) {
+            sources.add(new SourceFile(new File(taskWorkingDirectory, sourceList.getData(i, 0))));
+        }
     }
 
     private File getTaskDirectory(String taskName) {
