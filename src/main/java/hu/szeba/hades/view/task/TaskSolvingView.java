@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 public class TaskSolvingView extends BaseView {
 
@@ -26,7 +27,13 @@ public class TaskSolvingView extends BaseView {
     private JSplitPane splitPane;
 
     private JMenuBar menuBar;
-    private JMenuItem compileMenuItem;
+
+    private JMenu buildMenu;
+    private JMenuItem buildMenuItem;
+    private JMenuItem runMenuItem;
+
+    private JList fileList;
+    private JScrollPane fileListScroller;
 
     public TaskSolvingView(BaseView parentView, Task task) {
         super();
@@ -37,6 +44,7 @@ public class TaskSolvingView extends BaseView {
     @Override
     public void initializeComponents() {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setMinimumSize(new Dimension(900, 700));
         this.setLayout(new BorderLayout());
 
         codeArea = new RSyntaxTextArea();
@@ -48,29 +56,44 @@ public class TaskSolvingView extends BaseView {
         codeArea.setFont(new Font("Consolas", Font.PLAIN, 14));
 
         terminalArea = new JTextArea();
+        terminalArea.setEditable(false);
 
         codeScroll = new RTextScrollPane(codeArea);
+        codeScroll.setMinimumSize(new Dimension(900, 400));
         codeScroll.setLineNumbersEnabled(true);
-        codeScroll.setMinimumSize(new Dimension(800, 600));
 
         terminalScroll = new JScrollPane(terminalArea);
-        terminalScroll.setMinimumSize(new Dimension(800, 200));
+        terminalScroll.setMinimumSize(new Dimension(900, 250));
 
         splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, codeScroll, terminalScroll);
-        splitPane.setPreferredSize(new Dimension(800, 800));
+        splitPane.setPreferredSize(new Dimension(900, 700));
         splitPane.setOneTouchExpandable(true);
-        splitPane.setDividerLocation(150);
+        splitPane.setDividerLocation(700);
 
         menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
-        JMenu buildMenu = new JMenu("Build");
-        compileMenuItem = new JMenuItem("Compile");
-        buildMenu.add(compileMenuItem);
+
+        buildMenu = new JMenu("Build");
+        buildMenuItem = new JMenuItem("Build all");
+        runMenuItem = new JMenuItem("Run...");
+        buildMenu.add(buildMenuItem);
+        buildMenu.addSeparator();
+        buildMenu.add(runMenuItem);
+
         JMenu helpMenu = new JMenu("Help");
+
         menuBar.add(fileMenu);
         menuBar.add(buildMenu);
         menuBar.add(helpMenu);
 
+        fileList = new JList();
+        fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        fileList.setFixedCellWidth(250);
+
+        fileListScroller = new JScrollPane(fileList);
+        fileListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        this.getContentPane().add(fileListScroller, BorderLayout.WEST);
         this.getContentPane().add(splitPane, BorderLayout.CENTER);
         this.getContentPane().add(menuBar, BorderLayout.NORTH);
         this.pack();
@@ -85,7 +108,13 @@ public class TaskSolvingView extends BaseView {
             parentView.showView();
             }
         });
-        compileMenuItem.addActionListener((event) -> taskSolvingController.compile());
+        buildMenuItem.addActionListener((event) -> {
+            try {
+                taskSolvingController.compile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void setCodeAreaContent(String text) {
@@ -96,12 +125,15 @@ public class TaskSolvingView extends BaseView {
         return codeArea.getText();
     }
 
-    public JMenuItem getCompileMenuItem() {
-        return compileMenuItem;
+    public JMenuItem getBuildMenu() {
+        return buildMenu;
     }
 
     public JTextArea getTerminalArea() {
         return terminalArea;
     }
 
+    public void setSourceList(String[] sourceList) {
+        fileList.setListData(sourceList);
+    }
 }

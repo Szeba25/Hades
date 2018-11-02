@@ -13,18 +13,22 @@ public class TaskSolvingController {
     public TaskSolvingController(TaskSolvingView taskSolvingView, Task task) {
         this.taskSolvingView = taskSolvingView;
         this.taskSolvingView.setCodeAreaContent(task.getFirstSourceContent());
+        this.taskSolvingView.setSourceList(task.getSourceList());
         this.task = task;
     }
 
-    public void compile() {
-        // Set the sources content
+    public void compile() throws IOException {
+        // Set the sources content and save sources on EDT
         task.setFirstSourceContent(taskSolvingView.getCodeAreaContent());
+        task.saveFirstSource();
+
+        // Clear terminal, and disable compile menu
+        taskSolvingView.getTerminalArea().setText("Compilation started...\n");
+        taskSolvingView.getBuildMenu().setEnabled(false);
 
         // Start a worker thread to compile the task!
-        taskSolvingView.getTerminalArea().setText("");
-        taskSolvingView.getCompileMenuItem().setEnabled(false);
         TaskCompilerWorker taskCompilerWorker = new TaskCompilerWorker(task,
-                taskSolvingView.getCompileMenuItem(),
+                taskSolvingView.getBuildMenu(),
                 taskSolvingView.getTerminalArea());
         taskCompilerWorker.execute();
     }
