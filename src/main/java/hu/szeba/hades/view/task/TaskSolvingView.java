@@ -80,8 +80,11 @@ public class TaskSolvingView extends BaseView {
         });
     }
 
-    public void setTestSourceEditing(String text) {
+    public void setCodeAreaContent(String text) {
         codeArea.setText(text);
     }
 
+    public String getCodeAreaContent() {
+        return codeArea.getText();
+    }
 }

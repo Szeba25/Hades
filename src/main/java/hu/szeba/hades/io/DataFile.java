@@ -12,6 +12,10 @@ public class DataFile {
 
     private List<String[]> content;
 
+    public DataFile(File file) throws IOException {
+        this(file, "|");
+    }
+
     public DataFile(File file, String separator) throws IOException {
         content = new ArrayList<>();
         Files.lines(Paths.get(file.getAbsolutePath())).forEach(

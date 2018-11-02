@@ -1,6 +1,7 @@
 package hu.szeba.hades.model.task;
 
 import hu.szeba.hades.model.compiler.ProgramCompiler;
+import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.model.task.data.TaskData;
 import hu.szeba.hades.model.task.program.Program;
 import hu.szeba.hades.model.task.result.ResultMatcher;
@@ -33,5 +34,13 @@ public class Task {
 
     public String getFirstSourceContent() {
         return taskData.getSources().get(0).getData();
+    }
+
+    public void setFirstSourceContent(String data) {
+        taskData.getSources().get(0).setData(data);
+    }
+
+    public void saveFirstSource() throws IOException {
+        taskData.getSources().get(0).save();
     }
 }
