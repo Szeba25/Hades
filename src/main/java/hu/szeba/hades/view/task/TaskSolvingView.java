@@ -32,6 +32,9 @@ public class TaskSolvingView extends BaseView {
     private JMenuItem buildMenuItem;
     private JMenuItem runMenuItem;
 
+    private JList fileList;
+    private JScrollPane fileListScroller;
+
     public TaskSolvingView(BaseView parentView, Task task) {
         super();
         this.parentView = parentView;
@@ -83,6 +86,14 @@ public class TaskSolvingView extends BaseView {
         menuBar.add(buildMenu);
         menuBar.add(helpMenu);
 
+        fileList = new JList();
+        fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        fileList.setFixedCellWidth(250);
+
+        fileListScroller = new JScrollPane(fileList);
+        fileListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        this.getContentPane().add(fileListScroller, BorderLayout.WEST);
         this.getContentPane().add(splitPane, BorderLayout.CENTER);
         this.getContentPane().add(menuBar, BorderLayout.NORTH);
         this.pack();
