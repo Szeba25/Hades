@@ -84,4 +84,7 @@ public class TaskSolvingView extends BaseView {
         codeArea.setText(text);
     }
 
+    public String getSourceContent() {
+        return codeArea.getText();
+    }
 }

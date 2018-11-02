@@ -1,13 +1,26 @@
 package hu.szeba.hades.model.task.data;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class SourceFile {
 
+    private File file;
     private String name;
     private String data;
 
-    public SourceFile(String name) {
-        this.name = name;
-        this.data = "";
+    public SourceFile(File file) throws IOException {
+        this.file = file;
+        this.name = file.getName();
+        this.data = String.join("\n",
+                Files.readAllLines(
+                Paths.get(file.getAbsolutePath())));
     }
 
     public String getName() { return name; }
@@ -20,8 +33,9 @@ public class SourceFile {
         this.data = data;
     }
 
-    public void save() {
-        System.out.println("NYI source file saving");
+    public void save() throws IOException {
+        Files.write(Paths.get(file.getAbsolutePath()),
+                Arrays.stream(data.split("\n")).collect(Collectors.toList()));
     }
 
 }

@@ -40,10 +40,7 @@ public class TaskData {
 
     private void makeSources() throws IOException {
         // TODO: Replace with config file that lists sources!!!
-        SourceFile src = new SourceFile("main.c");
-        src.setData(String.join("\n", Files.readAllLines(
-                        Paths.get(new File(taskWorkingDirectory, "main.c").getAbsolutePath()))));
-        sources.add(src);
+        sources.add(new SourceFile(new File(taskWorkingDirectory, "main.c")));
     }
 
     private File getTaskDirectory(String taskName) {
