@@ -11,6 +11,8 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class TaskSolvingView extends BaseView {
 
@@ -55,12 +57,12 @@ public class TaskSolvingView extends BaseView {
         codeArea.setCurrentLineHighlightColor(new Color(10, 30, 140, 50));
         codeArea.setFont(new Font("Consolas", Font.PLAIN, 14));
 
-        terminalArea = new JTextArea();
-        terminalArea.setEditable(false);
-
         codeScroll = new RTextScrollPane(codeArea);
         codeScroll.setMinimumSize(new Dimension(900, 400));
         codeScroll.setLineNumbersEnabled(true);
+
+        terminalArea = new JTextArea();
+        terminalArea.setEditable(false);
 
         terminalScroll = new JScrollPane(terminalArea);
         terminalScroll.setMinimumSize(new Dimension(900, 250));
@@ -110,11 +112,22 @@ public class TaskSolvingView extends BaseView {
         });
         buildMenuItem.addActionListener((event) -> {
             try {
-                taskSolvingController.compile();
+                taskSolvingController.compile(fileList.getSelectedIndex());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
+        /*
+        fileList.addListSelectionListener(e ->
+            if (!e.getValueIsAdjusting()) {
+                int selected = fileList.getSelectedIndex();
+                int previous = selected == e.getFirstIndex() ? e.getLastIndex() : e.getFirstIndex();
+                if (selected != previous) {
+                    taskSolvingController.changeFile(selected, previous);
+                }
+            }
+        });
+        */
     }
 
     public void setCodeAreaContent(String text) {
@@ -135,5 +148,11 @@ public class TaskSolvingView extends BaseView {
 
     public void setSourceList(String[] sourceList) {
         fileList.setListData(sourceList);
+        /*
+        for (int i = 0; i < sourceList.length; i++) {
+            addCodeArea(i);
+        }
+        */
+        fileList.setSelectedIndex(0);
     }
 }

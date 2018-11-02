@@ -38,24 +38,18 @@ public class Task {
     }
 
     /*
-     * Runs on worker thread!
+     * Will run on worker thread!
      */
-    public void saveFirstSource() throws IOException {
-        taskData.getSources().get(0).save();
-    }
-
     public void run() {}
+
+    public void saveSources() throws IOException {
+        for (SourceFile sourceFile : taskData.getSources()) {
+            sourceFile.save();
+        }
+    }
 
     public ResultMatcher getResultMatcher() {
         return resultMatcher;
-    }
-
-    public String getFirstSourceContent() {
-        return taskData.getSources().get(0).getData();
-    }
-
-    public void setFirstSourceContent(String data) {
-        taskData.getSources().get(0).setData(data);
     }
 
     public String[] getSourceList() {
@@ -65,4 +59,14 @@ public class Task {
         }
         return src;
     }
+
+    public String getSourceContent(int id) {
+        return taskData.getSources().get(id).getData();
+    }
+
+    public void setSourceContent(int id, String codeAreaContent) {
+        taskData.getSources().get(id).setData(codeAreaContent);
+    }
+
 }
+
