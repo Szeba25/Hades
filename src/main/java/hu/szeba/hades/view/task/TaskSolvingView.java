@@ -2,6 +2,7 @@ package hu.szeba.hades.view.task;
 
 import hu.szeba.hades.controller.task.TaskSolvingController;
 import hu.szeba.hades.model.task.Task;
+import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.view.BaseView;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -133,4 +134,7 @@ public class TaskSolvingView extends BaseView {
         return terminalArea;
     }
 
+    public void setSourceList(String[] sourceList) {
+        fileList.setListData(sourceList);
+    }
 }

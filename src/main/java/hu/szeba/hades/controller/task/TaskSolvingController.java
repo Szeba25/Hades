@@ -13,6 +13,7 @@ public class TaskSolvingController {
     public TaskSolvingController(TaskSolvingView taskSolvingView, Task task) {
         this.taskSolvingView = taskSolvingView;
         this.taskSolvingView.setCodeAreaContent(task.getFirstSourceContent());
+        this.taskSolvingView.setSourceList(task.getSourceList());
         this.task = task;
     }
 
