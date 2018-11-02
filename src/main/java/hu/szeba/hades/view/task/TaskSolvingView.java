@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 public class TaskSolvingView extends BaseView {
 
@@ -85,7 +86,13 @@ public class TaskSolvingView extends BaseView {
             parentView.showView();
             }
         });
-        compileMenuItem.addActionListener((event) -> taskSolvingController.compile());
+        compileMenuItem.addActionListener((event) -> {
+            try {
+                taskSolvingController.compile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void setCodeAreaContent(String text) {
