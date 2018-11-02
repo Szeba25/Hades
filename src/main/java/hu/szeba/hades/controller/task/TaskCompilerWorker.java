@@ -8,10 +8,12 @@ import java.util.List;
 public class TaskCompilerWorker extends SwingWorker<Integer, String> {
 
     private Task task;
+    private JMenuItem disabledBuildMenu;
     private JTextArea terminalArea;
 
-    public TaskCompilerWorker(Task task, JTextArea terminalArea) {
+    public TaskCompilerWorker(Task task, JMenuItem disabledBuildMenu, JTextArea terminalArea) {
         this.task = task;
+        this.disabledBuildMenu = disabledBuildMenu;
         this.terminalArea = terminalArea;
     }
 
@@ -29,6 +31,11 @@ public class TaskCompilerWorker extends SwingWorker<Integer, String> {
     @Override
     protected void process(List<String> chunks) {
         chunks.forEach(terminalArea::append);
+    }
+
+    @Override
+    protected void done() {
+        disabledBuildMenu.setEnabled(true);
     }
 
 }

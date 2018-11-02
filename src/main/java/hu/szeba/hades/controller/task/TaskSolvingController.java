@@ -22,7 +22,10 @@ public class TaskSolvingController {
 
         // Start a worker thread to compile the task!
         taskSolvingView.getTerminalArea().setText("");
-        TaskCompilerWorker taskCompilerWorker = new TaskCompilerWorker(task, taskSolvingView.getTerminalArea());
+        taskSolvingView.getCompileMenuItem().setEnabled(false);
+        TaskCompilerWorker taskCompilerWorker = new TaskCompilerWorker(task,
+                taskSolvingView.getCompileMenuItem(),
+                taskSolvingView.getTerminalArea());
         taskCompilerWorker.execute();
     }
 

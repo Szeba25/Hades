@@ -96,7 +96,12 @@ public class TaskSolvingView extends BaseView {
         return codeArea.getText();
     }
 
+    public JMenuItem getCompileMenuItem() {
+        return compileMenuItem;
+    }
+
     public JTextArea getTerminalArea() {
         return terminalArea;
     }
+
 }
