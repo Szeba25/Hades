@@ -33,26 +33,25 @@ public class ProgramCompilerC extends ProgramCompiler {
 
         process.waitFor();
 
-        System.out.println("Exit value: " + process.exitValue());
+        List<String> compileMessages = new LinkedList<>();
+        compileMessages.addAll(getStream(process.getErrorStream()));
+        compileMessages.addAll(getStream(process.getInputStream()));
+        compileMessages.add("Exit value: " + process.exitValue());
 
-        printStream(process.getErrorStream());
-        printStream(process.getInputStream());
-
-        System.out.println("End of running...");
-
-        return new ProgramC();
+        Program program = new ProgramC();
+        program.setCompileMessages(compileMessages);
+        return program;
     }
 
-    private void printStream(InputStream stream) throws IOException {
+    private List<String> getStream(InputStream stream) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-        StringBuilder builder = new StringBuilder();
+        List<String> messageList = new LinkedList<>();
         String line = reader.readLine();
         while (line != null && !line.equals("")) {
-            builder.append(line);
-            builder.append(System.getProperty("line.separator"));
+            messageList.add(line);
             line = reader.readLine();
         }
-        System.out.println(builder.toString());
+        return messageList;
     }
 
 }

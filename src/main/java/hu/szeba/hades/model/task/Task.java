@@ -1,12 +1,12 @@
 package hu.szeba.hades.model.task;
 
 import hu.szeba.hades.model.compiler.ProgramCompiler;
-import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.model.task.data.TaskData;
 import hu.szeba.hades.model.task.program.Program;
 import hu.szeba.hades.model.task.result.ResultMatcher;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Task {
 
@@ -22,8 +22,25 @@ public class Task {
         resultMatcher = new ResultMatcher();
     }
 
+    /*
+     * Runs on worker thread!
+     */
     public void compile() throws IOException, InterruptedException {
         program = programCompiler.compile(taskData.getSources(), taskData.getTaskWorkingDirectory());
+    }
+
+    /*
+     * Runs on worker thread!
+     */
+    public List<String> getCompileMessages() {
+        return program.getCompileMessages();
+    }
+
+    /*
+     * Runs on worker thread!
+     */
+    public void saveFirstSource() throws IOException {
+        taskData.getSources().get(0).save();
     }
 
     public void run() {}
@@ -38,9 +55,5 @@ public class Task {
 
     public void setFirstSourceContent(String data) {
         taskData.getSources().get(0).setData(data);
-    }
-
-    public void saveFirstSource() throws IOException {
-        taskData.getSources().get(0).save();
     }
 }

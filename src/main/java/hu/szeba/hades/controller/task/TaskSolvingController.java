@@ -16,10 +16,14 @@ public class TaskSolvingController {
         this.task = task;
     }
 
-    public void compile() throws IOException, InterruptedException {
+    public void compile() {
+        // Set the sources content
         task.setFirstSourceContent(taskSolvingView.getCodeAreaContent());
-        task.saveFirstSource();
-        task.compile();
+
+        // Start a worker thread to compile the task!
+        taskSolvingView.getTerminalArea().setText("");
+        TaskCompilerWorker taskCompilerWorker = new TaskCompilerWorker(task, taskSolvingView.getTerminalArea());
+        taskCompilerWorker.execute();
     }
 
 }

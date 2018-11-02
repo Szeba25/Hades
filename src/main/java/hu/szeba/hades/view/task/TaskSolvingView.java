@@ -10,7 +10,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
 
 public class TaskSolvingView extends BaseView {
 
@@ -20,6 +19,11 @@ public class TaskSolvingView extends BaseView {
 
     private RSyntaxTextArea codeArea;
     private RTextScrollPane codeScroll;
+
+    private JTextArea terminalArea;
+    private JScrollPane terminalScroll;
+
+    private JSplitPane splitPane;
 
     private JMenuBar menuBar;
     private JMenuItem compileMenuItem;
@@ -43,9 +47,19 @@ public class TaskSolvingView extends BaseView {
         codeArea.setCurrentLineHighlightColor(new Color(10, 30, 140, 50));
         codeArea.setFont(new Font("Consolas", Font.PLAIN, 14));
 
+        terminalArea = new JTextArea();
+
         codeScroll = new RTextScrollPane(codeArea);
         codeScroll.setLineNumbersEnabled(true);
-        codeScroll.setPreferredSize(new Dimension(1080, 600));
+        codeScroll.setMinimumSize(new Dimension(800, 600));
+
+        terminalScroll = new JScrollPane(terminalArea);
+        terminalScroll.setMinimumSize(new Dimension(800, 200));
+
+        splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, codeScroll, terminalScroll);
+        splitPane.setPreferredSize(new Dimension(800, 800));
+        splitPane.setOneTouchExpandable(true);
+        splitPane.setDividerLocation(150);
 
         menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
@@ -57,7 +71,7 @@ public class TaskSolvingView extends BaseView {
         menuBar.add(buildMenu);
         menuBar.add(helpMenu);
 
-        this.getContentPane().add(codeScroll, BorderLayout.CENTER);
+        this.getContentPane().add(splitPane, BorderLayout.CENTER);
         this.getContentPane().add(menuBar, BorderLayout.NORTH);
         this.pack();
     }
@@ -71,13 +85,7 @@ public class TaskSolvingView extends BaseView {
             parentView.showView();
             }
         });
-        compileMenuItem.addActionListener((event) -> {
-            try {
-                taskSolvingController.compile();
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
+        compileMenuItem.addActionListener((event) -> taskSolvingController.compile());
     }
 
     public void setCodeAreaContent(String text) {
@@ -86,5 +94,9 @@ public class TaskSolvingView extends BaseView {
 
     public String getCodeAreaContent() {
         return codeArea.getText();
+    }
+
+    public JTextArea getTerminalArea() {
+        return terminalArea;
     }
 }
