@@ -23,11 +23,11 @@ public class TaskSolvingController {
 
         // Clear terminal, and disable compile menu
         taskSolvingView.getTerminalArea().setText("Compilation started...\n");
-        taskSolvingView.getCompileMenuItem().setEnabled(false);
+        taskSolvingView.getBuildMenu().setEnabled(false);
 
         // Start a worker thread to compile the task!
         TaskCompilerWorker taskCompilerWorker = new TaskCompilerWorker(task,
-                taskSolvingView.getCompileMenuItem(),
+                taskSolvingView.getBuildMenu(),
                 taskSolvingView.getTerminalArea());
         taskCompilerWorker.execute();
     }

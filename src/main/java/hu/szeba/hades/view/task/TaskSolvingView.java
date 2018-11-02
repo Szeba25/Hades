@@ -27,7 +27,10 @@ public class TaskSolvingView extends BaseView {
     private JSplitPane splitPane;
 
     private JMenuBar menuBar;
-    private JMenuItem compileMenuItem;
+
+    private JMenu buildMenu;
+    private JMenuItem buildMenuItem;
+    private JMenuItem runMenuItem;
 
     public TaskSolvingView(BaseView parentView, Task task) {
         super();
@@ -38,6 +41,7 @@ public class TaskSolvingView extends BaseView {
     @Override
     public void initializeComponents() {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setMinimumSize(new Dimension(900, 700));
         this.setLayout(new BorderLayout());
 
         codeArea = new RSyntaxTextArea();
@@ -49,25 +53,32 @@ public class TaskSolvingView extends BaseView {
         codeArea.setFont(new Font("Consolas", Font.PLAIN, 14));
 
         terminalArea = new JTextArea();
+        terminalArea.setEditable(false);
 
         codeScroll = new RTextScrollPane(codeArea);
+        codeScroll.setMinimumSize(new Dimension(900, 400));
         codeScroll.setLineNumbersEnabled(true);
-        codeScroll.setMinimumSize(new Dimension(800, 600));
 
         terminalScroll = new JScrollPane(terminalArea);
-        terminalScroll.setMinimumSize(new Dimension(800, 200));
+        terminalScroll.setMinimumSize(new Dimension(900, 250));
 
         splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, codeScroll, terminalScroll);
-        splitPane.setPreferredSize(new Dimension(800, 800));
+        splitPane.setPreferredSize(new Dimension(900, 700));
         splitPane.setOneTouchExpandable(true);
-        splitPane.setDividerLocation(150);
+        splitPane.setDividerLocation(700);
 
         menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
-        JMenu buildMenu = new JMenu("Build");
-        compileMenuItem = new JMenuItem("Compile");
-        buildMenu.add(compileMenuItem);
+
+        buildMenu = new JMenu("Build");
+        buildMenuItem = new JMenuItem("Build all");
+        runMenuItem = new JMenuItem("Run...");
+        buildMenu.add(buildMenuItem);
+        buildMenu.addSeparator();
+        buildMenu.add(runMenuItem);
+
         JMenu helpMenu = new JMenu("Help");
+
         menuBar.add(fileMenu);
         menuBar.add(buildMenu);
         menuBar.add(helpMenu);
@@ -86,7 +97,7 @@ public class TaskSolvingView extends BaseView {
             parentView.showView();
             }
         });
-        compileMenuItem.addActionListener((event) -> {
+        buildMenuItem.addActionListener((event) -> {
             try {
                 taskSolvingController.compile();
             } catch (IOException e) {
@@ -103,8 +114,8 @@ public class TaskSolvingView extends BaseView {
         return codeArea.getText();
     }
 
-    public JMenuItem getCompileMenuItem() {
-        return compileMenuItem;
+    public JMenuItem getBuildMenu() {
+        return buildMenu;
     }
 
     public JTextArea getTerminalArea() {
