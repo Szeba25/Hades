@@ -10,7 +10,7 @@ public class StreamUtil {
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
         List<String> messageList = new LinkedList<>();
         String line = reader.readLine();
-        while (line != null && !line.equals("")) {
+        while (line != null) {
             messageList.add(line);
             line = reader.readLine();
         }
