@@ -42,7 +42,7 @@ public class Task {
     }
 
     /*
-     * Will run on worker thread!
+     * Runs on worker thread!
      */
     public Result run() throws IOException, InterruptedException {
         return compilerOutput.getProgram().run(null);
