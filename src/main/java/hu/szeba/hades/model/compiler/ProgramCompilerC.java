@@ -33,25 +33,25 @@ public class ProgramCompilerC extends ProgramCompiler {
         Process process = processBuilder.start();
         process.waitFor();
 
-        List<String> compileMessages = new LinkedList<>();
-        compileMessages.addAll(StreamUtil.getStream(process.getErrorStream()));
-        compileMessages.addAll(StreamUtil.getStream(process.getInputStream()));
-        compileMessages.add("Exit value: " + process.exitValue());
+        List<String> compilerMessages = new LinkedList<>();
+        compilerMessages.addAll(StreamUtil.getStream(process.getErrorStream()));
+        compilerMessages.addAll(StreamUtil.getStream(process.getInputStream()));
+        compilerMessages.add("Exit value: " + process.exitValue());
 
-        return generateOutput(compileMessages, taskWorkingDirectory);
+        return generateOutput(compilerMessages, taskWorkingDirectory, process.exitValue());
     }
 
     @Override
     public CompilerOutput getCached(File taskWorkingDirectory) {
-        return generateOutput(new LinkedList<>(), taskWorkingDirectory);
+        return generateOutput(new LinkedList<>(), taskWorkingDirectory, 0);
     }
 
-    private CompilerOutput generateOutput(List<String> compileMessages, File taskWorkingDirectory) {
+    private CompilerOutput generateOutput(List<String> compilerMessages, File taskWorkingDirectory, int exitValue) {
         File programLocation = new File(taskWorkingDirectory, "program.exe");
-        if (programLocation.exists()) {
-            return new CompilerOutput(compileMessages, new ProgramC(programLocation));
+        if (programLocation.exists() && exitValue == 0) {
+            return new CompilerOutput(compilerMessages, new ProgramC(programLocation));
         } else {
-            return new CompilerOutput(compileMessages, null);
+            return new CompilerOutput(compilerMessages, null);
         }
     }
 

@@ -21,7 +21,7 @@ public class TaskCompilerWorker extends SwingWorker<Integer, String> {
     protected Integer doInBackground() throws Exception {
         publish("> Compilation started...\n\n");
         task.compile();
-        for (String message : task.getCompileMessages()) {
+        for (String message : task.getCompilerMessages()) {
             publish(message + "\n");
         }
         return 0;

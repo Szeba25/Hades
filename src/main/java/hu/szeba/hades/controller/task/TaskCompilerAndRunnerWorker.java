@@ -23,7 +23,7 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
         publish("> Compilation started...\n\n");
         // Compile
         task.compile();
-        for (String message : task.getCompileMessages()) {
+        for (String message : task.getCompilerMessages()) {
             publish(message + "\n");
         }
         publish("\n> Running program...\n\n");

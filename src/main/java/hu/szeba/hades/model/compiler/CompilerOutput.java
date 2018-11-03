@@ -6,16 +6,16 @@ import java.util.List;
 
 public class CompilerOutput {
 
-    private List<String> compileMessages;
+    private List<String> compilerMessages;
     private Program program;
 
-    public CompilerOutput(List<String> compileMessages, Program program) {
-        this.compileMessages = compileMessages;
+    public CompilerOutput(List<String> compilerMessages, Program program) {
+        this.compilerMessages = compilerMessages;
         this.program = program;
     }
 
-    public List<String> getCompileMessages() {
-        return compileMessages;
+    public List<String> getCompilerMessages() {
+        return compilerMessages;
     }
 
     public boolean isReady() {

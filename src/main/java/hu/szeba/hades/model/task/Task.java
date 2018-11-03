@@ -4,7 +4,6 @@ import hu.szeba.hades.model.compiler.CompilerOutput;
 import hu.szeba.hades.model.compiler.ProgramCompiler;
 import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.model.task.data.TaskData;
-import hu.szeba.hades.model.task.program.Program;
 import hu.szeba.hades.model.task.result.Result;
 import hu.szeba.hades.model.task.result.ResultMatcher;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -37,8 +36,8 @@ public class Task {
     /*
      * Runs on worker thread!
      */
-    public List<String> getCompileMessages() {
-        return compilerOutput.getCompileMessages();
+    public List<String> getCompilerMessages() {
+        return compilerOutput.getCompilerMessages();
     }
 
     /*
