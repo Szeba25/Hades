@@ -10,4 +10,5 @@ public interface Program {
     Result run(File location, ProgramInput input);
     void setCompileMessages(List<String> messages);
     List<String> getCompileMessages();
+
 }

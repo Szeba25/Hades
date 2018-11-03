@@ -114,6 +114,9 @@ public class TaskSolvingView extends BaseView {
                 e.printStackTrace();
             }
         });
+        runMenuItem.addActionListener((event) -> {
+            taskSolvingController.run();
+        });
         fileList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -156,7 +159,7 @@ public class TaskSolvingView extends BaseView {
         return codeTabByName;
     }
 
-    public JMenuItem getBuildMenu() {
+    public JMenu getBuildMenu() {
         return buildMenu;
     }
 

@@ -32,4 +32,17 @@ public class TaskSolvingController {
                 taskSolvingView.getTerminalArea());
         taskCompilerWorker.execute();
     }
+
+    public void run() {
+        // Clear terminal, and disable compile menu
+        taskSolvingView.getTerminalArea().setText("Running program...\n");
+        taskSolvingView.getBuildMenu().setEnabled(false);
+
+        // Start a worker thread to run the task!
+        TaskRunningWorker taskRunningWorker = new TaskRunningWorker(task,
+                taskSolvingView.getBuildMenu(),
+                taskSolvingView.getTerminalArea());
+        taskRunningWorker.execute();
+    }
+
 }
