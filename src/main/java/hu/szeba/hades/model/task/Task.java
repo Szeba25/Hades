@@ -4,6 +4,7 @@ import hu.szeba.hades.model.compiler.ProgramCompiler;
 import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.model.task.data.TaskData;
 import hu.szeba.hades.model.task.program.Program;
+import hu.szeba.hades.model.task.result.Result;
 import hu.szeba.hades.model.task.result.ResultMatcher;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
@@ -21,7 +22,7 @@ public class Task {
     public Task(TaskData taskData, ProgramCompiler programCompiler) {
         this.taskData = taskData;
         this.programCompiler = programCompiler;
-        program = null;
+        program = programCompiler.getProgram(taskData.getTaskWorkingDirectory());
         resultMatcher = new ResultMatcher();
     }
 
@@ -42,7 +43,9 @@ public class Task {
     /*
      * Will run on worker thread!
      */
-    public void run() {}
+    public Result run() throws IOException, InterruptedException {
+        return program.run(null);
+    }
 
     public void saveSources() throws IOException {
         for (SourceFile sourceFile : taskData.getSources()) {
@@ -77,6 +80,10 @@ public class Task {
 
     public String getTaskName() {
         return taskData.getTaskName();
+    }
+
+    public boolean isProgramReady() {
+        return program.isReady();
     }
 }
 

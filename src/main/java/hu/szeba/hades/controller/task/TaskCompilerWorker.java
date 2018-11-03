@@ -34,6 +34,7 @@ public class TaskCompilerWorker extends SwingWorker<Integer, String> {
     @Override
     protected void done() {
         disabledBuildMenu.setEnabled(true);
+        disabledBuildMenu.getItem(2).setEnabled(task.isProgramReady());
     }
 
 }

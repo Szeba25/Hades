@@ -17,4 +17,6 @@ public abstract class ProgramCompiler {
 
     public abstract Program compile(List<SourceFile> sources, File taskWorkingDirectory) throws IOException, InterruptedException;
 
+    public abstract Program getProgram(File taskWorkingDirectory);
+
 }

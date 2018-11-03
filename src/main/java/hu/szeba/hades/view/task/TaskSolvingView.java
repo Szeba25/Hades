@@ -48,6 +48,7 @@ public class TaskSolvingView extends BaseView {
         this.taskSolvingController = new TaskSolvingController(this, task);
 
         this.setTitle("Solving task: " + task.getTaskName());
+        this.runMenuItem.setEnabled(task.isProgramReady());
     }
 
     @Override
@@ -76,8 +77,10 @@ public class TaskSolvingView extends BaseView {
         JMenu fileMenu = new JMenu("File");
 
         buildMenu = new JMenu("Build");
+
         buildMenuItem = new JMenuItem("Build all");
         runMenuItem = new JMenuItem("Run...");
+
         buildMenu.add(buildMenuItem);
         buildMenu.addSeparator();
         buildMenu.add(runMenuItem);

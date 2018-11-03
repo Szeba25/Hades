@@ -1,17 +1,35 @@
 package hu.szeba.hades.model.task.program;
 
 import hu.szeba.hades.model.task.result.Result;
+import hu.szeba.hades.model.task.result.ResultLine;
+import hu.szeba.hades.util.StreamUtil;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
-public class ProgramC implements Program {
+public class ProgramC extends Program {
 
     private List<String> messages;
 
+    public ProgramC(File location) {
+        super(location);
+    }
+
     @Override
-    public Result run(File location, ProgramInput input) {
-        return new Result();
+    public Result run(ProgramInput input) throws IOException, InterruptedException {
+        Result result = new Result();
+
+        ProcessBuilder processBuilder = new ProcessBuilder(location.getAbsolutePath());
+
+        Process process = processBuilder.start();
+        process.waitFor();
+
+        StreamUtil.getStream(process.getInputStream()).forEach((res) -> {
+            result.addResultLine(new ResultLine(res));
+        });
+
+        return result;
     }
 
     @Override
@@ -22,6 +40,11 @@ public class ProgramC implements Program {
     @Override
     public List<String> getCompileMessages() {
         return messages;
+    }
+
+    @Override
+    public boolean isReady() {
+        return location.exists();
     }
 
 }

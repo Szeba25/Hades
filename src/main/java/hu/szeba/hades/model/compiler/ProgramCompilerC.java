@@ -3,6 +3,7 @@ package hu.szeba.hades.model.compiler;
 import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.model.task.program.Program;
 import hu.szeba.hades.model.task.program.ProgramC;
+import hu.szeba.hades.util.StreamUtil;
 
 import java.io.*;
 import java.util.LinkedList;
@@ -30,28 +31,22 @@ public class ProgramCompilerC extends ProgramCompiler {
         processBuilder.environment().put("Path", compilerPath.getAbsolutePath() + "/bin");
 
         Process process = processBuilder.start();
-
         process.waitFor();
 
         List<String> compileMessages = new LinkedList<>();
-        compileMessages.addAll(getStream(process.getErrorStream()));
-        compileMessages.addAll(getStream(process.getInputStream()));
+        compileMessages.addAll(StreamUtil.getStream(process.getErrorStream()));
+        compileMessages.addAll(StreamUtil.getStream(process.getInputStream()));
         compileMessages.add("Exit value: " + process.exitValue());
 
-        Program program = new ProgramC();
+        Program program = new ProgramC(new File(taskWorkingDirectory, "program.exe"));
         program.setCompileMessages(compileMessages);
         return program;
     }
 
-    private List<String> getStream(InputStream stream) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-        List<String> messageList = new LinkedList<>();
-        String line = reader.readLine();
-        while (line != null && !line.equals("")) {
-            messageList.add(line);
-            line = reader.readLine();
-        }
-        return messageList;
+    @Override
+    public Program getProgram(File taskWorkingDirectory) {
+        File programFile = new File(taskWorkingDirectory, "program.exe");
+        return new ProgramC(programFile);
     }
 
 }

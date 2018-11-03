@@ -44,5 +44,4 @@ public class TaskSolvingController {
                 taskSolvingView.getTerminalArea());
         taskRunningWorker.execute();
     }
-
 }

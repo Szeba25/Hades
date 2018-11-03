@@ -1,8 +1,10 @@
 package hu.szeba.hades.controller.task;
 
 import hu.szeba.hades.model.task.Task;
+import hu.szeba.hades.model.task.result.Result;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.List;
 
 public class TaskRunningWorker extends SwingWorker<Integer, String> {
@@ -18,9 +20,11 @@ public class TaskRunningWorker extends SwingWorker<Integer, String> {
     }
 
     @Override
-    protected Integer doInBackground() {
-        task.run();
-        publish("Done...\n");
+    protected Integer doInBackground() throws IOException, InterruptedException {
+        Result result = task.run();
+        for (int i = 0; i < result.getResultLineCount(); i++) {
+            publish(result.getResultLine(i).getData() + "\n");
+        }
         return 0;
     }
 
