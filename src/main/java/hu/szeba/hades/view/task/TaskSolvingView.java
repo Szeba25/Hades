@@ -36,6 +36,7 @@ public class TaskSolvingView extends BaseView {
 
     private JMenu buildMenu;
     private JMenuItem buildMenuItem;
+    private JMenuItem buildAndRunMenuItem;
     private JMenuItem runMenuItem;
 
     private JList fileList;
@@ -43,8 +44,12 @@ public class TaskSolvingView extends BaseView {
 
     public TaskSolvingView(BaseView parentView, Task task) {
         super();
+
         this.parentView = parentView;
         this.taskSolvingController = new TaskSolvingController(this, task);
+
+        this.setTitle("Solving task: " + task.getTaskName());
+        this.runMenuItem.setEnabled(task.isProgramReady());
     }
 
     @Override
@@ -73,9 +78,14 @@ public class TaskSolvingView extends BaseView {
         JMenu fileMenu = new JMenu("File");
 
         buildMenu = new JMenu("Build");
+
         buildMenuItem = new JMenuItem("Build all");
+        buildAndRunMenuItem = new JMenuItem("Build all and run...");
         runMenuItem = new JMenuItem("Run...");
+
         buildMenu.add(buildMenuItem);
+        buildMenu.addSeparator();
+        buildMenu.add(buildAndRunMenuItem);
         buildMenu.addSeparator();
         buildMenu.add(runMenuItem);
 
@@ -100,6 +110,7 @@ public class TaskSolvingView extends BaseView {
 
     @Override
     public void setupEvents() {
+        // Close the window
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent event) {
@@ -107,6 +118,7 @@ public class TaskSolvingView extends BaseView {
             parentView.showView();
             }
         });
+        // Build action
         buildMenuItem.addActionListener((event) -> {
             try {
                 taskSolvingController.compile();
@@ -114,6 +126,17 @@ public class TaskSolvingView extends BaseView {
                 e.printStackTrace();
             }
         });
+        // Build and run action
+        buildAndRunMenuItem.addActionListener((event) -> {
+            try {
+                taskSolvingController.compileAndRun();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        // Run action
+        runMenuItem.addActionListener((event) -> taskSolvingController.run());
+        // Switching (or opening: NYI) tabs with list
         fileList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -132,12 +155,12 @@ public class TaskSolvingView extends BaseView {
         });
     }
 
-    private void addCodeArea(String name) {
+    private void addCodeArea(String name, String syntaxStyle) {
         RSyntaxTextArea codeTabArea = new RSyntaxTextArea();
         codeTabArea.setTabSize(4);
         codeTabArea.setAutoIndentEnabled(true);
         codeTabArea.setCodeFoldingEnabled(true);
-        codeTabArea.setSyntaxEditingStyle(RSyntaxTextArea.SYNTAX_STYLE_C);
+        codeTabArea.setSyntaxEditingStyle(syntaxStyle);
         codeTabArea.setCurrentLineHighlightColor(new Color(10, 30, 140, 50));
         codeTabArea.setFont(new Font("Consolas", Font.PLAIN, 14));
 
@@ -156,7 +179,7 @@ public class TaskSolvingView extends BaseView {
         return codeTabByName;
     }
 
-    public JMenuItem getBuildMenu() {
+    public JMenu getBuildMenu() {
         return buildMenu;
     }
 
@@ -164,10 +187,10 @@ public class TaskSolvingView extends BaseView {
         return terminalArea;
     }
 
-    public void setSourceList(String[] sourceList) {
+    public void setSourceList(String[] sourceList, String syntaxStyle) {
         fileList.setListData(sourceList);
         for (String src : sourceList) {
-            addCodeArea(src);
+            addCodeArea(src, syntaxStyle);
         }
         fileList.setSelectedIndex(0);
     }

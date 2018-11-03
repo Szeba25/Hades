@@ -12,7 +12,7 @@ public class TaskSolvingController {
 
     public TaskSolvingController(TaskSolvingView taskSolvingView, Task task) {
         this.taskSolvingView = taskSolvingView;
-        this.taskSolvingView.setSourceList(task.getSourceFileNameList());
+        this.taskSolvingView.setSourceList(task.getSourceFileNameList(), task.getSyntaxStyle());
         this.taskSolvingView.setCodeAreaContents(task.getSourceFiles());
         this.task = task;
     }
@@ -22,8 +22,8 @@ public class TaskSolvingController {
         task.setSourceContents(taskSolvingView.getCodeAreas());
         task.saveSources();
 
-        // Clear terminal, and disable compile menu
-        taskSolvingView.getTerminalArea().setText("Compilation started...\n");
+        // Clear terminal, and disable build menu
+        taskSolvingView.getTerminalArea().setText("");
         taskSolvingView.getBuildMenu().setEnabled(false);
 
         // Start a worker thread to compile the task!
@@ -31,5 +31,33 @@ public class TaskSolvingController {
                 taskSolvingView.getBuildMenu(),
                 taskSolvingView.getTerminalArea());
         taskCompilerWorker.execute();
+    }
+
+    public void compileAndRun() throws IOException {
+        // Set the sources content and save sources on EDT
+        task.setSourceContents(taskSolvingView.getCodeAreas());
+        task.saveSources();
+
+        // Clear terminal, and disable build menu
+        taskSolvingView.getTerminalArea().setText("");
+        taskSolvingView.getBuildMenu().setEnabled(false);
+
+        // Start a worker thread to compile the task!
+        TaskCompilerAndRunnerWorker taskCompilerAndRunnerWorker = new TaskCompilerAndRunnerWorker(task,
+                taskSolvingView.getBuildMenu(),
+                taskSolvingView.getTerminalArea());
+        taskCompilerAndRunnerWorker.execute();
+    }
+
+    public void run() {
+        // Clear terminal, and disable build menu
+        taskSolvingView.getTerminalArea().setText("");
+        taskSolvingView.getBuildMenu().setEnabled(false);
+
+        // Start a worker thread to run the task!
+        TaskRunningWorker taskRunningWorker = new TaskRunningWorker(task,
+                taskSolvingView.getBuildMenu(),
+                taskSolvingView.getTerminalArea());
+        taskRunningWorker.execute();
     }
 }

@@ -1,9 +1,11 @@
 package hu.szeba.hades.model.task;
 
+import hu.szeba.hades.model.compiler.CompilerOutput;
 import hu.szeba.hades.model.compiler.ProgramCompiler;
 import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.model.task.data.TaskData;
 import hu.szeba.hades.model.task.program.Program;
+import hu.szeba.hades.model.task.result.Result;
 import hu.szeba.hades.model.task.result.ResultMatcher;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
@@ -15,34 +17,36 @@ public class Task {
 
     private TaskData taskData;
     private ProgramCompiler programCompiler;
-    private Program program;
+    private CompilerOutput compilerOutput;
     private ResultMatcher resultMatcher;
 
     public Task(TaskData taskData, ProgramCompiler programCompiler) {
         this.taskData = taskData;
         this.programCompiler = programCompiler;
-        program = null;
-        resultMatcher = new ResultMatcher();
+        this.compilerOutput = programCompiler.getCached(taskData.getTaskWorkingDirectory());
+        this.resultMatcher = new ResultMatcher();
     }
 
     /*
      * Runs on worker thread!
      */
     public void compile() throws IOException, InterruptedException {
-        program = programCompiler.compile(taskData.getSources(), taskData.getTaskWorkingDirectory());
+        compilerOutput = programCompiler.compile(taskData.getSources(), taskData.getTaskWorkingDirectory());
     }
 
     /*
      * Runs on worker thread!
      */
     public List<String> getCompileMessages() {
-        return program.getCompileMessages();
+        return compilerOutput.getCompileMessages();
     }
 
     /*
-     * Will run on worker thread!
+     * Runs on worker thread!
      */
-    public void run() {}
+    public Result run() throws IOException, InterruptedException {
+        return compilerOutput.getProgram().run(null);
+    }
 
     public void saveSources() throws IOException {
         for (SourceFile sourceFile : taskData.getSources()) {
@@ -71,5 +75,16 @@ public class Task {
         sources.forEach((src) -> src.setData(codeAreas.get(src.getName()).getText()));
     }
 
+    public String getSyntaxStyle() {
+        return taskData.getSyntaxStyle();
+    }
+
+    public String getTaskName() {
+        return taskData.getTaskName();
+    }
+
+    public boolean isProgramReady() {
+        return compilerOutput.isReady();
+    }
 }
 

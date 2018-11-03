@@ -1,28 +1,30 @@
 package hu.szeba.hades.controller.task;
 
 import hu.szeba.hades.model.task.Task;
+import hu.szeba.hades.model.task.result.Result;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.List;
 
-public class TaskCompilerWorker extends SwingWorker<Integer, String> {
+public class TaskRunningWorker extends SwingWorker<Integer, String> {
 
     private Task task;
     private JMenu disabledBuildMenu;
     private JTextArea terminalArea;
 
-    public TaskCompilerWorker(Task task, JMenu disabledBuildMenu, JTextArea terminalArea) {
+    public TaskRunningWorker(Task task, JMenu disabledBuildMenu, JTextArea terminalArea) {
         this.task = task;
         this.disabledBuildMenu = disabledBuildMenu;
         this.terminalArea = terminalArea;
     }
 
     @Override
-    protected Integer doInBackground() throws Exception {
-        publish("> Compilation started...\n\n");
-        task.compile();
-        for (String message : task.getCompileMessages()) {
-            publish(message + "\n");
+    protected Integer doInBackground() throws IOException, InterruptedException {
+        publish("> Running program...\n\n");
+        Result result = task.run();
+        for (int i = 0; i < result.getResultLineCount(); i++) {
+            publish(result.getResultLine(i).getData() + "\n");
         }
         return 0;
     }
@@ -35,7 +37,6 @@ public class TaskCompilerWorker extends SwingWorker<Integer, String> {
     @Override
     protected void done() {
         disabledBuildMenu.setEnabled(true);
-        disabledBuildMenu.getItem(4).setEnabled(task.isProgramReady());
     }
 
 }
