@@ -23,8 +23,8 @@ public class Task {
     public Task(TaskData taskData, ProgramCompiler programCompiler) {
         this.taskData = taskData;
         this.programCompiler = programCompiler;
-        compilerOutput = programCompiler.getCached(taskData.getTaskWorkingDirectory());
-        resultMatcher = new ResultMatcher();
+        this.compilerOutput = programCompiler.getCached(taskData.getTaskWorkingDirectory());
+        this.resultMatcher = new ResultMatcher();
     }
 
     /*
