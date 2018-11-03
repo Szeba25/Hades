@@ -14,12 +14,13 @@ public class TaskData {
     private File taskDirectory;
     private File taskWorkingDirectory;
 
-    private String taskName;
+    private final String taskName;
+    private final String language;
 
     private List<Solution> solutions;
     private List<SourceFile> sources;
 
-    public TaskData(String taskName) throws IOException {
+    public TaskData(String taskName, String language) throws IOException {
         this.taskDirectory = getTaskDirectory(taskName);
         this.taskWorkingDirectory = getTaskWorkingDirectory(taskName);
         if (!taskWorkingDirectory.exists()) {
@@ -27,6 +28,7 @@ public class TaskData {
             FileUtils.copyDirectory(taskDirectory, taskWorkingDirectory);
         }
         this.taskName = taskName;
+        this.language = language;
         solutions = new ArrayList<>();
         sources = new ArrayList<>();
         makeSolutions();
@@ -60,6 +62,10 @@ public class TaskData {
 
     public String getTaskName() {
         return taskName;
+    }
+
+    public String getLanguage() {
+        return language;
     }
 
     public List<Solution> getSolutions() {

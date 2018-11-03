@@ -38,7 +38,7 @@ public class Campaign {
     }
 
     public Task createTask(String taskName) throws UnsupportedProgrammingLanguageException, IOException {
-        return TaskFactoryDecider.decideFactory(language).getTask(taskName);
+        return TaskFactoryDecider.decideFactory(language).getTask(taskName, language);
     }
 
     public List<String> getTaskNames() {
