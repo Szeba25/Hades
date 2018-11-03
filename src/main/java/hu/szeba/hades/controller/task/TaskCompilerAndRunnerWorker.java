@@ -20,17 +20,21 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
 
     @Override
     protected Integer doInBackground() throws Exception {
+        publish("> Compilation started...\n\n");
         // Compile
         task.compile();
         for (String message : task.getCompileMessages()) {
             publish(message + "\n");
         }
+        publish("\n> Running program...\n\n");
         // Run
         if (task.isProgramReady()) {
             Result result = task.run();
             for (int i = 0; i < result.getResultLineCount(); i++) {
                 publish(result.getResultLine(i).getData() + "\n");
             }
+        } else {
+            publish("Cannot to run program: compilation failed");
         }
         return 0;
     }

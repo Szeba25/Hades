@@ -22,8 +22,8 @@ public class TaskSolvingController {
         task.setSourceContents(taskSolvingView.getCodeAreas());
         task.saveSources();
 
-        // Clear terminal, and disable compile menu
-        taskSolvingView.getTerminalArea().setText("Compilation started...\n");
+        // Clear terminal, and disable build menu
+        taskSolvingView.getTerminalArea().setText("");
         taskSolvingView.getBuildMenu().setEnabled(false);
 
         // Start a worker thread to compile the task!
@@ -33,9 +33,25 @@ public class TaskSolvingController {
         taskCompilerWorker.execute();
     }
 
+    public void compileAndRun() throws IOException {
+        // Set the sources content and save sources on EDT
+        task.setSourceContents(taskSolvingView.getCodeAreas());
+        task.saveSources();
+
+        // Clear terminal, and disable build menu
+        taskSolvingView.getTerminalArea().setText("");
+        taskSolvingView.getBuildMenu().setEnabled(false);
+
+        // Start a worker thread to compile the task!
+        TaskCompilerAndRunnerWorker taskCompilerAndRunnerWorker = new TaskCompilerAndRunnerWorker(task,
+                taskSolvingView.getBuildMenu(),
+                taskSolvingView.getTerminalArea());
+        taskCompilerAndRunnerWorker.execute();
+    }
+
     public void run() {
-        // Clear terminal, and disable compile menu
-        taskSolvingView.getTerminalArea().setText("Running program...\n");
+        // Clear terminal, and disable build menu
+        taskSolvingView.getTerminalArea().setText("");
         taskSolvingView.getBuildMenu().setEnabled(false);
 
         // Start a worker thread to run the task!

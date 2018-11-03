@@ -19,6 +19,7 @@ public class TaskCompilerWorker extends SwingWorker<Integer, String> {
 
     @Override
     protected Integer doInBackground() throws Exception {
+        publish("> Compilation started...\n\n");
         task.compile();
         for (String message : task.getCompileMessages()) {
             publish(message + "\n");

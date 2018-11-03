@@ -21,6 +21,7 @@ public class TaskRunningWorker extends SwingWorker<Integer, String> {
 
     @Override
     protected Integer doInBackground() throws IOException, InterruptedException {
+        publish("> Running program...\n\n");
         Result result = task.run();
         for (int i = 0; i < result.getResultLineCount(); i++) {
             publish(result.getResultLine(i).getData() + "\n");

@@ -110,6 +110,7 @@ public class TaskSolvingView extends BaseView {
 
     @Override
     public void setupEvents() {
+        // Close the window
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent event) {
@@ -117,6 +118,7 @@ public class TaskSolvingView extends BaseView {
             parentView.showView();
             }
         });
+        // Build action
         buildMenuItem.addActionListener((event) -> {
             try {
                 taskSolvingController.compile();
@@ -124,9 +126,17 @@ public class TaskSolvingView extends BaseView {
                 e.printStackTrace();
             }
         });
-        runMenuItem.addActionListener((event) -> {
-            taskSolvingController.run();
+        // Build and run action
+        buildAndRunMenuItem.addActionListener((event) -> {
+            try {
+                taskSolvingController.compileAndRun();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
+        // Run action
+        runMenuItem.addActionListener((event) -> taskSolvingController.run());
+        // Switching (or opening: NYI) tabs with list
         fileList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
