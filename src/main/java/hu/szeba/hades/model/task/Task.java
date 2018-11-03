@@ -71,5 +71,12 @@ public class Task {
         sources.forEach((src) -> src.setData(codeAreas.get(src.getName()).getText()));
     }
 
+    public String getLanguage() {
+        return taskData.getLanguage();
+    }
+
+    public String getSyntaxStyle() {
+        return "text/" + taskData.getLanguage().toLowerCase();
+    }
 }
 

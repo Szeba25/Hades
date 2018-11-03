@@ -12,7 +12,7 @@ public class TaskSolvingController {
 
     public TaskSolvingController(TaskSolvingView taskSolvingView, Task task) {
         this.taskSolvingView = taskSolvingView;
-        this.taskSolvingView.setSourceList(task.getSourceFileNameList());
+        this.taskSolvingView.setSourceList(task.getSourceFileNameList(), task.getSyntaxStyle());
         this.taskSolvingView.setCodeAreaContents(task.getSourceFiles());
         this.task = task;
     }

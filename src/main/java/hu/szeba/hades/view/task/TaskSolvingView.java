@@ -132,12 +132,12 @@ public class TaskSolvingView extends BaseView {
         });
     }
 
-    private void addCodeArea(String name) {
+    private void addCodeArea(String name, String syntaxStyle) {
         RSyntaxTextArea codeTabArea = new RSyntaxTextArea();
         codeTabArea.setTabSize(4);
         codeTabArea.setAutoIndentEnabled(true);
         codeTabArea.setCodeFoldingEnabled(true);
-        codeTabArea.setSyntaxEditingStyle(RSyntaxTextArea.SYNTAX_STYLE_C);
+        codeTabArea.setSyntaxEditingStyle(syntaxStyle);
         codeTabArea.setCurrentLineHighlightColor(new Color(10, 30, 140, 50));
         codeTabArea.setFont(new Font("Consolas", Font.PLAIN, 14));
 
@@ -164,10 +164,10 @@ public class TaskSolvingView extends BaseView {
         return terminalArea;
     }
 
-    public void setSourceList(String[] sourceList) {
+    public void setSourceList(String[] sourceList, String syntaxStyle) {
         fileList.setListData(sourceList);
         for (String src : sourceList) {
-            addCodeArea(src);
+            addCodeArea(src, syntaxStyle);
         }
         fileList.setSelectedIndex(0);
     }
