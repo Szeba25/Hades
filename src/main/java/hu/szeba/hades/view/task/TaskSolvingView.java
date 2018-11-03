@@ -36,6 +36,7 @@ public class TaskSolvingView extends BaseView {
 
     private JMenu buildMenu;
     private JMenuItem buildMenuItem;
+    private JMenuItem buildAndRunMenuItem;
     private JMenuItem runMenuItem;
 
     private JList fileList;
@@ -79,9 +80,12 @@ public class TaskSolvingView extends BaseView {
         buildMenu = new JMenu("Build");
 
         buildMenuItem = new JMenuItem("Build all");
+        buildAndRunMenuItem = new JMenuItem("Build all and run...");
         runMenuItem = new JMenuItem("Run...");
 
         buildMenu.add(buildMenuItem);
+        buildMenu.addSeparator();
+        buildMenu.add(buildAndRunMenuItem);
         buildMenu.addSeparator();
         buildMenu.add(runMenuItem);
 
