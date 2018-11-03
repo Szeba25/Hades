@@ -74,5 +74,9 @@ public class Task {
     public String getSyntaxStyle() {
         return taskData.getSyntaxStyle();
     }
+
+    public String getTaskName() {
+        return taskData.getTaskName();
+    }
 }
 

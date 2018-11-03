@@ -43,8 +43,11 @@ public class TaskSolvingView extends BaseView {
 
     public TaskSolvingView(BaseView parentView, Task task) {
         super();
+
         this.parentView = parentView;
         this.taskSolvingController = new TaskSolvingController(this, task);
+
+        this.setTitle("Solving task: " + task.getTaskName());
     }
 
     @Override
