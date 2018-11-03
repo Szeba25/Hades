@@ -2,15 +2,21 @@ package hu.szeba.hades.view.task;
 
 import hu.szeba.hades.controller.task.TaskSolvingController;
 import hu.szeba.hades.model.task.Task;
+import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.view.BaseView;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TaskSolvingView extends BaseView {
 
@@ -18,8 +24,8 @@ public class TaskSolvingView extends BaseView {
 
     private TaskSolvingController taskSolvingController;
 
-    private RSyntaxTextArea codeArea;
-    private RTextScrollPane codeScroll;
+    private JTabbedPane codeTab;
+    private Map<String, RSyntaxTextArea> codeTabByName;
 
     private JTextArea terminalArea;
     private JScrollPane terminalScroll;
@@ -47,25 +53,18 @@ public class TaskSolvingView extends BaseView {
         this.setMinimumSize(new Dimension(900, 700));
         this.setLayout(new BorderLayout());
 
-        codeArea = new RSyntaxTextArea();
-        codeArea.setTabSize(4);
-        codeArea.setAutoIndentEnabled(true);
-        codeArea.setCodeFoldingEnabled(true);
-        codeArea.setSyntaxEditingStyle(RSyntaxTextArea.SYNTAX_STYLE_C);
-        codeArea.setCurrentLineHighlightColor(new Color(10, 30, 140, 50));
-        codeArea.setFont(new Font("Consolas", Font.PLAIN, 14));
+        codeTab = new JTabbedPane();
+        codeTab.setMinimumSize(new Dimension(900, 400));
+
+        codeTabByName = new HashMap<>();
 
         terminalArea = new JTextArea();
         terminalArea.setEditable(false);
 
-        codeScroll = new RTextScrollPane(codeArea);
-        codeScroll.setMinimumSize(new Dimension(900, 400));
-        codeScroll.setLineNumbersEnabled(true);
-
         terminalScroll = new JScrollPane(terminalArea);
         terminalScroll.setMinimumSize(new Dimension(900, 250));
 
-        splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, codeScroll, terminalScroll);
+        splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, codeTab, terminalScroll);
         splitPane.setPreferredSize(new Dimension(900, 700));
         splitPane.setOneTouchExpandable(true);
         splitPane.setDividerLocation(700);
@@ -115,14 +114,46 @@ public class TaskSolvingView extends BaseView {
                 e.printStackTrace();
             }
         });
+        fileList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JList list = (JList)e.getSource();
+                if (e.getClickCount() == 2) {
+                    String value = (String)list.getSelectedValue();
+                    for (int i = 0; i < codeTab.getTabCount(); i++) {
+                        String title = codeTab.getTitleAt(i);
+                        if (title.equals(value)) {
+                            codeTab.setSelectedIndex(i);
+                            break;
+                        }
+                    }
+                }
+            }
+        });
     }
 
-    public void setCodeAreaContent(String text) {
-        codeArea.setText(text);
+    private void addCodeArea(String name) {
+        RSyntaxTextArea codeTabArea = new RSyntaxTextArea();
+        codeTabArea.setTabSize(4);
+        codeTabArea.setAutoIndentEnabled(true);
+        codeTabArea.setCodeFoldingEnabled(true);
+        codeTabArea.setSyntaxEditingStyle(RSyntaxTextArea.SYNTAX_STYLE_C);
+        codeTabArea.setCurrentLineHighlightColor(new Color(10, 30, 140, 50));
+        codeTabArea.setFont(new Font("Consolas", Font.PLAIN, 14));
+
+        RTextScrollPane codeTabScroll = new RTextScrollPane(codeTabArea);
+        codeTabScroll.setLineNumbersEnabled(true);
+
+        codeTab.addTab(name, codeTabScroll);
+        codeTabByName.put(name, codeTabArea);
     }
 
-    public String getCodeAreaContent() {
-        return codeArea.getText();
+    public void setCodeAreaContents(List<SourceFile> sources) {
+        sources.forEach((file) -> codeTabByName.get(file.getName()).setText(file.getData()));
+    }
+
+    public Map<String, RSyntaxTextArea> getCodeAreas() {
+        return codeTabByName;
     }
 
     public JMenuItem getBuildMenu() {
@@ -135,5 +166,9 @@ public class TaskSolvingView extends BaseView {
 
     public void setSourceList(String[] sourceList) {
         fileList.setListData(sourceList);
+        for (String src : sourceList) {
+            addCodeArea(src);
+        }
+        fileList.setSelectedIndex(0);
     }
 }

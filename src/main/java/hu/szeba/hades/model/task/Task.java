@@ -5,9 +5,11 @@ import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.model.task.data.TaskData;
 import hu.szeba.hades.model.task.program.Program;
 import hu.szeba.hades.model.task.result.ResultMatcher;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class Task {
 
@@ -38,31 +40,36 @@ public class Task {
     }
 
     /*
-     * Runs on worker thread!
+     * Will run on worker thread!
      */
-    public void saveFirstSource() throws IOException {
-        taskData.getSources().get(0).save();
-    }
-
     public void run() {}
+
+    public void saveSources() throws IOException {
+        for (SourceFile sourceFile : taskData.getSources()) {
+            sourceFile.save();
+        }
+    }
 
     public ResultMatcher getResultMatcher() {
         return resultMatcher;
     }
 
-    public String getFirstSourceContent() {
-        return taskData.getSources().get(0).getData();
-    }
-
-    public void setFirstSourceContent(String data) {
-        taskData.getSources().get(0).setData(data);
-    }
-
-    public String[] getSourceList() {
+    public String[] getSourceFileNameList() {
         String[] src = new String[taskData.getSources().size()];
         for (int i = 0; i < taskData.getSources().size(); i++) {
             src[i] = taskData.getSources().get(i).getName();
         }
         return src;
     }
+
+    public List<SourceFile> getSourceFiles() {
+        return taskData.getSources();
+    }
+
+    public void setSourceContents(Map<String, RSyntaxTextArea> codeAreas) {
+        List<SourceFile> sources = taskData.getSources();
+        sources.forEach((src) -> src.setData(codeAreas.get(src.getName()).getText()));
+    }
+
 }
+
