@@ -10,8 +10,6 @@ import java.util.List;
 
 public class ProgramC extends Program {
 
-    private List<String> messages;
-
     public ProgramC(File location) {
         super(location);
     }
@@ -30,21 +28,6 @@ public class ProgramC extends Program {
         });
 
         return result;
-    }
-
-    @Override
-    public void setCompileMessages(List<String> messages) {
-        this.messages = messages;
-    }
-
-    @Override
-    public List<String> getCompileMessages() {
-        return messages;
-    }
-
-    @Override
-    public boolean isReady() {
-        return location.exists();
     }
 
 }

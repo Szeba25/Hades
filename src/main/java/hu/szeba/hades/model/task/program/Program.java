@@ -15,7 +15,5 @@ public abstract class Program {
     }
 
     public abstract Result run(ProgramInput input) throws IOException, InterruptedException;
-    public abstract void setCompileMessages(List<String> messages);
-    public abstract List<String> getCompileMessages();
-    public abstract boolean isReady();
+
 }

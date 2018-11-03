@@ -1,11 +1,11 @@
 package hu.szeba.hades.model.compiler;
 
 import hu.szeba.hades.model.task.data.SourceFile;
-import hu.szeba.hades.model.task.program.Program;
 import hu.szeba.hades.model.task.program.ProgramC;
 import hu.szeba.hades.util.StreamUtil;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class ProgramCompilerC extends ProgramCompiler {
     }
 
     @Override
-    public Program compile(List<SourceFile> sources, File taskWorkingDirectory) throws IOException, InterruptedException {
+    public CompilerOutput compile(List<SourceFile> sources, File taskWorkingDirectory) throws IOException, InterruptedException {
         String finalProcessPath = compilerPath.getAbsolutePath() + "/bin/gcc";
 
         List<String> commands = new LinkedList<>();
@@ -38,15 +38,21 @@ public class ProgramCompilerC extends ProgramCompiler {
         compileMessages.addAll(StreamUtil.getStream(process.getInputStream()));
         compileMessages.add("Exit value: " + process.exitValue());
 
-        Program program = new ProgramC(new File(taskWorkingDirectory, "program.exe"));
-        program.setCompileMessages(compileMessages);
-        return program;
+        return generateOutput(compileMessages, taskWorkingDirectory);
     }
 
     @Override
-    public Program getProgram(File taskWorkingDirectory) {
-        File programFile = new File(taskWorkingDirectory, "program.exe");
-        return new ProgramC(programFile);
+    public CompilerOutput getCached(File taskWorkingDirectory) {
+        return generateOutput(new LinkedList<>(), taskWorkingDirectory);
+    }
+
+    private CompilerOutput generateOutput(List<String> compileMessages, File taskWorkingDirectory) {
+        File programLocation = new File(taskWorkingDirectory, "program.exe");
+        if (programLocation.exists()) {
+            return new CompilerOutput(compileMessages, new ProgramC(programLocation));
+        } else {
+            return new CompilerOutput(compileMessages, null);
+        }
     }
 
 }

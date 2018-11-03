@@ -1,5 +1,6 @@
 package hu.szeba.hades.model.task;
 
+import hu.szeba.hades.model.compiler.CompilerOutput;
 import hu.szeba.hades.model.compiler.ProgramCompiler;
 import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.model.task.data.TaskData;
@@ -16,13 +17,13 @@ public class Task {
 
     private TaskData taskData;
     private ProgramCompiler programCompiler;
-    private Program program;
+    private CompilerOutput compilerOutput;
     private ResultMatcher resultMatcher;
 
     public Task(TaskData taskData, ProgramCompiler programCompiler) {
         this.taskData = taskData;
         this.programCompiler = programCompiler;
-        program = programCompiler.getProgram(taskData.getTaskWorkingDirectory());
+        compilerOutput = programCompiler.getCached(taskData.getTaskWorkingDirectory());
         resultMatcher = new ResultMatcher();
     }
 
@@ -30,21 +31,21 @@ public class Task {
      * Runs on worker thread!
      */
     public void compile() throws IOException, InterruptedException {
-        program = programCompiler.compile(taskData.getSources(), taskData.getTaskWorkingDirectory());
+        compilerOutput = programCompiler.compile(taskData.getSources(), taskData.getTaskWorkingDirectory());
     }
 
     /*
      * Runs on worker thread!
      */
     public List<String> getCompileMessages() {
-        return program.getCompileMessages();
+        return compilerOutput.getCompileMessages();
     }
 
     /*
      * Will run on worker thread!
      */
     public Result run() throws IOException, InterruptedException {
-        return program.run(null);
+        return compilerOutput.getProgram().run(null);
     }
 
     public void saveSources() throws IOException {
@@ -83,7 +84,7 @@ public class Task {
     }
 
     public boolean isProgramReady() {
-        return program.isReady();
+        return compilerOutput.isReady();
     }
 }
 
