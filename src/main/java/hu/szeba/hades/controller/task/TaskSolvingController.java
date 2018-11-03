@@ -12,14 +12,14 @@ public class TaskSolvingController {
 
     public TaskSolvingController(TaskSolvingView taskSolvingView, Task task) {
         this.taskSolvingView = taskSolvingView;
-        this.taskSolvingView.setSourceList(task.getSourceList());
-        this.taskSolvingView.setCodeAreaContent(task.getSourceContent(0));
+        this.taskSolvingView.setSourceList(task.getSourceFileNameList());
+        this.taskSolvingView.setCodeAreaContents(task.getSourceFiles());
         this.task = task;
     }
 
-    public void compile(int selected) throws IOException {
+    public void compile() throws IOException {
         // Set the sources content and save sources on EDT
-        task.setSourceContent(selected, taskSolvingView.getCodeAreaContent());
+        task.setSourceContents(taskSolvingView.getCodeAreas());
         task.saveSources();
 
         // Clear terminal, and disable compile menu
@@ -31,10 +31,5 @@ public class TaskSolvingController {
                 taskSolvingView.getBuildMenu(),
                 taskSolvingView.getTerminalArea());
         taskCompilerWorker.execute();
-    }
-
-    public void changeFile(int selected, int previous) {
-        task.setSourceContent(previous, taskSolvingView.getCodeAreaContent());
-        taskSolvingView.setCodeAreaContent(task.getSourceContent(selected));
     }
 }

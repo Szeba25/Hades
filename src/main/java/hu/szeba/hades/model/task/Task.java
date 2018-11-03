@@ -5,9 +5,11 @@ import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.model.task.data.TaskData;
 import hu.szeba.hades.model.task.program.Program;
 import hu.szeba.hades.model.task.result.ResultMatcher;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class Task {
 
@@ -52,7 +54,7 @@ public class Task {
         return resultMatcher;
     }
 
-    public String[] getSourceList() {
+    public String[] getSourceFileNameList() {
         String[] src = new String[taskData.getSources().size()];
         for (int i = 0; i < taskData.getSources().size(); i++) {
             src[i] = taskData.getSources().get(i).getName();
@@ -60,12 +62,13 @@ public class Task {
         return src;
     }
 
-    public String getSourceContent(int id) {
-        return taskData.getSources().get(id).getData();
+    public List<SourceFile> getSourceFiles() {
+        return taskData.getSources();
     }
 
-    public void setSourceContent(int id, String codeAreaContent) {
-        taskData.getSources().get(id).setData(codeAreaContent);
+    public void setSourceContents(Map<String, RSyntaxTextArea> codeAreas) {
+        List<SourceFile> sources = taskData.getSources();
+        sources.forEach((src) -> src.setData(codeAreas.get(src.getName()).getText()));
     }
 
 }
