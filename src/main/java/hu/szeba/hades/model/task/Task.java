@@ -4,15 +4,15 @@ import hu.szeba.hades.model.compiler.CompilerOutput;
 import hu.szeba.hades.model.compiler.ProgramCompiler;
 import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.model.task.data.TaskData;
-import hu.szeba.hades.model.task.result.Result;
 import hu.szeba.hades.model.task.result.ResultMatcher;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-public class Task {
+public class Task implements CompilerOutputRegister {
 
     private TaskData taskData;
     private ProgramCompiler programCompiler;
@@ -24,27 +24,6 @@ public class Task {
         this.programCompiler = programCompiler;
         this.compilerOutput = programCompiler.getCached(taskData.getTaskWorkingDirectory());
         this.resultMatcher = new ResultMatcher();
-    }
-
-    /*
-     * Runs on worker thread!
-     */
-    public void compile() throws IOException, InterruptedException {
-        compilerOutput = programCompiler.compile(taskData.getSources(), taskData.getTaskWorkingDirectory());
-    }
-
-    /*
-     * Runs on worker thread!
-     */
-    public List<String> getCompilerMessages() {
-        return compilerOutput.getCompilerMessages();
-    }
-
-    /*
-     * Runs on worker thread!
-     */
-    public Result run() throws IOException, InterruptedException {
-        return compilerOutput.getProgram().run(null);
     }
 
     public void saveSources() throws IOException {
@@ -74,6 +53,18 @@ public class Task {
         sources.forEach((src) -> src.setData(codeAreas.get(src.getName()).getText()));
     }
 
+    public ProgramCompiler getProgramCompiler() {
+        return programCompiler;
+    }
+
+    public CompilerOutput getCompilerOutput() {
+        return compilerOutput;
+    }
+
+    public File getTaskWorkingDirectoryCopy() {
+        return new File(taskData.getTaskWorkingDirectory().getAbsolutePath());
+    }
+
     public String getSyntaxStyle() {
         return taskData.getSyntaxStyle();
     }
@@ -82,8 +73,10 @@ public class Task {
         return taskData.getTaskName();
     }
 
-    public boolean isProgramReady() {
-        return compilerOutput.isReady();
+    @Override
+    public void registerCompilerOutput(CompilerOutput compilerOutput) {
+        this.compilerOutput = compilerOutput;
     }
+
 }
 

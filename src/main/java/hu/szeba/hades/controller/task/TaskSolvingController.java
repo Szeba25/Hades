@@ -27,7 +27,11 @@ public class TaskSolvingController {
         taskSolvingView.getBuildMenu().setEnabled(false);
 
         // Start a worker thread to compile the task!
-        TaskCompilerWorker taskCompilerWorker = new TaskCompilerWorker(task,
+        TaskCompilerWorker taskCompilerWorker = new TaskCompilerWorker(
+                task, // Passed as register interface type!
+                task.getProgramCompiler(),
+                task.getSourceFileNameList(),
+                task.getTaskWorkingDirectoryCopy(),
                 taskSolvingView.getBuildMenu(),
                 taskSolvingView.getTerminalArea());
         taskCompilerWorker.execute();
@@ -43,7 +47,11 @@ public class TaskSolvingController {
         taskSolvingView.getBuildMenu().setEnabled(false);
 
         // Start a worker thread to compile the task!
-        TaskCompilerAndRunnerWorker taskCompilerAndRunnerWorker = new TaskCompilerAndRunnerWorker(task,
+        TaskCompilerAndRunnerWorker taskCompilerAndRunnerWorker = new TaskCompilerAndRunnerWorker(
+                task, // Passed as register interface type!
+                task.getProgramCompiler(),
+                task.getSourceFileNameList(),
+                task.getTaskWorkingDirectoryCopy(),
                 taskSolvingView.getBuildMenu(),
                 taskSolvingView.getTerminalArea());
         taskCompilerAndRunnerWorker.execute();
@@ -55,7 +63,8 @@ public class TaskSolvingController {
         taskSolvingView.getBuildMenu().setEnabled(false);
 
         // Start a worker thread to run the task!
-        TaskRunningWorker taskRunningWorker = new TaskRunningWorker(task,
+        TaskRunningWorker taskRunningWorker = new TaskRunningWorker(
+                task.getCompilerOutput().getProgram(),
                 taskSolvingView.getBuildMenu(),
                 taskSolvingView.getTerminalArea());
         taskRunningWorker.execute();

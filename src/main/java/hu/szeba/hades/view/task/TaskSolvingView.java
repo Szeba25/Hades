@@ -49,7 +49,7 @@ public class TaskSolvingView extends BaseView {
         this.taskSolvingController = new TaskSolvingController(this, task);
 
         this.setTitle("Solving task: " + task.getTaskName());
-        this.runMenuItem.setEnabled(task.isProgramReady());
+        this.runMenuItem.setEnabled(task.getCompilerOutput().isReady());
     }
 
     @Override

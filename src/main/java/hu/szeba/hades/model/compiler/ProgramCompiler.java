@@ -1,11 +1,7 @@
 package hu.szeba.hades.model.compiler;
 
-import hu.szeba.hades.model.task.data.SourceFile;
-import hu.szeba.hades.model.task.program.Program;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 public abstract class ProgramCompiler {
 
@@ -15,7 +11,7 @@ public abstract class ProgramCompiler {
         this.compilerPath = compilerPath;
     }
 
-    public abstract CompilerOutput compile(List<SourceFile> sources, File taskWorkingDirectory) throws IOException, InterruptedException;
+    public abstract CompilerOutput compile(String[] sources, File taskWorkingDirectory) throws IOException, InterruptedException;
 
     public abstract CompilerOutput getCached(File taskWorkingDirectory);
 
