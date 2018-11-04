@@ -1,5 +1,6 @@
 package hu.szeba.hades.model.compiler;
 
+import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.model.task.program.ProgramC;
 import hu.szeba.hades.util.StreamUtil;
 
@@ -9,19 +10,17 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ProgramCompilerC extends ProgramCompiler {
-
-    public ProgramCompilerC(File compilerPath) {
-        super(compilerPath);
-    }
+public class ProgramCompilerC implements ProgramCompiler {
 
     @Override
-    public CompilerOutput compile(String[] sources, File taskWorkingDirectory) throws IOException, InterruptedException {
+    public CompilerOutput compile(String[] sourceNames, File taskWorkingDirectory) throws IOException, InterruptedException {
+        File compilerPath = Options.getPathTo("compiler_c");
+
         String finalProcessPath = compilerPath.getAbsolutePath() + "/bin/gcc";
 
         List<String> commands = new LinkedList<>();
         commands.add(finalProcessPath);
-        commands.addAll(Arrays.asList(sources));
+        commands.addAll(Arrays.asList(sourceNames));
         commands.add("-o");
         commands.add("program.exe");
 
