@@ -1,6 +1,7 @@
 package hu.szeba.hades.controller.task;
 
 import hu.szeba.hades.model.task.Task;
+import hu.szeba.hades.model.task.data.TaskData;
 import hu.szeba.hades.view.task.TaskSolvingView;
 
 import java.io.IOException;
@@ -11,16 +12,18 @@ public class TaskSolvingController {
     private Task task;
 
     public TaskSolvingController(TaskSolvingView taskSolvingView, Task task) {
+        TaskData data = task.getData();
         this.taskSolvingView = taskSolvingView;
-        this.taskSolvingView.setSourceList(task.getSourceFileNameList(), task.getSyntaxStyle());
-        this.taskSolvingView.setCodeAreaContents(task.getSourceFiles());
+        this.taskSolvingView.setSourceList(data.copySourceNames(), data.getSyntaxStyle());
+        this.taskSolvingView.setCodeAreaContents(data.getSources());
         this.task = task;
     }
 
     public void compile() throws IOException {
         // Set the sources content and save sources on EDT
-        task.setSourceContents(taskSolvingView.getCodeAreas());
-        task.saveSources();
+        TaskData data = task.getData();
+        data.setSourceContents(taskSolvingView.getCodeAreas());
+        data.saveSources();
 
         // Clear terminal, and disable build menu
         taskSolvingView.getTerminalArea().setText("");
@@ -30,8 +33,8 @@ public class TaskSolvingController {
         TaskCompilerWorker taskCompilerWorker = new TaskCompilerWorker(
                 task, // Passed as register interface type!
                 task.getProgramCompiler(),
-                task.getSourceFileNameList(),
-                task.getTaskWorkingDirectoryCopy(),
+                data.copySourceNames(),
+                data.copyTaskWorkingDirectory(),
                 taskSolvingView.getBuildMenu(),
                 taskSolvingView.getTerminalArea());
         taskCompilerWorker.execute();
@@ -39,8 +42,9 @@ public class TaskSolvingController {
 
     public void compileAndRun() throws IOException {
         // Set the sources content and save sources on EDT
-        task.setSourceContents(taskSolvingView.getCodeAreas());
-        task.saveSources();
+        TaskData data = task.getData();
+        data.setSourceContents(taskSolvingView.getCodeAreas());
+        data.saveSources();
 
         // Clear terminal, and disable build menu
         taskSolvingView.getTerminalArea().setText("");
@@ -50,8 +54,8 @@ public class TaskSolvingController {
         TaskCompilerAndRunnerWorker taskCompilerAndRunnerWorker = new TaskCompilerAndRunnerWorker(
                 task, // Passed as register interface type!
                 task.getProgramCompiler(),
-                task.getSourceFileNameList(),
-                task.getTaskWorkingDirectoryCopy(),
+                data.copySourceNames(),
+                data.copyTaskWorkingDirectory(),
                 taskSolvingView.getBuildMenu(),
                 taskSolvingView.getTerminalArea());
         taskCompilerAndRunnerWorker.execute();
