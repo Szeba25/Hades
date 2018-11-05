@@ -9,7 +9,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.IOException;
-import java.util.List;
 
 public class TaskSelectorView extends BaseView {
 
@@ -26,7 +25,8 @@ public class TaskSelectorView extends BaseView {
 
     public TaskSelectorView(Campaign campaign) {
         super();
-        taskSelectorController = new TaskSelectorController(this, campaign);
+        taskSelectorController = new TaskSelectorController(campaign);
+        taskSelectorController.setTaskListContents(taskList);
     }
 
     @Override
@@ -78,18 +78,14 @@ public class TaskSelectorView extends BaseView {
     public void setupEvents() {
         startButton.addActionListener((event) -> {
             try {
-                taskSelectorController.loadNewTask();
+                taskSelectorController.loadNewTask(getSelectedTaskName(), this);
             } catch (UnsupportedProgrammingLanguageException | IOException e) {
                 e.printStackTrace();
             }
         });
     }
 
-    public void setTaskListContents(List<String> tasks) {
-        taskList.setListData(tasks.toArray());
-    }
-
-    public String getSelectedTaskName() {
+    private String getSelectedTaskName() {
         if (taskList.getSelectedValue() != null) {
             return taskList.getSelectedValue().toString();
         } else {

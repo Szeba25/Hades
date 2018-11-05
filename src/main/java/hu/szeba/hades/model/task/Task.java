@@ -2,88 +2,43 @@ package hu.szeba.hades.model.task;
 
 import hu.szeba.hades.model.compiler.CompilerOutput;
 import hu.szeba.hades.model.compiler.ProgramCompiler;
-import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.model.task.data.TaskData;
-import hu.szeba.hades.model.task.result.Result;
 import hu.szeba.hades.model.task.result.ResultMatcher;
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+public class Task implements CompilerOutputRegister {
 
-public class Task {
-
-    private TaskData taskData;
+    private TaskData data;
     private ProgramCompiler programCompiler;
     private CompilerOutput compilerOutput;
     private ResultMatcher resultMatcher;
 
-    public Task(TaskData taskData, ProgramCompiler programCompiler) {
-        this.taskData = taskData;
+    public Task(TaskData data, ProgramCompiler programCompiler) {
+        this.data = data;
         this.programCompiler = programCompiler;
-        this.compilerOutput = programCompiler.getCached(taskData.getTaskWorkingDirectory());
+        this.compilerOutput = programCompiler.getCached(data.getTaskWorkingDirectory());
         this.resultMatcher = new ResultMatcher();
     }
 
-    /*
-     * Runs on worker thread!
-     */
-    public void compile() throws IOException, InterruptedException {
-        compilerOutput = programCompiler.compile(taskData.getSources(), taskData.getTaskWorkingDirectory());
-    }
-
-    /*
-     * Runs on worker thread!
-     */
-    public List<String> getCompilerMessages() {
-        return compilerOutput.getCompilerMessages();
-    }
-
-    /*
-     * Runs on worker thread!
-     */
-    public Result run() throws IOException, InterruptedException {
-        return compilerOutput.getProgram().run(null);
-    }
-
-    public void saveSources() throws IOException {
-        for (SourceFile sourceFile : taskData.getSources()) {
-            sourceFile.save();
-        }
+    public TaskData getData() {
+        return data;
     }
 
     public ResultMatcher getResultMatcher() {
         return resultMatcher;
     }
 
-    public String[] getSourceFileNameList() {
-        String[] src = new String[taskData.getSources().size()];
-        for (int i = 0; i < taskData.getSources().size(); i++) {
-            src[i] = taskData.getSources().get(i).getName();
-        }
-        return src;
+    public ProgramCompiler getProgramCompiler() {
+        return programCompiler;
     }
 
-    public List<SourceFile> getSourceFiles() {
-        return taskData.getSources();
+    public CompilerOutput getCompilerOutput() {
+        return compilerOutput;
     }
 
-    public void setSourceContents(Map<String, RSyntaxTextArea> codeAreas) {
-        List<SourceFile> sources = taskData.getSources();
-        sources.forEach((src) -> src.setData(codeAreas.get(src.getName()).getText()));
+    @Override
+    public void registerCompilerOutput(CompilerOutput compilerOutput) {
+        this.compilerOutput = compilerOutput;
     }
 
-    public String getSyntaxStyle() {
-        return taskData.getSyntaxStyle();
-    }
-
-    public String getTaskName() {
-        return taskData.getTaskName();
-    }
-
-    public boolean isProgramReady() {
-        return compilerOutput.isReady();
-    }
 }
 
