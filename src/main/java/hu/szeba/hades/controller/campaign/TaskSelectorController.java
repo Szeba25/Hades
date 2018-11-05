@@ -1,35 +1,32 @@
 package hu.szeba.hades.controller.campaign;
 
-import hu.szeba.hades.controller.task.TaskSolvingController;
 import hu.szeba.hades.model.campaign.Campaign;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.languages.UnsupportedProgrammingLanguageException;
-import hu.szeba.hades.view.campaign.TaskSelectorView;
+import hu.szeba.hades.view.BaseView;
 import hu.szeba.hades.view.task.TaskSolvingView;
 
+import javax.swing.*;
 import java.io.IOException;
 
 public class TaskSelectorController {
 
-    private TaskSelectorView taskSelectorView;
     private Campaign campaign;
 
-    public TaskSelectorController(TaskSelectorView taskSelectorView, Campaign campaign) {
-        this.taskSelectorView = taskSelectorView;
+    public TaskSelectorController(Campaign campaign) {
         this.campaign = campaign;
-        setTaskListContents();
     }
 
-    private void setTaskListContents() {
-        taskSelectorView.setTaskListContents(campaign.getTaskNames());
+    public void setTaskListContents(JList taskList) {
+        taskList.setListData(campaign.getTaskNames().toArray());
     }
 
-    public void loadNewTask() throws UnsupportedProgrammingLanguageException, IOException {
-        String selectedTaskName = taskSelectorView.getSelectedTaskName();
+    public void loadNewTask(String selectedTaskName,
+                            BaseView parentView) throws UnsupportedProgrammingLanguageException, IOException {
         if (selectedTaskName != null) {
             Task task = campaign.createTask(selectedTaskName);
-            taskSelectorView.hideView();
-            TaskSolvingView taskSolvingView = new TaskSolvingView(taskSelectorView, task);
+            parentView.hideView();
+            TaskSolvingView taskSolvingView = new TaskSolvingView(parentView, task);
             taskSolvingView.showViewMaximized();
         }
     }

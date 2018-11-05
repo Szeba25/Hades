@@ -3,31 +3,36 @@ package hu.szeba.hades.controller.task;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.TaskData;
 import hu.szeba.hades.view.task.TaskSolvingView;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
+import javax.swing.*;
 import java.io.IOException;
+import java.util.Map;
 
 public class TaskSolvingController {
 
-    private TaskSolvingView taskSolvingView;
     private Task task;
 
-    public TaskSolvingController(TaskSolvingView taskSolvingView, Task task) {
-        TaskData data = task.getData();
-        this.taskSolvingView = taskSolvingView;
-        this.taskSolvingView.setSourceList(data.copySourceNames(), data.getSyntaxStyle());
-        this.taskSolvingView.setCodeAreaContents(data.getSources());
+    public TaskSolvingController(Task task) {
         this.task = task;
     }
 
-    public void compile() throws IOException {
+    public void setSourceList(TaskSolvingView taskSolvingView) {
+        TaskData data = task.getData();
+        taskSolvingView.setSourceList(data.copySourceNames(), data.getSyntaxStyle());
+        taskSolvingView.setCodeAreaContents(data.getSources());
+    }
+
+    public void compile(Map<String, RSyntaxTextArea> codeAreas,
+                        JTextArea terminalArea, JMenu buildMenu) throws IOException {
         // Set the sources content and save sources on EDT
         TaskData data = task.getData();
-        data.setSourceContents(taskSolvingView.getCodeAreas());
+        data.setSourceContents(codeAreas);
         data.saveSources();
 
         // Clear terminal, and disable build menu
-        taskSolvingView.getTerminalArea().setText("");
-        taskSolvingView.getBuildMenu().setEnabled(false);
+        terminalArea.setText("");
+        buildMenu.setEnabled(false);
 
         // Start a worker thread to compile the task!
         TaskCompilerWorker taskCompilerWorker = new TaskCompilerWorker(
@@ -35,20 +40,21 @@ public class TaskSolvingController {
                 task.getProgramCompiler(),
                 data.copySourceNames(),
                 data.copyTaskWorkingDirectory(),
-                taskSolvingView.getBuildMenu(),
-                taskSolvingView.getTerminalArea());
+                buildMenu,
+                terminalArea);
         taskCompilerWorker.execute();
     }
 
-    public void compileAndRun() throws IOException {
+    public void compileAndRun(Map<String, RSyntaxTextArea> codeAreas,
+                              JTextArea terminalArea, JMenu buildMenu) throws IOException {
         // Set the sources content and save sources on EDT
         TaskData data = task.getData();
-        data.setSourceContents(taskSolvingView.getCodeAreas());
+        data.setSourceContents(codeAreas);
         data.saveSources();
 
         // Clear terminal, and disable build menu
-        taskSolvingView.getTerminalArea().setText("");
-        taskSolvingView.getBuildMenu().setEnabled(false);
+        terminalArea.setText("");
+        buildMenu.setEnabled(false);
 
         // Start a worker thread to compile the task!
         TaskCompilerAndRunnerWorker taskCompilerAndRunnerWorker = new TaskCompilerAndRunnerWorker(
@@ -56,21 +62,21 @@ public class TaskSolvingController {
                 task.getProgramCompiler(),
                 data.copySourceNames(),
                 data.copyTaskWorkingDirectory(),
-                taskSolvingView.getBuildMenu(),
-                taskSolvingView.getTerminalArea());
+                buildMenu,
+                terminalArea);
         taskCompilerAndRunnerWorker.execute();
     }
 
-    public void run() {
+    public void run(JTextArea terminalArea, JMenu buildMenu) {
         // Clear terminal, and disable build menu
-        taskSolvingView.getTerminalArea().setText("");
-        taskSolvingView.getBuildMenu().setEnabled(false);
+        terminalArea.setText("");
+        buildMenu.setEnabled(false);
 
         // Start a worker thread to run the task!
         TaskRunningWorker taskRunningWorker = new TaskRunningWorker(
                 task.getCompilerOutput().getProgram(),
-                taskSolvingView.getBuildMenu(),
-                taskSolvingView.getTerminalArea());
+                buildMenu,
+                terminalArea);
         taskRunningWorker.execute();
     }
 }

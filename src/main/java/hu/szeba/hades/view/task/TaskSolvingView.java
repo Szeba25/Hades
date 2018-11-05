@@ -46,7 +46,9 @@ public class TaskSolvingView extends BaseView {
         super();
 
         this.parentView = parentView;
-        this.taskSolvingController = new TaskSolvingController(this, task);
+        this.taskSolvingController = new TaskSolvingController(task);
+
+        this.taskSolvingController.setSourceList(this);
 
         this.setTitle("Solving task: " + task.getData().getTaskName());
         this.runMenuItem.setEnabled(task.getCompilerOutput().isReady());
@@ -121,7 +123,7 @@ public class TaskSolvingView extends BaseView {
         // Build action
         buildMenuItem.addActionListener((event) -> {
             try {
-                taskSolvingController.compile();
+                taskSolvingController.compile(codeTabByName, terminalArea, buildMenu);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -129,13 +131,13 @@ public class TaskSolvingView extends BaseView {
         // Build and run action
         buildAndRunMenuItem.addActionListener((event) -> {
             try {
-                taskSolvingController.compileAndRun();
+                taskSolvingController.compileAndRun(codeTabByName, terminalArea, buildMenu);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
         // Run action
-        runMenuItem.addActionListener((event) -> taskSolvingController.run());
+        runMenuItem.addActionListener((event) -> taskSolvingController.run(terminalArea, buildMenu));
         // Switching (or opening: NYI) tabs with list
         fileList.addMouseListener(new MouseAdapter() {
             @Override
@@ -155,6 +157,18 @@ public class TaskSolvingView extends BaseView {
         });
     }
 
+    public void setCodeAreaContents(List<SourceFile> sources) {
+        sources.forEach((file) -> codeTabByName.get(file.getName()).setText(file.getData()));
+    }
+
+    public void setSourceList(String[] sourceList, String syntaxStyle) {
+        fileList.setListData(sourceList);
+        for (String src : sourceList) {
+            addCodeArea(src, syntaxStyle);
+        }
+        fileList.setSelectedIndex(0);
+    }
+
     private void addCodeArea(String name, String syntaxStyle) {
         RSyntaxTextArea codeTabArea = new RSyntaxTextArea();
         codeTabArea.setTabSize(4);
@@ -171,27 +185,4 @@ public class TaskSolvingView extends BaseView {
         codeTabByName.put(name, codeTabArea);
     }
 
-    public void setCodeAreaContents(List<SourceFile> sources) {
-        sources.forEach((file) -> codeTabByName.get(file.getName()).setText(file.getData()));
-    }
-
-    public Map<String, RSyntaxTextArea> getCodeAreas() {
-        return codeTabByName;
-    }
-
-    public JMenu getBuildMenu() {
-        return buildMenu;
-    }
-
-    public JTextArea getTerminalArea() {
-        return terminalArea;
-    }
-
-    public void setSourceList(String[] sourceList, String syntaxStyle) {
-        fileList.setListData(sourceList);
-        for (String src : sourceList) {
-            addCodeArea(src, syntaxStyle);
-        }
-        fileList.setSelectedIndex(0);
-    }
 }
