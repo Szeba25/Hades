@@ -60,6 +60,7 @@ public class TaskSolvingController {
         TaskCompilerAndRunnerWorker taskCompilerAndRunnerWorker = new TaskCompilerAndRunnerWorker(
                 task, // Passed as register interface type!
                 task.getProgramCompiler(),
+                data.copySolutions(),
                 data.copySourceNames(),
                 data.copyTaskWorkingDirectory(),
                 buildMenu,
@@ -75,6 +76,7 @@ public class TaskSolvingController {
         // Start a worker thread to run the task!
         TaskRunningWorker taskRunningWorker = new TaskRunningWorker(
                 task.getCompilerOutput().getProgram(),
+                task.getData().copySolutions(),
                 buildMenu,
                 terminalArea);
         taskRunningWorker.execute();

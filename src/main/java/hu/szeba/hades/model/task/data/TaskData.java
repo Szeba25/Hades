@@ -2,6 +2,8 @@ package hu.szeba.hades.model.task.data;
 
 import hu.szeba.hades.io.DataFile;
 import hu.szeba.hades.meta.Options;
+import hu.szeba.hades.model.task.program.ProgramInput;
+import hu.szeba.hades.model.task.result.Result;
 import org.apache.commons.io.FileUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
@@ -37,7 +39,20 @@ public class TaskData {
         makeSources();
     }
 
-    private void makeSolutions() { }
+    private void makeSolutions() throws IOException {
+        DataFile solutionList = new DataFile(new File(taskWorkingDirectory,
+                ".meta/solutions_map.dat"),
+                "->");
+        for (int i = 0; i < solutionList.getLineCount(); i++) {
+            String inputFileName = solutionList.getData(i, 0);
+            String solutionFileName = solutionList.getData(i, 1);
+            ProgramInput programInput = new ProgramInput(new File(taskWorkingDirectory,
+                    ".meta/solutions/" + inputFileName));
+            Result result = new Result(new File(taskWorkingDirectory,
+                    ".meta/solutions/" + solutionFileName));
+            solutions.add(new Solution(programInput, result));
+        }
+    }
 
     private void makeSources() throws IOException {
         DataFile sourceList = new DataFile(new File(taskWorkingDirectory, ".meta/sources.dat"));
@@ -72,6 +87,14 @@ public class TaskData {
 
     public String getSyntaxStyle() {
         return syntaxStyle;
+    }
+
+    public List<Solution> copySolutions() {
+        List<Solution> solutionsCopy = new ArrayList<>();
+        for (Solution sol : solutions) {
+            solutionsCopy.add(new Solution(sol));
+        }
+        return solutionsCopy;
     }
 
     public List<Solution> getSolutions() {
