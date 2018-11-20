@@ -26,7 +26,7 @@ public class ProgramC extends Program {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
         TabbedFile file = input.getFile();
         for (int i = 0; i < file.getLineCount(); i++) {
-            bw.write(file.getData(i, 0));
+            bw.write(file.getData(i, 0) + "\n");
         }
         bw.flush();
         bw.close();
