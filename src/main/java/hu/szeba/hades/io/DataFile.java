@@ -33,6 +33,14 @@ public class DataFile {
         );
     }
 
+    public DataFile(DataFile other) {
+        this.content = new ArrayList<>();
+        for (String[] line : other.content) {
+            String[] copy = line.clone();
+            this.content.add(copy);
+        }
+    }
+
     public String getData(int lineNumber, int position) {
         if (lineNumber < 0 || lineNumber > content.size() ||
                 position < 0 || position >= content.get(lineNumber).length) {

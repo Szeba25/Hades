@@ -8,6 +8,10 @@ public class ResultLine {
         this.data = data;
     }
 
+    public ResultLine(ResultLine other) {
+        this.data = other.data;
+    }
+
     public String getData() {
         return data;
     }

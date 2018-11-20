@@ -75,7 +75,7 @@ public class TaskSolvingController {
         // Start a worker thread to run the task!
         TaskRunningWorker taskRunningWorker = new TaskRunningWorker(
                 task.getCompilerOutput().getProgram(),
-                task.getData().getSolutions(),
+                task.getData().getSolutionsCopy(),
                 buildMenu,
                 terminalArea);
         taskRunningWorker.execute();

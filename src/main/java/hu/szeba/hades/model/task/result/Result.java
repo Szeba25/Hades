@@ -25,6 +25,14 @@ public class Result {
         }
     }
 
+    public Result(Result other) {
+        this.resultLines = new ArrayList<>();
+
+        for (ResultLine resultLine : other.resultLines) {
+            this.resultLines.add(new ResultLine(resultLine));
+        }
+    }
+
     public void addResultLine(ResultLine resultLine) {
         resultLines.add(resultLine);
     }

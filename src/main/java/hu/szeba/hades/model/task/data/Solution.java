@@ -15,6 +15,11 @@ public class Solution {
         this.desiredResult = desiredResult;
     }
 
+    public Solution(Solution sol) {
+        this.programInput = new ProgramInput(sol.programInput);
+        this.desiredResult = new Result(sol.desiredResult);
+    }
+
     public ProgramInput getProgramInput() {
         return programInput;
     }

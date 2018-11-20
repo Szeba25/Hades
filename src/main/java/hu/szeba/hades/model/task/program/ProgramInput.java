@@ -13,6 +13,10 @@ public class ProgramInput {
         this.file = new TabbedFile(inputFilePath);
     }
 
+    public ProgramInput(ProgramInput other) {
+        this.file = new TabbedFile(other.file);
+    }
+
     public TabbedFile getFile() {
         return file;
     }

@@ -11,7 +11,7 @@ import java.util.List;
 public class TaskRunningWorker extends SwingWorker<Integer, String> {
 
     private Program program;
-    private List<Solution> solutions; // MAKE THIS A COPY!!!!!!!
+    private List<Solution> solutions;
     private JMenu disabledBuildMenu;
     private JTextArea terminalArea;
 
