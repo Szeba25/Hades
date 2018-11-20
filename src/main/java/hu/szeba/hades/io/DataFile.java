@@ -34,6 +34,7 @@ public class DataFile {
     }
 
     public DataFile(DataFile other) {
+        this.name = other.name;
         this.content = new ArrayList<>();
         for (String[] line : other.content) {
             String[] copy = line.clone();
