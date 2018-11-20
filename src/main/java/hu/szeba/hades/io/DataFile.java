@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 public class DataFile {
 
     private List<String[]> content;
+    private String name;
 
     public DataFile(File file) throws IOException {
         this(file, "|");
@@ -18,6 +19,7 @@ public class DataFile {
 
     public DataFile(File file, String separator) throws IOException {
         content = new ArrayList<>();
+        name = file.getName();
         Files.lines(Paths.get(file.getAbsolutePath())).forEach(
             (line) -> {
                 if (!line.equals("")) {
@@ -44,4 +46,7 @@ public class DataFile {
         return content.size();
     }
 
+    public String getName() {
+        return name;
+    }
 }
