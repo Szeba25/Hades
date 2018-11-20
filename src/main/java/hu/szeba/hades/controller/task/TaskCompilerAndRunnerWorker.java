@@ -68,7 +68,7 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
             publish("\n");
         }
 
-        publish("\n... End of running!");
+        publish("... End of running!");
         return 0;
     }
 
