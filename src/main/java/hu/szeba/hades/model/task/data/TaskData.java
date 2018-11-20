@@ -29,7 +29,7 @@ public class TaskData {
         this.taskWorkingDirectory = getTaskWorkingDirectory(taskName);
 
         // If not continuing task, but folder exists, delete everything first!
-        if (!continueTask || taskWorkingDirectory.exists()) {
+        if (!continueTask && taskWorkingDirectory.exists()) {
             FileUtils.deleteDirectory(taskWorkingDirectory);
         }
         // Copy everything if directory does not exists...
