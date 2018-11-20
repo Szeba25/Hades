@@ -1,5 +1,6 @@
 package hu.szeba.hades.controller.task;
 
+import hu.szeba.hades.model.task.data.Solution;
 import hu.szeba.hades.model.task.program.Program;
 import hu.szeba.hades.model.task.result.Result;
 
@@ -10,11 +11,13 @@ import java.util.List;
 public class TaskRunningWorker extends SwingWorker<Integer, String> {
 
     private Program program;
+    private List<Solution> solutions; // THREADING?
     private JMenu disabledBuildMenu;
     private JTextArea terminalArea;
 
-    TaskRunningWorker(Program program, JMenu disabledBuildMenu, JTextArea terminalArea) {
+    TaskRunningWorker(Program program, List<Solution> solutions, JMenu disabledBuildMenu, JTextArea terminalArea) {
         this.program = program;
+        this.solutions = solutions; // THREADING?
         this.disabledBuildMenu = disabledBuildMenu;
         this.terminalArea = terminalArea;
     }
@@ -22,10 +25,15 @@ public class TaskRunningWorker extends SwingWorker<Integer, String> {
     @Override
     protected Integer doInBackground() throws IOException, InterruptedException {
         publish("> Running program...\n\n");
-        Result result = program.run(null);
+
+        // THREADING?
+        Result result = program.run(solutions.get(0).getProgramInput());
+
         for (int i = 0; i < result.getResultLineCount(); i++) {
             publish(result.getResultLine(i).getData() + "\n");
         }
+
+        publish("\n... End of running!");
         return 0;
     }
 

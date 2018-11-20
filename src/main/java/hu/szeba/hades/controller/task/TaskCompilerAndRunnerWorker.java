@@ -49,6 +49,8 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
         } else {
             publish("Cannot to run program: compilation failed");
         }
+
+        publish("\n... End of running!");
         return 0;
     }
 

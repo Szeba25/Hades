@@ -7,8 +7,8 @@ import java.io.File;
 
 public class Solution {
 
-    private ProgramInput programInput;
-    private Result desiredResult;
+    private final ProgramInput programInput;
+    private final Result desiredResult;
 
     public Solution(ProgramInput programInput, Result desiredResult) {
         this.programInput = programInput;
