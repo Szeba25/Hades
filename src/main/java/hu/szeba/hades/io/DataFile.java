@@ -1,9 +1,9 @@
 package hu.szeba.hades.io;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -20,17 +20,20 @@ public class DataFile {
     public DataFile(File file, String separator) throws IOException {
         content = new ArrayList<>();
         name = file.getName();
-        Files.lines(Paths.get(file.getAbsolutePath())).forEach(
-            (line) -> {
-                if (!line.equals("")) {
-                    String[] tmpContent = line.split(Pattern.quote(separator));
-                    for (int i = 0; i < tmpContent.length; i++) {
-                        tmpContent[i] = tmpContent[i].trim();
-                    }
-                    content.add(tmpContent);
+        FileReader fReader = new FileReader(file);
+        BufferedReader reader = new BufferedReader(fReader);
+        String line;
+        while ((line = reader.readLine()) != null) {
+            if (!line.equals("")) {
+                String[] tmp = line.split(Pattern.quote(separator));
+                for (int i = 0; i < tmp.length; i++) {
+                    tmp[i] = tmp[i].trim();
                 }
+                content.add(tmp);
             }
-        );
+        }
+        fReader.close();
+        reader.close();
     }
 
     public DataFile(DataFile other) {
