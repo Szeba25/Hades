@@ -3,7 +3,10 @@ package hu.szeba.hades.controller.task;
 import hu.szeba.hades.model.compiler.CompilerOutput;
 import hu.szeba.hades.model.compiler.ProgramCompiler;
 import hu.szeba.hades.model.task.CompilerOutputRegister;
+import hu.szeba.hades.model.task.data.Solution;
 import hu.szeba.hades.model.task.result.Result;
+import hu.szeba.hades.model.task.result.ResultDifference;
+import hu.szeba.hades.model.task.result.ResultMatcher;
 
 import javax.swing.*;
 import java.io.File;
@@ -13,6 +16,7 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
 
     private ProgramCompiler compiler;
     private CompilerOutputRegister register;
+    private List<Solution> solutions;
     private String[] sources;
     private File path;
     private JMenu disabledBuildMenu;
@@ -20,10 +24,12 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
     private CompilerOutput output;
 
     TaskCompilerAndRunnerWorker(CompilerOutputRegister register, ProgramCompiler compiler,
+                                List<Solution> solutions,
                                 String[] sources, File path,
                                 JMenu disabledBuildMenu, JTextArea terminalArea) {
         this.compiler = compiler;
         this.register = register;
+        this.solutions = solutions;
         this.sources = sources;
         this.path = path;
         this.disabledBuildMenu = disabledBuildMenu;
@@ -34,20 +40,32 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
     @Override
     protected Integer doInBackground() throws Exception {
         publish("> Compilation started...\n\n");
+
         // Compile
         output = compiler.compile(sources, path);
         for (String message : output.getCompilerMessages()) {
             publish(message + "\n");
         }
         publish("\n> Running program...\n\n");
+
         // Run
-        if (output.isReady()) {
-            Result result = output.getProgram().run(null);
+        ResultMatcher matcher = new ResultMatcher();
+
+        for (Solution solution : solutions) {
+            publish("> Using input: " + solution.getProgramInput().getFile().getName() + "\n");
+            Result result = output.getProgram().run(solution.getProgramInput());
             for (int i = 0; i < result.getResultLineCount(); i++) {
-                publish(result.getResultLine(i).getData() + "\n");
+                publish(i + ". " + result.getResultLine(i).getData() + "\n");
             }
-        } else {
-            publish("Cannot to run program: compilation failed");
+            publish("\n");
+            matcher.match(result, solution.getDesiredResult());
+            for (int i = 0; i < matcher.getDifferencesSize(); i++) {
+                ResultDifference diff = matcher.getDifference(i);
+                publish("* difference at line: " + diff.getLineNumber());
+                publish(".\n   [" + diff.getFirstLine().getData() + "] should be ["
+                        + diff.getSecondLine().getData() + "]\n");
+            }
+            publish("\n");
         }
 
         publish("\n... End of running!");

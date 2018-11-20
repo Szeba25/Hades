@@ -89,7 +89,7 @@ public class TaskData {
         return syntaxStyle;
     }
 
-    public List<Solution> getSolutionsCopy() {
+    public List<Solution> copySolutions() {
         List<Solution> solutionsCopy = new ArrayList<>();
         for (Solution sol : solutions) {
             solutionsCopy.add(new Solution(sol));
