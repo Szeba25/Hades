@@ -3,6 +3,8 @@ package hu.szeba.hades.controller.task;
 import hu.szeba.hades.model.task.data.Solution;
 import hu.szeba.hades.model.task.program.Program;
 import hu.szeba.hades.model.task.result.Result;
+import hu.szeba.hades.model.task.result.ResultDifference;
+import hu.szeba.hades.model.task.result.ResultMatcher;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -26,15 +28,26 @@ public class TaskRunningWorker extends SwingWorker<Integer, String> {
     protected Integer doInBackground() throws IOException, InterruptedException {
         publish("> Running program...\n\n");
 
+        ResultMatcher matcher = new ResultMatcher();
+
         for (Solution solution : solutions) {
             publish("> Using input: " + solution.getProgramInput().getFile().getName() + "\n");
             Result result = program.run(solution.getProgramInput());
             for (int i = 0; i < result.getResultLineCount(); i++) {
-                publish(result.getResultLine(i).getData() + "\n");
+                publish(i + ". " + result.getResultLine(i).getData() + "\n");
             }
+            publish("\n");
+            matcher.match(result, solution.getDesiredResult());
+            for (int i = 0; i < matcher.getDifferencesSize(); i++) {
+                ResultDifference diff = matcher.getDifference(i);
+                publish("* difference at line: " + diff.getLineNumber());
+                publish(".\n   [" + diff.getFirstLine().getData() + "] should be ["
+                        + diff.getSecondLine().getData() + "]\n");
+            }
+            publish("\n");
         }
 
-        publish("\n... End of running!");
+        publish("... End of running!");
         return 0;
     }
 
