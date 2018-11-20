@@ -9,6 +9,6 @@ import java.io.IOException;
 
 public interface TaskFactory {
 
-    Task getTask(String taskName) throws IOException;
+    Task getTask(String taskName, boolean continueTask) throws IOException;
 
 }

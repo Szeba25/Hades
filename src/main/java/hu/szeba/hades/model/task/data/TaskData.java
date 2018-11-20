@@ -24,13 +24,15 @@ public class TaskData {
     private List<Solution> solutions;
     private List<SourceFile> sources;
 
-    public TaskData(String taskName, String syntaxStyle) throws IOException {
+    public TaskData(String taskName, boolean continueTask, String syntaxStyle) throws IOException {
         this.taskDirectory = getTaskDirectory(taskName);
         this.taskWorkingDirectory = getTaskWorkingDirectory(taskName);
+
         if (!taskWorkingDirectory.exists()) {
             FileUtils.forceMkdir(taskWorkingDirectory);
             FileUtils.copyDirectory(taskDirectory, taskWorkingDirectory);
         }
+
         this.taskName = taskName;
         this.syntaxStyle = syntaxStyle;
         solutions = new ArrayList<>();

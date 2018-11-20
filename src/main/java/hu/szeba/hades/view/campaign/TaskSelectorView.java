@@ -22,6 +22,7 @@ public class TaskSelectorView extends BaseView {
 
     private JTextArea descriptionArea;
     private JButton startButton;
+    private JButton continueButton;
 
     public TaskSelectorView(Campaign campaign) {
         super();
@@ -63,11 +64,17 @@ public class TaskSelectorView extends BaseView {
         startButton.setFocusPainted(false);
         startButton.setMaximumSize(new Dimension(120, 30));
 
+        continueButton = new JButton("Continue");
+        continueButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        continueButton.setFocusPainted(false);
+        continueButton.setMaximumSize(new Dimension(120, 30));
+
         leftPanel.add(taskListScroller);
 
         rightPanel.add(descriptionArea);
         rightPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         rightPanel.add(startButton);
+        rightPanel.add(continueButton);
 
         this.getContentPane().add(leftPanel, BorderLayout.WEST);
         this.getContentPane().add(rightPanel, BorderLayout.CENTER);
@@ -79,6 +86,13 @@ public class TaskSelectorView extends BaseView {
         startButton.addActionListener((event) -> {
             try {
                 taskSelectorController.loadNewTask(getSelectedTaskName(), this);
+            } catch (UnsupportedProgrammingLanguageException | IOException e) {
+                e.printStackTrace();
+            }
+        });
+        continueButton.addActionListener((event) -> {
+            try {
+                taskSelectorController.continueTask(getSelectedTaskName(), this);
             } catch (UnsupportedProgrammingLanguageException | IOException e) {
                 e.printStackTrace();
             }

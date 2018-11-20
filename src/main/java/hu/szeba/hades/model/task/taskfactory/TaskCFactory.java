@@ -11,8 +11,8 @@ import java.io.IOException;
 public class TaskCFactory implements TaskFactory {
 
     @Override
-    public Task getTask(String taskName) throws IOException {
-        TaskData taskData = new TaskData(taskName, RSyntaxTextArea.SYNTAX_STYLE_C);
+    public Task getTask(String taskName, boolean continueTask) throws IOException {
+        TaskData taskData = new TaskData(taskName, continueTask, RSyntaxTextArea.SYNTAX_STYLE_C);
         ProgramCompiler programCompiler = new ProgramCompilerC();
         return new Task(taskData, programCompiler);
     }

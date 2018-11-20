@@ -24,7 +24,17 @@ public class TaskSelectorController {
     public void loadNewTask(String selectedTaskName,
                             BaseView parentView) throws UnsupportedProgrammingLanguageException, IOException {
         if (selectedTaskName != null) {
-            Task task = campaign.createTask(selectedTaskName);
+            Task task = campaign.createTask(selectedTaskName, false);
+            parentView.hideView();
+            TaskSolvingView taskSolvingView = new TaskSolvingView(parentView, task);
+            taskSolvingView.showViewMaximized();
+        }
+    }
+
+    public void continueTask(String selectedTaskName,
+                             BaseView parentView) throws UnsupportedProgrammingLanguageException, IOException {
+        if (selectedTaskName != null) {
+            Task task = campaign.createTask(selectedTaskName, true);
             parentView.hideView();
             TaskSolvingView taskSolvingView = new TaskSolvingView(parentView, task);
             taskSolvingView.showViewMaximized();
