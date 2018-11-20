@@ -41,7 +41,7 @@ public class TaskRunningWorker extends SwingWorker<Integer, String> {
             for (int i = 0; i < matcher.getDifferencesSize(); i++) {
                 ResultDifference diff = matcher.getDifference(i);
                 publish("* difference at line: " + diff.getLineNumber());
-                publish(".\n   [" + diff.getFirstLine().getData() + "] should be ["
+                publish(". [" + diff.getFirstLine().getData() + "] should be ["
                         + diff.getSecondLine().getData() + "]\n");
             }
             publish("\n");
