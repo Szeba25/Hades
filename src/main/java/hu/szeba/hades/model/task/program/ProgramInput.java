@@ -4,13 +4,10 @@ import java.io.File;
 
 public class ProgramInput {
 
-    private String input;
+    private File inputFilePath;
 
     public ProgramInput(File inputFilePath) {
-        input = ""; // TODO: Load from file!
+        this.inputFilePath = inputFilePath;
     }
 
-    public String getInput() {
-        return input;
-    }
 }
