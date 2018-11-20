@@ -1,7 +1,5 @@
 package hu.szeba.hades.io;
 
-import hu.szeba.hades.model.task.program.ProgramInput;
-
 import java.io.File;
 import java.io.IOException;
 
