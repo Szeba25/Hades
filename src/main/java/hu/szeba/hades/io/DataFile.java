@@ -20,7 +20,13 @@ public class DataFile {
         content = new ArrayList<>();
         Files.lines(Paths.get(file.getAbsolutePath())).forEach(
             (line) -> {
-                if (!line.equals("")) content.add(line.split(Pattern.quote(separator)));
+                if (!line.equals("")) {
+                    String[] tmpContent = line.split(Pattern.quote(separator));
+                    for (int i = 0; i < tmpContent.length; i++) {
+                        tmpContent[i] = tmpContent[i].trim();
+                    }
+                    content.add(tmpContent);
+                }
             }
         );
     }
