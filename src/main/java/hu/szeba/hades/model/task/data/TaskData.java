@@ -28,11 +28,12 @@ public class TaskData {
         this.taskDirectory = getTaskDirectory(taskName);
         this.taskWorkingDirectory = getTaskWorkingDirectory(taskName);
 
-        if (!continueTask || !taskWorkingDirectory.exists()) {
-            // If not continuing task, but folder exists, delete everything!
-            if (taskWorkingDirectory.exists()) {
-                FileUtils.deleteDirectory(taskWorkingDirectory);
-            }
+        // If not continuing task, but folder exists, delete everything first!
+        if (!continueTask || taskWorkingDirectory.exists()) {
+            FileUtils.deleteDirectory(taskWorkingDirectory);
+        }
+        // Copy everything if directory does not exists...
+        if (!taskWorkingDirectory.exists()) {
             FileUtils.forceMkdir(taskWorkingDirectory);
             FileUtils.copyDirectory(taskDirectory, taskWorkingDirectory);
         }
