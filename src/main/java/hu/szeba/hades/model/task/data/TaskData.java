@@ -30,10 +30,12 @@ public class TaskData {
 
         // If not continuing task, but folder exists, delete everything first!
         if (!continueTask && taskWorkingDirectory.exists()) {
+            System.out.println("Reset task!");
             FileUtils.deleteDirectory(taskWorkingDirectory);
         }
         // Copy everything if directory does not exists...
         if (!taskWorkingDirectory.exists()) {
+            System.out.println("Copy TaskData!");
             FileUtils.forceMkdir(taskWorkingDirectory);
             FileUtils.copyDirectory(taskDirectory, taskWorkingDirectory);
         }
