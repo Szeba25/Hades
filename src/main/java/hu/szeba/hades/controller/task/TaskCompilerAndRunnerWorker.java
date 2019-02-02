@@ -3,7 +3,7 @@ package hu.szeba.hades.controller.task;
 import hu.szeba.hades.model.compiler.CompilerOutput;
 import hu.szeba.hades.model.compiler.ProgramCompiler;
 import hu.szeba.hades.model.task.CompilerOutputRegister;
-import hu.szeba.hades.model.task.data.Solution;
+import hu.szeba.hades.model.task.data.InputResultPair;
 import hu.szeba.hades.model.task.result.Result;
 import hu.szeba.hades.model.task.result.ResultDifference;
 import hu.szeba.hades.model.task.result.ResultMatcher;
@@ -16,7 +16,7 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
 
     private ProgramCompiler compiler;
     private CompilerOutputRegister register;
-    private List<Solution> solutions;
+    private List<InputResultPair> inputResultPairs;
     private String[] sources;
     private File path;
     private JMenu disabledBuildMenu;
@@ -24,12 +24,12 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
     private CompilerOutput output;
 
     TaskCompilerAndRunnerWorker(CompilerOutputRegister register, ProgramCompiler compiler,
-                                List<Solution> solutions,
+                                List<InputResultPair> inputResultPairs,
                                 String[] sources, File path,
                                 JMenu disabledBuildMenu, JTextArea terminalArea) {
         this.compiler = compiler;
         this.register = register;
-        this.solutions = solutions;
+        this.inputResultPairs = inputResultPairs;
         this.sources = sources;
         this.path = path;
         this.disabledBuildMenu = disabledBuildMenu;
@@ -53,14 +53,14 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
             // Run
             ResultMatcher matcher = new ResultMatcher();
 
-            for (Solution solution : solutions) {
-                publish("> Using input: " + solution.getProgramInput().getFile().getName() + "\n");
-                Result result = output.getProgram().run(solution.getProgramInput());
+            for (InputResultPair inputResultPair : inputResultPairs) {
+                publish("> Using input: " + inputResultPair.getProgramInput().getFile().getName() + "\n");
+                Result result = output.getProgram().run(inputResultPair.getProgramInput());
                 for (int i = 0; i < result.getResultLineCount(); i++) {
                     publish((i + 1) + ". " + result.getResultLineByIndex(i).getData() + "\n");
                 }
                 publish("\n");
-                matcher.match(result, solution.getDesiredResult());
+                matcher.match(result, inputResultPair.getDesiredResult());
                 for (int i = 0; i < matcher.getDifferencesSize(); i++) {
                     ResultDifference diff = matcher.getDifference(i);
                     publish("* difference at line: " + diff.getLineNumber());

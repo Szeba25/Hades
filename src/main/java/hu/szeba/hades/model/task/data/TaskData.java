@@ -22,7 +22,7 @@ public class TaskData {
     private final String language;
     private final String syntaxStyle;
 
-    private List<Solution> solutions;
+    private List<InputResultPair> inputResultPairs;
     private List<SourceFile> sources;
 
     public TaskData(String taskName, boolean continueTask, String language, String syntaxStyle) throws IOException {
@@ -44,13 +44,13 @@ public class TaskData {
         this.taskName = taskName;
         this.language = language;
         this.syntaxStyle = syntaxStyle;
-        solutions = new ArrayList<>();
+        inputResultPairs = new ArrayList<>();
         sources = new ArrayList<>();
-        makeSolutions();
+        makeInputResultPairs();
         makeSources();
     }
 
-    private void makeSolutions() throws IOException {
+    private void makeInputResultPairs() throws IOException {
         DataFile solutionList = new DataFile(new File(taskWorkingDirectory,
                 ".meta/solutions_map.dat"),
                 "->");
@@ -61,7 +61,7 @@ public class TaskData {
                     ".meta/solutions/" + inputFileName));
             Result result = new Result(new File(taskWorkingDirectory,
                     ".meta/solutions/" + solutionFileName));
-            solutions.add(new Solution(programInput, result));
+            inputResultPairs.add(new InputResultPair(programInput, result));
         }
     }
 
@@ -100,16 +100,12 @@ public class TaskData {
         return syntaxStyle;
     }
 
-    public List<Solution> copySolutions() {
-        List<Solution> solutionsCopy = new ArrayList<>();
-        for (Solution sol : solutions) {
-            solutionsCopy.add(new Solution(sol));
+    public List<InputResultPair> copyInputResultPairs() {
+        List<InputResultPair> copy = new ArrayList<>();
+        for (InputResultPair sol : inputResultPairs) {
+            copy.add(new InputResultPair(sol));
         }
-        return solutionsCopy;
-    }
-
-    public List<Solution> getSolutions() {
-        return solutions;
+        return copy;
     }
 
     public List<SourceFile> getSources() {

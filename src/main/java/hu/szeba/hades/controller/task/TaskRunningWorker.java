@@ -1,6 +1,6 @@
 package hu.szeba.hades.controller.task;
 
-import hu.szeba.hades.model.task.data.Solution;
+import hu.szeba.hades.model.task.data.InputResultPair;
 import hu.szeba.hades.model.task.program.Program;
 import hu.szeba.hades.model.task.result.Result;
 import hu.szeba.hades.model.task.result.ResultDifference;
@@ -13,13 +13,13 @@ import java.util.List;
 public class TaskRunningWorker extends SwingWorker<Integer, String> {
 
     private Program program;
-    private List<Solution> solutions;
+    private List<InputResultPair> inputResultPairs;
     private JMenu disabledBuildMenu;
     private JTextArea terminalArea;
 
-    TaskRunningWorker(Program program, List<Solution> solutions, JMenu disabledBuildMenu, JTextArea terminalArea) {
+    TaskRunningWorker(Program program, List<InputResultPair> inputResultPairs, JMenu disabledBuildMenu, JTextArea terminalArea) {
         this.program = program;
-        this.solutions = solutions;
+        this.inputResultPairs = inputResultPairs;
         this.disabledBuildMenu = disabledBuildMenu;
         this.terminalArea = terminalArea;
     }
@@ -30,14 +30,14 @@ public class TaskRunningWorker extends SwingWorker<Integer, String> {
 
         ResultMatcher matcher = new ResultMatcher();
 
-        for (Solution solution : solutions) {
-            publish("> Using input: " + solution.getProgramInput().getFile().getName() + "\n");
-            Result result = program.run(solution.getProgramInput());
+        for (InputResultPair inputResultPair : inputResultPairs) {
+            publish("> Using input: " + inputResultPair.getProgramInput().getFile().getName() + "\n");
+            Result result = program.run(inputResultPair.getProgramInput());
             for (int i = 0; i < result.getResultLineCount(); i++) {
                 publish((i + 1) + ". " + result.getResultLineByIndex(i).getData() + "\n");
             }
             publish("\n");
-            matcher.match(result, solution.getDesiredResult());
+            matcher.match(result, inputResultPair.getDesiredResult());
             for (int i = 0; i < matcher.getDifferencesSize(); i++) {
                 ResultDifference diff = matcher.getDifference(i);
                 publish("* difference at line: " + diff.getLineNumber());
