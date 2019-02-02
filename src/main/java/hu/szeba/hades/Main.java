@@ -17,6 +17,18 @@ public class Main {
     private TaskSelectorView taskSelectorView;
 
     private Main() {
+        // Set Nimbus LAF
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        // Initialize the program
         try {
             Options.initialize();
             courseDatabase = new CourseDatabase();
