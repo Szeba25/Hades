@@ -24,8 +24,13 @@ public class TaskSolvingView extends BaseView {
 
     private TaskSolvingController taskSolvingController;
 
+    private JPanel topPanel;
+
     private JTabbedPane codeTab;
     private Map<String, RSyntaxTextArea> codeTabByName;
+
+    private JList fileList;
+    private JScrollPane fileListScroller;
 
     private JTextArea terminalArea;
     private JScrollPane terminalScroll;
@@ -38,9 +43,6 @@ public class TaskSolvingView extends BaseView {
     private JMenuItem buildMenuItem;
     private JMenuItem buildAndRunMenuItem;
     private JMenuItem runMenuItem;
-
-    private JList fileList;
-    private JScrollPane fileListScroller;
 
     public TaskSolvingView(BaseView parentView, Task task) {
         super();
@@ -60,21 +62,31 @@ public class TaskSolvingView extends BaseView {
         this.setMinimumSize(new Dimension(900, 700));
         this.setLayout(new BorderLayout());
 
+        topPanel = new JPanel();
+        topPanel.setLayout(new BorderLayout());
+
         codeTab = new JTabbedPane();
-        codeTab.setMinimumSize(new Dimension(900, 400));
 
         codeTabByName = new HashMap<>();
+
+        fileList = new JList();
+        fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        fileList.setFixedCellWidth(125);
+
+        fileListScroller = new JScrollPane(fileList);
+        fileListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        topPanel.add(fileListScroller, BorderLayout.WEST);
+        topPanel.add(codeTab, BorderLayout.CENTER);
 
         terminalArea = new JTextArea();
         terminalArea.setEditable(false);
 
         terminalScroll = new JScrollPane(terminalArea);
-        terminalScroll.setMinimumSize(new Dimension(900, 250));
 
-        splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, codeTab, terminalScroll);
-        splitPane.setPreferredSize(new Dimension(900, 700));
+        splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, topPanel, terminalScroll);
         splitPane.setOneTouchExpandable(true);
-        splitPane.setDividerLocation(700);
+        splitPane.setResizeWeight(0.7);
 
         menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
@@ -97,14 +109,6 @@ public class TaskSolvingView extends BaseView {
         menuBar.add(buildMenu);
         menuBar.add(helpMenu);
 
-        fileList = new JList();
-        fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        fileList.setFixedCellWidth(250);
-
-        fileListScroller = new JScrollPane(fileList);
-        fileListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-        this.getContentPane().add(fileListScroller, BorderLayout.WEST);
         this.getContentPane().add(splitPane, BorderLayout.CENTER);
         this.getContentPane().add(menuBar, BorderLayout.NORTH);
         this.pack();
