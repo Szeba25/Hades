@@ -22,20 +22,20 @@ public class ResultMatcher {
         for (int i = 0; i < runningIndex; i++) {
             if (i > referenceResultCount - 1) {
                 // No reference here
-                differences.add(new ResultDifference(i,
+                differences.add(new ResultDifference(i + 1,
                         new ResultLine("EMPTY"),
-                        desiredResult.getResultLine(i)));
+                        desiredResult.getResultLineByIndex(i)));
             } else if (i > desiredResultCount - 1) {
                 // No desired result here
-                differences.add(new ResultDifference(i,
-                        referenceResult.getResultLine(i),
+                differences.add(new ResultDifference(i + 1,
+                        referenceResult.getResultLineByIndex(i),
                         new ResultLine("EMPTY")));
             } else {
-                if (!(referenceResult.getResultLine(i).matches(desiredResult.getResultLine(i)))) {
+                if (!(referenceResult.getResultLineByIndex(i).matches(desiredResult.getResultLineByIndex(i)))) {
                     // No match in this line.
-                    differences.add(new ResultDifference(i,
-                            referenceResult.getResultLine(i),
-                            desiredResult.getResultLine(i)));
+                    differences.add(new ResultDifference(i + 1,
+                            referenceResult.getResultLineByIndex(i),
+                            desiredResult.getResultLineByIndex(i)));
                 }
             }
         }

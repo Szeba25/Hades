@@ -37,7 +37,7 @@ public class Result {
         resultLines.add(resultLine);
     }
 
-    public ResultLine getResultLine(int index) {
+    public ResultLine getResultLineByIndex(int index) {
         return resultLines.get(index);
     }
 

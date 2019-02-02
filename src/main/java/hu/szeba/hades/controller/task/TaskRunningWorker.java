@@ -34,7 +34,7 @@ public class TaskRunningWorker extends SwingWorker<Integer, String> {
             publish("> Using input: " + solution.getProgramInput().getFile().getName() + "\n");
             Result result = program.run(solution.getProgramInput());
             for (int i = 0; i < result.getResultLineCount(); i++) {
-                publish(i + ". " + result.getResultLine(i).getData() + "\n");
+                publish((i + 1) + ". " + result.getResultLineByIndex(i).getData() + "\n");
             }
             publish("\n");
             matcher.match(result, solution.getDesiredResult());

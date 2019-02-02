@@ -47,9 +47,9 @@ public class ProgramCompilerC implements ProgramCompiler {
     private CompilerOutput generateOutput(List<String> compilerMessages, File taskWorkingDirectory, int exitValue) {
         File programLocation = new File(taskWorkingDirectory, "program.exe");
         if (programLocation.exists() && exitValue == 0) {
-            return new CompilerOutput(compilerMessages, new ProgramC(programLocation));
+            return new CompilerOutput(compilerMessages, exitValue, new ProgramC(programLocation));
         } else {
-            return new CompilerOutput(compilerMessages, null);
+            return new CompilerOutput(compilerMessages, exitValue,null);
         }
     }
 

@@ -46,29 +46,32 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
         for (String message : output.getCompilerMessages()) {
             publish(message + "\n");
         }
-        publish("\n> Running program...\n\n");
 
-        // Run
-        ResultMatcher matcher = new ResultMatcher();
+        if (output.isReady()) {
+            publish("\n> Running program...\n\n");
 
-        for (Solution solution : solutions) {
-            publish("> Using input: " + solution.getProgramInput().getFile().getName() + "\n");
-            Result result = output.getProgram().run(solution.getProgramInput());
-            for (int i = 0; i < result.getResultLineCount(); i++) {
-                publish(i + ". " + result.getResultLine(i).getData() + "\n");
+            // Run
+            ResultMatcher matcher = new ResultMatcher();
+
+            for (Solution solution : solutions) {
+                publish("> Using input: " + solution.getProgramInput().getFile().getName() + "\n");
+                Result result = output.getProgram().run(solution.getProgramInput());
+                for (int i = 0; i < result.getResultLineCount(); i++) {
+                    publish((i + 1) + ". " + result.getResultLineByIndex(i).getData() + "\n");
+                }
+                publish("\n");
+                matcher.match(result, solution.getDesiredResult());
+                for (int i = 0; i < matcher.getDifferencesSize(); i++) {
+                    ResultDifference diff = matcher.getDifference(i);
+                    publish("* difference at line: " + diff.getLineNumber());
+                    publish(". [" + diff.getFirstLine().getData() + "] should be ["
+                            + diff.getSecondLine().getData() + "]\n");
+                }
+                publish("\n");
             }
-            publish("\n");
-            matcher.match(result, solution.getDesiredResult());
-            for (int i = 0; i < matcher.getDifferencesSize(); i++) {
-                ResultDifference diff = matcher.getDifference(i);
-                publish("* difference at line: " + diff.getLineNumber());
-                publish(". [" + diff.getFirstLine().getData() + "] should be ["
-                        + diff.getSecondLine().getData() + "]\n");
-            }
-            publish("\n");
+
+            publish("... End of running!");
         }
-
-        publish("... End of running!");
         return 0;
     }
 
