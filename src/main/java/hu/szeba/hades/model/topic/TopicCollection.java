@@ -1,5 +1,8 @@
 package hu.szeba.hades.model.topic;
 
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +17,7 @@ public class TopicCollection {
         topics = new HashMap<>();
     }
 
-    public Topic loadTopic(String topicName, String language) throws IOException {
+    public Topic loadTopic(String topicName, String language) throws IOException, ParserConfigurationException, SAXException {
         if (topics.containsKey(topicName)) {
             return topics.get(topicName);
         } else {

@@ -28,18 +28,23 @@ public class TaskSolvingView extends BaseView {
 
     private TaskSolvingController taskSolvingController;
 
+    private Font monoFont;
+
     private JPanel topPanel;
+
+    private JList fileList;
+    private JScrollPane fileListScroller;
 
     private JTabbedPane codeTab;
     private Map<String, RSyntaxTextArea> codeTabByName;
 
-    private JList fileList;
-    private JScrollPane fileListScroller;
+    private JEditorPane taskInstructionsPane;
 
     private JTextArea terminalArea;
     private JScrollPane terminalScroll;
 
     private JSplitPane splitPane;
+    private JSplitPane taskSplitPane;
 
     private JMenuBar menuBar;
 
@@ -69,9 +74,7 @@ public class TaskSolvingView extends BaseView {
         topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
 
-        codeTab = new JTabbedPane();
-
-        codeTabByName = new HashMap<>();
+        monoFont = new Font("Consolas", Font.PLAIN, 14);
 
         fileList = new JList();
         fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -80,17 +83,29 @@ public class TaskSolvingView extends BaseView {
         fileListScroller = new JScrollPane(fileList);
         fileListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
+        codeTab = new JTabbedPane();
+        codeTabByName = new HashMap<>();
+
+        taskInstructionsPane = new JEditorPane();
+        taskInstructionsPane.setContentType("text/html");
+        taskInstructionsPane.setEditable(false);
+
         topPanel.add(fileListScroller, BorderLayout.WEST);
         topPanel.add(codeTab, BorderLayout.CENTER);
 
         terminalArea = new JTextArea();
         terminalArea.setEditable(false);
+        terminalArea.setFont(monoFont);
 
         terminalScroll = new JScrollPane(terminalArea);
 
         splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, topPanel, terminalScroll);
         splitPane.setOneTouchExpandable(true);
         splitPane.setResizeWeight(0.7);
+
+        taskSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane, taskInstructionsPane);
+        taskSplitPane.setOneTouchExpandable(true);
+        taskSplitPane.setResizeWeight(0.8);
 
         menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
@@ -113,7 +128,7 @@ public class TaskSolvingView extends BaseView {
         menuBar.add(buildMenu);
         menuBar.add(helpMenu);
 
-        this.getContentPane().add(splitPane, BorderLayout.CENTER);
+        this.getContentPane().add(taskSplitPane, BorderLayout.CENTER);
         this.getContentPane().add(menuBar, BorderLayout.NORTH);
         this.pack();
     }
@@ -165,6 +180,10 @@ public class TaskSolvingView extends BaseView {
         });
     }
 
+    public void setTaskInstructions(String longDescription) {
+        taskInstructionsPane.setText(longDescription);
+    }
+
     public void setCodeAreaContents(List<SourceFile> sources) {
         sources.forEach((file) -> codeTabByName.get(file.getName()).setText(file.getData()));
     }
@@ -184,7 +203,7 @@ public class TaskSolvingView extends BaseView {
         codeTabArea.setCodeFoldingEnabled(true);
         codeTabArea.setSyntaxEditingStyle(syntaxStyle);
         codeTabArea.setCurrentLineHighlightColor(new Color(10, 30, 140, 50));
-        codeTabArea.setFont(new Font("Consolas", Font.PLAIN, 14));
+        codeTabArea.setFont(monoFont);
 
         RTextScrollPane codeTabScroll = new RTextScrollPane(codeTabArea);
         codeTabScroll.setLineNumbersEnabled(true);

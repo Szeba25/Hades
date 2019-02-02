@@ -6,9 +6,11 @@ import hu.szeba.hades.model.topic.Topic;
 import hu.szeba.hades.model.course.Course;
 import hu.szeba.hades.model.course.CourseDatabase;
 import hu.szeba.hades.view.topic.TaskSelectorView;
+import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicLookAndFeel;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
 public class Main {
@@ -26,7 +28,7 @@ public class Main {
             topic = course.loadTopic("gyakorlas");
             taskSelectorView = new TaskSelectorView(topic);
             start();
-        } catch (IOException e) {
+        } catch (IOException | SAXException | ParserConfigurationException e) {
             e.printStackTrace();
         }
     }

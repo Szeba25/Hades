@@ -1,6 +1,5 @@
 package hu.szeba.hades.model.task.data;
 
-import hu.szeba.hades.io.DataFile;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.model.task.program.ProgramInput;
 import hu.szeba.hades.model.task.result.Result;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 public class TaskData {
 
@@ -22,13 +20,18 @@ public class TaskData {
     private File taskWorkingDirectory;
 
     private final String taskName;
+    private final TaskDescription taskDescription;
     private final String language;
     private final String syntaxStyle;
 
     private List<InputResultPair> inputResultPairs;
     private List<SourceFile> sources;
 
-    public TaskData(String taskName, boolean continueTask, String language, String syntaxStyle) throws IOException, MissingResultFileForProgramInputException {
+    public TaskData(String taskName,
+                    TaskDescription taskDescription,
+                    boolean continueTask,
+                    String language,
+                    String syntaxStyle) throws IOException, MissingResultFileForProgramInputException {
         this.taskDirectory = getTaskDirectory(taskName);
         this.taskWorkingDirectory = getTaskWorkingDirectory(taskName);
 
@@ -45,6 +48,7 @@ public class TaskData {
         }
 
         this.taskName = taskName;
+        this.taskDescription = taskDescription;
         this.language = language;
         this.syntaxStyle = syntaxStyle;
         inputResultPairs = new ArrayList<>();
@@ -110,6 +114,10 @@ public class TaskData {
 
     public String getTaskName() {
         return taskName;
+    }
+
+    public TaskDescription getTaskDescription() {
+        return taskDescription;
     }
 
     public String getSyntaxStyle() {

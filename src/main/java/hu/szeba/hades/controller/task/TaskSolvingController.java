@@ -19,6 +19,7 @@ public class TaskSolvingController {
 
     public void setSourceList(TaskSolvingView taskSolvingView) {
         TaskData data = task.getData();
+        taskSolvingView.setTaskInstructions(data.getTaskDescription().getLongDescription());
         taskSolvingView.setSourceList(data.copySourceNames(), data.getSyntaxStyle());
         taskSolvingView.setCodeAreaContents(data.getSources());
     }

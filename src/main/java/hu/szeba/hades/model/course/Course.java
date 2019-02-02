@@ -2,7 +2,9 @@ package hu.szeba.hades.model.course;
 
 import hu.szeba.hades.model.topic.Topic;
 import hu.szeba.hades.model.topic.TopicCollection;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
 public class Course {
@@ -19,7 +21,7 @@ public class Course {
         language = "C";
     }
 
-    public Topic loadTopic(String topicName) throws IOException {
+    public Topic loadTopic(String topicName) throws IOException, ParserConfigurationException, SAXException {
         return topicCollection.loadTopic(topicName, language);
     }
 
