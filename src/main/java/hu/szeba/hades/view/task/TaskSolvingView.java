@@ -203,16 +203,17 @@ public class TaskSolvingView extends BaseView {
         codeTabArea.setCodeFoldingEnabled(true);
         codeTabArea.setSyntaxEditingStyle(syntaxStyle);
         codeTabArea.setCurrentLineHighlightColor(new Color(10, 30, 140, 50));
-        codeTabArea.setFont(monoFont);
-
-        RTextScrollPane codeTabScroll = new RTextScrollPane(codeTabArea);
-        codeTabScroll.setLineNumbersEnabled(true);
 
         try {
             Theme.load(new FileInputStream(new File("themes/dark.xml"))).apply(codeTabArea);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        codeTabArea.setFont(monoFont);
+
+        RTextScrollPane codeTabScroll = new RTextScrollPane(codeTabArea);
+        codeTabScroll.setLineNumbersEnabled(true);
 
         codeTab.addTab(name, codeTabScroll);
         codeTabByName.put(name, codeTabArea);
