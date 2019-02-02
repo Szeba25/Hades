@@ -5,6 +5,7 @@ import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.view.BaseView;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
@@ -13,7 +14,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -181,6 +185,15 @@ public class TaskSolvingView extends BaseView {
         codeTabArea.setSyntaxEditingStyle(syntaxStyle);
         codeTabArea.setCurrentLineHighlightColor(new Color(10, 30, 140, 50));
         codeTabArea.setFont(new Font("Consolas", Font.PLAIN, 14));
+
+        /*
+        try {
+            Theme theme = Theme.load(new FileInputStream(new File("vs.xml")));
+            theme.apply(codeTabArea);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        */
 
         RTextScrollPane codeTabScroll = new RTextScrollPane(codeTabArea);
         codeTabScroll.setLineNumbersEnabled(true);

@@ -1,5 +1,6 @@
 package hu.szeba.hades;
 
+import com.bulenkov.darcula.DarculaLaf;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.model.topic.Topic;
 import hu.szeba.hades.model.course.Course;
@@ -7,6 +8,7 @@ import hu.szeba.hades.model.course.CourseDatabase;
 import hu.szeba.hades.view.topic.TaskSelectorView;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicLookAndFeel;
 import java.io.IOException;
 
 public class Main {
@@ -17,6 +19,15 @@ public class Main {
     private TaskSelectorView taskSelectorView;
 
     private Main() {
+        // Set Darcula LAF (experimental)
+        /*
+        BasicLookAndFeel darcula = new DarculaLaf();
+        try {
+            UIManager.setLookAndFeel(darcula);
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+        */
         // Set Nimbus LAF
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
