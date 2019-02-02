@@ -1,7 +1,7 @@
-package hu.szeba.hades.view.campaign;
+package hu.szeba.hades.view.topic;
 
-import hu.szeba.hades.controller.campaign.TaskSelectorController;
-import hu.szeba.hades.model.campaign.Campaign;
+import hu.szeba.hades.controller.topic.TaskSelectorController;
+import hu.szeba.hades.model.topic.Topic;
 import hu.szeba.hades.model.task.languages.UnsupportedProgrammingLanguageException;
 import hu.szeba.hades.view.BaseView;
 
@@ -24,9 +24,9 @@ public class TaskSelectorView extends BaseView {
     private JButton startButton;
     private JButton continueButton;
 
-    public TaskSelectorView(Campaign campaign) {
+    public TaskSelectorView(Topic topic) {
         super();
-        taskSelectorController = new TaskSelectorController(campaign);
+        taskSelectorController = new TaskSelectorController(topic);
         taskSelectorController.setTaskListContents(taskList);
     }
 

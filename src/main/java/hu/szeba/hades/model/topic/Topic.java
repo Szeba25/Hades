@@ -1,4 +1,4 @@
-package hu.szeba.hades.model.campaign;
+package hu.szeba.hades.model.topic;
 
 import hu.szeba.hades.io.TaskGraphFile;
 import hu.szeba.hades.meta.Options;
@@ -11,28 +11,28 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class Campaign {
+public class Topic {
 
-    private File campaignDirectory;
-    private File campaignWorkingDirectory;
-    private String campaignName;
+    private File topicDirectory;
+    private File topicWorkingDirectory;
+    private String topicName;
     private AdjacencyMatrix taskMatrix;
     private List<String> taskNames;
 
     private final String language;
 
-    public Campaign(String courseName, String campaignName, String language) throws IOException {
-        this.campaignDirectory = new File(Options.getDatabasePath(),
-                "courses/" + courseName + "/" + campaignName);
-        this.campaignWorkingDirectory = new File(Options.getWorkingDirectoryPath(),
-                "courses/" + courseName + "/" + campaignName);
-        this.campaignName = campaignName;
+    public Topic(String courseName, String topicName, String language) throws IOException {
+        this.topicDirectory = new File(Options.getDatabasePath(),
+                "courses/" + courseName + "/" + topicName);
+        this.topicWorkingDirectory = new File(Options.getWorkingDirectoryPath(),
+                "courses/" + courseName + "/" + topicName);
+        this.topicName = topicName;
         this.language = language;
         loadTaskNames();
     }
 
     private void loadTaskNames() throws IOException {
-        TaskGraphFile taskGraphFile = new TaskGraphFile(new File(campaignDirectory, "tasks.graph"));
+        TaskGraphFile taskGraphFile = new TaskGraphFile(new File(topicDirectory, "tasks.graph"));
         taskMatrix = new AdjacencyMatrix(taskGraphFile.getTuples());
         taskNames = taskMatrix.getNodeNames();
     }

@@ -1,26 +1,26 @@
 package hu.szeba.hades.model.course;
 
-import hu.szeba.hades.model.campaign.Campaign;
-import hu.szeba.hades.model.campaign.CampaignCollection;
+import hu.szeba.hades.model.topic.Topic;
+import hu.szeba.hades.model.topic.TopicCollection;
 
 import java.io.IOException;
 
 public class Course {
 
-    private CampaignCollection campaignCollection;
+    private TopicCollection topicCollection;
 
     // Language cannot change!
     private final String language;
 
     public Course(String courseName) {
-        campaignCollection = new CampaignCollection(courseName);
+        topicCollection = new TopicCollection(courseName);
 
         // TODO: Read from config file!
         language = "C";
     }
 
-    public Campaign loadCampaign(String campaignName) throws IOException {
-        return campaignCollection.loadCampaign(campaignName, language);
+    public Topic loadCampaign(String campaignName) throws IOException {
+        return topicCollection.loadTopic(campaignName, language);
     }
 
 }
