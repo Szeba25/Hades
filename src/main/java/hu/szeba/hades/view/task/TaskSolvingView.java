@@ -208,6 +208,12 @@ public class TaskSolvingView extends BaseView {
         RTextScrollPane codeTabScroll = new RTextScrollPane(codeTabArea);
         codeTabScroll.setLineNumbersEnabled(true);
 
+        try {
+            Theme.load(new FileInputStream(new File("themes/dark.xml"))).apply(codeTabArea);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         codeTab.addTab(name, codeTabScroll);
         codeTabByName.put(name, codeTabArea);
     }

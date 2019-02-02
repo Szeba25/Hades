@@ -21,6 +21,7 @@ public class Main {
     private TaskSelectorView taskSelectorView;
 
     private Main() {
+        changeLookAndFeel();
         try {
             Options.initialize();
             courseDatabase = new CourseDatabase();
@@ -29,6 +30,14 @@ public class Main {
             taskSelectorView = new TaskSelectorView(topic);
             start();
         } catch (IOException | SAXException | ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void changeLookAndFeel() {
+        try {
+            UIManager.setLookAndFeel(new DarculaLaf());
+        } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
     }

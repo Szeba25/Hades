@@ -52,7 +52,7 @@ public class TaskSelectorView extends BaseView {
         taskList.setFixedCellWidth(200);
 
         taskListScroller = new JScrollPane(taskList);
-        taskListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        taskListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         taskListScroller.setBorder(BorderFactory.createEtchedBorder());
 
         descriptionArea = new JTextArea();
