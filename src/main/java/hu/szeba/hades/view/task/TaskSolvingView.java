@@ -186,15 +186,6 @@ public class TaskSolvingView extends BaseView {
         codeTabArea.setCurrentLineHighlightColor(new Color(10, 30, 140, 50));
         codeTabArea.setFont(new Font("Consolas", Font.PLAIN, 14));
 
-        /*
-        try {
-            Theme theme = Theme.load(new FileInputStream(new File("vs.xml")));
-            theme.apply(codeTabArea);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
-
         RTextScrollPane codeTabScroll = new RTextScrollPane(codeTabArea);
         codeTabScroll.setLineNumbersEnabled(true);
 
