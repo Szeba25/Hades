@@ -21,7 +21,7 @@ public class Main {
             Options.initialize();
             courseDatabase = new CourseDatabase();
             course = courseDatabase.loadCourse("prog1");
-            topic = course.loadCampaign("practice");
+            topic = course.loadTopic("practice");
             taskSelectorView = new TaskSelectorView(topic);
             start();
         } catch (IOException e) {

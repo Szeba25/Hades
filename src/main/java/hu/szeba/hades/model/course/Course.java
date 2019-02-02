@@ -19,8 +19,8 @@ public class Course {
         language = "C";
     }
 
-    public Topic loadCampaign(String campaignName) throws IOException {
-        return topicCollection.loadTopic(campaignName, language);
+    public Topic loadTopic(String topicName) throws IOException {
+        return topicCollection.loadTopic(topicName, language);
     }
 
 }
