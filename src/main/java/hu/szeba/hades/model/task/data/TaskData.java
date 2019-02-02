@@ -19,12 +19,13 @@ public class TaskData {
     private File taskWorkingDirectory;
 
     private final String taskName;
+    private final String language;
     private final String syntaxStyle;
 
     private List<Solution> solutions;
     private List<SourceFile> sources;
 
-    public TaskData(String taskName, boolean continueTask, String syntaxStyle) throws IOException {
+    public TaskData(String taskName, boolean continueTask, String language, String syntaxStyle) throws IOException {
         this.taskDirectory = getTaskDirectory(taskName);
         this.taskWorkingDirectory = getTaskWorkingDirectory(taskName);
 
@@ -41,6 +42,7 @@ public class TaskData {
         }
 
         this.taskName = taskName;
+        this.language = language;
         this.syntaxStyle = syntaxStyle;
         solutions = new ArrayList<>();
         sources = new ArrayList<>();

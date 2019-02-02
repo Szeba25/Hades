@@ -12,9 +12,9 @@ public class TaskCFactory implements TaskFactory {
 
     @Override
     public Task getTask(String taskName, boolean continueTask) throws IOException {
-        TaskData taskData = new TaskData(taskName, continueTask, RSyntaxTextArea.SYNTAX_STYLE_C);
+        TaskData taskData = new TaskData(taskName, continueTask, "C", RSyntaxTextArea.SYNTAX_STYLE_C);
         ProgramCompiler programCompiler = new ProgramCompilerC();
-        return new Task(taskData, programCompiler);
+        return new Task(taskData, programCompiler, "C");
     }
 
 }

@@ -7,13 +7,15 @@ import hu.szeba.hades.model.task.result.ResultMatcher;
 
 public class Task implements CompilerOutputRegister {
 
-    private TaskData data;
-    private ProgramCompiler programCompiler;
+    private final TaskData data;
+    private final ProgramCompiler programCompiler;
+    private final String language;
     private CompilerOutput compilerOutput;
 
-    public Task(TaskData data, ProgramCompiler programCompiler) {
+    public Task(TaskData data, ProgramCompiler programCompiler, String language) {
         this.data = data;
         this.programCompiler = programCompiler;
+        this.language = language;
         this.compilerOutput = programCompiler.getCached(data.getTaskWorkingDirectory());
     }
 
