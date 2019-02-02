@@ -1,5 +1,6 @@
 package hu.szeba.hades.controller.topic;
 
+import hu.szeba.hades.model.task.data.MissingResultFileForProgramInputException;
 import hu.szeba.hades.model.topic.Topic;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.languages.UnsupportedProgrammingLanguageException;
@@ -22,7 +23,7 @@ public class TaskSelectorController {
     }
 
     public void loadNewTask(String selectedTaskName,
-                            BaseView parentView) throws UnsupportedProgrammingLanguageException, IOException {
+                            BaseView parentView) throws UnsupportedProgrammingLanguageException, IOException, MissingResultFileForProgramInputException {
         if (selectedTaskName != null) {
             Task task = topic.createTask(selectedTaskName, false);
             parentView.hideView();
@@ -32,7 +33,7 @@ public class TaskSelectorController {
     }
 
     public void continueTask(String selectedTaskName,
-                             BaseView parentView) throws UnsupportedProgrammingLanguageException, IOException {
+                             BaseView parentView) throws UnsupportedProgrammingLanguageException, IOException, MissingResultFileForProgramInputException {
         if (selectedTaskName != null) {
             Task task = topic.createTask(selectedTaskName, true);
             parentView.hideView();

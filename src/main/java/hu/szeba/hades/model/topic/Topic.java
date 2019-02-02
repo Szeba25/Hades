@@ -3,6 +3,7 @@ package hu.szeba.hades.model.topic;
 import hu.szeba.hades.io.TaskGraphFile;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.model.task.Task;
+import hu.szeba.hades.model.task.data.MissingResultFileForProgramInputException;
 import hu.szeba.hades.model.task.graph.AdjacencyMatrix;
 import hu.szeba.hades.model.task.languages.UnsupportedProgrammingLanguageException;
 import hu.szeba.hades.model.task.taskfactory.TaskFactoryDecider;
@@ -37,7 +38,7 @@ public class Topic {
         taskNames = taskMatrix.getNodeNames();
     }
 
-    public Task createTask(String taskName, boolean continueTask) throws UnsupportedProgrammingLanguageException, IOException {
+    public Task createTask(String taskName, boolean continueTask) throws UnsupportedProgrammingLanguageException, IOException, MissingResultFileForProgramInputException {
         return TaskFactoryDecider.decideFactory(language).getTask(taskName, continueTask);
     }
 

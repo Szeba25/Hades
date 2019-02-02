@@ -20,8 +20,8 @@ public class Main {
         try {
             Options.initialize();
             courseDatabase = new CourseDatabase();
-            course = courseDatabase.loadCourse("prog1");
-            topic = course.loadTopic("practice");
+            course = courseDatabase.loadCourse("programozas_1");
+            topic = course.loadTopic("gyakorlas");
             taskSelectorView = new TaskSelectorView(topic);
             start();
         } catch (IOException e) {

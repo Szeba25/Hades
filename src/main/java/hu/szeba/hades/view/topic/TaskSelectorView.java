@@ -1,6 +1,7 @@
 package hu.szeba.hades.view.topic;
 
 import hu.szeba.hades.controller.topic.TaskSelectorController;
+import hu.szeba.hades.model.task.data.MissingResultFileForProgramInputException;
 import hu.szeba.hades.model.topic.Topic;
 import hu.szeba.hades.model.task.languages.UnsupportedProgrammingLanguageException;
 import hu.szeba.hades.view.BaseView;
@@ -86,14 +87,14 @@ public class TaskSelectorView extends BaseView {
         startButton.addActionListener((event) -> {
             try {
                 taskSelectorController.loadNewTask(getSelectedTaskName(), this);
-            } catch (UnsupportedProgrammingLanguageException | IOException e) {
+            } catch (UnsupportedProgrammingLanguageException | IOException | MissingResultFileForProgramInputException e) {
                 e.printStackTrace();
             }
         });
         continueButton.addActionListener((event) -> {
             try {
                 taskSelectorController.continueTask(getSelectedTaskName(), this);
-            } catch (UnsupportedProgrammingLanguageException | IOException e) {
+            } catch (UnsupportedProgrammingLanguageException | IOException | MissingResultFileForProgramInputException e) {
                 e.printStackTrace();
             }
         });

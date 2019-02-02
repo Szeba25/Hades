@@ -38,7 +38,7 @@ public class TaskSolvingController {
         TaskCompilerWorker taskCompilerWorker = new TaskCompilerWorker(
                 task, // Passed as register interface type!
                 task.getProgramCompiler(),
-                data.copySourceNames(),
+                data.copySourceNamesWithPath(),
                 data.copyTaskWorkingDirectory(),
                 buildMenu,
                 terminalArea);
@@ -61,7 +61,7 @@ public class TaskSolvingController {
                 task, // Passed as register interface type!
                 task.getProgramCompiler(),
                 data.copyInputResultPairs(),
-                data.copySourceNames(),
+                data.copySourceNamesWithPath(),
                 data.copyTaskWorkingDirectory(),
                 buildMenu,
                 terminalArea);

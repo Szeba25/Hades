@@ -4,14 +4,17 @@ import hu.szeba.hades.io.DataFile;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.model.task.program.ProgramInput;
 import hu.szeba.hades.model.task.result.Result;
+import hu.szeba.hades.util.FileHandlingUtil;
 import org.apache.commons.io.FileUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class TaskData {
 
@@ -25,7 +28,7 @@ public class TaskData {
     private List<InputResultPair> inputResultPairs;
     private List<SourceFile> sources;
 
-    public TaskData(String taskName, boolean continueTask, String language, String syntaxStyle) throws IOException {
+    public TaskData(String taskName, boolean continueTask, String language, String syntaxStyle) throws IOException, MissingResultFileForProgramInputException {
         this.taskDirectory = getTaskDirectory(taskName);
         this.taskWorkingDirectory = getTaskWorkingDirectory(taskName);
 
@@ -50,25 +53,38 @@ public class TaskData {
         makeSources();
     }
 
-    private void makeInputResultPairs() throws IOException {
-        DataFile irList = new DataFile(new File(taskWorkingDirectory,
-                ".meta/solutions_map.dat"),
-                "->");
-        for (int i = 0; i < irList.getLineCount(); i++) {
-            String inputFileName = irList.getData(i, 0);
-            String solutionFileName = irList.getData(i, 1);
-            ProgramInput programInput = new ProgramInput(new File(taskWorkingDirectory,
-                    ".meta/input_result_pairs/" + inputFileName));
-            Result result = new Result(new File(taskWorkingDirectory,
-                    ".meta/input_result_pairs/" + solutionFileName));
+    private void makeInputResultPairs() throws IOException, MissingResultFileForProgramInputException {
+        String[] extInput = { "input" };
+        List<File> inputFiles = new LinkedList<>(FileUtils.listFiles(
+                new File(taskDirectory, "input_result_pairs"),
+                extInput,
+                false));
+
+        for (int i = 0; i < inputFiles.size(); i++) {
+            String inputFileName = inputFiles.get(i).getName();
+            String resultFileName = FileHandlingUtil.getFileNameWithoutExtension(inputFileName) + ".result";
+
+            File resultFile = new File(taskDirectory, "input_result_pairs/" + resultFileName);
+
+            if (!resultFile.exists()) {
+                inputResultPairs.clear();
+                throw new MissingResultFileForProgramInputException(taskName, inputFileName);
+            }
+
+            ProgramInput programInput = new ProgramInput(inputFiles.get(i));
+            Result result = new Result(resultFile);
+
             inputResultPairs.add(new InputResultPair(programInput, result));
         }
     }
 
     private void makeSources() throws IOException {
-        DataFile sourceList = new DataFile(new File(taskWorkingDirectory, ".meta/sources.dat"));
-        for (int i = 0; i < sourceList.getLineCount(); i++) {
-            sources.add(new SourceFile(new File(taskWorkingDirectory, sourceList.getData(i, 0))));
+        List<File> sourceFiles = new LinkedList<>(FileUtils.listFiles(
+                new File(taskWorkingDirectory, "sources/" + language),
+                null,
+                false));
+        for (File sourceFile : sourceFiles) {
+            sources.add(new SourceFile(sourceFile));
         }
     }
 
@@ -114,6 +130,14 @@ public class TaskData {
 
     public void setSourceContents(Map<String, RSyntaxTextArea> codeAreas) {
         sources.forEach((src) -> src.setData(codeAreas.get(src.getName()).getText()));
+    }
+
+    public String[] copySourceNamesWithPath() {
+        String[] src = new String[sources.size()];
+        for (int i = 0; i < sources.size(); i++) {
+            src[i] = "sources/" + language + "/" + sources.get(i).getName();
+        }
+        return src;
     }
 
     public String[] copySourceNames() {
