@@ -51,16 +51,16 @@ public class TaskData {
     }
 
     private void makeInputResultPairs() throws IOException {
-        DataFile solutionList = new DataFile(new File(taskWorkingDirectory,
+        DataFile irList = new DataFile(new File(taskWorkingDirectory,
                 ".meta/solutions_map.dat"),
                 "->");
-        for (int i = 0; i < solutionList.getLineCount(); i++) {
-            String inputFileName = solutionList.getData(i, 0);
-            String solutionFileName = solutionList.getData(i, 1);
+        for (int i = 0; i < irList.getLineCount(); i++) {
+            String inputFileName = irList.getData(i, 0);
+            String solutionFileName = irList.getData(i, 1);
             ProgramInput programInput = new ProgramInput(new File(taskWorkingDirectory,
-                    ".meta/solutions/" + inputFileName));
+                    ".meta/input_result_pairs/" + inputFileName));
             Result result = new Result(new File(taskWorkingDirectory,
-                    ".meta/solutions/" + solutionFileName));
+                    ".meta/input_result_pairs/" + solutionFileName));
             inputResultPairs.add(new InputResultPair(programInput, result));
         }
     }
