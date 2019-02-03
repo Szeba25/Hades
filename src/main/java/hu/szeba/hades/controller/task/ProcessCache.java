@@ -10,21 +10,21 @@ public class ProcessCache {
         this.process = null;
     }
 
-    public void clear() {
+    public synchronized void clear() {
         process = null;
     }
 
-    public void set(Process process) {
+    public synchronized void set(Process process) {
         this.process = process;
     }
 
-    public void destroy(JTextArea terminalArea) {
-        if (process != null) {
+    public synchronized void destroy(JTextArea terminalArea) {
+        if (process == null) {
+            terminalArea.append("> Process didn't started yet. Please wait a second!\n");
+        } else {
             process.destroyForcibly();
             process = null;
             terminalArea.append("> Requesting process destroy...\n");
-        } else {
-            terminalArea.append("> Process didn't started yet. Please wait a second!\n");
         }
     }
 
