@@ -14,19 +14,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TaskRunnerWorker extends SwingWorker<Integer, String> {
 
-    private TaskThreadObserver taskThreadObserver;
-    private ProcessCache processCache;
     private Program program;
     private List<InputResultPair> inputResultPairs;
     private BuildMenuWrapper buildMenuWrapper;
     private JTextArea terminalArea;
 
-    TaskRunnerWorker(TaskThreadObserver taskThreadObserver,
-                    ProcessCache processCache, Program program,
+    TaskRunnerWorker(Program program,
                      List<InputResultPair> inputResultPairs,
                      BuildMenuWrapper buildMenuWrapper, JTextArea terminalArea) {
-        this.taskThreadObserver = taskThreadObserver;
-        this.processCache = processCache;
         this.program = program;
         this.inputResultPairs = inputResultPairs;
         this.buildMenuWrapper = buildMenuWrapper;
@@ -41,7 +36,7 @@ public class TaskRunnerWorker extends SwingWorker<Integer, String> {
 
         for (InputResultPair inputResultPair : inputResultPairs) {
             publish("> Using input: " + inputResultPair.getProgramInput().getFile().getName() + "\n");
-            Result result = program.run(inputResultPair.getProgramInput(), taskThreadObserver, processCache);
+            Result result = program.run(inputResultPair.getProgramInput());
             for (int i = 0; i < result.getResultLineCount(); i++) {
                 publish((i + 1) + ". " + result.getResultLineByIndex(i).getData() + "\n");
             }
@@ -67,8 +62,6 @@ public class TaskRunnerWorker extends SwingWorker<Integer, String> {
 
     @Override
     protected void done() {
-        processCache.clearProcess();
-        taskThreadObserver.stop();
         buildMenuWrapper.setBuildEnabled(true);
         buildMenuWrapper.setBuildAndRunEnabled(true);
         buildMenuWrapper.setRunEnabled(true);

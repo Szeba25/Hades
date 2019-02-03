@@ -15,14 +15,13 @@ public class ProgramC extends Program {
     }
 
     @Override
-    public Result run(ProgramInput input, TaskThreadObserver taskThreadObserver, ProcessCache processCache)
+    public Result run(ProgramInput input)
             throws IOException, InterruptedException {
         Result result = new Result();
 
         ProcessBuilder processBuilder = new ProcessBuilder(location.getAbsolutePath());
 
         Process process = processBuilder.start();
-        processCache.setProcess(process);
 
         OutputStream os = process.getOutputStream();
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
@@ -37,8 +36,8 @@ public class ProgramC extends Program {
         InputStreamReader is = new InputStreamReader(process.getInputStream());
         BufferedReader br = new BufferedReader(is);
         String line = br.readLine();
-        while (line != null && !taskThreadObserver.shouldStop()) {
-            result.addResultLine(new ResultLine(line + " -> " + taskThreadObserver.shouldStop()));
+        while (line != null) {
+            result.addResultLine(new ResultLine(line));
             line = br.readLine();
         }
         br.close();

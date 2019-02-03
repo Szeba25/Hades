@@ -13,9 +13,6 @@ import java.util.Map;
 public class TaskSolvingController {
 
     private Task task;
-    private TaskThreadObserver taskCompilerAndRunnerObserver;
-    private TaskThreadObserver taskRunnerObserver;
-    private ProcessCache processCache;
 
     public TaskSolvingController(Task task) {
         this.task = task;
@@ -26,11 +23,6 @@ public class TaskSolvingController {
         taskSolvingView.setTaskInstructions(data.getTaskDescription().getLongDescription());
         taskSolvingView.setSourceList(data.copySourceNames(), data.getSyntaxStyle());
         taskSolvingView.setCodeAreaContents(data.getSources());
-
-        taskCompilerAndRunnerObserver = new TaskThreadObserver();
-        taskRunnerObserver = new TaskThreadObserver();
-
-        processCache = new ProcessCache();
     }
 
     public void compile(Map<String, RSyntaxTextArea> codeAreas,
@@ -73,8 +65,6 @@ public class TaskSolvingController {
 
         // Start a worker thread to compile the task!
         TaskCompilerAndRunnerWorker taskCompilerAndRunnerWorker = new TaskCompilerAndRunnerWorker(
-                taskCompilerAndRunnerObserver,
-                processCache,
                 task, // Passed as register interface type!
                 task.getProgramCompiler(),
                 data.copyInputResultPairs(),
@@ -82,7 +72,6 @@ public class TaskSolvingController {
                 data.copyTaskWorkingDirectory(),
                 buildMenuWrapper,
                 terminalArea);
-        taskCompilerAndRunnerObserver.initialize();
         taskCompilerAndRunnerWorker.execute();
     }
 
@@ -96,20 +85,15 @@ public class TaskSolvingController {
 
         // Start a worker thread to run the task!
         TaskRunnerWorker taskRunnerWorker = new TaskRunnerWorker(
-                taskRunnerObserver,
-                processCache,
                 task.getCompilerOutput().getProgram(),
                 task.getData().copyInputResultPairs(),
                 buildMenuWrapper,
                 terminalArea);
-        taskRunnerObserver.initialize();
         taskRunnerWorker.execute();
     }
 
     public void stopCachedProcess() {
-        taskCompilerAndRunnerObserver.stop();
-        taskRunnerObserver.stop();
-        processCache.stopProcess();
+
     }
 
 }

@@ -16,8 +16,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
 
-    private TaskThreadObserver taskThreadObserver;
-    private ProcessCache processCache;
     private ProgramCompiler compiler;
     private CompilerOutputRegister register;
     private List<InputResultPair> inputResultPairs;
@@ -27,13 +25,10 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
     private JTextArea terminalArea;
     private CompilerOutput output;
 
-    TaskCompilerAndRunnerWorker(TaskThreadObserver taskThreadObserver, ProcessCache processCache,
-                                CompilerOutputRegister register, ProgramCompiler compiler,
+    TaskCompilerAndRunnerWorker(CompilerOutputRegister register, ProgramCompiler compiler,
                                 List<InputResultPair> inputResultPairs,
                                 String[] sources, File path,
                                 BuildMenuWrapper buildMenuWrapper, JTextArea terminalArea) {
-        this.taskThreadObserver = taskThreadObserver;
-        this.processCache = processCache;
         this.compiler = compiler;
         this.register = register;
         this.inputResultPairs = inputResultPairs;
@@ -62,7 +57,7 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
 
             for (InputResultPair inputResultPair : inputResultPairs) {
                 publish("> Using input: " + inputResultPair.getProgramInput().getFile().getName() + "\n");
-                Result result = output.getProgram().run(inputResultPair.getProgramInput(), taskThreadObserver, processCache);
+                Result result = output.getProgram().run(inputResultPair.getProgramInput());
                 for (int i = 0; i < result.getResultLineCount(); i++) {
                     publish((i + 1) + ". " + result.getResultLineByIndex(i).getData() + "\n");
                 }
@@ -89,8 +84,6 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
 
     @Override
     protected void done() {
-        processCache.clearProcess();
-        taskThreadObserver.stop();
         buildMenuWrapper.setBuildEnabled(true);
         buildMenuWrapper.setBuildAndRunEnabled(true);
         buildMenuWrapper.setRunEnabled(output.isReady());

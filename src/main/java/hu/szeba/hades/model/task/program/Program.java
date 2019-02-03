@@ -15,7 +15,7 @@ public abstract class Program {
         this.location = location;
     }
 
-    public abstract Result run(ProgramInput input, TaskThreadObserver taskThreadObserver, ProcessCache processCache)
+    public abstract Result run(ProgramInput input)
             throws IOException, InterruptedException;
 
 }
