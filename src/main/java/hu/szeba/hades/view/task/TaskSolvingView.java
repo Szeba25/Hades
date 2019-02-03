@@ -170,6 +170,10 @@ public class TaskSolvingView extends BaseView {
         });
         // Run action
         runMenuItem.addActionListener((event) -> taskSolvingController.run(terminalArea, buildMenuWrapper));
+        // Stop action
+        stopMenuItem.addActionListener((event) -> {
+            taskSolvingController.stopCachedProcess();
+        });
         // Switching (or opening: NYI) tabs with list
         fileList.addMouseListener(new MouseAdapter() {
             @Override

@@ -10,15 +10,23 @@ import hu.szeba.hades.view.task.BuildMenuWrapper;
 import javax.swing.*;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-public class TaskRunningWorker extends SwingWorker<Integer, String> {
+public class TaskRunnerWorker extends SwingWorker<Integer, String> {
 
+    private TaskThreadObserver taskThreadObserver;
+    private ProcessCache processCache;
     private Program program;
     private List<InputResultPair> inputResultPairs;
     private BuildMenuWrapper buildMenuWrapper;
     private JTextArea terminalArea;
 
-    TaskRunningWorker(Program program, List<InputResultPair> inputResultPairs, BuildMenuWrapper buildMenuWrapper, JTextArea terminalArea) {
+    TaskRunnerWorker(TaskThreadObserver taskThreadObserver,
+                    ProcessCache processCache, Program program,
+                     List<InputResultPair> inputResultPairs,
+                     BuildMenuWrapper buildMenuWrapper, JTextArea terminalArea) {
+        this.taskThreadObserver = taskThreadObserver;
+        this.processCache = processCache;
         this.program = program;
         this.inputResultPairs = inputResultPairs;
         this.buildMenuWrapper = buildMenuWrapper;
@@ -33,7 +41,7 @@ public class TaskRunningWorker extends SwingWorker<Integer, String> {
 
         for (InputResultPair inputResultPair : inputResultPairs) {
             publish("> Using input: " + inputResultPair.getProgramInput().getFile().getName() + "\n");
-            Result result = program.run(inputResultPair.getProgramInput());
+            Result result = program.run(inputResultPair.getProgramInput(), taskThreadObserver, processCache);
             for (int i = 0; i < result.getResultLineCount(); i++) {
                 publish((i + 1) + ". " + result.getResultLineByIndex(i).getData() + "\n");
             }
@@ -59,6 +67,8 @@ public class TaskRunningWorker extends SwingWorker<Integer, String> {
 
     @Override
     protected void done() {
+        processCache.clearProcess();
+        taskThreadObserver.stop();
         buildMenuWrapper.setBuildEnabled(true);
         buildMenuWrapper.setBuildAndRunEnabled(true);
         buildMenuWrapper.setRunEnabled(true);

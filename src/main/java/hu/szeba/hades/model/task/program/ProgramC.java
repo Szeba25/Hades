@@ -1,12 +1,12 @@
 package hu.szeba.hades.model.task.program;
 
+import hu.szeba.hades.controller.task.ProcessCache;
+import hu.szeba.hades.controller.task.TaskThreadObserver;
 import hu.szeba.hades.io.TabbedFile;
 import hu.szeba.hades.model.task.result.Result;
 import hu.szeba.hades.model.task.result.ResultLine;
-import hu.szeba.hades.util.StreamUtil;
 
 import java.io.*;
-import java.util.List;
 
 public class ProgramC extends Program {
 
@@ -15,12 +15,14 @@ public class ProgramC extends Program {
     }
 
     @Override
-    public Result run(ProgramInput input) throws IOException, InterruptedException {
+    public Result run(ProgramInput input, TaskThreadObserver taskThreadObserver, ProcessCache processCache)
+            throws IOException, InterruptedException {
         Result result = new Result();
 
         ProcessBuilder processBuilder = new ProcessBuilder(location.getAbsolutePath());
 
         Process process = processBuilder.start();
+        processCache.setProcess(process);
 
         OutputStream os = process.getOutputStream();
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
@@ -32,11 +34,17 @@ public class ProgramC extends Program {
         bw.close();
         os.close();
 
-        process.waitFor();
+        InputStreamReader is = new InputStreamReader(process.getInputStream());
+        BufferedReader br = new BufferedReader(is);
+        String line = br.readLine();
+        while (line != null && !taskThreadObserver.shouldStop()) {
+            result.addResultLine(new ResultLine(line + " -> " + taskThreadObserver.shouldStop()));
+            line = br.readLine();
+        }
+        br.close();
+        is.close();
 
-        StreamUtil.getStream(process.getInputStream()).forEach((res) -> {
-            result.addResultLine(new ResultLine(res));
-        });
+        process.waitFor();
 
         return result;
     }
