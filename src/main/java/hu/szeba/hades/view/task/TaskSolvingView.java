@@ -120,7 +120,7 @@ public class TaskSolvingView extends BaseView {
         buildMenuItem = new JMenuItem("Build all");
         buildAndRunMenuItem = new JMenuItem("Build all and run...");
         runMenuItem = new JMenuItem("Run...");
-        stopMenuItem = new JMenuItem("Stop!");
+        stopMenuItem = new JMenuItem("Stop! (for this input)");
 
         buildMenu.add(buildMenuItem);
         buildMenu.addSeparator();
@@ -130,7 +130,7 @@ public class TaskSolvingView extends BaseView {
         buildMenu.addSeparator();
         buildMenu.add(stopMenuItem);
 
-        buildMenuWrapper = new BuildMenuWrapper(buildMenuItem, buildAndRunMenuItem, runMenuItem);
+        buildMenuWrapper = new BuildMenuWrapper(buildMenuItem, buildAndRunMenuItem, runMenuItem, stopMenuItem);
 
         JMenu helpMenu = new JMenu("Help");
 
@@ -171,6 +171,10 @@ public class TaskSolvingView extends BaseView {
         });
         // Run action
         runMenuItem.addActionListener((event) -> taskSolvingController.run(terminalArea, buildMenuWrapper));
+        // Stop action
+        stopMenuItem.addActionListener((event) -> {
+            taskSolvingController.stopCurrentProcess(terminalArea);
+        });
         // Switching (or opening: NYI) tabs with list
         fileList.addMouseListener(new MouseAdapter() {
             @Override

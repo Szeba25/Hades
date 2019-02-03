@@ -14,16 +14,19 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TaskRunnerWorker extends SwingWorker<Integer, String> {
 
+    private ProcessCache processCache;
     private Program program;
     private List<InputResultPair> inputResultPairs;
     private BuildMenuWrapper buildMenuWrapper;
     private JTextArea terminalArea;
     private int maxResultLineCount;
 
-    TaskRunnerWorker(Program program,
+    TaskRunnerWorker(ProcessCache processCache,
+                     Program program,
                      List<InputResultPair> inputResultPairs,
                      BuildMenuWrapper buildMenuWrapper, JTextArea terminalArea,
                      int maxResultLineCount) {
+        this.processCache = processCache;
         this.program = program;
         this.inputResultPairs = inputResultPairs;
         this.buildMenuWrapper = buildMenuWrapper;
@@ -32,14 +35,14 @@ public class TaskRunnerWorker extends SwingWorker<Integer, String> {
     }
 
     @Override
-    protected Integer doInBackground() throws IOException {
+    protected Integer doInBackground() throws IOException, InterruptedException {
         publish("> Running program...\n\n");
 
         ResultMatcher matcher = new ResultMatcher();
 
         for (InputResultPair inputResultPair : inputResultPairs) {
             publish("> Using input: " + inputResultPair.getProgramInput().getFile().getName() + "\n");
-            Result result = program.run(inputResultPair.getProgramInput(), maxResultLineCount);
+            Result result = program.run(inputResultPair.getProgramInput(), processCache, maxResultLineCount);
 
             if (result.getResultLineCount() == maxResultLineCount) {
                 publish("> HALT: Too many output! (infinite loop?)\n");
@@ -52,8 +55,7 @@ public class TaskRunnerWorker extends SwingWorker<Integer, String> {
             matcher.match(result, inputResultPair.getDesiredResult());
             for (int i = 0; i < matcher.getDifferencesSize(); i++) {
                 ResultDifference diff = matcher.getDifference(i);
-                publish("* difference at line: " + diff.getLineNumber());
-                publish(". \"" + diff.getFirstLine().getData() + "\" should be \""
+                publish("* difference at line: " + diff.getLineNumber() + ". \"" + diff.getFirstLine().getData() + "\" should be \""
                         + diff.getSecondLine().getData() + "\"\n");
             }
             publish("\n");
@@ -65,14 +67,22 @@ public class TaskRunnerWorker extends SwingWorker<Integer, String> {
 
     @Override
     protected void process(List<String> chunks) {
-        chunks.forEach(terminalArea::append);
+        for (String line : chunks) {
+            if (line.length() < 200) {
+                terminalArea.append(line);
+            } else {
+                terminalArea.append(line.substring(0, 200) + ".....\n");
+            }
+        }
     }
 
     @Override
     protected void done() {
+        processCache.clear();
         buildMenuWrapper.setBuildEnabled(true);
         buildMenuWrapper.setBuildAndRunEnabled(true);
         buildMenuWrapper.setRunEnabled(true);
+        buildMenuWrapper.setStopEnabled(false);
     }
 
 }

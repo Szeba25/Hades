@@ -44,7 +44,13 @@ public class TaskCompilerWorker extends SwingWorker<Integer, String> {
 
     @Override
     protected void process(List<String> chunks) {
-        chunks.forEach(terminalArea::append);
+        for (String line : chunks) {
+            if (line.length() < 200) {
+                terminalArea.append(line);
+            } else {
+                terminalArea.append(line.substring(0, 200) + ".....\n");
+            }
+        }
     }
 
     @Override

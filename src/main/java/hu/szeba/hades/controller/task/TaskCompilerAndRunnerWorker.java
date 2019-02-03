@@ -11,11 +11,13 @@ import hu.szeba.hades.view.task.BuildMenuWrapper;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
 
+    private ProcessCache processCache;
     private ProgramCompiler compiler;
     private CompilerOutputRegister register;
     private List<InputResultPair> inputResultPairs;
@@ -26,11 +28,13 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
     private int maxResultLineCount;
     private CompilerOutput output;
 
-    TaskCompilerAndRunnerWorker(CompilerOutputRegister register, ProgramCompiler compiler,
+    TaskCompilerAndRunnerWorker(ProcessCache processCache,
+                                CompilerOutputRegister register, ProgramCompiler compiler,
                                 List<InputResultPair> inputResultPairs,
                                 String[] sources, File path,
                                 BuildMenuWrapper buildMenuWrapper, JTextArea terminalArea,
                                 int maxResultLineCount) {
+        this.processCache = processCache;
         this.compiler = compiler;
         this.register = register;
         this.inputResultPairs = inputResultPairs;
@@ -43,7 +47,7 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
     }
 
     @Override
-    protected Integer doInBackground() throws Exception {
+    protected Integer doInBackground() throws IOException, InterruptedException {
         publish("> Compilation started...\n\n");
 
         // Compile
@@ -60,7 +64,7 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
 
             for (InputResultPair inputResultPair : inputResultPairs) {
                 publish("> Using input: " + inputResultPair.getProgramInput().getFile().getName() + "\n");
-                Result result = output.getProgram().run(inputResultPair.getProgramInput(), maxResultLineCount);
+                Result result = output.getProgram().run(inputResultPair.getProgramInput(), processCache, maxResultLineCount);
 
                 if (result.getResultLineCount() == maxResultLineCount) {
                     publish("> HALT: Too many output! (infinite loop?)\n");
@@ -73,8 +77,7 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
                 matcher.match(result, inputResultPair.getDesiredResult());
                 for (int i = 0; i < matcher.getDifferencesSize(); i++) {
                     ResultDifference diff = matcher.getDifference(i);
-                    publish("* difference at line: " + diff.getLineNumber());
-                    publish(". \"" + diff.getFirstLine().getData() + "\" should be \""
+                    publish("* difference at line: " + diff.getLineNumber() + ". \"" + diff.getFirstLine().getData() + "\" should be \""
                             + diff.getSecondLine().getData() + "\"\n");
                 }
                 publish("\n");
@@ -87,14 +90,22 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
 
     @Override
     protected void process(List<String> chunks) {
-        chunks.forEach(terminalArea::append);
+        for (String line : chunks) {
+            if (line.length() < 200) {
+                terminalArea.append(line);
+            } else {
+                terminalArea.append(line.substring(0, 200) + ".....\n");
+            }
+        }
     }
 
     @Override
     protected void done() {
+        processCache.clear();
         buildMenuWrapper.setBuildEnabled(true);
         buildMenuWrapper.setBuildAndRunEnabled(true);
         buildMenuWrapper.setRunEnabled(output.isReady());
+        buildMenuWrapper.setStopEnabled(false);
         register.registerCompilerOutput(output);
     }
 

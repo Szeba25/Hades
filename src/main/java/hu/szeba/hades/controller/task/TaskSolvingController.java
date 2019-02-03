@@ -14,9 +14,11 @@ import java.util.Map;
 public class TaskSolvingController {
 
     private Task task;
+    private ProcessCache processCache;
 
     public TaskSolvingController(Task task) {
         this.task = task;
+        processCache = new ProcessCache();
     }
 
     public void setSourceList(TaskSolvingView taskSolvingView) {
@@ -62,9 +64,11 @@ public class TaskSolvingController {
         buildMenuWrapper.setBuildEnabled(false);
         buildMenuWrapper.setBuildAndRunEnabled(false);
         buildMenuWrapper.setRunEnabled(false);
+        buildMenuWrapper.setStopEnabled(true);
 
         // Start a worker thread to compile the task!
         TaskCompilerAndRunnerWorker taskCompilerAndRunnerWorker = new TaskCompilerAndRunnerWorker(
+                processCache,
                 task, // Passed as register interface type!
                 task.getProgramCompiler(),
                 data.copyInputResultPairs(),
@@ -82,15 +86,21 @@ public class TaskSolvingController {
         buildMenuWrapper.setBuildEnabled(false);
         buildMenuWrapper.setBuildAndRunEnabled(false);
         buildMenuWrapper.setRunEnabled(false);
+        buildMenuWrapper.setStopEnabled(true);
 
         // Start a worker thread to run the task!
         TaskRunnerWorker taskRunnerWorker = new TaskRunnerWorker(
+                processCache,
                 task.getCompilerOutput().getProgram(),
                 task.getData().copyInputResultPairs(),
                 buildMenuWrapper,
                 terminalArea,
                 Options.getConfigIntData("max_default_result_line_count"));
         taskRunnerWorker.execute();
+    }
+
+    public void stopCurrentProcess(JTextArea terminalArea) {
+        processCache.destroy(terminalArea);
     }
 
 }
