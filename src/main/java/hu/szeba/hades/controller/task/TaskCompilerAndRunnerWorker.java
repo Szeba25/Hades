@@ -23,12 +23,14 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
     private File path;
     private BuildMenuWrapper buildMenuWrapper;
     private JTextArea terminalArea;
+    private int maxResultLineCount;
     private CompilerOutput output;
 
     TaskCompilerAndRunnerWorker(CompilerOutputRegister register, ProgramCompiler compiler,
                                 List<InputResultPair> inputResultPairs,
                                 String[] sources, File path,
-                                BuildMenuWrapper buildMenuWrapper, JTextArea terminalArea) {
+                                BuildMenuWrapper buildMenuWrapper, JTextArea terminalArea,
+                                int maxResultLineCount) {
         this.compiler = compiler;
         this.register = register;
         this.inputResultPairs = inputResultPairs;
@@ -36,6 +38,7 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
         this.path = path;
         this.buildMenuWrapper = buildMenuWrapper;
         this.terminalArea = terminalArea;
+        this.maxResultLineCount = maxResultLineCount;
         this.output = null;
     }
 
@@ -57,7 +60,12 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
 
             for (InputResultPair inputResultPair : inputResultPairs) {
                 publish("> Using input: " + inputResultPair.getProgramInput().getFile().getName() + "\n");
-                Result result = output.getProgram().run(inputResultPair.getProgramInput());
+                Result result = output.getProgram().run(inputResultPair.getProgramInput(), maxResultLineCount);
+
+                if (result.getResultLineCount() == maxResultLineCount) {
+                    publish("> HALT: Too many output! (infinite loop?)\n");
+                }
+
                 for (int i = 0; i < result.getResultLineCount(); i++) {
                     publish((i + 1) + ". " + result.getResultLineByIndex(i).getData() + "\n");
                 }
@@ -87,7 +95,6 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
         buildMenuWrapper.setBuildEnabled(true);
         buildMenuWrapper.setBuildAndRunEnabled(true);
         buildMenuWrapper.setRunEnabled(output.isReady());
-        buildMenuWrapper.setStopEnabled(false);
         register.registerCompilerOutput(output);
     }
 

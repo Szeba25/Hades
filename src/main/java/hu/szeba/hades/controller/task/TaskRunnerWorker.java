@@ -18,25 +18,33 @@ public class TaskRunnerWorker extends SwingWorker<Integer, String> {
     private List<InputResultPair> inputResultPairs;
     private BuildMenuWrapper buildMenuWrapper;
     private JTextArea terminalArea;
+    private int maxResultLineCount;
 
     TaskRunnerWorker(Program program,
                      List<InputResultPair> inputResultPairs,
-                     BuildMenuWrapper buildMenuWrapper, JTextArea terminalArea) {
+                     BuildMenuWrapper buildMenuWrapper, JTextArea terminalArea,
+                     int maxResultLineCount) {
         this.program = program;
         this.inputResultPairs = inputResultPairs;
         this.buildMenuWrapper = buildMenuWrapper;
         this.terminalArea = terminalArea;
+        this.maxResultLineCount = maxResultLineCount;
     }
 
     @Override
-    protected Integer doInBackground() throws IOException, InterruptedException {
+    protected Integer doInBackground() throws IOException {
         publish("> Running program...\n\n");
 
         ResultMatcher matcher = new ResultMatcher();
 
         for (InputResultPair inputResultPair : inputResultPairs) {
             publish("> Using input: " + inputResultPair.getProgramInput().getFile().getName() + "\n");
-            Result result = program.run(inputResultPair.getProgramInput());
+            Result result = program.run(inputResultPair.getProgramInput(), maxResultLineCount);
+
+            if (result.getResultLineCount() == maxResultLineCount) {
+                publish("> HALT: Too many output! (infinite loop?)\n");
+            }
+
             for (int i = 0; i < result.getResultLineCount(); i++) {
                 publish((i + 1) + ". " + result.getResultLineByIndex(i).getData() + "\n");
             }
@@ -65,7 +73,6 @@ public class TaskRunnerWorker extends SwingWorker<Integer, String> {
         buildMenuWrapper.setBuildEnabled(true);
         buildMenuWrapper.setBuildAndRunEnabled(true);
         buildMenuWrapper.setRunEnabled(true);
-        buildMenuWrapper.setStopEnabled(false);
     }
 
 }

@@ -1,5 +1,6 @@
 package hu.szeba.hades.controller.task;
 
+import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.TaskData;
 import hu.szeba.hades.view.task.BuildMenuWrapper;
@@ -61,7 +62,6 @@ public class TaskSolvingController {
         buildMenuWrapper.setBuildEnabled(false);
         buildMenuWrapper.setBuildAndRunEnabled(false);
         buildMenuWrapper.setRunEnabled(false);
-        buildMenuWrapper.setStopEnabled(true);
 
         // Start a worker thread to compile the task!
         TaskCompilerAndRunnerWorker taskCompilerAndRunnerWorker = new TaskCompilerAndRunnerWorker(
@@ -71,7 +71,8 @@ public class TaskSolvingController {
                 data.copySourceNamesWithPath(),
                 data.copyTaskWorkingDirectory(),
                 buildMenuWrapper,
-                terminalArea);
+                terminalArea,
+                Options.getConfigIntData("max_default_result_line_count"));
         taskCompilerAndRunnerWorker.execute();
     }
 
@@ -81,19 +82,15 @@ public class TaskSolvingController {
         buildMenuWrapper.setBuildEnabled(false);
         buildMenuWrapper.setBuildAndRunEnabled(false);
         buildMenuWrapper.setRunEnabled(false);
-        buildMenuWrapper.setStopEnabled(true);
 
         // Start a worker thread to run the task!
         TaskRunnerWorker taskRunnerWorker = new TaskRunnerWorker(
                 task.getCompilerOutput().getProgram(),
                 task.getData().copyInputResultPairs(),
                 buildMenuWrapper,
-                terminalArea);
+                terminalArea,
+                Options.getConfigIntData("max_default_result_line_count"));
         taskRunnerWorker.execute();
-    }
-
-    public void stopCachedProcess() {
-
     }
 
 }

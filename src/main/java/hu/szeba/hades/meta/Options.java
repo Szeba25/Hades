@@ -10,9 +10,16 @@ import java.util.Map;
 
 public class Options {
 
+    private static Map<String, String> config;
     private static Map<String, File> paths;
 
     public static void initialize() throws IOException {
+        config = new HashMap<>();
+        DataFile configFile = new ConfigFile(new File("hades_config.conf"));
+        for (int i = 0; i < configFile.getLineCount(); i++) {
+            config.put(configFile.getData(i, 0), configFile.getData(i, 1));
+        }
+
         paths = new HashMap<>();
         DataFile pathsFile = new ConfigFile(new File("hades_paths.conf"));
         for (int i = 0; i < pathsFile.getLineCount(); i++) {
@@ -20,6 +27,14 @@ public class Options {
                     new File(pathsFile.getData(i, 1)));
         }
         checkPaths();
+    }
+
+    public static String getConfigData(String configDataIdentifier) {
+        return config.get(configDataIdentifier);
+    }
+
+    public static int getConfigIntData(String configDataIdentifier) {
+        return Integer.parseInt(config.get(configDataIdentifier));
     }
 
     public static File getPathTo(String location) {

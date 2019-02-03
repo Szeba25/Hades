@@ -23,13 +23,13 @@ public class ResultMatcher {
             if (i > referenceResultCount - 1) {
                 // No reference here
                 differences.add(new ResultDifference(i + 1,
-                        new ResultLine("EMPTY"),
+                        new ResultLine(""),
                         desiredResult.getResultLineByIndex(i)));
             } else if (i > desiredResultCount - 1) {
                 // No desired result here
                 differences.add(new ResultDifference(i + 1,
                         referenceResult.getResultLineByIndex(i),
-                        new ResultLine("EMPTY")));
+                        new ResultLine("")));
             } else {
                 if (!(referenceResult.getResultLineByIndex(i).matches(desiredResult.getResultLineByIndex(i)))) {
                     // No match in this line.

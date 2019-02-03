@@ -21,7 +21,7 @@ public class Main {
     private TaskSelectorView taskSelectorView;
 
     private Main() {
-        //changeLookAndFeel();
+        changeLookAndFeel();
         try {
             Options.initialize();
             courseDatabase = new CourseDatabase();

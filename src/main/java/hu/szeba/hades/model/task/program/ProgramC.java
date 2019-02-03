@@ -1,10 +1,9 @@
 package hu.szeba.hades.model.task.program;
 
-import hu.szeba.hades.controller.task.ProcessCache;
-import hu.szeba.hades.controller.task.TaskThreadObserver;
 import hu.szeba.hades.io.TabbedFile;
 import hu.szeba.hades.model.task.result.Result;
 import hu.szeba.hades.model.task.result.ResultLine;
+import hu.szeba.hades.util.StreamUtil;
 
 import java.io.*;
 
@@ -15,8 +14,7 @@ public class ProgramC extends Program {
     }
 
     @Override
-    public Result run(ProgramInput input)
-            throws IOException, InterruptedException {
+    public Result run(ProgramInput input, int maxResultLineCount) throws IOException {
         Result result = new Result();
 
         ProcessBuilder processBuilder = new ProcessBuilder(location.getAbsolutePath());
@@ -33,17 +31,11 @@ public class ProgramC extends Program {
         bw.close();
         os.close();
 
-        InputStreamReader is = new InputStreamReader(process.getInputStream());
-        BufferedReader br = new BufferedReader(is);
-        String line = br.readLine();
-        while (line != null) {
-            result.addResultLine(new ResultLine(line));
-            line = br.readLine();
-        }
-        br.close();
-        is.close();
+        StreamUtil.getStream(process.getInputStream(), maxResultLineCount).forEach(
+                (line) -> result.addResultLine(new ResultLine(line))
+        );
 
-        process.waitFor();
+        process.destroy();
 
         return result;
     }

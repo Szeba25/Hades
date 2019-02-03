@@ -7,13 +7,22 @@ import java.util.List;
 public class StreamUtil {
 
     public static List<String> getStream(InputStream stream) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+        return getStream(stream, Integer.MAX_VALUE);
+    }
+
+    public static List<String> getStream(InputStream stream, int maxLine) throws IOException {
+        InputStreamReader is = new InputStreamReader(stream);
+        BufferedReader br = new BufferedReader(is);
         List<String> messageList = new LinkedList<>();
-        String line = reader.readLine();
-        while (line != null) {
+        int lineCount = 0;
+        String line = br.readLine();
+        while (line != null && lineCount < maxLine) {
             messageList.add(line);
-            line = reader.readLine();
+            line = br.readLine();
+            lineCount++;
         }
+        br.close();
+        is.close();
         return messageList;
     }
 

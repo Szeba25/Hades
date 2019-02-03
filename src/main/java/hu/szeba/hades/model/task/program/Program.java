@@ -1,7 +1,5 @@
 package hu.szeba.hades.model.task.program;
 
-import hu.szeba.hades.controller.task.ProcessCache;
-import hu.szeba.hades.controller.task.TaskThreadObserver;
 import hu.szeba.hades.model.task.result.Result;
 
 import java.io.File;
@@ -15,7 +13,6 @@ public abstract class Program {
         this.location = location;
     }
 
-    public abstract Result run(ProgramInput input)
-            throws IOException, InterruptedException;
+    public abstract Result run(ProgramInput input, int maxResultLineCount) throws IOException;
 
 }

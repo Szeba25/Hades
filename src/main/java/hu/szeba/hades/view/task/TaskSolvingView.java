@@ -17,7 +17,6 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,6 +99,8 @@ public class TaskSolvingView extends BaseView {
         terminalArea = new JTextArea();
         terminalArea.setEditable(false);
         terminalArea.setFont(monoFont);
+        terminalArea.setForeground(new Color(40, 200, 40));
+        terminalArea.setBackground(new Color(25, 25, 25));
 
         terminalScroll = new JScrollPane(terminalArea);
 
@@ -129,7 +130,7 @@ public class TaskSolvingView extends BaseView {
         buildMenu.addSeparator();
         buildMenu.add(stopMenuItem);
 
-        buildMenuWrapper = new BuildMenuWrapper(buildMenuItem, buildAndRunMenuItem, runMenuItem, stopMenuItem);
+        buildMenuWrapper = new BuildMenuWrapper(buildMenuItem, buildAndRunMenuItem, runMenuItem);
 
         JMenu helpMenu = new JMenu("Help");
 
@@ -170,10 +171,6 @@ public class TaskSolvingView extends BaseView {
         });
         // Run action
         runMenuItem.addActionListener((event) -> taskSolvingController.run(terminalArea, buildMenuWrapper));
-        // Stop action
-        stopMenuItem.addActionListener((event) -> {
-            taskSolvingController.stopCachedProcess();
-        });
         // Switching (or opening: NYI) tabs with list
         fileList.addMouseListener(new MouseAdapter() {
             @Override
@@ -217,13 +214,11 @@ public class TaskSolvingView extends BaseView {
         codeTabArea.setSyntaxEditingStyle(syntaxStyle);
         codeTabArea.setCurrentLineHighlightColor(new Color(10, 30, 140, 50));
 
-        /*
         try {
             Theme.load(new FileInputStream(new File("themes/dark.xml"))).apply(codeTabArea);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        */
 
         codeTabArea.setFont(monoFont);
 
