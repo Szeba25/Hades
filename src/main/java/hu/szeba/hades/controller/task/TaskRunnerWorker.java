@@ -10,7 +10,6 @@ import hu.szeba.hades.view.task.BuildMenuWrapper;
 import javax.swing.*;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TaskRunnerWorker extends SwingWorker<Integer, String> {
 
@@ -19,19 +18,19 @@ public class TaskRunnerWorker extends SwingWorker<Integer, String> {
     private List<InputResultPair> inputResultPairs;
     private BuildMenuWrapper buildMenuWrapper;
     private JTextArea terminalArea;
-    private int maxResultLineCount;
+    private int maxByteCount;
 
     TaskRunnerWorker(ProcessCache processCache,
                      Program program,
                      List<InputResultPair> inputResultPairs,
                      BuildMenuWrapper buildMenuWrapper, JTextArea terminalArea,
-                     int maxResultLineCount) {
+                     int maxByteCount) {
         this.processCache = processCache;
         this.program = program;
         this.inputResultPairs = inputResultPairs;
         this.buildMenuWrapper = buildMenuWrapper;
         this.terminalArea = terminalArea;
-        this.maxResultLineCount = maxResultLineCount;
+        this.maxByteCount = maxByteCount;
     }
 
     @Override
@@ -42,11 +41,7 @@ public class TaskRunnerWorker extends SwingWorker<Integer, String> {
 
         for (InputResultPair inputResultPair : inputResultPairs) {
             publish("> Using input: " + inputResultPair.getProgramInput().getFile().getName() + "\n");
-            Result result = program.run(inputResultPair.getProgramInput(), processCache, maxResultLineCount);
-
-            if (result.getResultLineCount() == maxResultLineCount) {
-                publish("> HALT: Too many output! (infinite loop?)\n");
-            }
+            Result result = program.run(inputResultPair.getProgramInput(), processCache, maxByteCount);
 
             for (int i = 0; i < result.getResultLineCount(); i++) {
                 publish((i + 1) + ". " + result.getResultLineByIndex(i).getData() + "\n");

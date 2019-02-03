@@ -13,7 +13,6 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
 
@@ -25,7 +24,7 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
     private File path;
     private BuildMenuWrapper buildMenuWrapper;
     private JTextArea terminalArea;
-    private int maxResultLineCount;
+    private int maxByteCount;
     private CompilerOutput output;
 
     TaskCompilerAndRunnerWorker(ProcessCache processCache,
@@ -33,7 +32,7 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
                                 List<InputResultPair> inputResultPairs,
                                 String[] sources, File path,
                                 BuildMenuWrapper buildMenuWrapper, JTextArea terminalArea,
-                                int maxResultLineCount) {
+                                int maxByteCount) {
         this.processCache = processCache;
         this.compiler = compiler;
         this.register = register;
@@ -42,7 +41,7 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
         this.path = path;
         this.buildMenuWrapper = buildMenuWrapper;
         this.terminalArea = terminalArea;
-        this.maxResultLineCount = maxResultLineCount;
+        this.maxByteCount = maxByteCount;
         this.output = null;
     }
 
@@ -64,11 +63,7 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
 
             for (InputResultPair inputResultPair : inputResultPairs) {
                 publish("> Using input: " + inputResultPair.getProgramInput().getFile().getName() + "\n");
-                Result result = output.getProgram().run(inputResultPair.getProgramInput(), processCache, maxResultLineCount);
-
-                if (result.getResultLineCount() == maxResultLineCount) {
-                    publish("> HALT: Too many output! (infinite loop?)\n");
-                }
+                Result result = output.getProgram().run(inputResultPair.getProgramInput(), processCache, maxByteCount);
 
                 for (int i = 0; i < result.getResultLineCount(); i++) {
                     publish((i + 1) + ". " + result.getResultLineByIndex(i).getData() + "\n");

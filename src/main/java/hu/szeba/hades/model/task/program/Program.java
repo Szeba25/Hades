@@ -14,6 +14,6 @@ public abstract class Program {
         this.location = location;
     }
 
-    public abstract Result run(ProgramInput input, ProcessCache processCache, int maxResultLineCount) throws IOException, InterruptedException;
+    public abstract Result run(ProgramInput input, ProcessCache processCache, int maxByteCount) throws IOException, InterruptedException;
 
 }

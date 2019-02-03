@@ -7,7 +7,6 @@ import hu.szeba.hades.model.task.result.ResultLine;
 import hu.szeba.hades.util.StreamUtil;
 
 import java.io.*;
-import java.util.concurrent.TimeUnit;
 
 public class ProgramC extends Program {
 
@@ -16,7 +15,7 @@ public class ProgramC extends Program {
     }
 
     @Override
-    public Result run(ProgramInput input, ProcessCache processCache, int maxResultLineCount) throws IOException, InterruptedException {
+    public Result run(ProgramInput input, ProcessCache processCache, int maxByteCount) throws IOException, InterruptedException {
         Result result = new Result();
 
         ProcessBuilder processBuilder = new ProcessBuilder(location.getAbsolutePath());
@@ -34,9 +33,9 @@ public class ProgramC extends Program {
         bw.close();
         os.close();
 
-        StreamUtil.getStream(process.getInputStream(), maxResultLineCount).forEach(
-                (line) -> result.addResultLine(new ResultLine(line))
-        );
+        for (String line : StreamUtil.getStream(process.getInputStream(), maxByteCount)) {
+            result.addResultLine(new ResultLine(line));
+        }
 
         process.waitFor();
         processCache.clear();

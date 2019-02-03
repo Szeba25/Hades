@@ -76,7 +76,7 @@ public class TaskSolvingController {
                 data.copyTaskWorkingDirectory(),
                 buildMenuWrapper,
                 terminalArea,
-                Options.getConfigIntData("max_default_result_line_count"));
+                Options.getConfigIntData("max_stream_byte_count"));
         taskCompilerAndRunnerWorker.execute();
     }
 
@@ -95,7 +95,7 @@ public class TaskSolvingController {
                 task.getData().copyInputResultPairs(),
                 buildMenuWrapper,
                 terminalArea,
-                Options.getConfigIntData("max_default_result_line_count"));
+                Options.getConfigIntData("max_stream_byte_count"));
         taskRunnerWorker.execute();
     }
 
