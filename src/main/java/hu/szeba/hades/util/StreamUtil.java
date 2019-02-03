@@ -21,19 +21,25 @@ public class StreamUtil {
         StringBuilder builder = new StringBuilder();
         char[] buffer = new char[maxByteCount];
 
-        br.read(buffer);
+        int count = br.read(buffer);
+        int lineCount = 0;
 
-        for (int i = 0; i < maxByteCount; i++) {
-            if (buffer[i] == 0) {
-                break;
-            } else if (buffer[i] == 10) {
-                // New line!
-                messageList.add(builder.toString());
-                builder = new StringBuilder();
-            } else if (buffer[i] == 13) {
-                // Carriage return, ignore these...
-            } else {
-                builder.append(buffer[i]);
+        if (count >= 0) {
+            for (int i = 0; i < maxByteCount; i++) {
+                if (buffer[i] == 0) {
+                    if (lineCount == 0)
+                        messageList.add(builder.toString());
+                    break;
+                } else if (buffer[i] == 10) {
+                    // New line!
+                    messageList.add(builder.toString());
+                    lineCount++;
+                    builder = new StringBuilder();
+                } else if (buffer[i] == 13) {
+                    // Carriage return, ignore these...
+                } else {
+                    builder.append(buffer[i]);
+                }
             }
         }
 

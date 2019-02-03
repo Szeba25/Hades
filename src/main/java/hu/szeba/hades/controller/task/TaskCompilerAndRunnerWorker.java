@@ -75,7 +75,8 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
                     publish("* difference at line: " + diff.getLineNumber() + ". \"" + diff.getFirstLine().getData() + "\" should be \""
                             + diff.getSecondLine().getData() + "\"\n");
                 }
-                publish("\n");
+                if (matcher.getDifferencesSize() > 0)
+                    publish("\n");
             }
 
             publish("... End of running!");
