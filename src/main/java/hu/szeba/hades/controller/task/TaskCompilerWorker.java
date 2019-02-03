@@ -4,6 +4,7 @@ import hu.szeba.hades.model.compiler.CompilerOutput;
 import hu.szeba.hades.model.compiler.ProgramCompiler;
 import hu.szeba.hades.model.task.CompilerOutputRegister;
 import hu.szeba.hades.model.task.Task;
+import hu.szeba.hades.view.task.BuildMenuWrapper;
 
 import javax.swing.*;
 import java.io.File;
@@ -15,18 +16,18 @@ public class TaskCompilerWorker extends SwingWorker<Integer, String> {
     private CompilerOutputRegister register;
     private String[] sources;
     private File path;
-    private JMenu disabledBuildMenu;
+    private BuildMenuWrapper buildMenuWrapper;
     private JTextArea terminalArea;
     private CompilerOutput output;
 
     TaskCompilerWorker(CompilerOutputRegister register, ProgramCompiler compiler,
                        String[] sources, File path,
-                       JMenu disabledBuildMenu, JTextArea terminalArea) {
+                       BuildMenuWrapper buildMenuWrapper, JTextArea terminalArea) {
         this.compiler = compiler;
         this.register = register;
         this.sources = sources;
         this.path = path;
-        this.disabledBuildMenu = disabledBuildMenu;
+        this.buildMenuWrapper = buildMenuWrapper;
         this.terminalArea = terminalArea;
         this.output = null;
     }
@@ -48,8 +49,9 @@ public class TaskCompilerWorker extends SwingWorker<Integer, String> {
 
     @Override
     protected void done() {
-        disabledBuildMenu.setEnabled(true);
-        disabledBuildMenu.getItem(4).setEnabled(output.isReady());
+        buildMenuWrapper.setBuildEnabled(true);
+        buildMenuWrapper.setBuildAndRunEnabled(true);
+        buildMenuWrapper.setRunEnabled(output.isReady());
         register.registerCompilerOutput(output);
     }
 

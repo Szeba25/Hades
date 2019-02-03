@@ -52,6 +52,9 @@ public class TaskSolvingView extends BaseView {
     private JMenuItem buildMenuItem;
     private JMenuItem buildAndRunMenuItem;
     private JMenuItem runMenuItem;
+    private JMenuItem stopMenuItem;
+
+    private BuildMenuWrapper buildMenuWrapper;
 
     public TaskSolvingView(BaseView parentView, Task task) {
         super();
@@ -63,6 +66,7 @@ public class TaskSolvingView extends BaseView {
 
         this.setTitle("Solving task: " + task.getData().getTaskName());
         this.runMenuItem.setEnabled(task.getCompilerOutput().isReady());
+        this.stopMenuItem.setEnabled(false);
     }
 
     @Override
@@ -115,12 +119,17 @@ public class TaskSolvingView extends BaseView {
         buildMenuItem = new JMenuItem("Build all");
         buildAndRunMenuItem = new JMenuItem("Build all and run...");
         runMenuItem = new JMenuItem("Run...");
+        stopMenuItem = new JMenuItem("Stop!");
 
         buildMenu.add(buildMenuItem);
         buildMenu.addSeparator();
         buildMenu.add(buildAndRunMenuItem);
         buildMenu.addSeparator();
         buildMenu.add(runMenuItem);
+        buildMenu.addSeparator();
+        buildMenu.add(stopMenuItem);
+
+        buildMenuWrapper = new BuildMenuWrapper(buildMenuItem, buildAndRunMenuItem, runMenuItem, stopMenuItem);
 
         JMenu helpMenu = new JMenu("Help");
 
@@ -146,7 +155,7 @@ public class TaskSolvingView extends BaseView {
         // Build action
         buildMenuItem.addActionListener((event) -> {
             try {
-                taskSolvingController.compile(codeTabByName, terminalArea, buildMenu);
+                taskSolvingController.compile(codeTabByName, terminalArea, buildMenuWrapper);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -154,13 +163,13 @@ public class TaskSolvingView extends BaseView {
         // Build and run action
         buildAndRunMenuItem.addActionListener((event) -> {
             try {
-                taskSolvingController.compileAndRun(codeTabByName, terminalArea, buildMenu);
+                taskSolvingController.compileAndRun(codeTabByName, terminalArea, buildMenuWrapper);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
         // Run action
-        runMenuItem.addActionListener((event) -> taskSolvingController.run(terminalArea, buildMenu));
+        runMenuItem.addActionListener((event) -> taskSolvingController.run(terminalArea, buildMenuWrapper));
         // Switching (or opening: NYI) tabs with list
         fileList.addMouseListener(new MouseAdapter() {
             @Override
@@ -204,11 +213,13 @@ public class TaskSolvingView extends BaseView {
         codeTabArea.setSyntaxEditingStyle(syntaxStyle);
         codeTabArea.setCurrentLineHighlightColor(new Color(10, 30, 140, 50));
 
+        /*
         try {
             Theme.load(new FileInputStream(new File("themes/dark.xml"))).apply(codeTabArea);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
 
         codeTabArea.setFont(monoFont);
 

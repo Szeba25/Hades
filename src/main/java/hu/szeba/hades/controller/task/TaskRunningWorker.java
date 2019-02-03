@@ -5,6 +5,7 @@ import hu.szeba.hades.model.task.program.Program;
 import hu.szeba.hades.model.task.result.Result;
 import hu.szeba.hades.model.task.result.ResultDifference;
 import hu.szeba.hades.model.task.result.ResultMatcher;
+import hu.szeba.hades.view.task.BuildMenuWrapper;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -14,13 +15,13 @@ public class TaskRunningWorker extends SwingWorker<Integer, String> {
 
     private Program program;
     private List<InputResultPair> inputResultPairs;
-    private JMenu disabledBuildMenu;
+    private BuildMenuWrapper buildMenuWrapper;
     private JTextArea terminalArea;
 
-    TaskRunningWorker(Program program, List<InputResultPair> inputResultPairs, JMenu disabledBuildMenu, JTextArea terminalArea) {
+    TaskRunningWorker(Program program, List<InputResultPair> inputResultPairs, BuildMenuWrapper buildMenuWrapper, JTextArea terminalArea) {
         this.program = program;
         this.inputResultPairs = inputResultPairs;
-        this.disabledBuildMenu = disabledBuildMenu;
+        this.buildMenuWrapper = buildMenuWrapper;
         this.terminalArea = terminalArea;
     }
 
@@ -58,7 +59,10 @@ public class TaskRunningWorker extends SwingWorker<Integer, String> {
 
     @Override
     protected void done() {
-        disabledBuildMenu.setEnabled(true);
+        buildMenuWrapper.setBuildEnabled(true);
+        buildMenuWrapper.setBuildAndRunEnabled(true);
+        buildMenuWrapper.setRunEnabled(true);
+        buildMenuWrapper.setStopEnabled(false);
     }
 
 }

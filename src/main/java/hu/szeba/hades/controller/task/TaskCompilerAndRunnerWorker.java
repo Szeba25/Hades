@@ -7,6 +7,7 @@ import hu.szeba.hades.model.task.data.InputResultPair;
 import hu.szeba.hades.model.task.result.Result;
 import hu.szeba.hades.model.task.result.ResultDifference;
 import hu.szeba.hades.model.task.result.ResultMatcher;
+import hu.szeba.hades.view.task.BuildMenuWrapper;
 
 import javax.swing.*;
 import java.io.File;
@@ -19,20 +20,20 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
     private List<InputResultPair> inputResultPairs;
     private String[] sources;
     private File path;
-    private JMenu disabledBuildMenu;
+    private BuildMenuWrapper buildMenuWrapper;
     private JTextArea terminalArea;
     private CompilerOutput output;
 
     TaskCompilerAndRunnerWorker(CompilerOutputRegister register, ProgramCompiler compiler,
                                 List<InputResultPair> inputResultPairs,
                                 String[] sources, File path,
-                                JMenu disabledBuildMenu, JTextArea terminalArea) {
+                                BuildMenuWrapper buildMenuWrapper, JTextArea terminalArea) {
         this.compiler = compiler;
         this.register = register;
         this.inputResultPairs = inputResultPairs;
         this.sources = sources;
         this.path = path;
-        this.disabledBuildMenu = disabledBuildMenu;
+        this.buildMenuWrapper = buildMenuWrapper;
         this.terminalArea = terminalArea;
         this.output = null;
     }
@@ -82,8 +83,10 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
 
     @Override
     protected void done() {
-        disabledBuildMenu.setEnabled(true);
-        disabledBuildMenu.getItem(4).setEnabled(output.isReady());
+        buildMenuWrapper.setBuildEnabled(true);
+        buildMenuWrapper.setBuildAndRunEnabled(true);
+        buildMenuWrapper.setRunEnabled(output.isReady());
+        buildMenuWrapper.setStopEnabled(false);
         register.registerCompilerOutput(output);
     }
 

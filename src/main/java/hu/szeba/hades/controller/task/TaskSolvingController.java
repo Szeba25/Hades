@@ -2,6 +2,7 @@ package hu.szeba.hades.controller.task;
 
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.TaskData;
+import hu.szeba.hades.view.task.BuildMenuWrapper;
 import hu.szeba.hades.view.task.TaskSolvingView;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
@@ -25,7 +26,7 @@ public class TaskSolvingController {
     }
 
     public void compile(Map<String, RSyntaxTextArea> codeAreas,
-                        JTextArea terminalArea, JMenu buildMenu) throws IOException {
+                        JTextArea terminalArea, BuildMenuWrapper buildMenuWrapper) throws IOException {
         // Set the sources content and save sources on EDT
         TaskData data = task.getData();
         data.setSourceContents(codeAreas);
@@ -33,7 +34,9 @@ public class TaskSolvingController {
 
         // Clear terminal, and disable build menu
         terminalArea.setText("");
-        buildMenu.setEnabled(false);
+        buildMenuWrapper.setBuildEnabled(false);
+        buildMenuWrapper.setBuildAndRunEnabled(false);
+        buildMenuWrapper.setRunEnabled(false);
 
         // Start a worker thread to compile the task!
         TaskCompilerWorker taskCompilerWorker = new TaskCompilerWorker(
@@ -41,13 +44,13 @@ public class TaskSolvingController {
                 task.getProgramCompiler(),
                 data.copySourceNamesWithPath(),
                 data.copyTaskWorkingDirectory(),
-                buildMenu,
+                buildMenuWrapper,
                 terminalArea);
         taskCompilerWorker.execute();
     }
 
     public void compileAndRun(Map<String, RSyntaxTextArea> codeAreas,
-                              JTextArea terminalArea, JMenu buildMenu) throws IOException {
+                              JTextArea terminalArea, BuildMenuWrapper buildMenuWrapper) throws IOException {
         // Set the sources content and save sources on EDT
         TaskData data = task.getData();
         data.setSourceContents(codeAreas);
@@ -55,7 +58,10 @@ public class TaskSolvingController {
 
         // Clear terminal, and disable build menu
         terminalArea.setText("");
-        buildMenu.setEnabled(false);
+        buildMenuWrapper.setBuildEnabled(false);
+        buildMenuWrapper.setBuildAndRunEnabled(false);
+        buildMenuWrapper.setRunEnabled(false);
+        buildMenuWrapper.setStopEnabled(true);
 
         // Start a worker thread to compile the task!
         TaskCompilerAndRunnerWorker taskCompilerAndRunnerWorker = new TaskCompilerAndRunnerWorker(
@@ -64,21 +70,24 @@ public class TaskSolvingController {
                 data.copyInputResultPairs(),
                 data.copySourceNamesWithPath(),
                 data.copyTaskWorkingDirectory(),
-                buildMenu,
+                buildMenuWrapper,
                 terminalArea);
         taskCompilerAndRunnerWorker.execute();
     }
 
-    public void run(JTextArea terminalArea, JMenu buildMenu) {
+    public void run(JTextArea terminalArea, BuildMenuWrapper buildMenuWrapper) {
         // Clear terminal, and disable build menu
         terminalArea.setText("");
-        buildMenu.setEnabled(false);
+        buildMenuWrapper.setBuildEnabled(false);
+        buildMenuWrapper.setBuildAndRunEnabled(false);
+        buildMenuWrapper.setRunEnabled(false);
+        buildMenuWrapper.setStopEnabled(true);
 
         // Start a worker thread to run the task!
         TaskRunningWorker taskRunningWorker = new TaskRunningWorker(
                 task.getCompilerOutput().getProgram(),
                 task.getData().copyInputResultPairs(),
-                buildMenu,
+                buildMenuWrapper,
                 terminalArea);
         taskRunningWorker.execute();
     }
