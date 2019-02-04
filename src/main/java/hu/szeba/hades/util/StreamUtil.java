@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class StreamUtil {
 
     public static List<String> getStream(InputStream stream, int maxByteCount, AtomicBoolean stopFlag)
-            throws IOException {
+            throws IOException, InterruptedException {
         InputStreamReader is = new InputStreamReader(stream);
         List<String> messageList = new LinkedList<>();
 
@@ -19,23 +19,37 @@ public class StreamUtil {
         int byteCount = 0;
         int lineCount = 0;
 
-        int data = is.read();
-        while (data != -1 && !stopFlag.get() && byteCount < maxByteCount) {
-            byteCount++;
-            if (data == 10) {
-                // New line!
-                messageList.add(builder.toString());
-                lineCount++;
-                builder = new StringBuilder();
-            } else if (data != 13) {
-                // Carriage return, ignore these...
-                builder.append((char)data);
+        int tries = 10;
+        boolean hasOutput = false;
+
+        while(tries > 0 && !hasOutput && !stopFlag.get()) {
+            System.out.println("Try: " + tries);
+            Thread.sleep(100);
+            if (is.ready()) {
+                hasOutput = true;
             }
-            data = is.read();
+            tries--;
         }
 
-        if (lineCount == 0 && byteCount > 0) {
-            messageList.add(builder.toString());
+        if (hasOutput) {
+            int data = is.read();
+            while (data != -1 && !stopFlag.get() && byteCount < maxByteCount) {
+                byteCount++;
+                if (data == 10) {
+                    // New line!
+                    messageList.add(builder.toString());
+                    lineCount++;
+                    builder = new StringBuilder();
+                } else if (data != 13) {
+                    // Carriage return, ignore these...
+                    builder.append((char) data);
+                }
+                data = is.read();
+            }
+
+            if (lineCount == 0 && byteCount > 0) {
+                messageList.add(builder.toString());
+            }
         }
 
         System.out.println("Bytes: " + byteCount);
@@ -56,28 +70,25 @@ public class StreamUtil {
         StringBuilder builder = new StringBuilder();
         char[] buffer = new char[maxByteCount];
 
-        // TODO: This read blocks when there is no output from the program!!!
+        // IMPORTANT: This read blocks when there is no output from the program!!!
         int count = br.read(buffer);
         int lineCount = 0;
 
         System.out.println("Bytes: " + count);
 
-        if (count >= 0) {
-            for (int i = 0; i < maxByteCount; i++) {
-                if (buffer[i] == 0) {
-                    if (lineCount == 0)
-                        messageList.add(builder.toString());
-                    break;
-                } else if (buffer[i] == 10) {
-                    // New line!
+        for (int i = 0; i < count; i++) {
+            if (buffer[i] == 0) {
+                if (lineCount == 0)
                     messageList.add(builder.toString());
-                    lineCount++;
-                    builder = new StringBuilder();
-                } else if (buffer[i] == 13) {
-                    // Carriage return, ignore these...
-                } else {
-                    builder.append(buffer[i]);
-                }
+                break;
+            } else if (buffer[i] == 10) {
+                // New line!
+                messageList.add(builder.toString());
+                lineCount++;
+                builder = new StringBuilder();
+            } else if (buffer[i] != 13) {
+                // Carriage return, ignore these...
+                builder.append(buffer[i]);
             }
         }
 

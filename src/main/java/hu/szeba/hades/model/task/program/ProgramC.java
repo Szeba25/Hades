@@ -24,15 +24,13 @@ public class ProgramC extends Program {
 
         Process process = processBuilder.start();
 
-        OutputStream os = process.getOutputStream();
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
+        OutputStreamWriter ow = new OutputStreamWriter(process.getOutputStream());
         TabbedFile file = input.getFile();
         for (int i = 0; i < file.getLineCount(); i++) {
-            bw.write(file.getData(i, 0) + "\n");
+            ow.write(file.getData(i, 0) + "\n");
         }
-        bw.flush();
-        bw.close();
-        os.close();
+        ow.flush();
+        ow.close();
 
         for (String line : StreamUtil.getStream(process.getInputStream(), maxByteCount, stopFlag)) {
             result.addResultLine(new ResultLine(line));
