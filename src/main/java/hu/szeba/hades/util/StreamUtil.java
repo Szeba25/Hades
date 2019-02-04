@@ -10,6 +10,18 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class StreamUtil {
 
+    /**
+     * Gets the output of a program. This version is used if the correctness of the program
+     * is questionable. The stream may have no valid output, or too much output.
+     * This reader handles these situations, and can be shut down during read by an atomic
+     * flag, so its thread safe to change this flag.
+     * @param stream The programs stream
+     * @param maxByteCount The maximum byte count after the reader will stop reading
+     * @param stopFlag The flag that the reading should stop
+     * @return The list of lines that were read from the stream
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public static List<String> getStream(InputStream stream, int maxByteCount, AtomicBoolean stopFlag)
             throws IOException, InterruptedException {
         InputStreamReader is = new InputStreamReader(stream);
@@ -19,16 +31,23 @@ public class StreamUtil {
         int byteCount = 0;
         int lineCount = 0;
 
-        int tries = 10;
+        int tries = 1;
+        int maxTries = 10;
+        boolean firstTry = true;
         boolean hasOutput = false;
 
-        while(tries > 0 && !hasOutput && !stopFlag.get()) {
-            System.out.println("Try: " + tries);
-            Thread.sleep(100);
+        while(tries <= maxTries && !hasOutput && !stopFlag.get()) {
+            System.out.println("Try: " + tries + ".");
+            if (firstTry) {
+                firstTry = false;
+                Thread.sleep(150);
+            } else {
+                Thread.sleep(300);
+            }
             if (is.ready()) {
                 hasOutput = true;
             }
-            tries--;
+            tries++;
         }
 
         if (hasOutput) {
@@ -58,38 +77,26 @@ public class StreamUtil {
         return messageList;
     }
 
+    /**
+     * Gets the output of a program. This version is used when the program is correct,
+     * in other words: it's guaranteed, that the underlying implementation won't block
+     * the read process.
+     * This version also reads all the input.
+     * @param stream The programs stream
+     * @return The list of lines that were read from the stream
+     * @throws IOException
+     */
     public static List<String> getStream(InputStream stream) throws IOException {
-        return getStream(stream, 20480);
-    }
-
-    public static List<String> getStream(InputStream stream, int maxByteCount) throws IOException {
         InputStreamReader is = new InputStreamReader(stream);
         BufferedReader br = new BufferedReader(is);
         List<String> messageList = new LinkedList<>();
 
-        StringBuilder builder = new StringBuilder();
-        char[] buffer = new char[maxByteCount];
-
         // IMPORTANT: This read blocks when there is no output from the program!!!
-        int count = br.read(buffer);
-        int lineCount = 0;
+        String line = br.readLine();
 
-        System.out.println("Bytes: " + count);
-
-        for (int i = 0; i < count; i++) {
-            if (buffer[i] == 0) {
-                if (lineCount == 0)
-                    messageList.add(builder.toString());
-                break;
-            } else if (buffer[i] == 10) {
-                // New line!
-                messageList.add(builder.toString());
-                lineCount++;
-                builder = new StringBuilder();
-            } else if (buffer[i] != 13) {
-                // Carriage return, ignore these...
-                builder.append(buffer[i]);
-            }
+        while (line != null) {
+            messageList.add(line);
+            line = br.readLine();
         }
 
         br.close();
