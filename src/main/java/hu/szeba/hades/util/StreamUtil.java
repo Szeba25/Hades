@@ -82,7 +82,7 @@ public class StreamUtil {
                     // Try 5 times!
                     while (timeoutTry <= timeoutMaxTry) {
                         System.out.println("Timeout try: " + timeoutTry);
-                        Thread.sleep(50);
+                        Thread.sleep(25);
                         if (is.ready()) {
                             data = is.read();
                             break;
