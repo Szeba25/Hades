@@ -25,6 +25,8 @@ public class StreamUtil {
         int count = br.read(buffer);
         int lineCount = 0;
 
+        System.out.println("Bytes: " + count);
+
         if (count >= 0) {
             for (int i = 0; i < maxByteCount; i++) {
                 if (buffer[i] == 0) {
