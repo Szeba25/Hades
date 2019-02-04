@@ -1,12 +1,13 @@
 package hu.szeba.hades.model.task.program;
 
-import hu.szeba.hades.controller.task.ProcessCache;
 import hu.szeba.hades.io.TabbedFile;
 import hu.szeba.hades.model.task.result.Result;
 import hu.szeba.hades.model.task.result.ResultLine;
 import hu.szeba.hades.util.StreamUtil;
 
 import java.io.*;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ProgramC extends Program {
 
@@ -15,13 +16,13 @@ public class ProgramC extends Program {
     }
 
     @Override
-    public Result run(ProgramInput input, ProcessCache processCache, int maxByteCount) throws IOException, InterruptedException {
+    public Result run(ProgramInput input, int maxByteCount, AtomicBoolean stopFlag)
+            throws IOException, InterruptedException {
         Result result = new Result();
 
         ProcessBuilder processBuilder = new ProcessBuilder(location.getAbsolutePath());
 
         Process process = processBuilder.start();
-        processCache.set(process);
 
         OutputStream os = process.getOutputStream();
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
@@ -37,8 +38,10 @@ public class ProgramC extends Program {
             result.addResultLine(new ResultLine(line));
         }
 
-        process.waitFor();
-        processCache.clear();
+        while(process.isAlive() && !stopFlag.get()) {
+            process.waitFor(1, TimeUnit.SECONDS);
+        }
+        process.destroy();
 
         return result;
     }

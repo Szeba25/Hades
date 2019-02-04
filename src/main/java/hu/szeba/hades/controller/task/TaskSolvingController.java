@@ -10,15 +10,16 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import javax.swing.*;
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TaskSolvingController {
 
     private Task task;
-    private ProcessCache processCache;
+    private AtomicBoolean stopFlag;
 
     public TaskSolvingController(Task task) {
         this.task = task;
-        processCache = new ProcessCache();
+        this.stopFlag = new AtomicBoolean(false);
     }
 
     public void setSourceList(TaskSolvingView taskSolvingView) {
@@ -65,10 +66,10 @@ public class TaskSolvingController {
         buildMenuWrapper.setBuildAndRunEnabled(false);
         buildMenuWrapper.setRunEnabled(false);
         buildMenuWrapper.setStopEnabled(true);
+        stopFlag.set(false);
 
         // Start a worker thread to compile the task!
         TaskCompilerAndRunnerWorker taskCompilerAndRunnerWorker = new TaskCompilerAndRunnerWorker(
-                processCache,
                 task, // Passed as register interface type!
                 task.getProgramCompiler(),
                 data.copyInputResultPairs(),
@@ -76,7 +77,8 @@ public class TaskSolvingController {
                 data.copyTaskWorkingDirectory(),
                 buildMenuWrapper,
                 terminalArea,
-                Options.getConfigIntData("max_stream_byte_count"));
+                Options.getConfigIntData("max_stream_byte_count"),
+                stopFlag);
         taskCompilerAndRunnerWorker.execute();
     }
 
@@ -87,20 +89,24 @@ public class TaskSolvingController {
         buildMenuWrapper.setBuildAndRunEnabled(false);
         buildMenuWrapper.setRunEnabled(false);
         buildMenuWrapper.setStopEnabled(true);
+        stopFlag.set(false);
 
         // Start a worker thread to run the task!
         TaskRunnerWorker taskRunnerWorker = new TaskRunnerWorker(
-                processCache,
                 task.getCompilerOutput().getProgram(),
                 task.getData().copyInputResultPairs(),
                 buildMenuWrapper,
                 terminalArea,
-                Options.getConfigIntData("max_stream_byte_count"));
+                Options.getConfigIntData("max_stream_byte_count"),
+                stopFlag);
         taskRunnerWorker.execute();
     }
 
     public void stopCurrentProcess(JTextArea terminalArea) {
-        processCache.destroy(terminalArea);
+        if (!stopFlag.get()) {
+            stopFlag.set(true);
+            terminalArea.append("> Stopping running process...\n");
+        }
     }
 
 }

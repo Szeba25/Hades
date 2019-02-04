@@ -10,27 +10,27 @@ import hu.szeba.hades.view.task.BuildMenuWrapper;
 import javax.swing.*;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TaskRunnerWorker extends SwingWorker<Integer, String> {
 
-    private ProcessCache processCache;
     private Program program;
     private List<InputResultPair> inputResultPairs;
     private BuildMenuWrapper buildMenuWrapper;
     private JTextArea terminalArea;
     private int maxByteCount;
+    private AtomicBoolean stopFlag;
 
-    TaskRunnerWorker(ProcessCache processCache,
-                     Program program,
+    TaskRunnerWorker(Program program,
                      List<InputResultPair> inputResultPairs,
                      BuildMenuWrapper buildMenuWrapper, JTextArea terminalArea,
-                     int maxByteCount) {
-        this.processCache = processCache;
+                     int maxByteCount, AtomicBoolean stopFlag) {
         this.program = program;
         this.inputResultPairs = inputResultPairs;
         this.buildMenuWrapper = buildMenuWrapper;
         this.terminalArea = terminalArea;
         this.maxByteCount = maxByteCount;
+        this.stopFlag = stopFlag;
     }
 
     @Override
@@ -41,7 +41,12 @@ public class TaskRunnerWorker extends SwingWorker<Integer, String> {
 
         for (InputResultPair inputResultPair : inputResultPairs) {
             publish("> Using input: " + inputResultPair.getProgramInput().getFile().getName() + "\n");
-            Result result = program.run(inputResultPair.getProgramInput(), processCache, maxByteCount);
+            Result result = program.run(inputResultPair.getProgramInput(), maxByteCount, stopFlag);
+
+            if (stopFlag.get()) {
+                publish("Process force closed\n");
+                return 0;
+            }
 
             for (int i = 0; i < result.getResultLineCount(); i++) {
                 publish((i + 1) + ". " + result.getResultLineByIndex(i).getData() + "\n");
@@ -74,11 +79,11 @@ public class TaskRunnerWorker extends SwingWorker<Integer, String> {
 
     @Override
     protected void done() {
-        processCache.clear();
         buildMenuWrapper.setBuildEnabled(true);
         buildMenuWrapper.setBuildAndRunEnabled(true);
         buildMenuWrapper.setRunEnabled(true);
         buildMenuWrapper.setStopEnabled(false);
+        stopFlag.set(false);
     }
 
 }

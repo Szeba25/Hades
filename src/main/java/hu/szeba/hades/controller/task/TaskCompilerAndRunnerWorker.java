@@ -13,10 +13,10 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
 
-    private ProcessCache processCache;
     private ProgramCompiler compiler;
     private CompilerOutputRegister register;
     private List<InputResultPair> inputResultPairs;
@@ -25,15 +25,14 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
     private BuildMenuWrapper buildMenuWrapper;
     private JTextArea terminalArea;
     private int maxByteCount;
+    private AtomicBoolean stopFlag;
     private CompilerOutput output;
 
-    TaskCompilerAndRunnerWorker(ProcessCache processCache,
-                                CompilerOutputRegister register, ProgramCompiler compiler,
+    TaskCompilerAndRunnerWorker(CompilerOutputRegister register, ProgramCompiler compiler,
                                 List<InputResultPair> inputResultPairs,
                                 String[] sources, File path,
                                 BuildMenuWrapper buildMenuWrapper, JTextArea terminalArea,
-                                int maxByteCount) {
-        this.processCache = processCache;
+                                int maxByteCount, AtomicBoolean stopFlag) {
         this.compiler = compiler;
         this.register = register;
         this.inputResultPairs = inputResultPairs;
@@ -42,6 +41,7 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
         this.buildMenuWrapper = buildMenuWrapper;
         this.terminalArea = terminalArea;
         this.maxByteCount = maxByteCount;
+        this.stopFlag = stopFlag;
         this.output = null;
     }
 
@@ -63,7 +63,12 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
 
             for (InputResultPair inputResultPair : inputResultPairs) {
                 publish("> Using input: " + inputResultPair.getProgramInput().getFile().getName() + "\n");
-                Result result = output.getProgram().run(inputResultPair.getProgramInput(), processCache, maxByteCount);
+                Result result = output.getProgram().run(inputResultPair.getProgramInput(), maxByteCount, stopFlag);
+
+                if (stopFlag.get()) {
+                    publish("Process force closed\n");
+                    return 0;
+                }
 
                 for (int i = 0; i < result.getResultLineCount(); i++) {
                     publish((i + 1) + ". " + result.getResultLineByIndex(i).getData() + "\n");
@@ -97,12 +102,12 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
 
     @Override
     protected void done() {
-        processCache.clear();
         buildMenuWrapper.setBuildEnabled(true);
         buildMenuWrapper.setBuildAndRunEnabled(true);
         buildMenuWrapper.setRunEnabled(output.isReady());
         buildMenuWrapper.setStopEnabled(false);
         register.registerCompilerOutput(output);
+        stopFlag.set(false);
     }
 
 }
