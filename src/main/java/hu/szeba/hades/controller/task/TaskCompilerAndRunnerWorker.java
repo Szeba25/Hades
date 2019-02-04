@@ -66,7 +66,7 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
                 Result result = output.getProgram().run(inputResultPair.getProgramInput(), maxByteCount, stopFlag);
 
                 if (stopFlag.get()) {
-                    publish("Process force closed\n");
+                    publish("> Process force closed!\n");
                     return 0;
                 }
 
