@@ -13,14 +13,13 @@ public class StreamUtil {
     public static List<String> getStream(InputStream stream, int maxByteCount, AtomicBoolean stopFlag)
             throws IOException {
         InputStreamReader is = new InputStreamReader(stream);
-        BufferedReader br = new BufferedReader(is);
         List<String> messageList = new LinkedList<>();
 
         StringBuilder builder = new StringBuilder();
         int byteCount = 0;
         int lineCount = 0;
 
-        int data = br.read();
+        int data = is.read();
         while (data != -1 && !stopFlag.get() && byteCount < maxByteCount) {
             byteCount++;
             if (data == 10) {
@@ -28,12 +27,11 @@ public class StreamUtil {
                 messageList.add(builder.toString());
                 lineCount++;
                 builder = new StringBuilder();
-            } else if (data == 13) {
+            } else if (data != 13) {
                 // Carriage return, ignore these...
-            } else {
                 builder.append((char)data);
             }
-            data = br.read();
+            data = is.read();
         }
 
         if (lineCount == 0 && byteCount > 0) {
@@ -42,7 +40,6 @@ public class StreamUtil {
 
         System.out.println("Bytes: " + byteCount);
 
-        br.close();
         is.close();
         return messageList;
     }
