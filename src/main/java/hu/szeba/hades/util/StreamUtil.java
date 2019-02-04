@@ -21,6 +21,7 @@ public class StreamUtil {
         StringBuilder builder = new StringBuilder();
         char[] buffer = new char[maxByteCount];
 
+        // TODO: This read blocks when there is no output from the program!!!
         int count = br.read(buffer);
         int lineCount = 0;
 
