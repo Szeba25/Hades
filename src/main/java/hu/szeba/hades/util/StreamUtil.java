@@ -6,8 +6,46 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class StreamUtil {
+
+    public static List<String> getStream(InputStream stream, int maxByteCount, AtomicBoolean stopFlag)
+            throws IOException {
+        InputStreamReader is = new InputStreamReader(stream);
+        BufferedReader br = new BufferedReader(is);
+        List<String> messageList = new LinkedList<>();
+
+        StringBuilder builder = new StringBuilder();
+        int byteCount = 0;
+        int lineCount = 0;
+
+        int data = br.read();
+        while (data != -1 && !stopFlag.get() && byteCount < maxByteCount) {
+            byteCount++;
+            if (data == 10) {
+                // New line!
+                messageList.add(builder.toString());
+                lineCount++;
+                builder = new StringBuilder();
+            } else if (data == 13) {
+                // Carriage return, ignore these...
+            } else {
+                builder.append((char)data);
+            }
+            data = br.read();
+        }
+
+        if (lineCount == 0 && byteCount > 0) {
+            messageList.add(builder.toString());
+        }
+
+        System.out.println("Bytes: " + byteCount);
+
+        br.close();
+        is.close();
+        return messageList;
+    }
 
     public static List<String> getStream(InputStream stream) throws IOException {
         return getStream(stream, 20480);

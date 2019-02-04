@@ -34,7 +34,7 @@ public class ProgramC extends Program {
         bw.close();
         os.close();
 
-        for (String line : StreamUtil.getStream(process.getInputStream(), maxByteCount)) {
+        for (String line : StreamUtil.getStream(process.getInputStream(), maxByteCount, stopFlag)) {
             result.addResultLine(new ResultLine(line));
         }
 
