@@ -36,6 +36,7 @@ public class StreamUtil {
         boolean firstTry = true;
         boolean hasOutput = false;
 
+        // First check for any output from the program...
         while(tries <= maxTries && !hasOutput && !stopFlag.get()) {
             System.out.println("Try: " + tries + ".");
             if (firstTry) {
@@ -50,9 +51,16 @@ public class StreamUtil {
             tries++;
         }
 
+        // If the program has output, then enter a loop and read it by character
         if (hasOutput) {
+            // Read timed out
+            boolean timeout = false;
+
+            // First byte read
             int data = is.read();
-            while (data != -1 && !stopFlag.get() && byteCount < maxByteCount) {
+
+            // Loop
+            while (data != -1 && !stopFlag.get() && !timeout && byteCount < maxByteCount) {
                 byteCount++;
                 if (data == 10) {
                     // New line!
@@ -63,9 +71,33 @@ public class StreamUtil {
                     // Carriage return, ignore these...
                     builder.append((char) data);
                 }
-                data = is.read();
+
+                // If the stream is ready, read the next char!
+                if (is.ready()) {
+                    data = is.read();
+                } else {
+                    // InputStream will not block on next read... Wait for a little bit
+                    int timeoutTry = 1;
+                    int timeoutMaxTry = 5;
+                    // Try 5 times!
+                    while (timeoutTry <= timeoutMaxTry) {
+                        System.out.println("Timeout try: " + timeoutTry);
+                        Thread.sleep(50);
+                        if (is.ready()) {
+                            data = is.read();
+                            break;
+                        }
+                        timeoutTry++;
+                    }
+                    // If still not ready, timeout and halt...
+                    if (!is.ready()) {
+                        System.out.println("Timeout!!!");
+                        timeout = true;
+                    }
+                }
             }
 
+            // If there was input but no newlines, add this one line to the output...
             if (lineCount == 0 && byteCount > 0) {
                 messageList.add(builder.toString());
             }
