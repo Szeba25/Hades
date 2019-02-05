@@ -10,9 +10,11 @@ import java.util.List;
 public class Result {
 
     private List<ResultLine> resultLines;
+    private List<String> debugLines;
 
     public Result() {
         resultLines = new ArrayList<>();
+        debugLines = new ArrayList<>();
     }
 
     public Result(File file) throws IOException {
@@ -43,6 +45,22 @@ public class Result {
 
     public int getResultLineCount() {
         return resultLines.size();
+    }
+
+    public void addDebugLine(String debugLine) {
+        debugLines.add(debugLine);
+    }
+
+    public String getDebugLineByIndex(int index) {
+        return debugLines.get(index);
+    }
+
+    public int getDebugLineCount() {
+        return debugLines.size();
+    }
+
+    public boolean anyInputPresent() {
+        return (resultLines.size() > 0 || debugLines.size() > 0);
     }
 
 }

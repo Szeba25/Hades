@@ -32,11 +32,15 @@ public class ProgramC extends Program {
         ow.flush();
         ow.close();
 
-        for (String line : StreamUtil.getStream(process.getInputStream(), maxByteCount, stopFlag)) {
+        for (String line : StreamUtil.getStreamPatient(process.getInputStream(), maxByteCount, stopFlag)) {
             result.addResultLine(new ResultLine(line));
         }
 
-        process.waitFor(1, TimeUnit.SECONDS);
+        for (String line : StreamUtil.getStreamLowLatency(process.getErrorStream(), maxByteCount, stopFlag)) {
+            result.addDebugLine(line);
+        }
+
+        process.waitFor(250, TimeUnit.MILLISECONDS);
         process.destroy();
 
         return result;

@@ -70,9 +70,15 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
                     return 0;
                 }
 
-                if (result.getResultLineCount() == 0) {
+                if (!result.anyInputPresent()) {
                     publish("> No response...\n\n");
                 } else {
+                    for (int i = 0; i < result.getDebugLineCount(); i++) {
+                        publish("@" + (i + 1) + ". " + result.getDebugLineByIndex(i) + "\n");
+                    }
+                    if (result.getDebugLineCount() > 0) {
+                        publish("\n");
+                    }
                     for (int i = 0; i < result.getResultLineCount(); i++) {
                         publish((i + 1) + ". " + result.getResultLineByIndex(i).getData() + "\n");
                     }

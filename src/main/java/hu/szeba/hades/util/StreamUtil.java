@@ -11,6 +11,26 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class StreamUtil {
 
     /**
+     * This is a convenience method to start the getStream method for "potentially non correct programs"
+     * with low wait times. Useful for reading stderr AFTER stdin.
+     */
+    public static List<String> getStreamLowLatency(InputStream stream, int maxByteCount, AtomicBoolean stopFlag)
+            throws IOException, InterruptedException {
+        return getStream(stream, maxByteCount, stopFlag,
+                4, 2, 80, 15);
+    }
+
+    /**
+     * This is a convenience method to start the getStream method for "potentially non correct programs"
+     * with default wait times. Useful for reading stdin without reading anything first.
+     */
+    public static List<String> getStreamPatient(InputStream stream, int maxByteCount, AtomicBoolean stopFlag)
+            throws IOException, InterruptedException {
+        return getStream(stream, maxByteCount, stopFlag,
+                6, 3, 120, 25);
+    }
+
+    /**
      * Gets the output of a program. This version is used if the correctness of the program
      * is questionable. The stream may have no valid output, or too much output.
      * This reader handles these situations, and can be shut down during read by an atomic
@@ -18,11 +38,19 @@ public class StreamUtil {
      * @param stream The programs stream
      * @param maxByteCount The maximum byte count after the reader will stop reading
      * @param stopFlag The flag that the reading should stop
+     * @param startMaxTries The maximum try count when program is just starting
+     * @param timeoutMaxTries The maximum try count when the program is already running, but output halts
+     * @param maxStartWaitInMillis The maximum time the reader should wait in millis in one try if there is no input
+     *                             at the start
+     * @param maxTimeoutWaitInMillis The maximum time the reader should wait in millis in one try if
+     *                               there is no input during an intermediate halt
      * @return The list of lines that were read from the stream
      * @throws IOException
      * @throws InterruptedException
      */
-    public static List<String> getStream(InputStream stream, int maxByteCount, AtomicBoolean stopFlag)
+    public static List<String> getStream(InputStream stream, int maxByteCount, AtomicBoolean stopFlag,
+                                         int startMaxTries, int timeoutMaxTries,
+                                         int maxStartWaitInMillis, int maxTimeoutWaitInMillis)
             throws IOException, InterruptedException {
         InputStreamReader is = new InputStreamReader(stream);
         List<String> messageList = new LinkedList<>();
@@ -32,18 +60,18 @@ public class StreamUtil {
         int lineCount = 0;
 
         int tries = 1;
-        int maxTries = 10;
         boolean firstTry = true;
         boolean hasOutput = false;
 
         // First check for any output from the program...
-        while(tries <= maxTries && !hasOutput && !stopFlag.get()) {
+        // Wait for half the specified time, to speed up processing...
+        while(tries <= startMaxTries && !hasOutput && !stopFlag.get()) {
             System.out.println("Try: " + tries + ".");
             if (firstTry) {
                 firstTry = false;
-                Thread.sleep(100);
+                Thread.sleep(maxStartWaitInMillis / 2);
             } else {
-                Thread.sleep(200);
+                Thread.sleep(maxStartWaitInMillis);
             }
             if (is.ready()) {
                 hasOutput = true;
@@ -78,11 +106,10 @@ public class StreamUtil {
                 } else {
                     // InputStream will not block on next read... Wait for a little bit
                     int timeoutTry = 1;
-                    int timeoutMaxTry = 5;
-                    // Try 5 times!
-                    while (timeoutTry <= timeoutMaxTry) {
+                    // Try n times! (defined by timeoutMaxTries)
+                    while (timeoutTry <= timeoutMaxTries) {
                         System.out.println("Timeout try: " + timeoutTry);
-                        Thread.sleep(25);
+                        Thread.sleep(maxTimeoutWaitInMillis);
                         if (is.ready()) {
                             data = is.read();
                             break;
