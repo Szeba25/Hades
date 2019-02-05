@@ -36,9 +36,7 @@ public class ProgramC extends Program {
             result.addResultLine(new ResultLine(line));
         }
 
-        while(process.isAlive() && !stopFlag.get()) {
-            process.waitFor(1, TimeUnit.SECONDS);
-        }
+        process.waitFor(1, TimeUnit.SECONDS);
         process.destroy();
 
         return result;

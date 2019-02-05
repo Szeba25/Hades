@@ -70,18 +70,23 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
                     return 0;
                 }
 
-                for (int i = 0; i < result.getResultLineCount(); i++) {
-                    publish((i + 1) + ". " + result.getResultLineByIndex(i).getData() + "\n");
-                }
-                publish("\n");
-                matcher.match(result, inputResultPair.getDesiredResult());
-                for (int i = 0; i < matcher.getDifferencesSize(); i++) {
-                    ResultDifference diff = matcher.getDifference(i);
-                    publish("* difference at line: " + diff.getLineNumber() + ". \"" + diff.getFirstLine().getData() + "\" should be \""
-                            + diff.getSecondLine().getData() + "\"\n");
-                }
-                if (matcher.getDifferencesSize() > 0)
+                if (result.getResultLineCount() == 0) {
+                    publish("> No response...\n");
+                } else {
+                    for (int i = 0; i < result.getResultLineCount(); i++) {
+                        publish((i + 1) + ". " + result.getResultLineByIndex(i).getData() + "\n");
+                    }
                     publish("\n");
+                    matcher.match(result, inputResultPair.getDesiredResult());
+                    for (int i = 0; i < matcher.getDifferencesSize(); i++) {
+                        ResultDifference diff = matcher.getDifference(i);
+                        publish("* difference at line: " + diff.getLineNumber() + ". \"" + diff.getFirstLine().getData() + "\" should be \""
+                                + diff.getSecondLine().getData() + "\"\n");
+                    }
+                    if (matcher.getDifferencesSize() > 0) {
+                        publish("\n");
+                    }
+                }
             }
 
             publish("... End of running!");
