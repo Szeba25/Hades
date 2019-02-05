@@ -41,9 +41,9 @@ public class StreamUtil {
             System.out.println("Try: " + tries + ".");
             if (firstTry) {
                 firstTry = false;
-                Thread.sleep(150);
+                Thread.sleep(100);
             } else {
-                Thread.sleep(300);
+                Thread.sleep(200);
             }
             if (is.ready()) {
                 hasOutput = true;
