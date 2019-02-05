@@ -17,7 +17,7 @@ public class StreamUtil {
     public static List<String> getStreamLowLatency(InputStream stream, int maxByteCount, AtomicBoolean stopFlag)
             throws IOException, InterruptedException {
         return getStream(stream, maxByteCount, stopFlag,
-                4, 2, 80, 15);
+                4, 2, 30, 10);
     }
 
     /**
