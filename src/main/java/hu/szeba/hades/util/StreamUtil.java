@@ -124,8 +124,8 @@ public class StreamUtil {
                 }
             }
 
-            // If there was input but no newlines, add this one line to the output...
-            if (lineCount == 0 && byteCount > 0) {
+            // If there was any leftover output, add this too...
+            if (builder.length() > 0) {
                 messageList.add(builder.toString());
             }
         }

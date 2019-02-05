@@ -63,4 +63,8 @@ public class Result {
         return (resultLines.size() > 0 || debugLines.size() > 0);
     }
 
+    public void clearAll() {
+        resultLines.clear();
+        debugLines.clear();
+    }
 }

@@ -40,8 +40,10 @@ public class ProgramC extends Program {
             result.addDebugLine(line);
         }
 
-        process.waitFor(250, TimeUnit.MILLISECONDS);
-        process.destroy();
+        if (!process.waitFor(2, TimeUnit.SECONDS)) {
+            process.destroy();
+            result.clearAll();
+        }
 
         return result;
     }

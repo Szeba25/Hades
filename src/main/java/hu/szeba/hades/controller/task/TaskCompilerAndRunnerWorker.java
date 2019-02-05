@@ -79,6 +79,7 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
                     if (result.getDebugLineCount() > 0) {
                         publish("\n");
                     }
+                    publish("> Output:\n");
                     for (int i = 0; i < result.getResultLineCount(); i++) {
                         publish((i + 1) + ". " + result.getResultLineByIndex(i).getData() + "\n");
                     }
