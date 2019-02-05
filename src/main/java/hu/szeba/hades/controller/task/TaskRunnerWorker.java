@@ -49,7 +49,7 @@ public class TaskRunnerWorker extends SwingWorker<Integer, String> {
             }
 
             if (result.getResultLineCount() == 0) {
-                publish("> No response...\n");
+                publish("> No response...\n\n");
             } else {
                 for (int i = 0; i < result.getResultLineCount(); i++) {
                     publish((i + 1) + ". " + result.getResultLineByIndex(i).getData() + "\n");
