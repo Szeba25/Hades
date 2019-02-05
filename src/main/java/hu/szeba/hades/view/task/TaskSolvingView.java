@@ -99,10 +99,6 @@ public class TaskSolvingView extends BaseView {
         terminalArea = new JTextArea();
         terminalArea.setEditable(false);
         terminalArea.setFont(monoFont);
-        /*
-        terminalArea.setForeground(new Color(60, 210, 60));
-        terminalArea.setBackground(new Color(35, 35, 35));
-        */
         terminalArea.setForeground(new Color(5, 5, 5));
         terminalArea.setBackground(new Color(225, 225, 225));
 
@@ -221,14 +217,6 @@ public class TaskSolvingView extends BaseView {
         codeTabArea.setCodeFoldingEnabled(true);
         codeTabArea.setSyntaxEditingStyle(syntaxStyle);
         codeTabArea.setCurrentLineHighlightColor(new Color(10, 30, 140, 50));
-
-        /*
-        try {
-            Theme.load(new FileInputStream(new File("themes/dark.xml"))).apply(codeTabArea);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
 
         codeTabArea.setFont(monoFont);
 
