@@ -31,7 +31,7 @@ public class TaskData {
                     TaskDescription taskDescription,
                     boolean continueTask,
                     String language,
-                    String syntaxStyle) throws IOException, MissingResultFileForProgramInputException {
+                    String syntaxStyle) throws IOException, MissingResultFileException {
         this.taskDirectory = getTaskDirectory(taskName);
         this.taskWorkingDirectory = getTaskWorkingDirectory(taskName);
 
@@ -57,7 +57,7 @@ public class TaskData {
         makeSources();
     }
 
-    private void makeInputResultPairs() throws IOException, MissingResultFileForProgramInputException {
+    private void makeInputResultPairs() throws IOException, MissingResultFileException {
         String[] extInput = { "input" };
         List<File> inputFiles = new LinkedList<>(FileUtils.listFiles(
                 new File(taskDirectory, "input_result_pairs"),
@@ -72,7 +72,7 @@ public class TaskData {
 
             if (!resultFile.exists()) {
                 inputResultPairs.clear();
-                throw new MissingResultFileForProgramInputException(taskName, inputFileName);
+                throw new MissingResultFileException(taskName, inputFileName);
             }
 
             ProgramInput programInput = new ProgramInput(inputFiles.get(i));

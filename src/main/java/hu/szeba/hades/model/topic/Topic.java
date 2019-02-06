@@ -4,17 +4,16 @@ import hu.szeba.hades.io.DescriptionXMLFile;
 import hu.szeba.hades.io.TaskGraphFile;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.model.task.Task;
-import hu.szeba.hades.model.task.data.MissingResultFileForProgramInputException;
+import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.data.TaskDescription;
 import hu.szeba.hades.model.task.graph.AdjacencyMatrix;
-import hu.szeba.hades.model.task.languages.UnsupportedProgrammingLanguageException;
+import hu.szeba.hades.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.model.task.taskfactory.TaskFactoryDecider;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,9 +53,9 @@ public class Topic {
     }
 
     public Task createTask(String taskName, boolean continueTask)
-            throws UnsupportedProgrammingLanguageException,
+            throws InvalidLanguageException,
                 IOException,
-                MissingResultFileForProgramInputException {
+            MissingResultFileException {
         return TaskFactoryDecider.decideFactory(language).getTask(taskName, taskDescriptions.get(taskName), continueTask);
     }
 

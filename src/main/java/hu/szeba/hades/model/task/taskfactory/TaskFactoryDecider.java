@@ -1,6 +1,6 @@
 package hu.szeba.hades.model.task.taskfactory;
 
-import hu.szeba.hades.model.task.languages.UnsupportedProgrammingLanguageException;
+import hu.szeba.hades.model.task.languages.InvalidLanguageException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +9,7 @@ public class TaskFactoryDecider {
 
     private static Map<String, TaskFactory> factories = new HashMap<>();
 
-    public static TaskFactory decideFactory(String language) throws UnsupportedProgrammingLanguageException {
+    public static TaskFactory decideFactory(String language) throws InvalidLanguageException {
         // Use reflection, and reuse factories!
         if (factories.containsKey(language)) {
             return factories.get(language);
@@ -21,7 +21,7 @@ public class TaskFactoryDecider {
                 return newTaskFactory;
             } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
                 e.printStackTrace();
-                throw new UnsupportedProgrammingLanguageException(language);
+                throw new InvalidLanguageException(language);
             }
         }
     }
