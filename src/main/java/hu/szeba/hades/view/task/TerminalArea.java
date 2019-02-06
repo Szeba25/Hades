@@ -44,23 +44,15 @@ public class TerminalArea {
         try {
             if (line.length() > 0) {
                 if (line.charAt(0) == '~') {
-                    document.insertString(document.getLength(), applyConstraint(line.substring(1)), errorAttribute);
+                    document.insertString(document.getLength(), line.substring(1), errorAttribute);
                 } else if (line.charAt(0) == '@') {
-                    document.insertString(document.getLength(), applyConstraint(line.substring(1)), debugAttribute);
+                    document.insertString(document.getLength(), line.substring(1), debugAttribute);
                 } else {
-                    document.insertString(document.getLength(), applyConstraint(line), outputAttribute);
+                    document.insertString(document.getLength(), line, outputAttribute);
                 }
             }
         } catch (BadLocationException e) {
             e.printStackTrace();
-        }
-    }
-
-    private String applyConstraint(String str) {
-        if (str.length() > 200) {
-            return str.substring(0, 200) + ".....";
-        } else {
-            return str;
         }
     }
 
