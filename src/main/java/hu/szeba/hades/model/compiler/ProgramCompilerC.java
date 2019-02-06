@@ -2,7 +2,7 @@ package hu.szeba.hades.model.compiler;
 
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.model.task.program.ProgramC;
-import hu.szeba.hades.util.StreamUtil;
+import hu.szeba.hades.util.StreamUtilities;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,8 +32,8 @@ public class ProgramCompilerC implements ProgramCompiler {
         process.waitFor();
 
         List<String> compilerMessages = new LinkedList<>();
-        compilerMessages.addAll(StreamUtil.getStream(process.getErrorStream()));
-        compilerMessages.addAll(StreamUtil.getStream(process.getInputStream()));
+        compilerMessages.addAll(StreamUtilities.getStream(process.getErrorStream()));
+        compilerMessages.addAll(StreamUtilities.getStream(process.getInputStream()));
         compilerMessages.add("Exit value: " + process.exitValue());
 
         return generateOutput(compilerMessages, taskWorkingDirectory, process.exitValue());

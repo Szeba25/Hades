@@ -8,7 +8,6 @@ import hu.szeba.hades.view.task.TaskSolvingView;
 import hu.szeba.hades.view.task.TerminalArea;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -45,7 +44,7 @@ public class TaskSolvingController {
 
         // Start a worker thread to compile the task!
         TaskCompilerWorker taskCompilerWorker = new TaskCompilerWorker(
-                task, // Passed as register interface type!
+                task.getCompilerOutputRegister(),
                 task.getProgramCompiler(),
                 data.copySourceNamesWithPath(),
                 data.copyTaskWorkingDirectory(),
@@ -71,7 +70,7 @@ public class TaskSolvingController {
 
         // Start a worker thread to compile the task!
         TaskCompilerAndRunnerWorker taskCompilerAndRunnerWorker = new TaskCompilerAndRunnerWorker(
-                task, // Passed as register interface type!
+                task.getCompilerOutputRegister(),
                 task.getProgramCompiler(),
                 data.copyInputResultPairs(),
                 data.copySourceNamesWithPath(),
@@ -94,7 +93,7 @@ public class TaskSolvingController {
 
         // Start a worker thread to run the task!
         TaskRunnerWorker taskRunnerWorker = new TaskRunnerWorker(
-                task.getCompilerOutput().getProgram(),
+                task.getCompilerOutputRegister().getCompilerOutput().getProgram(),
                 task.getData().copyInputResultPairs(),
                 buildMenuWrapper,
                 terminalArea,

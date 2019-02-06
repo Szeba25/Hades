@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class StreamUtil {
+public class StreamUtilities {
 
     /**
      * This is a convenience method to start the getStream method for "potentially non correct programs"
@@ -57,7 +57,6 @@ public class StreamUtil {
 
         StringBuilder builder = new StringBuilder();
         int byteCount = 0;
-        int lineCount = 0;
 
         int tries = 1;
         boolean firstTry = true;
@@ -93,7 +92,6 @@ public class StreamUtil {
                 if (data == 10) {
                     // New line!
                     messageList.add(builder.toString());
-                    lineCount++;
                     builder = new StringBuilder();
                 } else if (data != 13) {
                     // Carriage return, ignore these...

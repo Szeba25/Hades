@@ -3,7 +3,7 @@ package hu.szeba.hades.model.task.data;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.model.task.program.ProgramInput;
 import hu.szeba.hades.model.task.result.Result;
-import hu.szeba.hades.util.FileHandlingUtil;
+import hu.szeba.hades.util.FileUtilities;
 import org.apache.commons.io.FileUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
@@ -66,7 +66,7 @@ public class TaskData {
 
         for (int i = 0; i < inputFiles.size(); i++) {
             String inputFileName = inputFiles.get(i).getName();
-            String resultFileName = FileHandlingUtil.getFileNameWithoutExtension(inputFileName) + ".result";
+            String resultFileName = FileUtilities.getFileNameWithoutExtension(inputFileName) + ".result";
 
             File resultFile = new File(taskDirectory, "input_result_pairs/" + resultFileName);
 

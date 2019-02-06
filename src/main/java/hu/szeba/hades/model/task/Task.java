@@ -5,18 +5,19 @@ import hu.szeba.hades.model.compiler.ProgramCompiler;
 import hu.szeba.hades.model.task.data.TaskData;
 import hu.szeba.hades.model.task.result.ResultMatcher;
 
-public class Task implements CompilerOutputRegister {
+public class Task {
 
     private final TaskData data;
     private final ProgramCompiler programCompiler;
     private final String language;
-    private CompilerOutput compilerOutput;
+    private final CompilerOutputRegister compilerOutputRegister;
 
     public Task(TaskData data, ProgramCompiler programCompiler, String language) {
         this.data = data;
         this.programCompiler = programCompiler;
         this.language = language;
-        this.compilerOutput = programCompiler.getCached(data.getTaskWorkingDirectory());
+        compilerOutputRegister = new CompilerOutputRegister();
+        compilerOutputRegister.setCompilerOutput(programCompiler.getCached(data.getTaskWorkingDirectory()));
     }
 
     public TaskData getData() {
@@ -27,13 +28,8 @@ public class Task implements CompilerOutputRegister {
         return programCompiler;
     }
 
-    public CompilerOutput getCompilerOutput() {
-        return compilerOutput;
-    }
-
-    @Override
-    public void registerCompilerOutput(CompilerOutput compilerOutput) {
-        this.compilerOutput = compilerOutput;
+    public CompilerOutputRegister getCompilerOutputRegister() {
+        return compilerOutputRegister;
     }
 
 }

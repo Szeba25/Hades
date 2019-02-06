@@ -3,7 +3,7 @@ package hu.szeba.hades.model.task.program;
 import hu.szeba.hades.io.TabbedFile;
 import hu.szeba.hades.model.task.result.Result;
 import hu.szeba.hades.model.task.result.ResultLine;
-import hu.szeba.hades.util.StreamUtil;
+import hu.szeba.hades.util.StreamUtilities;
 
 import java.io.*;
 import java.util.concurrent.TimeUnit;
@@ -32,11 +32,11 @@ public class ProgramC extends Program {
         ow.flush();
         ow.close();
 
-        for (String line : StreamUtil.getStreamPatient(process.getInputStream(), maxByteCount, stopFlag)) {
+        for (String line : StreamUtilities.getStreamPatient(process.getInputStream(), maxByteCount, stopFlag)) {
             result.addResultLine(new ResultLine(line));
         }
 
-        for (String line : StreamUtil.getStreamLowLatency(process.getErrorStream(), maxByteCount, stopFlag)) {
+        for (String line : StreamUtilities.getStreamLowLatency(process.getErrorStream(), maxByteCount, stopFlag)) {
             result.addDebugLine(line);
         }
 

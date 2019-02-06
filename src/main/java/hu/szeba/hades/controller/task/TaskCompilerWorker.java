@@ -55,7 +55,7 @@ public class TaskCompilerWorker extends SwingWorker<Integer, String> {
         buildMenuWrapper.setBuildEnabled(true);
         buildMenuWrapper.setBuildAndRunEnabled(true);
         buildMenuWrapper.setRunEnabled(output.isReady());
-        register.registerCompilerOutput(output);
+        register.setCompilerOutput(output);
     }
 
 }

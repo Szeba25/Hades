@@ -115,7 +115,7 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
         buildMenuWrapper.setBuildAndRunEnabled(true);
         buildMenuWrapper.setRunEnabled(output.isReady());
         buildMenuWrapper.setStopEnabled(false);
-        register.registerCompilerOutput(output);
+        register.setCompilerOutput(output);
         stopFlag.set(false);
     }
 
