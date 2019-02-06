@@ -86,16 +86,13 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
                     }
                     publish("\n");
                     matcher.match(result, inputResultPair.getDesiredResult());
-                    if (matcher.getDifferencesSize() > 0) {
-                        publish("\n");
-                    }
                     for (int i = 0; i < matcher.getDifferencesSize(); i++) {
                         ResultDifference diff = matcher.getDifference(i);
                         publish("~* difference at line: " + diff.getLineNumber() + ". \"" + diff.getFirstLine().getData() + "\" should be \""
                                 + diff.getSecondLine().getData() + "\"\n");
                     }
                     if (matcher.getDifferencesSize() > 0) {
-                        publish("\n\n");
+                        publish("\n");
                     }
                 }
             }
