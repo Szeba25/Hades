@@ -5,7 +5,6 @@ import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.view.BaseView;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
@@ -14,8 +13,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +36,7 @@ public class TaskSolvingView extends BaseView {
 
     private JEditorPane taskInstructionsPane;
 
-    private JTextArea terminalArea;
+    private TerminalArea terminalArea;
     private JScrollPane terminalScroll;
 
     private JSplitPane splitPane;
@@ -96,13 +93,12 @@ public class TaskSolvingView extends BaseView {
         topPanel.add(fileListScroller, BorderLayout.WEST);
         topPanel.add(codeTab, BorderLayout.CENTER);
 
-        terminalArea = new JTextArea();
-        terminalArea.setEditable(false);
-        terminalArea.setFont(monoFont);
-        terminalArea.setForeground(new Color(5, 5, 5));
-        terminalArea.setBackground(new Color(225, 225, 225));
-
-        terminalScroll = new JScrollPane(terminalArea);
+        JTextPane terminalPane = new JTextPane();
+        JPanel noWrapPanel = new JPanel(new BorderLayout());
+        noWrapPanel.add(terminalPane);
+        terminalArea = new TerminalArea(terminalPane);
+        terminalScroll = new JScrollPane(noWrapPanel);
+        terminalScroll.getVerticalScrollBar().setUnitIncrement(14);
 
         splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, topPanel, terminalScroll);
         splitPane.setOneTouchExpandable(true);

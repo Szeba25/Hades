@@ -5,6 +5,7 @@ import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.TaskData;
 import hu.szeba.hades.view.task.BuildMenuWrapper;
 import hu.szeba.hades.view.task.TaskSolvingView;
+import hu.szeba.hades.view.task.TerminalArea;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import javax.swing.*;
@@ -30,14 +31,14 @@ public class TaskSolvingController {
     }
 
     public void compile(Map<String, RSyntaxTextArea> codeAreas,
-                        JTextArea terminalArea, BuildMenuWrapper buildMenuWrapper) throws IOException {
+                        TerminalArea terminalArea, BuildMenuWrapper buildMenuWrapper) throws IOException {
         // Set the sources content and save sources on EDT
         TaskData data = task.getData();
         data.setSourceContents(codeAreas);
         data.saveSources();
 
         // Clear terminal, and disable build menu
-        terminalArea.setText("");
+        terminalArea.clear();
         buildMenuWrapper.setBuildEnabled(false);
         buildMenuWrapper.setBuildAndRunEnabled(false);
         buildMenuWrapper.setRunEnabled(false);
@@ -54,14 +55,14 @@ public class TaskSolvingController {
     }
 
     public void compileAndRun(Map<String, RSyntaxTextArea> codeAreas,
-                              JTextArea terminalArea, BuildMenuWrapper buildMenuWrapper) throws IOException {
+                              TerminalArea terminalArea, BuildMenuWrapper buildMenuWrapper) throws IOException {
         // Set the sources content and save sources on EDT
         TaskData data = task.getData();
         data.setSourceContents(codeAreas);
         data.saveSources();
 
         // Clear terminal, and disable build menu
-        terminalArea.setText("");
+        terminalArea.clear();
         buildMenuWrapper.setBuildEnabled(false);
         buildMenuWrapper.setBuildAndRunEnabled(false);
         buildMenuWrapper.setRunEnabled(false);
@@ -82,9 +83,9 @@ public class TaskSolvingController {
         taskCompilerAndRunnerWorker.execute();
     }
 
-    public void run(JTextArea terminalArea, BuildMenuWrapper buildMenuWrapper) {
+    public void run(TerminalArea terminalArea, BuildMenuWrapper buildMenuWrapper) {
         // Clear terminal, and disable build menu
-        terminalArea.setText("");
+        terminalArea.clear();
         buildMenuWrapper.setBuildEnabled(false);
         buildMenuWrapper.setBuildAndRunEnabled(false);
         buildMenuWrapper.setRunEnabled(false);
@@ -102,10 +103,10 @@ public class TaskSolvingController {
         taskRunnerWorker.execute();
     }
 
-    public void stopCurrentProcess(JTextArea terminalArea) {
+    public void stopCurrentProcess(TerminalArea terminalArea) {
         if (!stopFlag.get()) {
             stopFlag.set(true);
-            terminalArea.append("> Stopping running process...\n");
+            terminalArea.add("> Stopping running process...\n");
         }
     }
 

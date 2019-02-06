@@ -8,6 +8,7 @@ import hu.szeba.hades.model.task.result.Result;
 import hu.szeba.hades.model.task.result.ResultDifference;
 import hu.szeba.hades.model.task.result.ResultMatcher;
 import hu.szeba.hades.view.task.BuildMenuWrapper;
+import hu.szeba.hades.view.task.TerminalArea;
 
 import javax.swing.*;
 import java.io.File;
@@ -23,7 +24,7 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
     private String[] sources;
     private File path;
     private BuildMenuWrapper buildMenuWrapper;
-    private JTextArea terminalArea;
+    private TerminalArea terminalArea;
     private int maxByteCount;
     private AtomicBoolean stopFlag;
     private CompilerOutput output;
@@ -31,7 +32,7 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
     TaskCompilerAndRunnerWorker(CompilerOutputRegister register, ProgramCompiler compiler,
                                 List<InputResultPair> inputResultPairs,
                                 String[] sources, File path,
-                                BuildMenuWrapper buildMenuWrapper, JTextArea terminalArea,
+                                BuildMenuWrapper buildMenuWrapper, TerminalArea terminalArea,
                                 int maxByteCount, AtomicBoolean stopFlag) {
         this.compiler = compiler;
         this.register = register;
@@ -47,7 +48,7 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
 
     @Override
     protected Integer doInBackground() throws IOException, InterruptedException {
-        publish("> Compilation started...\n\n");
+        publish(">>> Compilation started...\n\n");
 
         // Compile
         output = compiler.compile(sources, path);
@@ -56,13 +57,13 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
         }
 
         if (output.isReady()) {
-            publish("\n> Running program...\n\n");
+            publish("\n>>> Running program...\n\n");
 
             // Run
             ResultMatcher matcher = new ResultMatcher();
 
             for (InputResultPair inputResultPair : inputResultPairs) {
-                publish("> Using input: " + inputResultPair.getProgramInput().getFile().getName() + "\n");
+                publish(">>> Using input: " + inputResultPair.getProgramInput().getFile().getName() + "\n");
                 Result result = output.getProgram().run(inputResultPair.getProgramInput(), maxByteCount, stopFlag);
 
                 if (stopFlag.get()) {
@@ -77,7 +78,7 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
                         publish("\n> Debug log:\n");
                     }
                     for (int i = 0; i < result.getDebugLineCount(); i++) {
-                        publish("~" + (i + 1) + ". " + result.getDebugLineByIndex(i) + "\n");
+                        publish("@" + (i + 1) + ". " + result.getDebugLineByIndex(i) + "\n");
                     }
                     publish("\n> Output:\n");
                     for (int i = 0; i < result.getResultLineCount(); i++) {
@@ -85,13 +86,16 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
                     }
                     publish("\n");
                     matcher.match(result, inputResultPair.getDesiredResult());
+                    if (matcher.getDifferencesSize() > 0) {
+                        publish("\n");
+                    }
                     for (int i = 0; i < matcher.getDifferencesSize(); i++) {
                         ResultDifference diff = matcher.getDifference(i);
-                        publish("* difference at line: " + diff.getLineNumber() + ". \"" + diff.getFirstLine().getData() + "\" should be \""
+                        publish("~* difference at line: " + diff.getLineNumber() + ". \"" + diff.getFirstLine().getData() + "\" should be \""
                                 + diff.getSecondLine().getData() + "\"\n");
                     }
                     if (matcher.getDifferencesSize() > 0) {
-                        publish("\n");
+                        publish("\n\n");
                     }
                 }
             }
@@ -104,11 +108,7 @@ public class TaskCompilerAndRunnerWorker extends SwingWorker<Integer, String> {
     @Override
     protected void process(List<String> chunks) {
         for (String line : chunks) {
-            if (line.length() < 200) {
-                terminalArea.append(line);
-            } else {
-                terminalArea.append(line.substring(0, 200) + ".....\n");
-            }
+            terminalArea.add(line);
         }
     }
 

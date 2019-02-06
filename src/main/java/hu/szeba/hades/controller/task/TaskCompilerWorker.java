@@ -5,6 +5,7 @@ import hu.szeba.hades.model.compiler.ProgramCompiler;
 import hu.szeba.hades.model.task.CompilerOutputRegister;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.view.task.BuildMenuWrapper;
+import hu.szeba.hades.view.task.TerminalArea;
 
 import javax.swing.*;
 import java.io.File;
@@ -17,12 +18,12 @@ public class TaskCompilerWorker extends SwingWorker<Integer, String> {
     private String[] sources;
     private File path;
     private BuildMenuWrapper buildMenuWrapper;
-    private JTextArea terminalArea;
+    private TerminalArea terminalArea;
     private CompilerOutput output;
 
     TaskCompilerWorker(CompilerOutputRegister register, ProgramCompiler compiler,
                        String[] sources, File path,
-                       BuildMenuWrapper buildMenuWrapper, JTextArea terminalArea) {
+                       BuildMenuWrapper buildMenuWrapper, TerminalArea terminalArea) {
         this.compiler = compiler;
         this.register = register;
         this.sources = sources;
@@ -34,7 +35,7 @@ public class TaskCompilerWorker extends SwingWorker<Integer, String> {
 
     @Override
     protected Integer doInBackground() throws Exception {
-        publish("> Compilation started...\n\n");
+        publish(">>> Compilation started...\n\n");
         output = compiler.compile(sources, path);
         for (String message : output.getCompilerMessages()) {
             publish(message + "\n");
@@ -45,11 +46,7 @@ public class TaskCompilerWorker extends SwingWorker<Integer, String> {
     @Override
     protected void process(List<String> chunks) {
         for (String line : chunks) {
-            if (line.length() < 200) {
-                terminalArea.append(line);
-            } else {
-                terminalArea.append(line.substring(0, 200) + ".....\n");
-            }
+            terminalArea.add(line);
         }
     }
 
