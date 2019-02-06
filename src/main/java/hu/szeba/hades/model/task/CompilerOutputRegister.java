@@ -10,11 +10,11 @@ public class CompilerOutputRegister {
         compilerOutput = null;
     }
 
-    public void setCompilerOutput(CompilerOutput compilerOutput) {
+    public synchronized void setCompilerOutput(CompilerOutput compilerOutput) {
         this.compilerOutput = compilerOutput;
     }
 
-    public CompilerOutput getCompilerOutput() {
+    public synchronized CompilerOutput getCompilerOutput() {
         return compilerOutput;
     }
 

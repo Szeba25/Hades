@@ -20,19 +20,19 @@ public class BuildMenuWrapper {
         this.stopMenuItem = stopMenuItem;
     }
 
-    public void setBuildEnabled(boolean value) {
+    public synchronized void setBuildEnabled(boolean value) {
         buildMenuItem.setEnabled(value);
     }
 
-    public void setBuildAndRunEnabled(boolean value) {
+    public synchronized void setBuildAndRunEnabled(boolean value) {
         buildAndRunMenuItem.setEnabled(value);
     }
 
-    public void setRunEnabled(boolean value) {
+    public synchronized void setRunEnabled(boolean value) {
         runMenuItem.setEnabled(value);
     }
 
-    public void setStopEnabled(boolean value) {
+    public synchronized void setStopEnabled(boolean value) {
         stopMenuItem.setEnabled(value);
     }
 
