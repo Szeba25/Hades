@@ -51,13 +51,13 @@ public class TaskRunnerWorker extends SwingWorker<Integer, String> {
             if (!result.anyInputPresent()) {
                 publish("> No response...\n\n");
             } else {
+                if (result.getDebugLineCount() > 0) {
+                    publish("\n> Debug log:\n");
+                }
                 for (int i = 0; i < result.getDebugLineCount(); i++) {
                     publish("~" + (i + 1) + ". " + result.getDebugLineByIndex(i) + "\n");
                 }
-                if (result.getDebugLineCount() > 0) {
-                    publish("\n");
-                }
-                publish("> Output:\n");
+                publish("\n> Output:\n");
                 for (int i = 0; i < result.getResultLineCount(); i++) {
                     publish((i + 1) + ". " + result.getResultLineByIndex(i).getData() + "\n");
                 }
