@@ -45,6 +45,8 @@ public class TaskCompilerThread extends SwingWorker<Integer, String> implements 
         TaskCompilerWork taskCompilerWork = new TaskCompilerWork(compiler, sources, path);
         taskCompilerWork.execute(this);
         CompilerOutput output = taskCompilerWork.getOutput();
+
+        // Register the output!
         register.setCompilerOutput(output);
         return 0;
     }

@@ -43,14 +43,14 @@ public class TaskSolvingController {
         buildMenuWrapper.setRunEnabled(false);
 
         // Start a worker thread to compile the task!
-        TaskCompilerWorker taskCompilerWorker = new TaskCompilerWorker(
-                task.getCompilerOutputRegister(),
+        TaskCompilerThread taskCompilerThread = new TaskCompilerThread(
                 task.getProgramCompiler(),
                 data.copySourceNamesWithPath(),
                 data.copyTaskWorkingDirectory(),
                 buildMenuWrapper,
-                terminalArea);
-        taskCompilerWorker.execute();
+                terminalArea,
+                task.getCompilerOutputRegister());
+        taskCompilerThread.execute();
     }
 
     public void compileAndRun(Map<String, RSyntaxTextArea> codeAreas,
@@ -69,20 +69,23 @@ public class TaskSolvingController {
         stopFlag.set(false);
 
         // Start a worker thread to compile the task!
-        TaskCompilerAndRunnerWorker taskCompilerAndRunnerWorker = new TaskCompilerAndRunnerWorker(
-                task.getCompilerOutputRegister(),
+        TaskCompilerAndRunnerThread taskCompilerAndRunnerThread = new TaskCompilerAndRunnerThread(
                 task.getProgramCompiler(),
-                data.copyInputResultPairs(),
                 data.copySourceNamesWithPath(),
                 data.copyTaskWorkingDirectory(),
+                data.copyInputResultPairs(),
+                Options.getConfigIntData("max_stream_byte_count"),
+                stopFlag,
                 buildMenuWrapper,
                 terminalArea,
-                Options.getConfigIntData("max_stream_byte_count"),
-                stopFlag);
-        taskCompilerAndRunnerWorker.execute();
+                task.getCompilerOutputRegister());
+        taskCompilerAndRunnerThread.execute();
     }
 
     public void run(TerminalArea terminalArea, BuildMenuWrapper buildMenuWrapper) {
+        // Get task data
+        TaskData data = task.getData();
+
         // Clear terminal, and disable build menu
         terminalArea.clear();
         buildMenuWrapper.setBuildEnabled(false);
@@ -92,14 +95,14 @@ public class TaskSolvingController {
         stopFlag.set(false);
 
         // Start a worker thread to run the task!
-        TaskRunnerWorker taskRunnerWorker = new TaskRunnerWorker(
+        TaskRunnerThread taskRunnerThread = new TaskRunnerThread(
                 task.getCompilerOutputRegister().getCompilerOutput().getProgram(),
-                task.getData().copyInputResultPairs(),
-                buildMenuWrapper,
-                terminalArea,
+                data.copyInputResultPairs(),
                 Options.getConfigIntData("max_stream_byte_count"),
-                stopFlag);
-        taskRunnerWorker.execute();
+                stopFlag,
+                buildMenuWrapper,
+                terminalArea);
+        taskRunnerThread.execute();
     }
 
     public void stopCurrentProcess(TerminalArea terminalArea) {

@@ -40,6 +40,7 @@ public class TaskCompilerAndRunnerThread extends SwingWorker<Integer, String> im
         this.inputResultPairs = inputResultPairs;
         this.maxByteCount = maxByteCount;
         this.stopFlag = stopFlag;
+
         this.buildMenuWrapper = buildMenuWrapper;
         this.terminalArea = terminalArea;
         this.register = register;
