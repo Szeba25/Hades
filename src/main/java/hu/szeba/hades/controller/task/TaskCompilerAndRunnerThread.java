@@ -59,6 +59,7 @@ public class TaskCompilerAndRunnerThread extends SwingWorker<Integer, String> im
 
         // Run only if output is ready!
         if (output.isReady()) {
+            publish("\n"); // To separate the two runs!
             TaskRunnerWork taskRunnerWork = new TaskRunnerWork(output.getProgram(), inputResultPairs, maxByteCount, stopFlag);
             taskRunnerWork.execute(this);
         }
