@@ -110,7 +110,7 @@ public class TaskSolvingView extends BaseView {
 
         splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, topPanel, terminalScroll);
         splitPane.setOneTouchExpandable(true);
-        splitPane.setResizeWeight(0.7);
+        splitPane.setResizeWeight(0.5);
 
         taskSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane, taskInstructionsPane);
         taskSplitPane.setOneTouchExpandable(true);
