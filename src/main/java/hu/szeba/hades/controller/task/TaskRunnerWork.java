@@ -38,12 +38,12 @@ public class TaskRunnerWork implements Work {
             Result result = program.run(inputResultPair.getProgramInput(), maxByteCount, stopFlag);
 
             if (stopFlag.get()) {
-                publisher.customPublish("> Process force closed!\n");
+                publisher.customPublish("~> Process force closed!\n");
                 return;
             }
 
             if (!result.anyInputPresent()) {
-                publisher.customPublish("> No response...\n\n");
+                publisher.customPublish("~> No response...\n\n");
             } else {
                 if (result.getDebugLineCount() > 0) {
                     publisher.customPublish("\n> Debug log:\n");
@@ -53,7 +53,7 @@ public class TaskRunnerWork implements Work {
                 }
                 publisher.customPublish("\n> Output:\n");
                 for (int i = 0; i < result.getResultLineCount(); i++) {
-                    publisher.customPublish((i + 1) + ". " + result.getResultLineByIndex(i).getData() + "\n");
+                    publisher.customPublish("#" + (i + 1) + ". " + result.getResultLineByIndex(i).getData() + "\n");
                 }
                 publisher.customPublish("\n");
                 matcher.match(result, inputResultPair.getDesiredResult());
