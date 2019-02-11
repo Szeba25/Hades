@@ -107,10 +107,11 @@ public class TaskSolvingView extends BaseView {
         terminalArea = new TerminalArea(terminalPane);
         terminalScroll = new JScrollPane(noWrapPanel);
         terminalScroll.getVerticalScrollBar().setUnitIncrement(14);
+        terminalScroll.setMinimumSize(new Dimension(300, 200));
 
         splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, topPanel, terminalScroll);
         splitPane.setOneTouchExpandable(true);
-        splitPane.setResizeWeight(0.5);
+        splitPane.setResizeWeight(0.6);
 
         taskSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane, taskInstructionsPane);
         taskSplitPane.setOneTouchExpandable(true);
