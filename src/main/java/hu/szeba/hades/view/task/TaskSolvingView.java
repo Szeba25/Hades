@@ -44,11 +44,17 @@ public class TaskSolvingView extends BaseView {
 
     private JMenuBar menuBar;
 
+    private JMenu fileMenu;
+    private JMenuItem newFileMenuItem;
+
     private JMenu buildMenu;
     private JMenuItem buildMenuItem;
     private JMenuItem buildAndRunMenuItem;
     private JMenuItem runMenuItem;
     private JMenuItem stopMenuItem;
+
+    private JMenu helpMenu;
+    private JMenuItem aboutMenuItem;
 
     private BuildMenuWrapper buildMenuWrapper;
 
@@ -109,10 +115,13 @@ public class TaskSolvingView extends BaseView {
         taskSplitPane.setResizeWeight(0.8);
 
         menuBar = new JMenuBar();
-        JMenu fileMenu = new JMenu("File");
+
+        fileMenu = new JMenu("File");
+        newFileMenuItem = new JMenuItem("New source file");
+
+        fileMenu.add(newFileMenuItem);
 
         buildMenu = new JMenu("Build");
-
         buildMenuItem = new JMenuItem("Build all");
         buildAndRunMenuItem = new JMenuItem("Build all and run...");
         runMenuItem = new JMenuItem("Run...");
@@ -126,9 +135,12 @@ public class TaskSolvingView extends BaseView {
         buildMenu.addSeparator();
         buildMenu.add(stopMenuItem);
 
-        buildMenuWrapper = new BuildMenuWrapper(buildMenuItem, buildAndRunMenuItem, runMenuItem, stopMenuItem);
+        helpMenu = new JMenu("Help");
+        aboutMenuItem = new JMenuItem("About");
 
-        JMenu helpMenu = new JMenu("Help");
+        helpMenu.add(aboutMenuItem);
+
+        buildMenuWrapper = new BuildMenuWrapper(buildMenuItem, buildAndRunMenuItem, runMenuItem, stopMenuItem);
 
         menuBar.add(fileMenu);
         menuBar.add(buildMenu);
