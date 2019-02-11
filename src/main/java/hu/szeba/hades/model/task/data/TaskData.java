@@ -162,4 +162,15 @@ public class TaskData {
         }
     }
 
+    public SourceFile addSource(String name) throws IOException {
+        for (SourceFile src : sources) {
+            if (src.getName().equals(name)) {
+                return null;
+            }
+        }
+        SourceFile source = new SourceFile(new File(taskWorkingDirectory + "/sources/" + language + "/" + name));
+        sources.add(source);
+        return source;
+    }
+
 }

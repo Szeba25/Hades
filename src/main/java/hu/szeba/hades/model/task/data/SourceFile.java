@@ -18,9 +18,13 @@ public class SourceFile {
     public SourceFile(File file) throws IOException {
         this.file = file;
         this.name = file.getName();
-        this.data = String.join("\n",
-                Files.readAllLines(
-                Paths.get(file.getAbsolutePath())));
+        if (file.exists()) {
+            this.data = String.join("\n",
+                    Files.readAllLines(
+                            Paths.get(file.getAbsolutePath())));
+        } else {
+            this.data = "";
+        }
     }
 
     public String getName() { return name; }

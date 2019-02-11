@@ -2,6 +2,7 @@ package hu.szeba.hades.controller.task;
 
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.model.task.Task;
+import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.model.task.data.TaskData;
 import hu.szeba.hades.view.task.BuildMenuWrapper;
 import hu.szeba.hades.view.task.TaskSolvingView;
@@ -112,4 +113,11 @@ public class TaskSolvingController {
         }
     }
 
+    public void addNewSourceFile(TaskSolvingView taskSolvingView) throws IOException {
+        SourceFile src = task.getData().addSource("newsrc.c");
+        if (src != null) {
+            taskSolvingView.addSourceFile("newsrc.c", task.getData().getSyntaxStyle());
+            src.save();
+        }
+    }
 }

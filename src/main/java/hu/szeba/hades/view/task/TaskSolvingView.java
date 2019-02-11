@@ -28,7 +28,8 @@ public class TaskSolvingView extends BaseView {
 
     private JPanel topPanel;
 
-    private JList fileList;
+    private DefaultListModel<String> fileListModel;
+    private JList<String> fileList;
     private JScrollPane fileListScroller;
 
     private JTabbedPane codeTab;
@@ -82,7 +83,8 @@ public class TaskSolvingView extends BaseView {
 
         monoFont = new Font("Consolas", Font.PLAIN, 14);
 
-        fileList = new JList();
+        fileListModel = new DefaultListModel<>();
+        fileList = new JList<>(fileListModel);
         fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         fileList.setFixedCellWidth(125);
 
@@ -157,8 +159,16 @@ public class TaskSolvingView extends BaseView {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent event) {
-            super.windowClosing(event);
-            parentView.showView();
+                super.windowClosing(event);
+                parentView.showView();
+            }
+        });
+        // Add new source file
+        newFileMenuItem.addActionListener((event) -> {
+            try {
+                taskSolvingController.addNewSourceFile(this);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
         // Build action
@@ -187,9 +197,9 @@ public class TaskSolvingView extends BaseView {
         fileList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JList list = (JList)e.getSource();
+                JList list = (JList) e.getSource();
                 if (e.getClickCount() == 2) {
-                    String value = (String)list.getSelectedValue();
+                    String value = (String) list.getSelectedValue();
                     for (int i = 0; i < codeTab.getTabCount(); i++) {
                         String title = codeTab.getTitleAt(i);
                         if (title.equals(value)) {
@@ -210,9 +220,15 @@ public class TaskSolvingView extends BaseView {
         sources.forEach((file) -> codeTabByName.get(file.getName()).setText(file.getData()));
     }
 
+    public void addSourceFile(String name, String syntaxStyle) {
+        fileListModel.addElement(name);
+        addCodeArea(name, syntaxStyle);
+        fileList.setSelectedIndex(0);
+    }
+
     public void setSourceList(String[] sourceList, String syntaxStyle) {
-        fileList.setListData(sourceList);
         for (String src : sourceList) {
+            fileListModel.addElement(src);
             addCodeArea(src, syntaxStyle);
         }
         fileList.setSelectedIndex(0);
