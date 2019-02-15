@@ -248,7 +248,9 @@ public class TaskSolvingView extends BaseView {
         RTextScrollPane codeTabScroll = new RTextScrollPane(codeTabArea);
         codeTabScroll.setLineNumbersEnabled(true);
 
-        codeTab.addTab(name, codeTabScroll);
+        codeTab.add(name, codeTabScroll);
+        codeTab.setTabComponentAt(codeTab.getTabCount()-1, new ButtonTabComponent(codeTab));
+
         codeTabByName.put(name, codeTabArea);
     }
 
