@@ -81,7 +81,7 @@ public class TaskSolvingView extends BaseView {
         topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
 
-        monoFont = new Font("Monospaced", Font.PLAIN, 16);
+        monoFont = new Font("Monospaced", Font.PLAIN, 14);
 
         fileListModel = new DefaultListModel<>();
         fileList = new JList<>(fileListModel);
