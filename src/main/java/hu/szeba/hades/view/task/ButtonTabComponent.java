@@ -43,7 +43,7 @@ public class ButtonTabComponent extends JPanel {
         public TabButton() {
             int size = 17;
             setPreferredSize(new Dimension(size, size));
-            setToolTipText("close this tab");
+            setToolTipText("close");
             // Make the button looks the same for all Laf's
             setUI(new BasicButtonUI());
             // Make it transparent
@@ -68,8 +68,7 @@ public class ButtonTabComponent extends JPanel {
         }
 
         // We don't want to update UI for this button
-        public void updateUI() {
-        }
+        public void updateUI() { }
 
         // Paint the cross
         protected void paintComponent(Graphics g) {
@@ -80,11 +79,11 @@ public class ButtonTabComponent extends JPanel {
                 g2.translate(1, 1);
             }
             g2.setStroke(new BasicStroke(2));
-            g2.setColor(Color.BLACK);
+            g2.setColor(Color.GRAY);
             if (getModel().isRollover()) {
-                g2.setColor(Color.MAGENTA);
+                g2.setColor(Color.BLACK);
             }
-            int delta = 6;
+            int delta = 5;
             g2.drawLine(delta, delta, getWidth() - delta - 1, getHeight() - delta - 1);
             g2.drawLine(getWidth() - delta - 1, delta, delta, getHeight() - delta - 1);
             g2.dispose();
