@@ -2,7 +2,7 @@ package hu.szeba.hades.controller.task;
 
 import hu.szeba.hades.model.task.data.InputResultPair;
 import hu.szeba.hades.model.task.program.Program;
-import hu.szeba.hades.view.task.BuildMenuWrapper;
+import hu.szeba.hades.view.task.LockedMenusWrapper;
 import hu.szeba.hades.view.task.TerminalArea;
 
 import javax.swing.*;
@@ -17,21 +17,21 @@ public class TaskRunnerThread extends SwingWorker<Integer, String> implements Pu
     private int maxByteCount;
     private AtomicBoolean stopFlag;
 
-    private BuildMenuWrapper buildMenuWrapper;
+    private LockedMenusWrapper lockedMenusWrapper;
     private TerminalArea terminalArea;
 
     public TaskRunnerThread(Program program,
                             List<InputResultPair> inputResultPairs,
                             int maxByteCount,
                             AtomicBoolean stopFlag,
-                            BuildMenuWrapper buildMenuWrapper,
+                            LockedMenusWrapper lockedMenusWrapper,
                             TerminalArea terminalArea) {
         this.program = program;
         this.inputResultPairs = inputResultPairs;
         this.maxByteCount = maxByteCount;
         this.stopFlag = stopFlag;
 
-        this.buildMenuWrapper = buildMenuWrapper;
+        this.lockedMenusWrapper = lockedMenusWrapper;
         this.terminalArea = terminalArea;
     }
 
@@ -56,10 +56,10 @@ public class TaskRunnerThread extends SwingWorker<Integer, String> implements Pu
 
     @Override
     protected void done() {
-        buildMenuWrapper.setBuildEnabled(true);
-        buildMenuWrapper.setBuildAndRunEnabled(true);
-        buildMenuWrapper.setRunEnabled(true);
-        buildMenuWrapper.setStopEnabled(false);
+        lockedMenusWrapper.setBuildEnabled(true);
+        lockedMenusWrapper.setBuildAndRunEnabled(true);
+        lockedMenusWrapper.setRunEnabled(true);
+        lockedMenusWrapper.setStopEnabled(false);
         stopFlag.set(false);
     }
 

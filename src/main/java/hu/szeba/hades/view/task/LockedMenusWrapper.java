@@ -3,17 +3,17 @@ package hu.szeba.hades.view.task;
 import javax.management.JMException;
 import javax.swing.*;
 
-public class BuildMenuWrapper {
+public class LockedMenusWrapper {
 
     private JMenuItem buildMenuItem;
     private JMenuItem buildAndRunMenuItem;
     private JMenuItem runMenuItem;
     private JMenuItem stopMenuItem;
 
-    public BuildMenuWrapper(JMenuItem buildMenuItem,
-                            JMenuItem buildAndRunMenuItem,
-                            JMenuItem runMenuItem,
-                            JMenuItem stopMenuItem) {
+    public LockedMenusWrapper(JMenuItem buildMenuItem,
+                              JMenuItem buildAndRunMenuItem,
+                              JMenuItem runMenuItem,
+                              JMenuItem stopMenuItem) {
         this.buildMenuItem = buildMenuItem;
         this.buildAndRunMenuItem = buildAndRunMenuItem;
         this.runMenuItem = runMenuItem;

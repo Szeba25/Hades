@@ -3,7 +3,7 @@ package hu.szeba.hades.controller.task;
 import hu.szeba.hades.model.compiler.CompilerOutput;
 import hu.szeba.hades.model.compiler.ProgramCompiler;
 import hu.szeba.hades.model.task.CompilerOutputRegister;
-import hu.szeba.hades.view.task.BuildMenuWrapper;
+import hu.szeba.hades.view.task.LockedMenusWrapper;
 import hu.szeba.hades.view.task.TerminalArea;
 
 import javax.swing.*;
@@ -16,21 +16,21 @@ public class TaskCompilerThread extends SwingWorker<Integer, String> implements 
     private String[] sources;
     private File path;
 
-    private BuildMenuWrapper buildMenuWrapper;
+    private LockedMenusWrapper lockedMenusWrapper;
     private TerminalArea terminalArea;
     private CompilerOutputRegister register;
 
     public TaskCompilerThread(ProgramCompiler compiler,
                               String[] sources,
                               File path,
-                              BuildMenuWrapper buildMenuWrapper,
+                              LockedMenusWrapper lockedMenusWrapper,
                               TerminalArea terminalArea,
                               CompilerOutputRegister register) {
         this.compiler = compiler;
         this.sources = sources;
         this.path = path;
 
-        this.buildMenuWrapper = buildMenuWrapper;
+        this.lockedMenusWrapper = lockedMenusWrapper;
         this.terminalArea = terminalArea;
         this.register = register;
     }
@@ -60,9 +60,9 @@ public class TaskCompilerThread extends SwingWorker<Integer, String> implements 
 
     @Override
     protected void done() {
-        buildMenuWrapper.setBuildEnabled(true);
-        buildMenuWrapper.setBuildAndRunEnabled(true);
-        buildMenuWrapper.setRunEnabled(register.getCompilerOutput().isReady());
+        lockedMenusWrapper.setBuildEnabled(true);
+        lockedMenusWrapper.setBuildAndRunEnabled(true);
+        lockedMenusWrapper.setRunEnabled(register.getCompilerOutput().isReady());
     }
 
 }

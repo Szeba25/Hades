@@ -4,7 +4,7 @@ import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.model.task.data.TaskData;
-import hu.szeba.hades.view.task.BuildMenuWrapper;
+import hu.szeba.hades.view.task.LockedMenusWrapper;
 import hu.szeba.hades.view.task.TaskSolvingView;
 import hu.szeba.hades.view.task.TerminalArea;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -31,7 +31,7 @@ public class TaskSolvingController {
     }
 
     public void compile(Map<String, RSyntaxTextArea> codeAreas,
-                        TerminalArea terminalArea, BuildMenuWrapper buildMenuWrapper) throws IOException {
+                        TerminalArea terminalArea, LockedMenusWrapper lockedMenusWrapper) throws IOException {
         // Set the sources content and save sources on EDT
         TaskData data = task.getData();
         data.setSourceContents(codeAreas);
@@ -39,23 +39,23 @@ public class TaskSolvingController {
 
         // Clear terminal, and disable build menu
         terminalArea.clear();
-        buildMenuWrapper.setBuildEnabled(false);
-        buildMenuWrapper.setBuildAndRunEnabled(false);
-        buildMenuWrapper.setRunEnabled(false);
+        lockedMenusWrapper.setBuildEnabled(false);
+        lockedMenusWrapper.setBuildAndRunEnabled(false);
+        lockedMenusWrapper.setRunEnabled(false);
 
         // Start a worker thread to compile the task!
         TaskCompilerThread taskCompilerThread = new TaskCompilerThread(
                 task.getProgramCompiler(),
                 data.copySourceNamesWithPath(),
                 data.copyTaskWorkingDirectory(),
-                buildMenuWrapper,
+                lockedMenusWrapper,
                 terminalArea,
                 task.getCompilerOutputRegister());
         taskCompilerThread.execute();
     }
 
     public void compileAndRun(Map<String, RSyntaxTextArea> codeAreas,
-                              TerminalArea terminalArea, BuildMenuWrapper buildMenuWrapper) throws IOException {
+                              TerminalArea terminalArea, LockedMenusWrapper lockedMenusWrapper) throws IOException {
         // Set the sources content and save sources on EDT
         TaskData data = task.getData();
         data.setSourceContents(codeAreas);
@@ -63,10 +63,10 @@ public class TaskSolvingController {
 
         // Clear terminal, and disable build menu
         terminalArea.clear();
-        buildMenuWrapper.setBuildEnabled(false);
-        buildMenuWrapper.setBuildAndRunEnabled(false);
-        buildMenuWrapper.setRunEnabled(false);
-        buildMenuWrapper.setStopEnabled(true);
+        lockedMenusWrapper.setBuildEnabled(false);
+        lockedMenusWrapper.setBuildAndRunEnabled(false);
+        lockedMenusWrapper.setRunEnabled(false);
+        lockedMenusWrapper.setStopEnabled(true);
         stopFlag.set(false);
 
         // Start a worker thread to compile the task!
@@ -77,22 +77,22 @@ public class TaskSolvingController {
                 data.copyInputResultPairs(),
                 Options.getConfigIntData("max_stream_byte_count"),
                 stopFlag,
-                buildMenuWrapper,
+                lockedMenusWrapper,
                 terminalArea,
                 task.getCompilerOutputRegister());
         taskCompilerAndRunnerThread.execute();
     }
 
-    public void run(TerminalArea terminalArea, BuildMenuWrapper buildMenuWrapper) {
+    public void run(TerminalArea terminalArea, LockedMenusWrapper lockedMenusWrapper) {
         // Get task data
         TaskData data = task.getData();
 
         // Clear terminal, and disable build menu
         terminalArea.clear();
-        buildMenuWrapper.setBuildEnabled(false);
-        buildMenuWrapper.setBuildAndRunEnabled(false);
-        buildMenuWrapper.setRunEnabled(false);
-        buildMenuWrapper.setStopEnabled(true);
+        lockedMenusWrapper.setBuildEnabled(false);
+        lockedMenusWrapper.setBuildAndRunEnabled(false);
+        lockedMenusWrapper.setRunEnabled(false);
+        lockedMenusWrapper.setStopEnabled(true);
         stopFlag.set(false);
 
         // Start a worker thread to run the task!
@@ -101,7 +101,7 @@ public class TaskSolvingController {
                 data.copyInputResultPairs(),
                 Options.getConfigIntData("max_stream_byte_count"),
                 stopFlag,
-                buildMenuWrapper,
+                lockedMenusWrapper,
                 terminalArea);
         taskRunnerThread.execute();
     }

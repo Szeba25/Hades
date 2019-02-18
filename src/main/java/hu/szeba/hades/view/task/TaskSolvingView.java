@@ -60,7 +60,7 @@ public class TaskSolvingView extends BaseView implements NewSourceFileListener {
     private JMenuItem aboutMenuItem;
     private JMenuItem ultimateHelpMenuItem;
 
-    private BuildMenuWrapper buildMenuWrapper;
+    private LockedMenusWrapper lockedMenusWrapper;
 
     public TaskSolvingView(BaseView parentView, Task task) {
         super();
@@ -149,7 +149,7 @@ public class TaskSolvingView extends BaseView implements NewSourceFileListener {
         helpMenu.add(ultimateHelpMenuItem);
         helpMenu.add(aboutMenuItem);
 
-        buildMenuWrapper = new BuildMenuWrapper(buildMenuItem, buildAndRunMenuItem, runMenuItem, stopMenuItem);
+        lockedMenusWrapper = new LockedMenusWrapper(buildMenuItem, buildAndRunMenuItem, runMenuItem, stopMenuItem);
 
         menuBar.add(fileMenu);
         menuBar.add(buildMenu);
@@ -177,7 +177,7 @@ public class TaskSolvingView extends BaseView implements NewSourceFileListener {
         // Build action
         buildMenuItem.addActionListener((event) -> {
             try {
-                controller.compile(codeTabByName, terminalArea, buildMenuWrapper);
+                controller.compile(codeTabByName, terminalArea, lockedMenusWrapper);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -185,13 +185,13 @@ public class TaskSolvingView extends BaseView implements NewSourceFileListener {
         // Build and run action
         buildAndRunMenuItem.addActionListener((event) -> {
             try {
-                controller.compileAndRun(codeTabByName, terminalArea, buildMenuWrapper);
+                controller.compileAndRun(codeTabByName, terminalArea, lockedMenusWrapper);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
         // Run action
-        runMenuItem.addActionListener((event) -> controller.run(terminalArea, buildMenuWrapper));
+        runMenuItem.addActionListener((event) -> controller.run(terminalArea, lockedMenusWrapper));
         // Stop action
         stopMenuItem.addActionListener((event) -> {
             controller.stopCurrentProcess(terminalArea);

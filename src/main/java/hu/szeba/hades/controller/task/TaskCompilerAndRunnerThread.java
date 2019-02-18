@@ -4,7 +4,7 @@ import hu.szeba.hades.model.compiler.CompilerOutput;
 import hu.szeba.hades.model.compiler.ProgramCompiler;
 import hu.szeba.hades.model.task.CompilerOutputRegister;
 import hu.szeba.hades.model.task.data.InputResultPair;
-import hu.szeba.hades.view.task.BuildMenuWrapper;
+import hu.szeba.hades.view.task.LockedMenusWrapper;
 import hu.szeba.hades.view.task.TerminalArea;
 
 import javax.swing.*;
@@ -21,7 +21,7 @@ public class TaskCompilerAndRunnerThread extends SwingWorker<Integer, String> im
     private int maxByteCount;
     private AtomicBoolean stopFlag;
 
-    private BuildMenuWrapper buildMenuWrapper;
+    private LockedMenusWrapper lockedMenusWrapper;
     private TerminalArea terminalArea;
     private CompilerOutputRegister register;
 
@@ -31,7 +31,7 @@ public class TaskCompilerAndRunnerThread extends SwingWorker<Integer, String> im
                                        List<InputResultPair> inputResultPairs,
                                        int maxByteCount,
                                        AtomicBoolean stopFlag,
-                                       BuildMenuWrapper buildMenuWrapper,
+                                       LockedMenusWrapper lockedMenusWrapper,
                                        TerminalArea terminalArea,
                                        CompilerOutputRegister register) {
         this.compiler = compiler;
@@ -41,7 +41,7 @@ public class TaskCompilerAndRunnerThread extends SwingWorker<Integer, String> im
         this.maxByteCount = maxByteCount;
         this.stopFlag = stopFlag;
 
-        this.buildMenuWrapper = buildMenuWrapper;
+        this.lockedMenusWrapper = lockedMenusWrapper;
         this.terminalArea = terminalArea;
         this.register = register;
     }
@@ -78,10 +78,10 @@ public class TaskCompilerAndRunnerThread extends SwingWorker<Integer, String> im
 
     @Override
     protected void done() {
-        buildMenuWrapper.setBuildEnabled(true);
-        buildMenuWrapper.setBuildAndRunEnabled(true);
-        buildMenuWrapper.setRunEnabled(register.getCompilerOutput().isReady());
-        buildMenuWrapper.setStopEnabled(false);
+        lockedMenusWrapper.setBuildEnabled(true);
+        lockedMenusWrapper.setBuildAndRunEnabled(true);
+        lockedMenusWrapper.setRunEnabled(register.getCompilerOutput().isReady());
+        lockedMenusWrapper.setStopEnabled(false);
         stopFlag.set(false);
     }
 
