@@ -9,6 +9,7 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.InvalidPathException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -178,6 +179,9 @@ public class TaskData {
             }
         }
         SourceFile source = new SourceFile(new File(taskWorkingDirectory + "/sources/" + language + "/" + name));
+        source.save();
+
+        // Add the source file if its path is valid!
         sources.add(source);
         return source;
     }

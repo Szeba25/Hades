@@ -16,14 +16,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.file.InvalidPathException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TaskSolvingView extends BaseView implements NewSourceFileListener {
+public class TaskSolvingView extends BaseView {
 
     private BaseView parentView;
-    private NewSourceFileForm newSourceFileForm;
 
     private TaskSolvingController controller;
 
@@ -67,7 +67,6 @@ public class TaskSolvingView extends BaseView implements NewSourceFileListener {
         super();
 
         this.parentView = parentView;
-        this.newSourceFileForm = new NewSourceFileForm(this);
 
         this.controller = new TaskSolvingController(task);
         this.controller.setSourceList(this);
@@ -195,7 +194,18 @@ public class TaskSolvingView extends BaseView implements NewSourceFileListener {
         });
         // Add new source file by a dialogue
         newFileMenuItem.addActionListener((event) -> {
-            this.newSourceFileForm.setVisible(true);
+            String name = JOptionPane.showInputDialog(new JFrame(),
+                    "New source file name:",
+                    "Add new source file",
+                    JOptionPane.PLAIN_MESSAGE);
+            if (name != null) {
+                try {
+                    controller.addNewSourceFile(name, this);
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Cannot create file specified: " +
+                            e.getMessage());
+                }
+            }
         });
         // Build action
         buildMenuItem.addActionListener((event) -> {
@@ -219,7 +229,7 @@ public class TaskSolvingView extends BaseView implements NewSourceFileListener {
         stopMenuItem.addActionListener((event) -> {
             controller.stopCurrentProcess(terminalArea);
         });
-        // Switching (or opening: NYI) tabs with list
+        // Switching tabs with list
         fileList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -252,11 +262,6 @@ public class TaskSolvingView extends BaseView implements NewSourceFileListener {
                 }
             }
         });
-    }
-
-    @Override
-    public void addNewSourceFileTrigger(String name) throws IOException {
-        controller.addNewSourceFile(name, this);
     }
 
     public void setTaskInstructions(String longDescription) {

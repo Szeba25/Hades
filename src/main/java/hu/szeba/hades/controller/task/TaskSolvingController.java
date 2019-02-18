@@ -11,6 +11,7 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.nio.file.InvalidPathException;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -119,8 +120,8 @@ public class TaskSolvingController {
         if (task.getData().getSourceByName(name) == null) {
             SourceFile src = task.getData().addSource(name);
             if (src != null) {
+                // Add the file!
                 taskSolvingView.addSourceFile(name, task.getData().getSyntaxStyle());
-                src.save();
             }
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "Source file already exists!");
