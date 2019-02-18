@@ -131,6 +131,8 @@ public class TaskSolvingView extends BaseView {
         renameFileMenuItem = new JMenuItem("Edit source file name");
 
         fileMenu.add(newFileMenuItem);
+        fileMenu.add(deleteFileMenuItem);
+        fileMenu.add(renameFileMenuItem);
 
         buildMenu = new JMenu("Build");
         buildMenuItem = new JMenuItem("Build all");
@@ -216,6 +218,18 @@ public class TaskSolvingView extends BaseView {
                     JOptionPane.showMessageDialog(new JFrame(), "Cannot create file specified: " +
                             e.getMessage());
                 }
+            }
+        });
+        // Delete source file
+        deleteFileMenuItem.addActionListener((event) -> {
+            String getSelectedValue = fileList.getSelectedValue();
+            int result = JOptionPane.showConfirmDialog(new JFrame(), "Delete file: " + getSelectedValue + "?",
+                    "Delete source file", JOptionPane.YES_NO_OPTION);
+            switch (result) {
+                case JOptionPane.YES_OPTION:
+                    break;
+                case JOptionPane.NO_OPTION:
+                    break;
             }
         });
         // Build action
