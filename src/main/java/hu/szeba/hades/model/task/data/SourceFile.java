@@ -42,4 +42,9 @@ public class SourceFile {
                 Arrays.stream(data.split("\n")).collect(Collectors.toList()));
     }
 
+    public void delete() throws IOException {
+        if (!file.delete()) {
+            throw new IOException("Couldn't delete file: " + file.getAbsolutePath());
+        }
+    }
 }

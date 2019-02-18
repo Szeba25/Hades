@@ -222,14 +222,25 @@ public class TaskSolvingView extends BaseView {
         });
         // Delete source file
         deleteFileMenuItem.addActionListener((event) -> {
-            String getSelectedValue = fileList.getSelectedValue();
-            int result = JOptionPane.showConfirmDialog(new JFrame(), "Delete file: " + getSelectedValue + "?",
+            String selectedSourceName = fileList.getSelectedValue();
+            int result = JOptionPane.showConfirmDialog(new JFrame(), "Delete file: " + selectedSourceName + "?",
                     "Delete source file", JOptionPane.YES_NO_OPTION);
-            switch (result) {
-                case JOptionPane.YES_OPTION:
-                    break;
-                case JOptionPane.NO_OPTION:
-                    break;
+            if (result == JOptionPane.YES_OPTION) {
+                try {
+                    // Delete from sources (data)
+                    controller.deleteSourceFile(selectedSourceName);
+                    // Delete tab (if present)
+                    for (int i = 0; i < codeTab.getTabCount(); i++) {
+                        if (codeTab.getTitleAt(i).equals(selectedSourceName)) {
+                            codeTab.remove(i);
+                            break;
+                        }
+                    }
+                    // Delete from list!
+                    fileListModel.removeElement(selectedSourceName);
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Unable to delete source file: " + e.getMessage());
+                }
             }
         });
         // Build action

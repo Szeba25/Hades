@@ -129,4 +129,8 @@ public class TaskSolvingController {
         task.getData().setSourceContents(codeAreas);
         task.getData().saveSources();
     }
+
+    public void deleteSourceFile(String name) throws IOException {
+        task.getData().deleteSourceByName(name);
+    }
 }

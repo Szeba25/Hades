@@ -146,6 +146,15 @@ public class TaskData {
         return null;
     }
 
+    public void deleteSourceByName(String name) throws IOException {
+        for (int i = sources.size()-1; i >= 0; i--) {
+            if (sources.get(i).getName().equals(name)) {
+                sources.remove(i).delete();
+                break;
+            }
+        }
+    }
+
     public void setSourceContents(Map<String, RSyntaxTextArea> codeAreas) {
         sources.forEach((src) -> src.setData(codeAreas.get(src.getName()).getText()));
     }
