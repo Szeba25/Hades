@@ -166,16 +166,9 @@ public class TaskSolvingView extends BaseView implements NewSourceFileListener {
                 parentView.showView();
             }
         });
-        // Add new source file
+        // Add new source file by a dialogue
         newFileMenuItem.addActionListener((event) -> {
             this.newSourceFileForm.setVisible(true);
-            /*
-            try {
-                controller.addNewSourceFile("newsrc.c", this);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            */
         });
         // Build action
         buildMenuItem.addActionListener((event) -> {
