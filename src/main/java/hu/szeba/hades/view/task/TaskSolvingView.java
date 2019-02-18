@@ -144,7 +144,7 @@ public class TaskSolvingView extends BaseView implements NewSourceFileListener {
 
         helpMenu = new JMenu("Help");
         aboutMenuItem = new JMenuItem("About");
-        ultimateHelpMenuItem = new JMenuItem("Ultimate help!!!");
+        ultimateHelpMenuItem = new JMenuItem("When nothing helps anymore...");
 
         helpMenu.add(aboutMenuItem);
         helpMenu.add(ultimateHelpMenuItem);
