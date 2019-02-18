@@ -39,21 +39,8 @@ public class TaskSolvingController {
 
         // Clear terminal, and disable build menu
         terminalArea.clear();
-
-        lockedMenusWrapper.setNewFileEnabled(false);
-        lockedMenusWrapper.setDeleteFileEnabled(false);
-        lockedMenusWrapper.setRenameFileEnabled(false);
-
-        lockedMenusWrapper.setBuildEnabled(false);
-        lockedMenusWrapper.setBuildAndRunEnabled(false);
-        lockedMenusWrapper.setRunEnabled(false);
-
-        lockedMenusWrapper.setStopEnabled(false);
-
-        lockedMenusWrapper.setLockExit(true);
-
+        lockedMenusWrapper.initForCompiler();
         stopFlag.set(false);
-        // End of permissions
 
         // Start a worker thread to compile the task!
         TaskCompilerThread taskCompilerThread = new TaskCompilerThread(
@@ -75,21 +62,8 @@ public class TaskSolvingController {
 
         // Clear terminal, and disable build menu
         terminalArea.clear();
-
-        lockedMenusWrapper.setNewFileEnabled(false);
-        lockedMenusWrapper.setDeleteFileEnabled(false);
-        lockedMenusWrapper.setRenameFileEnabled(false);
-
-        lockedMenusWrapper.setBuildEnabled(false);
-        lockedMenusWrapper.setBuildAndRunEnabled(false);
-        lockedMenusWrapper.setRunEnabled(false);
-
-        lockedMenusWrapper.setStopEnabled(true);
-
-        lockedMenusWrapper.setLockExit(true);
-
+        lockedMenusWrapper.initForCompilerAndRunner();
         stopFlag.set(false);
-        // End of permissions
 
         // Start a worker thread to compile the task!
         TaskCompilerAndRunnerThread taskCompilerAndRunnerThread = new TaskCompilerAndRunnerThread(
@@ -111,19 +85,7 @@ public class TaskSolvingController {
 
         // Clear terminal, and disable build menu
         terminalArea.clear();
-
-        lockedMenusWrapper.setNewFileEnabled(false);
-        lockedMenusWrapper.setDeleteFileEnabled(false);
-        lockedMenusWrapper.setRenameFileEnabled(false);
-
-        lockedMenusWrapper.setBuildEnabled(false);
-        lockedMenusWrapper.setBuildAndRunEnabled(false);
-        lockedMenusWrapper.setRunEnabled(false);
-
-        lockedMenusWrapper.setStopEnabled(true);
-
-        lockedMenusWrapper.setLockExit(true);
-
+        lockedMenusWrapper.initForRunner();
         stopFlag.set(false);
         // End of permissions
 

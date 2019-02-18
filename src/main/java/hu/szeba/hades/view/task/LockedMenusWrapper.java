@@ -31,7 +31,7 @@ public class LockedMenusWrapper {
         this.stopMenuItem = stopMenuItem;
     }
 
-    public synchronized void setLockExit(boolean lockExit) {
+    private synchronized void setLockExit(boolean lockExit) {
         this.lockExit = lockExit;
     }
 
@@ -39,31 +39,115 @@ public class LockedMenusWrapper {
         return lockExit;
     }
 
-    public synchronized void setNewFileEnabled(boolean value) {
+    public synchronized void initForCompiler() {
+        // File
+        setNewFileEnabled(false);
+        setDeleteFileEnabled(false);
+        setRenameFileEnabled(false);
+        // Build
+        setBuildEnabled(false);
+        setBuildAndRunEnabled(false);
+        setRunEnabled(false);
+        setStopEnabled(false);
+        // Lock
+        setLockExit(true);
+    }
+
+    public synchronized void initForCompilerAndRunner() {
+        // File
+        setNewFileEnabled(false);
+        setDeleteFileEnabled(false);
+        setRenameFileEnabled(false);
+        // Build
+        setBuildEnabled(false);
+        setBuildAndRunEnabled(false);
+        setRunEnabled(false);
+        setStopEnabled(true);
+        // Lock
+        setLockExit(true);
+    }
+
+    public synchronized void initForRunner() {
+        // File
+        setNewFileEnabled(false);
+        setDeleteFileEnabled(false);
+        setRenameFileEnabled(false);
+        // Build
+        setBuildEnabled(false);
+        setBuildAndRunEnabled(false);
+        setRunEnabled(false);
+        setStopEnabled(true);
+        // Lock
+        setLockExit(true);
+    }
+
+    public synchronized void finishForCompiler(boolean programReady) {
+        // File
+        setNewFileEnabled(true);
+        setDeleteFileEnabled(true);
+        setRenameFileEnabled(true);
+        // Build
+        setBuildEnabled(true);
+        setBuildAndRunEnabled(true);
+        setRunEnabled(programReady);
+        setStopEnabled(false);
+        // Lock
+        setLockExit(false);
+    }
+
+    public synchronized void finishForCompilerAndRunner(boolean programReady) {
+        // File
+        setNewFileEnabled(true);
+        setDeleteFileEnabled(true);
+        setRenameFileEnabled(true);
+        // Build
+        setBuildEnabled(true);
+        setBuildAndRunEnabled(true);
+        setRunEnabled(programReady);
+        setStopEnabled(false);
+        // Lock
+        setLockExit(false);
+    }
+
+    public synchronized void finishForRunner() {
+        // File
+        setNewFileEnabled(true);
+        setDeleteFileEnabled(true);
+        setRenameFileEnabled(true);
+        // Build
+        setBuildEnabled(true);
+        setBuildAndRunEnabled(true);
+        setRunEnabled(true);
+        setStopEnabled(false);
+        // Lock
+        setLockExit(false);
+    }
+
+    private synchronized void setNewFileEnabled(boolean value) {
         newFileItem.setEnabled(value);
     }
 
-    public synchronized void setDeleteFileEnabled(boolean value) {
+    private synchronized void setDeleteFileEnabled(boolean value) {
         deleteFileItem.setEnabled(value);
     }
 
-    public synchronized void setRenameFileEnabled(boolean value) {
+    private synchronized void setRenameFileEnabled(boolean value) {
         renameFileItem.setEnabled(value);
     }
 
-    public synchronized void setBuildEnabled(boolean value) {
+    private synchronized void setBuildEnabled(boolean value) {
         buildMenuItem.setEnabled(value);
     }
 
-    public synchronized void setBuildAndRunEnabled(boolean value) {
+    private synchronized void setBuildAndRunEnabled(boolean value) {
         buildAndRunMenuItem.setEnabled(value);
     }
 
-    public synchronized void setRunEnabled(boolean value) {
+    private synchronized void setRunEnabled(boolean value) {
         runMenuItem.setEnabled(value);
     }
 
-    public synchronized void setStopEnabled(boolean value) {
+    private synchronized void setStopEnabled(boolean value) {
         stopMenuItem.setEnabled(value);
     }
 
