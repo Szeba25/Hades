@@ -167,7 +167,7 @@ public class TaskSolvingView extends BaseView {
         // Add new source file
         newFileMenuItem.addActionListener((event) -> {
             try {
-                taskSolvingController.addNewSourceFile(this);
+                taskSolvingController.addNewSourceFile("newsrc.c", this);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -198,15 +198,20 @@ public class TaskSolvingView extends BaseView {
         fileList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JList list = (JList) e.getSource();
                 if (e.getClickCount() == 2) {
+                    JList list = (JList) e.getSource();
+                    boolean found = false;
                     String value = (String) list.getSelectedValue();
                     for (int i = 0; i < codeTab.getTabCount(); i++) {
                         String title = codeTab.getTitleAt(i);
                         if (title.equals(value)) {
                             codeTab.setSelectedIndex(i);
+                            found = true;
                             break;
                         }
+                    }
+                    if (!found) {
+                        taskSolvingController.openExistingSourceFile(value, TaskSolvingView.this);
                     }
                 }
             }
@@ -221,10 +226,19 @@ public class TaskSolvingView extends BaseView {
         sources.forEach((file) -> codeTabByName.get(file.getName()).setText(file.getData()));
     }
 
+    public void setCodeAreaContent(String name, String data) {
+        codeTabByName.get(name).setText(data);
+    }
+
     public void addSourceFile(String name, String syntaxStyle) {
-        fileListModel.addElement(name);
         addCodeArea(name, syntaxStyle);
-        fileList.setSelectedIndex(0);
+        if (!fileListModel.contains(name)) {
+            fileListModel.addElement(name);
+            fileList.setSelectedIndex(0);
+        } else {
+            // Select the last tab component, as a new area was added!
+            codeTab.setSelectedIndex(codeTab.getTabCount() - 1);
+        }
     }
 
     public void setSourceList(String[] sourceList, String syntaxStyle) {

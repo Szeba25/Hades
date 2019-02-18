@@ -113,11 +113,20 @@ public class TaskSolvingController {
         }
     }
 
-    public void addNewSourceFile(TaskSolvingView taskSolvingView) throws IOException {
-        SourceFile src = task.getData().addSource("newsrc.c");
-        if (src != null) {
-            taskSolvingView.addSourceFile("newsrc.c", task.getData().getSyntaxStyle());
-            src.save();
+    public void addNewSourceFile(String name, TaskSolvingView taskSolvingView) throws IOException {
+        // TODO: Make name editable by a form!
+        if (task.getData().getSourceByName(name) == null) {
+            SourceFile src = task.getData().addSource(name);
+            if (src != null) {
+                taskSolvingView.addSourceFile(name, task.getData().getSyntaxStyle());
+                src.save();
+            }
         }
+    }
+
+    public void openExistingSourceFile(String name, TaskSolvingView taskSolvingView) {
+        SourceFile src = task.getData().getSourceByName(name);
+        taskSolvingView.addSourceFile(name, task.getData().getSyntaxStyle());
+        taskSolvingView.setCodeAreaContent(name, src.getData());
     }
 }

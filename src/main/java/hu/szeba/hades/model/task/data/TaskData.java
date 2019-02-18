@@ -136,6 +136,15 @@ public class TaskData {
         return sources;
     }
 
+    public SourceFile getSourceByName(String name) {
+        for (SourceFile src : sources) {
+            if (src.getName().equals(name)) {
+                return src;
+            }
+        }
+        return null;
+    }
+
     public void setSourceContents(Map<String, RSyntaxTextArea> codeAreas) {
         sources.forEach((src) -> src.setData(codeAreas.get(src.getName()).getText()));
     }
