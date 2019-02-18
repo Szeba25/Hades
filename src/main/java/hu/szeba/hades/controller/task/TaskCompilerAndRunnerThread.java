@@ -78,11 +78,18 @@ public class TaskCompilerAndRunnerThread extends SwingWorker<Integer, String> im
 
     @Override
     protected void done() {
+        lockedMenusWrapper.setNewFileEnabled(true);
+        lockedMenusWrapper.setDeleteFileEnabled(true);
+        lockedMenusWrapper.setRenameFileEnabled(true);
+
         lockedMenusWrapper.setBuildEnabled(true);
         lockedMenusWrapper.setBuildAndRunEnabled(true);
         lockedMenusWrapper.setRunEnabled(register.getCompilerOutput().isReady());
+
         lockedMenusWrapper.setStopEnabled(false);
+
         lockedMenusWrapper.setLockExit(false);
+
         stopFlag.set(false);
     }
 

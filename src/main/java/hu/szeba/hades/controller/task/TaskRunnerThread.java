@@ -56,11 +56,18 @@ public class TaskRunnerThread extends SwingWorker<Integer, String> implements Pu
 
     @Override
     protected void done() {
+        lockedMenusWrapper.setNewFileEnabled(true);
+        lockedMenusWrapper.setDeleteFileEnabled(true);
+        lockedMenusWrapper.setRenameFileEnabled(true);
+
         lockedMenusWrapper.setBuildEnabled(true);
         lockedMenusWrapper.setBuildAndRunEnabled(true);
         lockedMenusWrapper.setRunEnabled(true);
+
         lockedMenusWrapper.setStopEnabled(false);
+
         lockedMenusWrapper.setLockExit(false);
+
         stopFlag.set(false);
     }
 

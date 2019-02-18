@@ -50,6 +50,8 @@ public class TaskSolvingView extends BaseView {
 
     private JMenu fileMenu;
     private JMenuItem newFileMenuItem;
+    private JMenuItem deleteFileMenuItem;
+    private JMenuItem renameFileMenuItem;
 
     private JMenu buildMenu;
     private JMenuItem buildMenuItem;
@@ -125,6 +127,8 @@ public class TaskSolvingView extends BaseView {
 
         fileMenu = new JMenu("File");
         newFileMenuItem = new JMenuItem("New source file");
+        deleteFileMenuItem = new JMenuItem("Delete source file");
+        renameFileMenuItem = new JMenuItem("Edit source file name");
 
         fileMenu.add(newFileMenuItem);
 
@@ -149,7 +153,14 @@ public class TaskSolvingView extends BaseView {
         helpMenu.add(ultimateHelpMenuItem);
         helpMenu.add(aboutMenuItem);
 
-        lockedMenusWrapper = new LockedMenusWrapper(buildMenuItem, buildAndRunMenuItem, runMenuItem, stopMenuItem);
+        lockedMenusWrapper = new LockedMenusWrapper(
+                newFileMenuItem,
+                deleteFileMenuItem,
+                renameFileMenuItem,
+                buildMenuItem,
+                buildAndRunMenuItem,
+                runMenuItem,
+                stopMenuItem);
 
         menuBar.add(fileMenu);
         menuBar.add(buildMenu);

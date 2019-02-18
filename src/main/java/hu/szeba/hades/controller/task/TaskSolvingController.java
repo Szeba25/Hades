@@ -11,7 +11,6 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.nio.file.InvalidPathException;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -40,16 +39,28 @@ public class TaskSolvingController {
 
         // Clear terminal, and disable build menu
         terminalArea.clear();
+
+        lockedMenusWrapper.setNewFileEnabled(false);
+        lockedMenusWrapper.setDeleteFileEnabled(false);
+        lockedMenusWrapper.setRenameFileEnabled(false);
+
         lockedMenusWrapper.setBuildEnabled(false);
         lockedMenusWrapper.setBuildAndRunEnabled(false);
         lockedMenusWrapper.setRunEnabled(false);
+
+        lockedMenusWrapper.setStopEnabled(false);
+
         lockedMenusWrapper.setLockExit(true);
+
+        stopFlag.set(false);
+        // End of permissions
 
         // Start a worker thread to compile the task!
         TaskCompilerThread taskCompilerThread = new TaskCompilerThread(
                 task.getProgramCompiler(),
                 data.copySourceNamesWithPath(),
                 data.copyTaskWorkingDirectory(),
+                stopFlag,
                 lockedMenusWrapper,
                 terminalArea,
                 task.getCompilerOutputRegister());
@@ -64,12 +75,21 @@ public class TaskSolvingController {
 
         // Clear terminal, and disable build menu
         terminalArea.clear();
+
+        lockedMenusWrapper.setNewFileEnabled(false);
+        lockedMenusWrapper.setDeleteFileEnabled(false);
+        lockedMenusWrapper.setRenameFileEnabled(false);
+
         lockedMenusWrapper.setBuildEnabled(false);
         lockedMenusWrapper.setBuildAndRunEnabled(false);
         lockedMenusWrapper.setRunEnabled(false);
+
         lockedMenusWrapper.setStopEnabled(true);
+
         lockedMenusWrapper.setLockExit(true);
+
         stopFlag.set(false);
+        // End of permissions
 
         // Start a worker thread to compile the task!
         TaskCompilerAndRunnerThread taskCompilerAndRunnerThread = new TaskCompilerAndRunnerThread(
@@ -91,12 +111,21 @@ public class TaskSolvingController {
 
         // Clear terminal, and disable build menu
         terminalArea.clear();
+
+        lockedMenusWrapper.setNewFileEnabled(false);
+        lockedMenusWrapper.setDeleteFileEnabled(false);
+        lockedMenusWrapper.setRenameFileEnabled(false);
+
         lockedMenusWrapper.setBuildEnabled(false);
         lockedMenusWrapper.setBuildAndRunEnabled(false);
         lockedMenusWrapper.setRunEnabled(false);
+
         lockedMenusWrapper.setStopEnabled(true);
+
         lockedMenusWrapper.setLockExit(true);
+
         stopFlag.set(false);
+        // End of permissions
 
         // Start a worker thread to run the task!
         TaskRunnerThread taskRunnerThread = new TaskRunnerThread(

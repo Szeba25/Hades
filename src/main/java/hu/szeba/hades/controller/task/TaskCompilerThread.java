@@ -9,12 +9,14 @@ import hu.szeba.hades.view.task.TerminalArea;
 import javax.swing.*;
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TaskCompilerThread extends SwingWorker<Integer, String> implements Publisher {
 
     private ProgramCompiler compiler;
     private String[] sources;
     private File path;
+    private AtomicBoolean stopFlag;
 
     private LockedMenusWrapper lockedMenusWrapper;
     private TerminalArea terminalArea;
@@ -23,12 +25,15 @@ public class TaskCompilerThread extends SwingWorker<Integer, String> implements 
     public TaskCompilerThread(ProgramCompiler compiler,
                               String[] sources,
                               File path,
+                              AtomicBoolean stopFlag,
                               LockedMenusWrapper lockedMenusWrapper,
                               TerminalArea terminalArea,
                               CompilerOutputRegister register) {
         this.compiler = compiler;
         this.sources = sources;
         this.path = path;
+
+        this.stopFlag = stopFlag;
 
         this.lockedMenusWrapper = lockedMenusWrapper;
         this.terminalArea = terminalArea;
@@ -60,10 +65,19 @@ public class TaskCompilerThread extends SwingWorker<Integer, String> implements 
 
     @Override
     protected void done() {
+        lockedMenusWrapper.setNewFileEnabled(true);
+        lockedMenusWrapper.setDeleteFileEnabled(true);
+        lockedMenusWrapper.setRenameFileEnabled(true);
+
         lockedMenusWrapper.setBuildEnabled(true);
         lockedMenusWrapper.setBuildAndRunEnabled(true);
         lockedMenusWrapper.setRunEnabled(register.getCompilerOutput().isReady());
+
+        lockedMenusWrapper.setStopEnabled(false);
+
         lockedMenusWrapper.setLockExit(false);
+
+        stopFlag.set(false);
     }
 
 }
