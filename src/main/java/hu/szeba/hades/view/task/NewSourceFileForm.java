@@ -17,7 +17,7 @@ public class NewSourceFileForm extends JDialog {
         this.listener = listener;
 
         this.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-        this.setPreferredSize(new Dimension(250, 90));
+        this.setPreferredSize(new Dimension(250, 100));
         this.setLayout(new BorderLayout());
         this.setVisible(false);
         this.setModal(true);
