@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +58,7 @@ public class TaskSolvingView extends BaseView implements NewSourceFileListener {
 
     private JMenu helpMenu;
     private JMenuItem aboutMenuItem;
+    private JMenuItem ultimateHelpMenuItem;
 
     private BuildMenuWrapper buildMenuWrapper;
 
@@ -142,8 +144,10 @@ public class TaskSolvingView extends BaseView implements NewSourceFileListener {
 
         helpMenu = new JMenu("Help");
         aboutMenuItem = new JMenuItem("About");
+        ultimateHelpMenuItem = new JMenuItem("Ultimate help!!!");
 
         helpMenu.add(aboutMenuItem);
+        helpMenu.add(ultimateHelpMenuItem);
 
         buildMenuWrapper = new BuildMenuWrapper(buildMenuItem, buildAndRunMenuItem, runMenuItem, stopMenuItem);
 
@@ -211,6 +215,17 @@ public class TaskSolvingView extends BaseView implements NewSourceFileListener {
                     if (!found) {
                         controller.openExistingSourceFile(value, TaskSolvingView.this);
                     }
+                }
+            }
+        });
+        // Ultimate help
+        ultimateHelpMenuItem.addActionListener((event) -> {
+            Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+            if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+                try {
+                    desktop.browse(URI.create("https://youtu.be/0EpIWybDPfI"));
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         });
