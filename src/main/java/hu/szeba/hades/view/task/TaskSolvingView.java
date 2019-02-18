@@ -21,8 +21,9 @@ import java.util.Map;
 public class TaskSolvingView extends BaseView {
 
     private BaseView parentView;
+    private NewSourceFileForm newSourceFileForm;
 
-    private TaskSolvingController taskSolvingController;
+    private TaskSolvingController controller;
 
     private Font monoFont;
 
@@ -63,9 +64,10 @@ public class TaskSolvingView extends BaseView {
         super();
 
         this.parentView = parentView;
-        this.taskSolvingController = new TaskSolvingController(task);
+        this.newSourceFileForm = new NewSourceFileForm();
 
-        this.taskSolvingController.setSourceList(this);
+        this.controller = new TaskSolvingController(task);
+        this.controller.setSourceList(this);
 
         this.setTitle("Solving task: " + task.getData().getTaskName());
         this.runMenuItem.setEnabled(task.getCompilerOutputRegister().getCompilerOutput().isReady());
@@ -166,16 +168,19 @@ public class TaskSolvingView extends BaseView {
         });
         // Add new source file
         newFileMenuItem.addActionListener((event) -> {
+            this.newSourceFileForm.setVisible(true);
+            /*
             try {
-                taskSolvingController.addNewSourceFile("newsrc.c", this);
+                controller.addNewSourceFile("newsrc.c", this);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            */
         });
         // Build action
         buildMenuItem.addActionListener((event) -> {
             try {
-                taskSolvingController.compile(codeTabByName, terminalArea, buildMenuWrapper);
+                controller.compile(codeTabByName, terminalArea, buildMenuWrapper);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -183,16 +188,16 @@ public class TaskSolvingView extends BaseView {
         // Build and run action
         buildAndRunMenuItem.addActionListener((event) -> {
             try {
-                taskSolvingController.compileAndRun(codeTabByName, terminalArea, buildMenuWrapper);
+                controller.compileAndRun(codeTabByName, terminalArea, buildMenuWrapper);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
         // Run action
-        runMenuItem.addActionListener((event) -> taskSolvingController.run(terminalArea, buildMenuWrapper));
+        runMenuItem.addActionListener((event) -> controller.run(terminalArea, buildMenuWrapper));
         // Stop action
         stopMenuItem.addActionListener((event) -> {
-            taskSolvingController.stopCurrentProcess(terminalArea);
+            controller.stopCurrentProcess(terminalArea);
         });
         // Switching (or opening: NYI) tabs with list
         fileList.addMouseListener(new MouseAdapter() {
@@ -211,7 +216,7 @@ public class TaskSolvingView extends BaseView {
                         }
                     }
                     if (!found) {
-                        taskSolvingController.openExistingSourceFile(value, TaskSolvingView.this);
+                        controller.openExistingSourceFile(value, TaskSolvingView.this);
                     }
                 }
             }
