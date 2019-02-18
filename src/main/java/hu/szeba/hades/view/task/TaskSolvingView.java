@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TaskSolvingView extends BaseView {
+public class TaskSolvingView extends BaseView implements NewSourceFileListener {
 
     private BaseView parentView;
     private NewSourceFileForm newSourceFileForm;
@@ -64,7 +64,7 @@ public class TaskSolvingView extends BaseView {
         super();
 
         this.parentView = parentView;
-        this.newSourceFileForm = new NewSourceFileForm();
+        this.newSourceFileForm = new NewSourceFileForm(this);
 
         this.controller = new TaskSolvingController(task);
         this.controller.setSourceList(this);
@@ -221,6 +221,11 @@ public class TaskSolvingView extends BaseView {
                 }
             }
         });
+    }
+
+    @Override
+    public void addNewSourceFileTrigger(String name) throws IOException {
+        controller.addNewSourceFile(name, this);
     }
 
     public void setTaskInstructions(String longDescription) {
