@@ -263,7 +263,7 @@ public class TaskSolvingView extends BaseView {
         codeTabScroll.setLineNumbersEnabled(true);
 
         codeTab.add(name, codeTabScroll);
-        codeTab.setTabComponentAt(codeTab.getTabCount()-1, new ButtonTabComponent(codeTab));
+        codeTab.setTabComponentAt(codeTab.getTabCount()-1, new ClosableTabComponent(codeTab));
 
         codeTabByName.put(name, codeTabArea);
     }

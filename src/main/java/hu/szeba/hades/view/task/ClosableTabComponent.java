@@ -5,11 +5,11 @@ import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
 import java.awt.event.*;
 
-public class ButtonTabComponent extends JPanel {
+public class ClosableTabComponent extends JPanel {
 
     private final JTabbedPane pane;
 
-    public ButtonTabComponent(final JTabbedPane pane) {
+    public ClosableTabComponent(final JTabbedPane pane) {
         // Unset default FlowLayout gaps
         super(new FlowLayout(FlowLayout.LEFT, 0, 0));
         if (pane == null) {
@@ -21,7 +21,7 @@ public class ButtonTabComponent extends JPanel {
         // Make JLabel read titles from JTabbedPane
         JLabel label = new JLabel() {
             public String getText() {
-                int i = pane.indexOfTabComponent(ButtonTabComponent.this);
+                int i = pane.indexOfTabComponent(ClosableTabComponent.this);
                 if (i != -1) {
                     return pane.getTitleAt(i);
                 }
@@ -40,6 +40,7 @@ public class ButtonTabComponent extends JPanel {
     }
 
     private class TabButton extends JButton implements ActionListener {
+
         public TabButton() {
             int size = 17;
             setPreferredSize(new Dimension(size, size));
@@ -61,7 +62,7 @@ public class ButtonTabComponent extends JPanel {
         }
 
         public void actionPerformed(ActionEvent e) {
-            int i = pane.indexOfTabComponent(ButtonTabComponent.this);
+            int i = pane.indexOfTabComponent(ClosableTabComponent.this);
             if (i != -1) {
                 pane.remove(i);
             }
@@ -88,9 +89,11 @@ public class ButtonTabComponent extends JPanel {
             g2.drawLine(getWidth() - delta - 1, delta, delta, getHeight() - delta - 1);
             g2.dispose();
         }
+
     }
 
     private final static MouseListener buttonMouseListener = new MouseAdapter() {
+
         public void mouseEntered(MouseEvent e) {
             Component component = e.getComponent();
             if (component instanceof AbstractButton) {
@@ -106,6 +109,7 @@ public class ButtonTabComponent extends JPanel {
                 button.setBorderPainted(false);
             }
         }
+
     };
 
 }
