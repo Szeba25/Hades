@@ -4,6 +4,7 @@ import hu.szeba.hades.controller.task.TaskSolvingController;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.view.BaseView;
+import jdk.nashorn.internal.scripts.JO;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
@@ -167,11 +168,28 @@ public class TaskSolvingView extends BaseView implements NewSourceFileListener {
             @Override
             public void windowClosing(WindowEvent event) {
                 if (lockedMenusWrapper.getLockExit()) {
-                    JOptionPane.showMessageDialog(new JFrame(), "Running jobs in process!");
+                    JOptionPane.showMessageDialog(new JFrame(), "Running jobs in process!", "Cant't exit", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    super.windowClosing(event);
-                    TaskSolvingView.this.dispose();
-                    parentView.showView();
+                    int result = JOptionPane.showConfirmDialog(new JFrame(), "Save sources before exit?", "Give up...", JOptionPane.YES_NO_CANCEL_OPTION);
+                    switch (result) {
+                        case JOptionPane.YES_OPTION:
+                            try {
+                                controller.saveSourceContents(codeTabByName);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            super.windowClosing(event);
+                            TaskSolvingView.this.dispose();
+                            parentView.showView();
+                            break;
+                        case JOptionPane.NO_OPTION:
+                            super.windowClosing(event);
+                            TaskSolvingView.this.dispose();
+                            parentView.showView();
+                            break;
+                        case JOptionPane.CANCEL_OPTION:
+                            break;
+                    }
                 }
             }
         });

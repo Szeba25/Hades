@@ -9,6 +9,7 @@ import hu.szeba.hades.view.task.TaskSolvingView;
 import hu.szeba.hades.view.task.TerminalArea;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -34,8 +35,7 @@ public class TaskSolvingController {
                         TerminalArea terminalArea, LockedMenusWrapper lockedMenusWrapper) throws IOException {
         // Set the sources content and save sources on EDT
         TaskData data = task.getData();
-        data.setSourceContents(codeAreas);
-        data.saveSources();
+        saveSourceContents(codeAreas);
 
         // Clear terminal, and disable build menu
         terminalArea.clear();
@@ -59,8 +59,7 @@ public class TaskSolvingController {
                               TerminalArea terminalArea, LockedMenusWrapper lockedMenusWrapper) throws IOException {
         // Set the sources content and save sources on EDT
         TaskData data = task.getData();
-        data.setSourceContents(codeAreas);
-        data.saveSources();
+        saveSourceContents(codeAreas);
 
         // Clear terminal, and disable build menu
         terminalArea.clear();
@@ -117,13 +116,14 @@ public class TaskSolvingController {
     }
 
     public void addNewSourceFile(String name, TaskSolvingView taskSolvingView) throws IOException {
-        // TODO: Make name editable by a form!
         if (task.getData().getSourceByName(name) == null) {
             SourceFile src = task.getData().addSource(name);
             if (src != null) {
                 taskSolvingView.addSourceFile(name, task.getData().getSyntaxStyle());
                 src.save();
             }
+        } else {
+            JOptionPane.showMessageDialog(new JFrame(), "Source file already exists!");
         }
     }
 
@@ -131,5 +131,10 @@ public class TaskSolvingController {
         SourceFile src = task.getData().getSourceByName(name);
         taskSolvingView.addSourceFile(name, task.getData().getSyntaxStyle());
         taskSolvingView.setCodeAreaContent(name, src.getData());
+    }
+
+    public void saveSourceContents(Map<String, RSyntaxTextArea> codeAreas) throws IOException {
+        task.getData().setSourceContents(codeAreas);
+        task.getData().saveSources();
     }
 }
