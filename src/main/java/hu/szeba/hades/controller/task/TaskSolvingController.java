@@ -42,6 +42,7 @@ public class TaskSolvingController {
         lockedMenusWrapper.setBuildEnabled(false);
         lockedMenusWrapper.setBuildAndRunEnabled(false);
         lockedMenusWrapper.setRunEnabled(false);
+        lockedMenusWrapper.setLockExit(true);
 
         // Start a worker thread to compile the task!
         TaskCompilerThread taskCompilerThread = new TaskCompilerThread(
@@ -67,6 +68,7 @@ public class TaskSolvingController {
         lockedMenusWrapper.setBuildAndRunEnabled(false);
         lockedMenusWrapper.setRunEnabled(false);
         lockedMenusWrapper.setStopEnabled(true);
+        lockedMenusWrapper.setLockExit(true);
         stopFlag.set(false);
 
         // Start a worker thread to compile the task!
@@ -93,6 +95,7 @@ public class TaskSolvingController {
         lockedMenusWrapper.setBuildAndRunEnabled(false);
         lockedMenusWrapper.setRunEnabled(false);
         lockedMenusWrapper.setStopEnabled(true);
+        lockedMenusWrapper.setLockExit(true);
         stopFlag.set(false);
 
         // Start a worker thread to run the task!

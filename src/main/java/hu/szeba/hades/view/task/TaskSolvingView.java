@@ -78,7 +78,7 @@ public class TaskSolvingView extends BaseView implements NewSourceFileListener {
 
     @Override
     public void initializeComponents() {
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setMinimumSize(new Dimension(900, 700));
         this.setLayout(new BorderLayout());
 
@@ -166,8 +166,13 @@ public class TaskSolvingView extends BaseView implements NewSourceFileListener {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent event) {
-                super.windowClosing(event);
-                parentView.showView();
+                if (lockedMenusWrapper.getLockExit()) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Running jobs in process!");
+                } else {
+                    super.windowClosing(event);
+                    TaskSolvingView.this.dispose();
+                    parentView.showView();
+                }
             }
         });
         // Add new source file by a dialogue

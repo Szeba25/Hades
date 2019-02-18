@@ -82,6 +82,7 @@ public class TaskCompilerAndRunnerThread extends SwingWorker<Integer, String> im
         lockedMenusWrapper.setBuildAndRunEnabled(true);
         lockedMenusWrapper.setRunEnabled(register.getCompilerOutput().isReady());
         lockedMenusWrapper.setStopEnabled(false);
+        lockedMenusWrapper.setLockExit(false);
         stopFlag.set(false);
     }
 

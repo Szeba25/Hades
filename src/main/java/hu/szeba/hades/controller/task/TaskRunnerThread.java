@@ -60,6 +60,7 @@ public class TaskRunnerThread extends SwingWorker<Integer, String> implements Pu
         lockedMenusWrapper.setBuildAndRunEnabled(true);
         lockedMenusWrapper.setRunEnabled(true);
         lockedMenusWrapper.setStopEnabled(false);
+        lockedMenusWrapper.setLockExit(false);
         stopFlag.set(false);
     }
 
