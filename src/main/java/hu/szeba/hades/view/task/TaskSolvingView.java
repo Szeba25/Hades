@@ -391,7 +391,7 @@ public class TaskSolvingView extends BaseView {
             }
 
             private void markAsChanged() {
-                if (trackSourceChanges)  {
+                if (trackSourceChanges) {
                     closableTabComponent.markAsChanged();
                 }
             }
