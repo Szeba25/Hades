@@ -9,7 +9,6 @@ import java.awt.event.*;
 
 public class ClosableTabComponent extends JPanel {
 
-    private final JLabel changedIndicator;
     private final JTabbedPane pane;
 
     public ClosableTabComponent(final JTabbedPane pane,
@@ -35,10 +34,6 @@ public class ClosableTabComponent extends JPanel {
 
         add(label);
 
-        // Add changed indicator
-        changedIndicator = new JLabel("");
-        add(changedIndicator);
-
         // Add more space between the label and the button
         label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
         // Tab button
@@ -46,18 +41,6 @@ public class ClosableTabComponent extends JPanel {
         add(button);
         // Add more space to the top of the component
         setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
-    }
-
-    public void markAsChanged() {
-        if (changedIndicator.getText().equals("")) {
-            changedIndicator.setText("*");
-        }
-    }
-
-    public void markAsUnchanged() {
-        if (changedIndicator.getText().equals("*")) {
-            changedIndicator.setText("");
-        }
     }
 
     private class TabButton extends JButton implements ActionListener {

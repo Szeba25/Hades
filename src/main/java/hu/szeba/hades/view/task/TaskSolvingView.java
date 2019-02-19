@@ -8,8 +8,6 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -345,8 +343,8 @@ public class TaskSolvingView extends BaseView {
         fileList.setSelectedIndex(0);
     }
 
-    private void addCodeArea(String name, String syntaxStyle) {
-        /*
+    @Deprecated
+    private void addSimpleCodeArea(String name, String syntaxStyle) {
         JTextArea codeTabArea = new JTextArea();
         codeTabArea.setTabSize(4);
         codeTabArea.setFont(monoFont);
@@ -354,9 +352,11 @@ public class TaskSolvingView extends BaseView {
 
         codeTab.add(name, codeTabScroll);
         codeTab.setTabComponentAt(codeTab.getTabCount()-1, new ClosableTabComponent(codeTab, controller));
-        codeTabByName.put(name, codeTabArea);
-        */
 
+        codeTabByName.put(name, codeTabArea);
+    }
+
+    private void addCodeArea(String name, String syntaxStyle) {
         RSyntaxTextArea codeTabArea = new RSyntaxTextArea();
         codeTabArea.setTabSize(4);
         codeTabArea.setAutoIndentEnabled(true);
@@ -370,33 +370,7 @@ public class TaskSolvingView extends BaseView {
         codeTabScroll.setLineNumbersEnabled(true);
 
         codeTab.add(name, codeTabScroll);
-        ClosableTabComponent closableTabComponent = new ClosableTabComponent(codeTab, controller);
-        codeTab.setTabComponentAt(codeTab.getTabCount()-1, closableTabComponent);
-
-        codeTabArea.getDocument().addDocumentListener(new DocumentListener() {
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                markAsChanged();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                markAsChanged();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                markAsChanged();
-            }
-
-            private void markAsChanged() {
-                if (trackSourceChanges) {
-                    closableTabComponent.markAsChanged();
-                }
-            }
-
-        });
+        codeTab.setTabComponentAt(codeTab.getTabCount()-1, new ClosableTabComponent(codeTab, controller));
 
         codeTabByName.put(name, codeTabArea);
     }
