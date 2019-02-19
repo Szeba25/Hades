@@ -8,6 +8,8 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -62,6 +64,7 @@ public class TaskSolvingView extends BaseView {
     private JMenuItem ultimateHelpMenuItem;
 
     private LockedMenusWrapper lockedMenusWrapper;
+    private boolean trackSourceChanges;
 
     public TaskSolvingView(BaseView parentView, Task task) {
         super();
@@ -162,6 +165,8 @@ public class TaskSolvingView extends BaseView {
                 runMenuItem,
                 stopMenuItem);
 
+        trackSourceChanges = false;
+
         menuBar.add(fileMenu);
         menuBar.add(buildMenu);
         menuBar.add(helpMenu);
@@ -234,6 +239,8 @@ public class TaskSolvingView extends BaseView {
                             break;
                         }
                     }
+                    // Delete from map!
+                    codeTabByName.remove(selectedSourceName);
                     // Delete from list!
                     fileListModel.removeElement(selectedSourceName);
                 } catch (IOException e) {
@@ -363,7 +370,33 @@ public class TaskSolvingView extends BaseView {
         codeTabScroll.setLineNumbersEnabled(true);
 
         codeTab.add(name, codeTabScroll);
-        codeTab.setTabComponentAt(codeTab.getTabCount()-1, new ClosableTabComponent(codeTab, controller));
+        ClosableTabComponent closableTabComponent = new ClosableTabComponent(codeTab, controller);
+        codeTab.setTabComponentAt(codeTab.getTabCount()-1, closableTabComponent);
+
+        codeTabArea.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                markAsChanged();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                markAsChanged();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                markAsChanged();
+            }
+
+            private void markAsChanged() {
+                if (trackSourceChanges)  {
+                    closableTabComponent.markAsChanged();
+                }
+            }
+
+        });
 
         codeTabByName.put(name, codeTabArea);
     }
