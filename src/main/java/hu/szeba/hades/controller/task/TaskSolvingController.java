@@ -33,17 +33,15 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
 
     public void compile(Map<String, JTextArea> codeAreas,
                         TerminalArea terminalArea, LockedMenusWrapper lockedMenusWrapper) throws IOException {
-        // Add message about saving all sources
-        terminalArea.clear();
-        terminalArea.add("@*** Saving sources...\n\n");
-
-        // Set the sources content and save sources on EDT
-        TaskData data = task.getData();
-        saveSourceContents(codeAreas);
+        // Clear the terminal and save sources first!
+        saveSourceContentsWithTerminalOutput(codeAreas, terminalArea);
 
         // Disable build menu and set stopFlag
         lockedMenusWrapper.initForCompiler();
         stopFlag.set(false);
+
+        // Get reference to TaskData
+        TaskData data = task.getData();
 
         // Start a worker thread to compile the task!
         TaskCompilerThread taskCompilerThread = new TaskCompilerThread(
@@ -59,17 +57,15 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
 
     public void compileAndRun(Map<String, JTextArea> codeAreas,
                               TerminalArea terminalArea, LockedMenusWrapper lockedMenusWrapper) throws IOException {
-        // Add message about saving all sources
-        terminalArea.clear();
-        terminalArea.add("@*** Saving sources...\n\n");
-
-        // Set the sources content and save sources on EDT
-        TaskData data = task.getData();
-        saveSourceContents(codeAreas);
+        // Clear the terminal and save sources first!
+        saveSourceContentsWithTerminalOutput(codeAreas, terminalArea);
 
         // Disable build menu and set stopFlag
         lockedMenusWrapper.initForCompilerAndRunner();
         stopFlag.set(false);
+
+        // Get reference to TaskData
+        TaskData data = task.getData();
 
         // Start a worker thread to compile the task!
         TaskCompilerAndRunnerThread taskCompilerAndRunnerThread = new TaskCompilerAndRunnerThread(
@@ -123,6 +119,14 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "Source file already exists!");
         }
+    }
+
+    public void saveSourceContentsWithTerminalOutput(Map<String, JTextArea> codeAreas, TerminalArea terminalArea)
+            throws IOException {
+        terminalArea.clear();
+        terminalArea.add("@*** Saving sources...\n");
+        saveSourceContents(codeAreas);
+        terminalArea.add("#*** Save successful...\n\n");
     }
 
     public void openExistingSourceFile(String name, TaskSolvingView taskSolvingView) {

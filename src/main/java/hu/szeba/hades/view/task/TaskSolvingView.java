@@ -50,6 +50,7 @@ public class TaskSolvingView extends BaseView {
     private JMenuItem newFileMenuItem;
     private JMenuItem deleteFileMenuItem;
     private JMenuItem renameFileMenuItem;
+    private JMenuItem saveAllFileMenuItem;
 
     private JMenu buildMenu;
     private JMenuItem buildMenuItem;
@@ -128,10 +129,13 @@ public class TaskSolvingView extends BaseView {
         newFileMenuItem = new JMenuItem("New source file");
         deleteFileMenuItem = new JMenuItem("Delete source file");
         renameFileMenuItem = new JMenuItem("Edit source file name");
+        saveAllFileMenuItem = new JMenuItem("Save all now...");
 
         fileMenu.add(newFileMenuItem);
         fileMenu.add(deleteFileMenuItem);
         fileMenu.add(renameFileMenuItem);
+        fileMenu.addSeparator();
+        fileMenu.add(saveAllFileMenuItem);
 
         buildMenu = new JMenu("Build");
         buildMenuItem = new JMenuItem("Build all");
@@ -158,6 +162,7 @@ public class TaskSolvingView extends BaseView {
                 newFileMenuItem,
                 deleteFileMenuItem,
                 renameFileMenuItem,
+                saveAllFileMenuItem,
                 buildMenuItem,
                 buildAndRunMenuItem,
                 runMenuItem,
@@ -241,6 +246,18 @@ public class TaskSolvingView extends BaseView {
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(new JFrame(), "Unable to delete source file: " + e.getMessage());
                 }
+            }
+        });
+        // Rename source file
+        renameFileMenuItem.addActionListener((event) -> {
+            // TODO: Make this functional...
+        });
+        // Save all source files now!
+        saveAllFileMenuItem.addActionListener((event) -> {
+            try {
+                controller.saveSourceContentsWithTerminalOutput(codeTabByName, terminalArea);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
         // Build action

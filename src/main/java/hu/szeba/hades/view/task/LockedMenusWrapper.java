@@ -8,6 +8,7 @@ public class LockedMenusWrapper {
     private JMenuItem newFileItem;
     private JMenuItem deleteFileItem;
     private JMenuItem renameFileItem;
+    private JMenuItem saveAllFileItem;
     private JMenuItem buildMenuItem;
     private JMenuItem buildAndRunMenuItem;
     private JMenuItem runMenuItem;
@@ -17,6 +18,7 @@ public class LockedMenusWrapper {
             JMenuItem newFileItem,
             JMenuItem deleteFileItem,
             JMenuItem renameFileItem,
+            JMenuItem saveAllFileItem,
             JMenuItem buildMenuItem,
             JMenuItem buildAndRunMenuItem,
             JMenuItem runMenuItem,
@@ -25,6 +27,7 @@ public class LockedMenusWrapper {
         this.newFileItem = newFileItem;
         this.deleteFileItem = deleteFileItem;
         this.renameFileItem = renameFileItem;
+        this.saveAllFileItem = saveAllFileItem;
         this.buildMenuItem = buildMenuItem;
         this.buildAndRunMenuItem = buildAndRunMenuItem;
         this.runMenuItem = runMenuItem;
@@ -44,6 +47,7 @@ public class LockedMenusWrapper {
         setNewFileEnabled(false);
         setDeleteFileEnabled(false);
         setRenameFileEnabled(false);
+        setSaveAllFileEnabled(false);
         // Build
         setBuildEnabled(false);
         setBuildAndRunEnabled(false);
@@ -58,6 +62,7 @@ public class LockedMenusWrapper {
         setNewFileEnabled(false);
         setDeleteFileEnabled(false);
         setRenameFileEnabled(false);
+        setSaveAllFileEnabled(false);
         // Build
         setBuildEnabled(false);
         setBuildAndRunEnabled(false);
@@ -72,6 +77,7 @@ public class LockedMenusWrapper {
         setNewFileEnabled(false);
         setDeleteFileEnabled(false);
         setRenameFileEnabled(false);
+        setSaveAllFileEnabled(true);
         // Build
         setBuildEnabled(false);
         setBuildAndRunEnabled(false);
@@ -86,6 +92,7 @@ public class LockedMenusWrapper {
         setNewFileEnabled(true);
         setDeleteFileEnabled(true);
         setRenameFileEnabled(true);
+        setSaveAllFileEnabled(true);
         // Build
         setBuildEnabled(true);
         setBuildAndRunEnabled(true);
@@ -100,6 +107,7 @@ public class LockedMenusWrapper {
         setNewFileEnabled(true);
         setDeleteFileEnabled(true);
         setRenameFileEnabled(true);
+        setSaveAllFileEnabled(true);
         // Build
         setBuildEnabled(true);
         setBuildAndRunEnabled(true);
@@ -114,6 +122,7 @@ public class LockedMenusWrapper {
         setNewFileEnabled(true);
         setDeleteFileEnabled(true);
         setRenameFileEnabled(true);
+        setSaveAllFileEnabled(true);
         // Build
         setBuildEnabled(true);
         setBuildAndRunEnabled(true);
@@ -133,6 +142,10 @@ public class LockedMenusWrapper {
 
     private synchronized void setRenameFileEnabled(boolean value) {
         renameFileItem.setEnabled(value);
+    }
+
+    private synchronized void setSaveAllFileEnabled(boolean value) {
+        saveAllFileItem.setEnabled(value);
     }
 
     private synchronized void setBuildEnabled(boolean value) {
