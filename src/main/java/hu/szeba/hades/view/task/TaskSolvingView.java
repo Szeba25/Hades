@@ -136,7 +136,7 @@ public class TaskSolvingView extends BaseView {
         buildMenuItem = new JMenuItem("Build all");
         buildAndRunMenuItem = new JMenuItem("Build all and run...");
         runMenuItem = new JMenuItem("Run...");
-        stopMenuItem = new JMenuItem("Stop! (for this input)");
+        stopMenuItem = new JMenuItem("Stop!");
 
         buildMenu.add(buildMenuItem);
         buildMenu.addSeparator();
@@ -178,9 +178,9 @@ public class TaskSolvingView extends BaseView {
             @Override
             public void windowClosing(WindowEvent event) {
                 if (lockedMenusWrapper.getLockExit()) {
-                    JOptionPane.showMessageDialog(new JFrame(), "Running jobs in process!", "Cant't exit", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(new JFrame(), "Compiling (and/or) running in process!", "Cant't exit", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    int result = JOptionPane.showConfirmDialog(new JFrame(), "Save sources before exit?", "Give up...", JOptionPane.YES_NO_CANCEL_OPTION);
+                    int result = JOptionPane.showConfirmDialog(new JFrame(), "Save progress before exit?", "Quit", JOptionPane.YES_NO_CANCEL_OPTION);
                     switch (result) {
                         case JOptionPane.YES_OPTION:
                             try {
@@ -213,7 +213,7 @@ public class TaskSolvingView extends BaseView {
                 try {
                     controller.addNewSourceFile(name, this);
                 } catch (IOException e) {
-                    JOptionPane.showMessageDialog(new JFrame(), "Cannot create file specified: " +
+                    JOptionPane.showMessageDialog(new JFrame(), "Cannot create source file specified: " +
                             e.getMessage());
                 }
             }
@@ -221,7 +221,7 @@ public class TaskSolvingView extends BaseView {
         // Delete source file
         deleteFileMenuItem.addActionListener((event) -> {
             String selectedSourceName = fileList.getSelectedValue();
-            int result = JOptionPane.showConfirmDialog(new JFrame(), "Delete file: " + selectedSourceName + "?",
+            int result = JOptionPane.showConfirmDialog(new JFrame(), "Delete source file: " + selectedSourceName + "?",
                     "Delete source file", JOptionPane.YES_NO_OPTION);
             if (result == JOptionPane.YES_OPTION) {
                 try {
@@ -295,6 +295,15 @@ public class TaskSolvingView extends BaseView {
                     e.printStackTrace();
                 }
             }
+        });
+        // About
+        aboutMenuItem.addActionListener((event) -> {
+            JOptionPane.showMessageDialog(new JFrame(),
+                    "Hades (development build)\n\n"  +
+                    "Contact: underworld.support@gmail.com\n" +
+                    "Source: https://github.com/Szeba25/hades\n" +
+                    "License: MIT (see repository)",
+                    "About...",  JOptionPane.PLAIN_MESSAGE);
         });
     }
 
