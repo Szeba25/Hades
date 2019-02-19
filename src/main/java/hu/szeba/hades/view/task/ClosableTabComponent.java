@@ -1,5 +1,7 @@
 package hu.szeba.hades.view.task;
 
+import hu.szeba.hades.controller.task.SourceUpdaterForClosableTabs;
+
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
@@ -8,14 +10,16 @@ import java.awt.event.*;
 public class ClosableTabComponent extends JPanel {
 
     private final JTabbedPane pane;
+    private final SourceUpdaterForClosableTabs sourceUpdaterForClosableTabs;
 
-    public ClosableTabComponent(final JTabbedPane pane) {
+    public ClosableTabComponent(final JTabbedPane pane, final SourceUpdaterForClosableTabs sourceUpdaterForClosableTabs) {
         // Unset default FlowLayout gaps
         super(new FlowLayout(FlowLayout.LEFT, 0, 0));
         if (pane == null) {
             throw new NullPointerException("TabbedPane is null");
         }
         this.pane = pane;
+        this.sourceUpdaterForClosableTabs = sourceUpdaterForClosableTabs;
         setOpaque(false);
 
         // Make JLabel read titles from JTabbedPane
@@ -33,7 +37,7 @@ public class ClosableTabComponent extends JPanel {
         // Add more space between the label and the button
         label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
         // Tab button
-        JButton button = new TabButton();
+        JButton button = new TabButton(sourceUpdaterForClosableTabs);
         add(button);
         // Add more space to the top of the component
         setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
@@ -41,7 +45,9 @@ public class ClosableTabComponent extends JPanel {
 
     private class TabButton extends JButton implements ActionListener {
 
-        public TabButton() {
+        private SourceUpdaterForClosableTabs controller;
+
+        public TabButton(SourceUpdaterForClosableTabs controller) {
             int size = 17;
             setPreferredSize(new Dimension(size, size));
             setToolTipText("close");
@@ -64,6 +70,9 @@ public class ClosableTabComponent extends JPanel {
         public void actionPerformed(ActionEvent e) {
             int i = pane.indexOfTabComponent(ClosableTabComponent.this);
             if (i != -1) {
+                // Before we remove the tab, save it's data!
+                //RTextScrollPane scrollPane = (RTextScrollPane) pane.getComponentAt(i);
+                //controller.updateSourceFileDataFromCodeArea();
                 pane.remove(i);
             }
         }

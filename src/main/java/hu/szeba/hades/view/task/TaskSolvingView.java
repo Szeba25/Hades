@@ -4,7 +4,6 @@ import hu.szeba.hades.controller.task.TaskSolvingController;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.view.BaseView;
-import jdk.nashorn.internal.scripts.JO;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
@@ -16,7 +15,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.URI;
-import java.nio.file.InvalidPathException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -345,7 +343,7 @@ public class TaskSolvingView extends BaseView {
         codeTabScroll.setLineNumbersEnabled(true);
 
         codeTab.add(name, codeTabScroll);
-        codeTab.setTabComponentAt(codeTab.getTabCount()-1, new ClosableTabComponent(codeTab));
+        codeTab.setTabComponentAt(codeTab.getTabCount()-1, new ClosableTabComponent(codeTab, controller));
 
         codeTabByName.put(name, codeTabArea);
     }

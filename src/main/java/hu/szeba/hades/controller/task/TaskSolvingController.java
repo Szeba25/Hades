@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class TaskSolvingController {
+public class TaskSolvingController implements SourceUpdaterForClosableTabs {
 
     private Task task;
     private AtomicBoolean stopFlag;
@@ -132,5 +132,10 @@ public class TaskSolvingController {
 
     public void deleteSourceFile(String name) throws IOException {
         task.getData().deleteSourceByName(name);
+    }
+
+    @Override
+    public void updateSourceFileDataFromCodeArea(String name, RSyntaxTextArea codeArea) {
+        task.getData().getSourceByName(name).setData(codeArea.getText());
     }
 }
