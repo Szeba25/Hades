@@ -7,6 +7,7 @@ import hu.szeba.hades.util.FileUtilities;
 import org.apache.commons.io.FileUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
@@ -155,7 +156,7 @@ public class TaskData {
         }
     }
 
-    public void setSourceContents(Map<String, RSyntaxTextArea> codeAreas) {
+    public void setSourceContents(Map<String, JTextArea> codeAreas) {
         sources.forEach((src) -> src.setData(codeAreas.get(src.getName()).getText()));
     }
 

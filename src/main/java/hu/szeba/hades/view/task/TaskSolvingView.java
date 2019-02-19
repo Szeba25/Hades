@@ -34,7 +34,7 @@ public class TaskSolvingView extends BaseView {
     private JScrollPane fileListScroller;
 
     private JTabbedPane codeTab;
-    private Map<String, RSyntaxTextArea> codeTabByName;
+    private Map<String, JTextArea> codeTabByName;
 
     private JEditorPane taskInstructionsPane;
 

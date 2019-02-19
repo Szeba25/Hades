@@ -31,7 +31,7 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
         taskSolvingView.setCodeAreaContents(data.getSources());
     }
 
-    public void compile(Map<String, RSyntaxTextArea> codeAreas,
+    public void compile(Map<String, JTextArea> codeAreas,
                         TerminalArea terminalArea, LockedMenusWrapper lockedMenusWrapper) throws IOException {
         // Set the sources content and save sources on EDT
         TaskData data = task.getData();
@@ -54,7 +54,7 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
         taskCompilerThread.execute();
     }
 
-    public void compileAndRun(Map<String, RSyntaxTextArea> codeAreas,
+    public void compileAndRun(Map<String, JTextArea> codeAreas,
                               TerminalArea terminalArea, LockedMenusWrapper lockedMenusWrapper) throws IOException {
         // Set the sources content and save sources on EDT
         TaskData data = task.getData();
@@ -125,7 +125,7 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
         taskSolvingView.setCodeAreaContent(name, src.getData());
     }
 
-    public void saveSourceContents(Map<String, RSyntaxTextArea> codeAreas) throws IOException {
+    public void saveSourceContents(Map<String, JTextArea> codeAreas) throws IOException {
         task.getData().setSourceContents(codeAreas);
         task.getData().saveSources();
     }
@@ -135,7 +135,7 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
     }
 
     @Override
-    public void updateSourceFileDataFromCodeArea(String name, RSyntaxTextArea codeArea) {
+    public void updateSourceFileData(String name, JTextArea codeArea) {
         task.getData().getSourceByName(name).setData(codeArea.getText());
     }
 }

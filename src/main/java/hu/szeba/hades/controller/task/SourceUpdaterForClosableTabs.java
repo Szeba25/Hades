@@ -1,9 +1,9 @@
 package hu.szeba.hades.controller.task;
 
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import javax.swing.*;
 
 public interface SourceUpdaterForClosableTabs {
 
-    void updateSourceFileDataFromCodeArea(String name, RSyntaxTextArea codeArea);
+    void updateSourceFileData(String name, JTextArea codeArea);
 
 }

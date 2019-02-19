@@ -1,7 +1,6 @@
 package hu.szeba.hades.view.task;
 
 import hu.szeba.hades.controller.task.SourceUpdaterForClosableTabs;
-import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
@@ -11,16 +10,15 @@ import java.awt.event.*;
 public class ClosableTabComponent extends JPanel {
 
     private final JTabbedPane pane;
-    private final SourceUpdaterForClosableTabs sourceUpdaterForClosableTabs;
 
-    public ClosableTabComponent(final JTabbedPane pane, final SourceUpdaterForClosableTabs sourceUpdaterForClosableTabs) {
+    public ClosableTabComponent(final JTabbedPane pane,
+                                final SourceUpdaterForClosableTabs sourceUpdaterForClosableTabs) {
         // Unset default FlowLayout gaps
         super(new FlowLayout(FlowLayout.LEFT, 0, 0));
         if (pane == null) {
             throw new NullPointerException("TabbedPane is null");
         }
         this.pane = pane;
-        this.sourceUpdaterForClosableTabs = sourceUpdaterForClosableTabs;
         setOpaque(false);
 
         // Make JLabel read titles from JTabbedPane
@@ -48,7 +46,10 @@ public class ClosableTabComponent extends JPanel {
 
         private SourceUpdaterForClosableTabs sourceUpdaterForClosableTabs;
 
-        public TabButton(SourceUpdaterForClosableTabs controller) {
+        public TabButton(SourceUpdaterForClosableTabs sourceUpdaterForClosableTabs) {
+            // To update text areas from views!
+            this.sourceUpdaterForClosableTabs = sourceUpdaterForClosableTabs;
+
             int size = 17;
             setPreferredSize(new Dimension(size, size));
             setToolTipText("close");
@@ -72,7 +73,8 @@ public class ClosableTabComponent extends JPanel {
             int i = pane.indexOfTabComponent(ClosableTabComponent.this);
             if (i != -1) {
                 // Before we remove the tab, save it's data!
-                //RTextScrollPane scrollPane = (RTextScrollPane) pane.getComponentAt(i);
+                JTextArea textArea = (JTextArea) ((JScrollPane) pane.getComponentAt(i)).getViewport().getView();
+                sourceUpdaterForClosableTabs.updateSourceFileData(pane.getTitleAt(i), textArea);
                 pane.remove(i);
             }
         }
