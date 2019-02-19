@@ -51,6 +51,7 @@ public class TaskSolvingView extends BaseView {
     private JMenuItem deleteFileMenuItem;
     private JMenuItem renameFileMenuItem;
     private JMenuItem saveAllFileMenuItem;
+    private JMenuItem clearTerminalMenuItem;
 
     private JMenu buildMenu;
     private JMenuItem buildMenuItem;
@@ -130,12 +131,15 @@ public class TaskSolvingView extends BaseView {
         deleteFileMenuItem = new JMenuItem("Delete source file");
         renameFileMenuItem = new JMenuItem("Edit source file name");
         saveAllFileMenuItem = new JMenuItem("Save all now...");
+        clearTerminalMenuItem = new JMenuItem("Clear terminal");
 
         fileMenu.add(newFileMenuItem);
         fileMenu.add(deleteFileMenuItem);
         fileMenu.add(renameFileMenuItem);
         fileMenu.addSeparator();
         fileMenu.add(saveAllFileMenuItem);
+        fileMenu.addSeparator();
+        fileMenu.add(clearTerminalMenuItem);
 
         buildMenu = new JMenu("Build");
         buildMenuItem = new JMenuItem("Build all");
@@ -260,6 +264,8 @@ public class TaskSolvingView extends BaseView {
                 e.printStackTrace();
             }
         });
+        // Clear terminal!
+        clearTerminalMenuItem.addActionListener((event) -> terminalArea.clear());
         // Build action
         buildMenuItem.addActionListener((event) -> {
             try {
