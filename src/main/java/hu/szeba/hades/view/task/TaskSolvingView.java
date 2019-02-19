@@ -183,7 +183,9 @@ public class TaskSolvingView extends BaseView {
                 if (lockedMenusWrapper.getLockExit()) {
                     JOptionPane.showMessageDialog(new JFrame(), "Compiling (and/or) running in process!", "Cant't exit", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    int result = JOptionPane.showConfirmDialog(new JFrame(), "Save the current progress before exit? (was saved on last build)", "Quit", JOptionPane.YES_NO_CANCEL_OPTION);
+                    Object[] options = {"Save and quit", "Cancel"};
+                    int result = JOptionPane.showOptionDialog(new JFrame(), "Already leaving? :(", "Giving up...", JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
                     switch (result) {
                         case JOptionPane.YES_OPTION:
                             try {
@@ -196,11 +198,6 @@ public class TaskSolvingView extends BaseView {
                             parentView.showView();
                             break;
                         case JOptionPane.NO_OPTION:
-                            super.windowClosing(event);
-                            TaskSolvingView.this.dispose();
-                            parentView.showView();
-                            break;
-                        case JOptionPane.CANCEL_OPTION:
                             break;
                     }
                 }
