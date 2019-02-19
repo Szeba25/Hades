@@ -65,7 +65,7 @@ public class StreamUtilities {
         // First check for any output from the program...
         // Wait for half the specified time, to speed up processing...
         while(tries <= startMaxTries && !hasOutput && !stopFlag.get()) {
-            System.out.println("Try: " + tries + ".");
+            //System.out.println("Try: " + tries + ".");
             if (firstTry) {
                 firstTry = false;
                 Thread.sleep(maxStartWaitInMillis / 2);
@@ -106,7 +106,7 @@ public class StreamUtilities {
                     int timeoutTry = 1;
                     // Try n times! (defined by timeoutMaxTries)
                     while (timeoutTry <= timeoutMaxTries) {
-                        System.out.println("Timeout try: " + timeoutTry);
+                        //System.out.println("Timeout try: " + timeoutTry);
                         Thread.sleep(maxTimeoutWaitInMillis);
                         if (is.ready()) {
                             data = is.read();
@@ -116,7 +116,7 @@ public class StreamUtilities {
                     }
                     // If still not ready, timeout and halt...
                     if (!is.ready()) {
-                        System.out.println("Timeout!!!");
+                        //System.out.println("Timeout!!!");
                         timeout = true;
                     }
                 }
@@ -128,7 +128,7 @@ public class StreamUtilities {
             }
         }
 
-        System.out.println("Bytes: " + byteCount);
+        //System.out.println("Bytes: " + byteCount);
 
         is.close();
         return messageList;
