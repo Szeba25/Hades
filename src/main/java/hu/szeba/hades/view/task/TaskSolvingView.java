@@ -230,25 +230,29 @@ public class TaskSolvingView extends BaseView {
         // Delete source file
         deleteFileMenuItem.addActionListener((event) -> {
             String selectedSourceName = fileList.getSelectedValue();
-            int result = JOptionPane.showConfirmDialog(new JFrame(), "Delete source file: " + selectedSourceName + "?",
-                    "Delete source file", JOptionPane.YES_NO_OPTION);
-            if (result == JOptionPane.YES_OPTION) {
-                try {
-                    // Delete from sources (data)
-                    controller.deleteSourceFile(selectedSourceName);
-                    // Delete tab (if present)
-                    for (int i = 0; i < codeTab.getTabCount(); i++) {
-                        if (codeTab.getTitleAt(i).equals(selectedSourceName)) {
-                            codeTab.remove(i);
-                            break;
+            if (selectedSourceName == null) {
+                JOptionPane.showMessageDialog(new JFrame(), "Please select a source file from the list!");
+            } else {
+                int result = JOptionPane.showConfirmDialog(new JFrame(), "Delete source file: " + selectedSourceName + "?",
+                        "Delete source file", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    try {
+                        // Delete from sources (data)
+                        controller.deleteSourceFile(selectedSourceName);
+                        // Delete tab (if present)
+                        for (int i = 0; i < codeTab.getTabCount(); i++) {
+                            if (codeTab.getTitleAt(i).equals(selectedSourceName)) {
+                                codeTab.remove(i);
+                                break;
+                            }
                         }
+                        // Delete from map!
+                        codeTabByName.remove(selectedSourceName);
+                        // Delete from list!
+                        fileListModel.removeElement(selectedSourceName);
+                    } catch (IOException e) {
+                        JOptionPane.showMessageDialog(new JFrame(), "Unable to delete source file: " + e.getMessage());
                     }
-                    // Delete from map!
-                    codeTabByName.remove(selectedSourceName);
-                    // Delete from list!
-                    fileListModel.removeElement(selectedSourceName);
-                } catch (IOException e) {
-                    JOptionPane.showMessageDialog(new JFrame(), "Unable to delete source file: " + e.getMessage());
                 }
             }
         });
