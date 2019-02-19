@@ -1,6 +1,7 @@
 package hu.szeba.hades.view.task;
 
 import hu.szeba.hades.controller.task.SourceUpdaterForClosableTabs;
+import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
@@ -45,7 +46,7 @@ public class ClosableTabComponent extends JPanel {
 
     private class TabButton extends JButton implements ActionListener {
 
-        private SourceUpdaterForClosableTabs controller;
+        private SourceUpdaterForClosableTabs sourceUpdaterForClosableTabs;
 
         public TabButton(SourceUpdaterForClosableTabs controller) {
             int size = 17;
@@ -72,7 +73,6 @@ public class ClosableTabComponent extends JPanel {
             if (i != -1) {
                 // Before we remove the tab, save it's data!
                 //RTextScrollPane scrollPane = (RTextScrollPane) pane.getComponentAt(i);
-                //controller.updateSourceFileDataFromCodeArea();
                 pane.remove(i);
             }
         }
