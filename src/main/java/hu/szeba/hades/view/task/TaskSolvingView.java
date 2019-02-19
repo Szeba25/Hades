@@ -330,6 +330,17 @@ public class TaskSolvingView extends BaseView {
     }
 
     private void addCodeArea(String name, String syntaxStyle) {
+        /*
+        JTextArea codeTabArea = new JTextArea();
+        codeTabArea.setTabSize(4);
+        codeTabArea.setFont(monoFont);
+        JScrollPane codeTabScroll = new JScrollPane(codeTabArea);
+
+        codeTab.add(name, codeTabScroll);
+        codeTab.setTabComponentAt(codeTab.getTabCount()-1, new ClosableTabComponent(codeTab, controller));
+        codeTabByName.put(name, codeTabArea);
+        */
+
         RSyntaxTextArea codeTabArea = new RSyntaxTextArea();
         codeTabArea.setTabSize(4);
         codeTabArea.setAutoIndentEnabled(true);
