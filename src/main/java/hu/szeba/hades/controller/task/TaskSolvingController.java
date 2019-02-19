@@ -33,12 +33,15 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
 
     public void compile(Map<String, JTextArea> codeAreas,
                         TerminalArea terminalArea, LockedMenusWrapper lockedMenusWrapper) throws IOException {
+        // Add message about saving all sources
+        terminalArea.clear();
+        terminalArea.add("@*** Saving sources...\n\n");
+
         // Set the sources content and save sources on EDT
         TaskData data = task.getData();
         saveSourceContents(codeAreas);
 
-        // Clear terminal, and disable build menu
-        terminalArea.clear();
+        // Disable build menu and set stopFlag
         lockedMenusWrapper.initForCompiler();
         stopFlag.set(false);
 
@@ -56,12 +59,15 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
 
     public void compileAndRun(Map<String, JTextArea> codeAreas,
                               TerminalArea terminalArea, LockedMenusWrapper lockedMenusWrapper) throws IOException {
+        // Add message about saving all sources
+        terminalArea.clear();
+        terminalArea.add("@*** Saving sources...\n\n");
+
         // Set the sources content and save sources on EDT
         TaskData data = task.getData();
         saveSourceContents(codeAreas);
 
-        // Clear terminal, and disable build menu
-        terminalArea.clear();
+        // Disable build menu and set stopFlag
         lockedMenusWrapper.initForCompilerAndRunner();
         stopFlag.set(false);
 
