@@ -180,7 +180,7 @@ public class TaskSolvingView extends BaseView {
                 if (lockedMenusWrapper.getLockExit()) {
                     JOptionPane.showMessageDialog(new JFrame(), "Compiling (and/or) running in process!", "Cant't exit", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    int result = JOptionPane.showConfirmDialog(new JFrame(), "Save progress before exit?", "Quit", JOptionPane.YES_NO_CANCEL_OPTION);
+                    int result = JOptionPane.showConfirmDialog(new JFrame(), "Save any unsaved progress before exit?", "Quit", JOptionPane.YES_NO_CANCEL_OPTION);
                     switch (result) {
                         case JOptionPane.YES_OPTION:
                             try {
