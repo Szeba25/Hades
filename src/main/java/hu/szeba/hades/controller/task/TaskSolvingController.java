@@ -124,9 +124,9 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
     public void saveSourceContentsWithTerminalOutput(Map<String, JTextArea> codeAreas, TerminalArea terminalArea)
             throws IOException {
         terminalArea.clear();
-        terminalArea.add("@>>> Saving sources...\n");
+        terminalArea.add(">>> Saving sources...\n\n");
         saveSourceContents(codeAreas);
-        terminalArea.add("#>>> Save successful...\n\n");
+        terminalArea.add("#Save successful!\n\n");
     }
 
     public void openExistingSourceFile(String name, TaskSolvingView taskSolvingView) {
