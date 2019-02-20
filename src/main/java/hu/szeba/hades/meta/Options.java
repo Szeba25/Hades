@@ -15,13 +15,13 @@ public class Options {
 
     public static void initialize() throws IOException {
         config = new HashMap<>();
-        DataFile configFile = new ConfigFile(new File("hades_config.conf"));
+        DataFile configFile = new ConfigFile(new File("config/main.conf"));
         for (int i = 0; i < configFile.getLineCount(); i++) {
             config.put(configFile.getData(i, 0), configFile.getData(i, 1));
         }
 
         paths = new HashMap<>();
-        DataFile pathsFile = new ConfigFile(new File("hades_paths.conf"));
+        DataFile pathsFile = new ConfigFile(new File("config/paths.conf"));
         for (int i = 0; i < pathsFile.getLineCount(); i++) {
             paths.put(pathsFile.getData(i, 0),
                     new File(pathsFile.getData(i, 1)));
