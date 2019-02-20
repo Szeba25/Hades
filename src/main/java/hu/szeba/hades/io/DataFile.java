@@ -46,7 +46,7 @@ public class DataFile {
     }
 
     public String getData(int lineNumber, int position) {
-        if (lineNumber < 0 || lineNumber > content.size() ||
+        if (lineNumber < 0 || lineNumber >= content.size() ||
                 position < 0 || position >= content.get(lineNumber).length) {
             return "";
         } else {

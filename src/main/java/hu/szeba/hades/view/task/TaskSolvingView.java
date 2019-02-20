@@ -1,6 +1,7 @@
 package hu.szeba.hades.view.task;
 
 import hu.szeba.hades.controller.task.TaskSolvingController;
+import hu.szeba.hades.meta.UltimateHelper;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.view.BaseView;
@@ -63,6 +64,7 @@ public class TaskSolvingView extends BaseView {
     private JMenuItem aboutMenuItem;
     private JMenuItem ultimateHelpMenuItem;
 
+    private UltimateHelper ultimateHelper;
     private LockedMenusWrapper lockedMenusWrapper;
     private boolean trackSourceChanges;
 
@@ -161,6 +163,8 @@ public class TaskSolvingView extends BaseView {
 
         helpMenu.add(ultimateHelpMenuItem);
         helpMenu.add(aboutMenuItem);
+
+        ultimateHelper = new UltimateHelper();
 
         lockedMenusWrapper = new LockedMenusWrapper(
                 newFileMenuItem,
@@ -316,13 +320,10 @@ public class TaskSolvingView extends BaseView {
         });
         // Ultimate help
         ultimateHelpMenuItem.addActionListener((event) -> {
-            Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-            if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
-                try {
-                    desktop.browse(URI.create("https://youtu.be/0EpIWybDPfI"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            try {
+                ultimateHelper.help();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
         // About
