@@ -146,8 +146,8 @@ public class TaskData {
 
     public List<InputResultPair> copyInputResultPairs() {
         List<InputResultPair> copy = new ArrayList<>();
-        for (InputResultPair sol : inputResultPairs) {
-            copy.add(new InputResultPair(sol));
+        for (InputResultPair irp : inputResultPairs) {
+            copy.add(new InputResultPair(irp));
         }
         return copy;
     }
