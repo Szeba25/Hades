@@ -57,6 +57,10 @@ public class Topic {
         return TaskFactoryDecider.decideFactory(language).getTask(taskName, taskDescriptions.get(taskName), continueTask);
     }
 
+    public boolean progressExists(String taskName) {
+        return new File(Options.getWorkingDirectoryPath(), "tasks/" + taskName).exists();
+    }
+
     public List<String> getTaskNames() {
         return taskNames;
     }
