@@ -16,6 +16,7 @@ public class TaskSelectorView extends BaseView {
     private TaskSelectorController taskSelectorController;
 
     private JPanel leftPanel;
+    private JPanel bottomPanel;
     private JPanel rightPanel;
 
     private JList<String> taskList;
@@ -43,6 +44,10 @@ public class TaskSelectorView extends BaseView {
         leftPanel.setLayout(new BorderLayout());
         leftPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
+        bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
+        bottomPanel.setBorder(new EmptyBorder(5, 0, 5, 5));
+
         rightPanel = new JPanel();
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         rightPanel.setBorder(new EmptyBorder(5, 0, 5, 5));
@@ -56,26 +61,29 @@ public class TaskSelectorView extends BaseView {
         taskListScroller.setBorder(BorderFactory.createEtchedBorder());
 
         descriptionArea = new JTextArea();
-        descriptionArea.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        descriptionArea.setAlignmentX(Component.CENTER_ALIGNMENT);
         descriptionArea.setEditable(false);
         descriptionArea.setBorder(BorderFactory.createEtchedBorder());
 
         startButton = new JButton("Start");
-        startButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         startButton.setFocusPainted(false);
         startButton.setMaximumSize(new Dimension(120, 30));
 
         continueButton = new JButton("Continue");
-        continueButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        continueButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         continueButton.setFocusPainted(false);
         continueButton.setMaximumSize(new Dimension(120, 30));
 
         leftPanel.add(taskListScroller);
 
+        bottomPanel.add(startButton);
+        bottomPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        bottomPanel.add(continueButton);
+
         rightPanel.add(descriptionArea);
         rightPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        rightPanel.add(startButton);
-        rightPanel.add(continueButton);
+        rightPanel.add(bottomPanel);
 
         this.getContentPane().add(leftPanel, BorderLayout.WEST);
         this.getContentPane().add(rightPanel, BorderLayout.CENTER);
