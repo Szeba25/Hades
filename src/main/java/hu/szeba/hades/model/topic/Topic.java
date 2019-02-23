@@ -3,6 +3,7 @@ package hu.szeba.hades.model.topic;
 import hu.szeba.hades.io.DescriptionXMLFile;
 import hu.szeba.hades.io.TaskGraphFile;
 import hu.szeba.hades.meta.Options;
+import hu.szeba.hades.meta.User;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.data.TaskDescription;
@@ -18,6 +19,7 @@ import java.util.*;
 
 public class Topic {
 
+    private User user;
     private File topicDirectory;
     private File topicWorkingDirectory;
     private String topicName;
@@ -29,7 +31,8 @@ public class Topic {
 
     private final String language;
 
-    public Topic(String courseName, String topicName, String language) throws IOException, ParserConfigurationException, SAXException {
+    public Topic(User user, String courseName, String topicName, String language) throws IOException, ParserConfigurationException, SAXException {
+        this.user = user;
         this.topicDirectory = new File(Options.getDatabasePath(),
                 "courses/" + courseName + "/" + topicName);
         this.topicWorkingDirectory = new File(Options.getWorkingDirectoryPath(),
@@ -61,7 +64,7 @@ public class Topic {
 
     public Task createTask(String taskId, boolean continueTask)
             throws InvalidLanguageException, IOException, MissingResultFileException {
-        return TaskFactoryDecider.decideFactory(language).getTask(taskId, taskDescriptions.get(taskId), continueTask);
+        return TaskFactoryDecider.decideFactory(language).getTask(user, taskId, taskDescriptions.get(taskId), continueTask);
     }
 
     public boolean progressExists(String taskId) {

@@ -1,5 +1,6 @@
 package hu.szeba.hades.model.topic;
 
+import hu.szeba.hades.meta.User;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -9,10 +10,12 @@ import java.util.Map;
 
 public class TopicCollection {
 
+    private User user;
     private String courseName;
     private Map<String, Topic> topics;
 
-    public TopicCollection(String courseName) {
+    public TopicCollection(User user, String courseName) {
+        this.user = user;
         this.courseName = courseName;
         topics = new HashMap<>();
     }
@@ -21,7 +24,7 @@ public class TopicCollection {
         if (topics.containsKey(topicName)) {
             return topics.get(topicName);
         } else {
-            Topic newTopic = new Topic(courseName, topicName, language);
+            Topic newTopic = new Topic(user, courseName, topicName, language);
             topics.put(topicName, newTopic);
             return newTopic;
         }

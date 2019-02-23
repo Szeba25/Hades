@@ -1,5 +1,6 @@
 package hu.szeba.hades.model.task.taskfactory;
 
+import hu.szeba.hades.meta.User;
 import hu.szeba.hades.model.compiler.ProgramCompiler;
 import hu.szeba.hades.model.compiler.ProgramCompilerC;
 import hu.szeba.hades.model.task.Task;
@@ -13,10 +14,12 @@ import java.io.IOException;
 public class TaskCFactory implements TaskFactory {
 
     @Override
-    public Task getTask(String taskId, TaskDescription taskDescription, boolean continueTask) throws IOException, MissingResultFileException {
+    public Task getTask(User user, String taskId, TaskDescription taskDescription, boolean continueTask)
+            throws IOException, MissingResultFileException {
+
         TaskData taskData = new TaskData(taskId, taskDescription, continueTask, "C", RSyntaxTextArea.SYNTAX_STYLE_C);
         ProgramCompiler programCompiler = new ProgramCompilerC();
-        return new Task(taskData, programCompiler, "C");
+        return new Task(user, taskData, programCompiler, "C");
     }
 
 }

@@ -1,6 +1,7 @@
 package hu.szeba.hades;
 
 import hu.szeba.hades.meta.Options;
+import hu.szeba.hades.meta.User;
 import hu.szeba.hades.model.course.Course;
 import hu.szeba.hades.model.course.CourseDatabase;
 import hu.szeba.hades.model.topic.Topic;
@@ -13,6 +14,7 @@ import java.io.IOException;
 
 public class Main {
 
+    private User user;
     private CourseDatabase courseDatabase;
     private Course course;
     private Topic topic;
@@ -21,7 +23,8 @@ public class Main {
     private Main() {
         try {
             Options.initialize();
-            courseDatabase = new CourseDatabase();
+            user = new User("C9CO8Q", "Pertic Szebasztián");
+            courseDatabase = new CourseDatabase(user);
             course = courseDatabase.loadCourse("programozas_1");
             topic = course.loadTopic("gyakorlas");
             taskSelectorView = new TaskSelectorView(topic);
