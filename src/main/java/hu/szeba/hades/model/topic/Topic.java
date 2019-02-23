@@ -53,9 +53,7 @@ public class Topic {
     }
 
     public Task createTask(String taskName, boolean continueTask)
-            throws InvalidLanguageException,
-                IOException,
-            MissingResultFileException {
+            throws InvalidLanguageException, IOException, MissingResultFileException {
         return TaskFactoryDecider.decideFactory(language).getTask(taskName, taskDescriptions.get(taskName), continueTask);
     }
 

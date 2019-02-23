@@ -94,7 +94,13 @@ public class TaskSelectorView extends BaseView {
     public void setupEvents() {
         startButton.addActionListener((event) -> {
             try {
-                taskSelectorController.loadNewTask(getSelectedTaskName(), this);
+                int option = JOptionPane.showConfirmDialog(new JFrame(),
+                        "This will delete all previous progress for this task. Continue?",
+                        "Start task from scratch...",
+                        JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    taskSelectorController.loadNewTask(getSelectedTaskName(), this);
+                }
             } catch (InvalidLanguageException | IOException | MissingResultFileException e) {
                 e.printStackTrace();
             }
