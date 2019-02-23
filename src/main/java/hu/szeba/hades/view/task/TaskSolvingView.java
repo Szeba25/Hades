@@ -263,6 +263,10 @@ public class TaskSolvingView extends BaseView {
         // Rename source file
         renameFileMenuItem.addActionListener((event) -> {
             // TODO: Make this functional...
+            JOptionPane.showMessageDialog(new JFrame(),
+                    "Not yet implemented :(",
+                    "Sad warning",
+                    JOptionPane.PLAIN_MESSAGE);
         });
         // Save all source files now!
         saveAllFileMenuItem.addActionListener((event) -> {
