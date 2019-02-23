@@ -22,10 +22,10 @@ public class Topic {
     private File topicWorkingDirectory;
     private String topicName;
     private AdjacencyMatrix taskMatrix;
-    private List<String> taskNames;
+    private List<String> taskIds;
     private Map<String, TaskDescription> taskDescriptions;
-    private Map<String, String> taskTitleToTaskName;
-    private Map<String, String> taskNameToTaskTitle;
+    private Map<String, String> taskTitleToTaskId;
+    private Map<String, String> taskIdToTaskTitle;
 
     private final String language;
 
@@ -37,51 +37,51 @@ public class Topic {
         this.topicName = topicName;
         this.language = language;
 
-        loadTaskNames();
+        loadTaskIds();
         loadTaskDescriptions();
     }
 
-    private void loadTaskNames() throws IOException {
+    private void loadTaskIds() throws IOException {
         TaskGraphFile taskGraphFile = new TaskGraphFile(new File(topicDirectory, "tasks.graph"));
         taskMatrix = new AdjacencyMatrix(taskGraphFile.getTuples());
-        taskNames = taskMatrix.getNodeNames();
+        taskIds = taskMatrix.getNodeNames();
     }
 
     private void loadTaskDescriptions() throws IOException, SAXException, ParserConfigurationException {
         DescriptionXMLFile descriptionFile = new DescriptionXMLFile(new File(topicDirectory, "descriptions.xml"));
         taskDescriptions = descriptionFile.parseTaskDescriptions();
         // Create mapping for both direction!
-        taskTitleToTaskName = new HashMap<>();
-        taskNameToTaskTitle = new HashMap<>();
+        taskTitleToTaskId = new HashMap<>();
+        taskIdToTaskTitle = new HashMap<>();
         for (TaskDescription description : taskDescriptions.values()) {
-            taskTitleToTaskName.put(description.getTaskTitle(), description.getTaskName());
-            taskNameToTaskTitle.put(description.getTaskName(), description.getTaskTitle());
+            taskTitleToTaskId.put(description.getTaskTitle(), description.getTaskId());
+            taskIdToTaskTitle.put(description.getTaskId(), description.getTaskTitle());
         }
     }
 
-    public Task createTask(String taskName, boolean continueTask)
+    public Task createTask(String taskId, boolean continueTask)
             throws InvalidLanguageException, IOException, MissingResultFileException {
-        return TaskFactoryDecider.decideFactory(language).getTask(taskName, taskDescriptions.get(taskName), continueTask);
+        return TaskFactoryDecider.decideFactory(language).getTask(taskId, taskDescriptions.get(taskId), continueTask);
     }
 
-    public boolean progressExists(String taskName) {
-        return new File(Options.getWorkingDirectoryPath(), "tasks/" + taskName).exists();
+    public boolean progressExists(String taskId) {
+        return new File(Options.getWorkingDirectoryPath(), "tasks/" + taskId).exists();
     }
 
-    public TaskDescription getTaskDescription(String taskName) {
-        return taskDescriptions.get(taskName);
+    public TaskDescription getTaskDescription(String taskId) {
+        return taskDescriptions.get(taskId);
     }
 
     public List<String> getTaskTitles() {
         List<String> taskTitles = new LinkedList<>();
-        for (String taskName : taskNames) {
-            taskTitles.add(taskDescriptions.get(taskName).getTaskTitle());
+        for (String taskId : taskIds) {
+            taskTitles.add(taskDescriptions.get(taskId).getTaskTitle());
         }
         return taskTitles;
     }
 
-    public String getTaskNameByTaskTitle(String taskTitle) {
-        return taskTitleToTaskName.get(taskTitle);
+    public String getTaskIdByTaskTitle(String taskTitle) {
+        return taskTitleToTaskId.get(taskTitle);
     }
 
 }

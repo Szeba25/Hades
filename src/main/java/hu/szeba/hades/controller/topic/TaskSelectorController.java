@@ -22,31 +22,32 @@ public class TaskSelectorController {
         taskList.setListData(topic.getTaskTitles().toArray(new String[0]));
     }
 
-    public void loadNewTask(String selectedTaskName,
+    public void loadNewTask(String selectedTaskId,
                             BaseView parentView) throws InvalidLanguageException, IOException, MissingResultFileException {
-        Task task = topic.createTask(selectedTaskName, false);
+        Task task = topic.createTask(selectedTaskId, false);
         parentView.hideView();
         TaskSolvingView taskSolvingView = new TaskSolvingView(parentView, task);
         taskSolvingView.showViewMaximized();
     }
 
-    public void continueTask(String selectedTaskName,
+    public void continueTask(String selectedTaskId,
                              BaseView parentView) throws InvalidLanguageException, IOException, MissingResultFileException {
-        Task task = topic.createTask(selectedTaskName, true);
+        Task task = topic.createTask(selectedTaskId, true);
         parentView.hideView();
         TaskSolvingView taskSolvingView = new TaskSolvingView(parentView, task);
         taskSolvingView.showViewMaximized();
     }
 
-    public void setTaskShortDescription(String taskName, JEditorPane descriptionArea) {
-        descriptionArea.setText(topic.getTaskDescription(taskName).getShortDescription());
+    public void setTaskShortDescription(String taskId, JEditorPane descriptionArea) {
+        descriptionArea.setText(topic.getTaskDescription(taskId).getShortDescription());
     }
 
-    public String getTaskNameByTaskTitle(String taskTitle) {
-        return topic.getTaskNameByTaskTitle(taskTitle);
+    public String getTaskIdByTaskTitle(String taskTitle) {
+        return topic.getTaskIdByTaskTitle(taskTitle);
     }
 
-    public boolean progressExists(String taskName) {
-        return topic.progressExists(taskName);
+    public boolean progressExists(String taskId) {
+        return topic.progressExists(taskId);
     }
+
 }

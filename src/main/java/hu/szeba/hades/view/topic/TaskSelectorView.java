@@ -61,7 +61,7 @@ public class TaskSelectorView extends BaseView {
         taskList.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                updateSelection(getSelectedTaskName());
+                updateSelection(getSelectedTaskId());
             }
         });
 
@@ -106,10 +106,10 @@ public class TaskSelectorView extends BaseView {
     public void setupEvents() {
         startButton.addActionListener((event) -> {
             try {
-                if (getSelectedTaskName() != null) {
+                if (getSelectedTaskId() != null) {
                     boolean newTrigger = false;
                     // If progress exists, prompt if overwrite it!
-                    if (taskSelectorController.progressExists(getSelectedTaskName())) {
+                    if (taskSelectorController.progressExists(getSelectedTaskId())) {
                         int option = JOptionPane.showConfirmDialog(new JFrame(),
                                 "This will delete all previous progress for this task. Continue?",
                                 "Start task from scratch...",
@@ -123,7 +123,7 @@ public class TaskSelectorView extends BaseView {
                     }
                     // Finally, if we should create a new task, do it.
                     if (newTrigger) {
-                        taskSelectorController.loadNewTask(getSelectedTaskName(), this);
+                        taskSelectorController.loadNewTask(getSelectedTaskId(), this);
                     }
                 }
             } catch (InvalidLanguageException | IOException | MissingResultFileException e) {
@@ -132,8 +132,8 @@ public class TaskSelectorView extends BaseView {
         });
         continueButton.addActionListener((event) -> {
             try {
-                if (getSelectedTaskName() != null) {
-                    taskSelectorController.continueTask(getSelectedTaskName(), this);
+                if (getSelectedTaskId() != null) {
+                    taskSelectorController.continueTask(getSelectedTaskId(), this);
                 }
             } catch (InvalidLanguageException | IOException | MissingResultFileException e) {
                 e.printStackTrace();
@@ -145,25 +145,25 @@ public class TaskSelectorView extends BaseView {
     public void showView() {
         super.showView();
         // Enable continue button when exiting from solving view!
-        updateSelection(getSelectedTaskName());
+        updateSelection(getSelectedTaskId());
     }
 
-    private void updateSelection(String taskName) {
-        if (taskName != null) {
+    private void updateSelection(String taskId) {
+        if (taskId != null) {
             startButton.setEnabled(true);
-            if (taskSelectorController.progressExists(taskName)) {
+            if (taskSelectorController.progressExists(taskId)) {
                 continueButton.setEnabled(true);
             } else {
                 continueButton.setEnabled(false);
             }
-            taskSelectorController.setTaskShortDescription(taskName, descriptionArea);
+            taskSelectorController.setTaskShortDescription(taskId, descriptionArea);
         } else {
             descriptionArea.setText("<h3>No task selected...</h3>");
         }
     }
 
-    private String getSelectedTaskName() {
-        return taskSelectorController.getTaskNameByTaskTitle(taskList.getSelectedValue());
+    private String getSelectedTaskId() {
+        return taskSelectorController.getTaskIdByTaskTitle(taskList.getSelectedValue());
     }
 
 }

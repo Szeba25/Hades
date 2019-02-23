@@ -8,6 +8,7 @@ import java.io.IOException;
 
 public interface TaskFactory {
 
-    Task getTask(String taskName, TaskDescription taskDescription, boolean continueTask) throws IOException, MissingResultFileException;
+    Task getTask(String taskId, TaskDescription taskDescription, boolean continueTask)
+            throws IOException, MissingResultFileException;
 
 }

@@ -13,8 +13,8 @@ import java.io.IOException;
 public class TaskCFactory implements TaskFactory {
 
     @Override
-    public Task getTask(String taskName, TaskDescription taskDescription, boolean continueTask) throws IOException, MissingResultFileException {
-        TaskData taskData = new TaskData(taskName, taskDescription, continueTask, "C", RSyntaxTextArea.SYNTAX_STYLE_C);
+    public Task getTask(String taskId, TaskDescription taskDescription, boolean continueTask) throws IOException, MissingResultFileException {
+        TaskData taskData = new TaskData(taskId, taskDescription, continueTask, "C", RSyntaxTextArea.SYNTAX_STYLE_C);
         ProgramCompiler programCompiler = new ProgramCompilerC();
         return new Task(taskData, programCompiler, "C");
     }

@@ -5,12 +5,10 @@ import hu.szeba.hades.model.task.program.ProgramInput;
 import hu.szeba.hades.model.task.result.Result;
 import hu.szeba.hades.util.FileUtilities;
 import org.apache.commons.io.FileUtils;
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.InvalidPathException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,7 +19,7 @@ public class TaskData {
     private File taskDirectory;
     private File taskWorkingDirectory;
 
-    private final String taskName;
+    private final String taskId;
     private final TaskDescription taskDescription;
     private final String language;
     private final String syntaxStyle;
@@ -29,13 +27,13 @@ public class TaskData {
     private List<InputResultPair> inputResultPairs;
     private List<SourceFile> sources;
 
-    public TaskData(String taskName,
+    public TaskData(String taskId,
                     TaskDescription taskDescription,
                     boolean continueTask,
                     String language,
                     String syntaxStyle) throws IOException, MissingResultFileException {
-        this.taskDirectory = getTaskDirectory(taskName);
-        this.taskWorkingDirectory = getTaskWorkingDirectory(taskName);
+        this.taskDirectory = getTaskDirectory(taskId);
+        this.taskWorkingDirectory = getTaskWorkingDirectory(taskId);
 
         // If not continuing task, but folder exists, delete everything first!
         if (!continueTask && taskWorkingDirectory.exists()) {
@@ -49,7 +47,7 @@ public class TaskData {
             FileUtils.copyDirectory(taskDirectory, taskWorkingDirectory);
         }
 
-        this.taskName = taskName;
+        this.taskId = taskId;
         this.taskDescription = taskDescription;
         this.language = language;
         this.syntaxStyle = syntaxStyle;
@@ -74,7 +72,7 @@ public class TaskData {
 
             if (!resultFile.exists()) {
                 inputResultPairs.clear();
-                throw new MissingResultFileException(taskName, inputFileName);
+                throw new MissingResultFileException(taskId, inputFileName);
             }
 
             ProgramInput programInput = new ProgramInput(inputFiles.get(i));
@@ -94,12 +92,12 @@ public class TaskData {
         }
     }
 
-    private File getTaskDirectory(String taskName) {
-        return new File(Options.getDatabasePath(), "tasks/" + taskName);
+    private File getTaskDirectory(String taskId) {
+        return new File(Options.getDatabasePath(), "tasks/" + taskId);
     }
 
-    private File getTaskWorkingDirectory(String taskName) {
-        return new File(Options.getWorkingDirectoryPath(), "tasks/" + taskName);
+    private File getTaskWorkingDirectory(String taskId) {
+        return new File(Options.getWorkingDirectoryPath(), "tasks/" + taskId);
     }
 
     public File getTaskDirectory() {
@@ -114,8 +112,8 @@ public class TaskData {
         return new File(taskWorkingDirectory.getAbsolutePath());
     }
 
-    public String getTaskName() {
-        return taskName;
+    public String getTaskId() {
+        return taskId;
     }
 
     public TaskDescription getTaskDescription() {
