@@ -125,6 +125,14 @@ public class TaskData {
         return new File(taskWorkingDirectory.getAbsolutePath());
     }
 
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public String getTopicName() {
+        return topicName;
+    }
+
     public String getTaskId() {
         return taskId;
     }

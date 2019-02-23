@@ -75,7 +75,7 @@ public class TaskSolvingView extends BaseView {
         this.controller = new TaskSolvingController(task);
         this.controller.setSourceList(this);
 
-        this.setTitle("Solving task: " + task.getData().getTaskId());
+        this.setTitle("Solving task: " + task.getData().getTaskDescription().getTaskTitle());
         this.runMenuItem.setEnabled(task.getCompilerOutputRegister().getCompilerOutput().isReady());
         this.stopMenuItem.setEnabled(false);
     }
