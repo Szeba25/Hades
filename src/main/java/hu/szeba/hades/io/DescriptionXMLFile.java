@@ -37,7 +37,7 @@ public class DescriptionXMLFile {
             Node node = nodeList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element element = (Element) node;
-                String taskName = element.getElementsByTagName("Task").item(0).getTextContent();
+                String taskName = element.getElementsByTagName("Name").item(0).getTextContent();
                 String title = element.getElementsByTagName("Title").item(0).getTextContent();
                 String shortDescription = element.getElementsByTagName("Short").item(0).getTextContent();
                 String longDescription = element.getElementsByTagName("Long").item(0).getTextContent();

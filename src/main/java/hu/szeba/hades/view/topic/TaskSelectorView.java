@@ -61,9 +61,7 @@ public class TaskSelectorView extends BaseView {
         taskList.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                JList list = (JList) e.getSource();
-                String taskName = (String) list.getSelectedValue();
-                updateSelection(taskName);
+                updateSelection(getSelectedTaskName());
             }
         });
 
@@ -165,7 +163,7 @@ public class TaskSelectorView extends BaseView {
     }
 
     private String getSelectedTaskName() {
-        return taskList.getSelectedValue();
+        return taskSelectorController.getTaskNameByTaskTitle(taskList.getSelectedValue());
     }
 
 }

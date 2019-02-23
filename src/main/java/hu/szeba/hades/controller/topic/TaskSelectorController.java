@@ -1,9 +1,9 @@
 package hu.szeba.hades.controller.topic;
 
-import hu.szeba.hades.model.task.data.MissingResultFileException;
-import hu.szeba.hades.model.topic.Topic;
 import hu.szeba.hades.model.task.Task;
+import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
+import hu.szeba.hades.model.topic.Topic;
 import hu.szeba.hades.view.BaseView;
 import hu.szeba.hades.view.task.TaskSolvingView;
 
@@ -19,7 +19,7 @@ public class TaskSelectorController {
     }
 
     public void setTaskListContents(JList<String> taskList) {
-        taskList.setListData(topic.getTaskNames().toArray(new String[0]));
+        taskList.setListData(topic.getTaskTitles().toArray(new String[0]));
     }
 
     public void loadNewTask(String selectedTaskName,
@@ -40,6 +40,10 @@ public class TaskSelectorController {
 
     public void setTaskShortDescription(String taskName, JEditorPane descriptionArea) {
         descriptionArea.setText(topic.getTaskDescription(taskName).getShortDescription());
+    }
+
+    public String getTaskNameByTaskTitle(String taskTitle) {
+        return topic.getTaskNameByTaskTitle(taskTitle);
     }
 
     public boolean progressExists(String taskName) {

@@ -14,8 +14,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Topic {
 
@@ -24,8 +23,9 @@ public class Topic {
     private String topicName;
     private AdjacencyMatrix taskMatrix;
     private List<String> taskNames;
-
     private Map<String, TaskDescription> taskDescriptions;
+    private Map<String, String> taskTitleToTaskName;
+    private Map<String, String> taskNameToTaskTitle;
 
     private final String language;
 
@@ -50,6 +50,13 @@ public class Topic {
     private void loadTaskDescriptions() throws IOException, SAXException, ParserConfigurationException {
         DescriptionXMLFile descriptionFile = new DescriptionXMLFile(new File(topicDirectory, "descriptions.xml"));
         taskDescriptions = descriptionFile.parseTaskDescriptions();
+        // Create mapping for both direction!
+        taskTitleToTaskName = new HashMap<>();
+        taskNameToTaskTitle = new HashMap<>();
+        for (TaskDescription description : taskDescriptions.values()) {
+            taskTitleToTaskName.put(description.getTaskTitle(), description.getTaskName());
+            taskNameToTaskTitle.put(description.getTaskName(), description.getTaskTitle());
+        }
     }
 
     public Task createTask(String taskName, boolean continueTask)
@@ -65,8 +72,16 @@ public class Topic {
         return taskDescriptions.get(taskName);
     }
 
-    public List<String> getTaskNames() {
-        return taskNames;
+    public List<String> getTaskTitles() {
+        List<String> taskTitles = new LinkedList<>();
+        for (String taskName : taskNames) {
+            taskTitles.add(taskDescriptions.get(taskName).getTaskTitle());
+        }
+        return taskTitles;
+    }
+
+    public String getTaskNameByTaskTitle(String taskTitle) {
+        return taskTitleToTaskName.get(taskTitle);
     }
 
 }
