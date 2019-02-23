@@ -18,11 +18,6 @@ public abstract class BaseView extends JFrame {
         this.setVisible(true);
     }
 
-    public void showView(BaseView parentView) {
-        this.setLocationRelativeTo(parentView);
-        this.setVisible(true);
-    }
-
     public void showViewMaximized() {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);

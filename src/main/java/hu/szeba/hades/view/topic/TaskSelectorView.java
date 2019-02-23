@@ -9,6 +9,8 @@ import hu.szeba.hades.view.BaseView;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class TaskSelectorView extends BaseView {
@@ -56,6 +58,15 @@ public class TaskSelectorView extends BaseView {
         taskList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         taskList.setFixedCellWidth(200);
 
+        taskList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                JList list = (JList) e.getSource();
+                String taskName = (String) list.getSelectedValue();
+                decideButtonStates(taskName);
+            }
+        });
+
         taskListScroller = new JScrollPane(taskList);
         taskListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         taskListScroller.setBorder(BorderFactory.createEtchedBorder());
@@ -69,11 +80,13 @@ public class TaskSelectorView extends BaseView {
         startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         startButton.setFocusPainted(false);
         startButton.setMaximumSize(new Dimension(120, 30));
+        startButton.setEnabled(false);
 
         continueButton = new JButton("Continue");
         continueButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         continueButton.setFocusPainted(false);
         continueButton.setMaximumSize(new Dimension(120, 30));
+        continueButton.setEnabled(false);
 
         leftPanel.add(taskListScroller);
 
@@ -94,12 +107,25 @@ public class TaskSelectorView extends BaseView {
     public void setupEvents() {
         startButton.addActionListener((event) -> {
             try {
-                int option = JOptionPane.showConfirmDialog(new JFrame(),
-                        "This will delete all previous progress for this task. Continue?",
-                        "Start task from scratch...",
-                        JOptionPane.YES_NO_OPTION);
-                if (option == JOptionPane.YES_OPTION) {
-                    taskSelectorController.loadNewTask(getSelectedTaskName(), this);
+                if (getSelectedTaskName() != null) {
+                    boolean newTrigger = false;
+                    // If progress exists, prompt if overwrite it!
+                    if (taskSelectorController.progressExists(getSelectedTaskName())) {
+                        int option = JOptionPane.showConfirmDialog(new JFrame(),
+                                "This will delete all previous progress for this task. Continue?",
+                                "Start task from scratch...",
+                                JOptionPane.YES_NO_OPTION);
+                        if (option == JOptionPane.YES_OPTION) {
+                            newTrigger = true;
+                        }
+                    } else {
+                        // There was no progress, we can overwrite it...
+                        newTrigger = true;
+                    }
+                    // Finally, if we should create a new task, do it.
+                    if (newTrigger) {
+                        taskSelectorController.loadNewTask(getSelectedTaskName(), this);
+                    }
                 }
             } catch (InvalidLanguageException | IOException | MissingResultFileException e) {
                 e.printStackTrace();
@@ -107,19 +133,35 @@ public class TaskSelectorView extends BaseView {
         });
         continueButton.addActionListener((event) -> {
             try {
-                taskSelectorController.continueTask(getSelectedTaskName(), this);
+                if (getSelectedTaskName() != null) {
+                    taskSelectorController.continueTask(getSelectedTaskName(), this);
+                }
             } catch (InvalidLanguageException | IOException | MissingResultFileException e) {
                 e.printStackTrace();
             }
         });
     }
 
-    private String getSelectedTaskName() {
-        if (taskList.getSelectedValue() != null) {
-            return taskList.getSelectedValue();
-        } else {
-            return null;
+    @Override
+    public void showView() {
+        super.showView();
+        // Enable continue button when exiting from solving view!
+        decideButtonStates(getSelectedTaskName());
+    }
+
+    private void decideButtonStates(String taskName) {
+        if (taskName != null) {
+            startButton.setEnabled(true);
+            if (taskSelectorController.progressExists(taskName)) {
+                continueButton.setEnabled(true);
+            } else {
+                continueButton.setEnabled(false);
+            }
         }
+    }
+
+    private String getSelectedTaskName() {
+        return taskList.getSelectedValue();
     }
 
 }

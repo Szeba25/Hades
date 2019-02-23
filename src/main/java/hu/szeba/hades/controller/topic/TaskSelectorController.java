@@ -24,21 +24,22 @@ public class TaskSelectorController {
 
     public void loadNewTask(String selectedTaskName,
                             BaseView parentView) throws InvalidLanguageException, IOException, MissingResultFileException {
-        if (selectedTaskName != null) {
-            Task task = topic.createTask(selectedTaskName, false);
-            parentView.hideView();
-            TaskSolvingView taskSolvingView = new TaskSolvingView(parentView, task);
-            taskSolvingView.showViewMaximized();
-        }
+        Task task = topic.createTask(selectedTaskName, false);
+        parentView.hideView();
+        TaskSolvingView taskSolvingView = new TaskSolvingView(parentView, task);
+        taskSolvingView.showViewMaximized();
     }
 
     public void continueTask(String selectedTaskName,
                              BaseView parentView) throws InvalidLanguageException, IOException, MissingResultFileException {
-        if (selectedTaskName != null) {
-            Task task = topic.createTask(selectedTaskName, true);
-            parentView.hideView();
-            TaskSolvingView taskSolvingView = new TaskSolvingView(parentView, task);
-            taskSolvingView.showViewMaximized();
-        }
+        Task task = topic.createTask(selectedTaskName, true);
+        parentView.hideView();
+        TaskSolvingView taskSolvingView = new TaskSolvingView(parentView, task);
+        taskSolvingView.showViewMaximized();
+
+    }
+
+    public boolean progressExists(String taskName) {
+        return topic.progressExists(taskName);
     }
 }
