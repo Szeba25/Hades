@@ -18,7 +18,7 @@ public class TaskSelectorView extends BaseView {
     private JPanel leftPanel;
     private JPanel rightPanel;
 
-    private JList taskList;
+    private JList<String> taskList;
     private JScrollPane taskListScroller;
 
     private JTextArea descriptionArea;
@@ -47,7 +47,7 @@ public class TaskSelectorView extends BaseView {
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         rightPanel.setBorder(new EmptyBorder(5, 0, 5, 5));
 
-        taskList = new JList();
+        taskList = new JList<>();
         taskList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         taskList.setFixedCellWidth(200);
 

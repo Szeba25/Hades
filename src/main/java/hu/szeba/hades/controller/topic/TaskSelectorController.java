@@ -18,8 +18,8 @@ public class TaskSelectorController {
         this.topic = topic;
     }
 
-    public void setTaskListContents(JList taskList) {
-        taskList.setListData(topic.getTaskNames().toArray());
+    public void setTaskListContents(JList<String> taskList) {
+        taskList.setListData(topic.getTaskNames().toArray(new String[0]));
     }
 
     public void loadNewTask(String selectedTaskName,
