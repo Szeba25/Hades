@@ -49,17 +49,19 @@ public class TaskData {
         this.taskDirectory = new File(Options.getDatabasePath(), "tasks/" + taskId);
         this.taskWorkingDirectory = new File(user.getUserWorkingDirectoryPath(), courseName + "/" + topicName + "/" + taskId);
 
-        // If not continuing task, but folder exists, delete everything first!
+        // If not continuing task, but folder exists, delete the folder first!
         if (!continueTask && taskWorkingDirectory.exists()) {
             System.out.println("Reset task!");
             FileUtils.deleteDirectory(taskWorkingDirectory);
         }
 
-        // Copy everything if directory does not exists...
+        // Copy everything if task directory does not exists...
         if (!taskWorkingDirectory.exists()) {
             System.out.println("Copy TaskData!");
-            FileUtils.forceMkdir(taskWorkingDirectory);
-            FileUtils.copyDirectory(taskDirectory, taskWorkingDirectory);
+            FileUtils.forceMkdir(new File(taskWorkingDirectory, "sources"));
+            FileUtils.copyDirectory(
+                    new File(taskDirectory, "sources"),
+                    new File(taskWorkingDirectory, "sources"));
         }
 
         this.taskDescription = taskDescription;
