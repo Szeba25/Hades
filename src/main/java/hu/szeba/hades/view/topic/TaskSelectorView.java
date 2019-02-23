@@ -102,7 +102,7 @@ public class TaskSelectorView extends BaseView {
 
     private String getSelectedTaskName() {
         if (taskList.getSelectedValue() != null) {
-            return taskList.getSelectedValue().toString();
+            return taskList.getSelectedValue();
         } else {
             return null;
         }
