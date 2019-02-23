@@ -1,6 +1,7 @@
 package hu.szeba.hades.model.task.data;
 
 import hu.szeba.hades.meta.Options;
+import hu.szeba.hades.meta.User;
 import hu.szeba.hades.model.task.program.ProgramInput;
 import hu.szeba.hades.model.task.result.Result;
 import hu.szeba.hades.util.FileUtilities;
@@ -16,9 +17,13 @@ import java.util.Map;
 
 public class TaskData {
 
+    private final User user;
+
     private File taskDirectory;
     private File taskWorkingDirectory;
 
+    private final String courseName;
+    private final String topicName;
     private final String taskId;
     private final TaskDescription taskDescription;
     private final String language;
@@ -27,13 +32,21 @@ public class TaskData {
     private List<InputResultPair> inputResultPairs;
     private List<SourceFile> sources;
 
-    public TaskData(String taskId,
+    public TaskData(User user,
+                    String courseName,
+                    String topicName,
+                    String taskId,
                     TaskDescription taskDescription,
                     boolean continueTask,
                     String language,
                     String syntaxStyle) throws IOException, MissingResultFileException {
+
+        this.user = user;
+        this.courseName = courseName;
+        this.topicName = topicName;
+
         this.taskDirectory = getTaskDirectory(taskId);
-        this.taskWorkingDirectory = getTaskWorkingDirectory(taskId);
+        this.taskWorkingDirectory = getTaskWorkingDirectory(courseName, topicName, taskId);
 
         // If not continuing task, but folder exists, delete everything first!
         if (!continueTask && taskWorkingDirectory.exists()) {
@@ -96,8 +109,8 @@ public class TaskData {
         return new File(Options.getDatabasePath(), "tasks/" + taskId);
     }
 
-    private File getTaskWorkingDirectory(String taskId) {
-        return new File(Options.getWorkingDirectoryPath(), "tasks/" + taskId);
+    private File getTaskWorkingDirectory(String courseName, String topicName, String taskId) {
+        return new File(user.getUserWorkingDirectoryPath(), courseName + "/" + topicName + "/" + taskId);
     }
 
     public File getTaskDirectory() {

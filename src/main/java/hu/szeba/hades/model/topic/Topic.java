@@ -20,9 +20,9 @@ import java.util.*;
 public class Topic {
 
     private User user;
-    private File topicDirectory;
-    private File topicWorkingDirectory;
+    private String courseName;
     private String topicName;
+    private File topicDirectory;
     private AdjacencyMatrix taskMatrix;
     private List<String> taskIds;
     private Map<String, TaskDescription> taskDescriptions;
@@ -33,11 +33,11 @@ public class Topic {
 
     public Topic(User user, String courseName, String topicName, String language) throws IOException, ParserConfigurationException, SAXException {
         this.user = user;
+        this.courseName = courseName;
+        this.topicName = topicName;
         this.topicDirectory = new File(Options.getDatabasePath(),
                 "courses/" + courseName + "/" + topicName);
-        this.topicWorkingDirectory = new File(Options.getWorkingDirectoryPath(),
-                "courses/" + courseName + "/" + topicName);
-        this.topicName = topicName;
+
         this.language = language;
 
         loadTaskIds();
@@ -64,11 +64,11 @@ public class Topic {
 
     public Task createTask(String taskId, boolean continueTask)
             throws InvalidLanguageException, IOException, MissingResultFileException {
-        return TaskFactoryDecider.decideFactory(language).getTask(user, taskId, taskDescriptions.get(taskId), continueTask);
+        return TaskFactoryDecider.decideFactory(language).getTask(user, courseName, topicName, taskId, taskDescriptions.get(taskId), continueTask);
     }
 
     public boolean progressExists(String taskId) {
-        return new File(Options.getWorkingDirectoryPath(), "tasks/" + taskId).exists();
+        return new File(user.getUserWorkingDirectoryPath(), courseName + "/" + topicName + "/" + taskId).exists();
     }
 
     public TaskDescription getTaskDescription(String taskId) {

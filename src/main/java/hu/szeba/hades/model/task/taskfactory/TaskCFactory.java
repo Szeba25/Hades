@@ -14,12 +14,14 @@ import java.io.IOException;
 public class TaskCFactory implements TaskFactory {
 
     @Override
-    public Task getTask(User user, String taskId, TaskDescription taskDescription, boolean continueTask)
+    public Task getTask(User user, String courseName, String topicName, String taskId,
+                        TaskDescription taskDescription, boolean continueTask)
             throws IOException, MissingResultFileException {
 
-        TaskData taskData = new TaskData(taskId, taskDescription, continueTask, "C", RSyntaxTextArea.SYNTAX_STYLE_C);
+        TaskData taskData = new TaskData(user, courseName, topicName, taskId, taskDescription, continueTask,
+                "C", RSyntaxTextArea.SYNTAX_STYLE_C);
         ProgramCompiler programCompiler = new ProgramCompilerC();
-        return new Task(user, taskData, programCompiler, "C");
+        return new Task(taskData, programCompiler, "C");
     }
 
 }

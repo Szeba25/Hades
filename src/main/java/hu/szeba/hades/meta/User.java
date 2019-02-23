@@ -9,14 +9,14 @@ public class User {
 
     private String id;
     private String name;
-    private File userWorkingDirectory;
+    private File userWorkingDirectoryPath;
 
     public User(String id, String name) throws IOException {
         this.id = id;
         this.name = name;
-        userWorkingDirectory = new File(Options.getWorkingDirectoryPath(), id);
-        if (!userWorkingDirectory.exists()) {
-            FileUtils.forceMkdir(userWorkingDirectory);
+        userWorkingDirectoryPath = new File(Options.getWorkingDirectoryPath(), id);
+        if (!userWorkingDirectoryPath.exists()) {
+            FileUtils.forceMkdir(userWorkingDirectoryPath);
         }
     }
 
@@ -28,8 +28,8 @@ public class User {
         return name;
     }
 
-    public File getUserWorkingDirectory() {
-        return userWorkingDirectory;
+    public File getUserWorkingDirectoryPath() {
+        return userWorkingDirectoryPath;
     }
 
 }
