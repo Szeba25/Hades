@@ -55,12 +55,12 @@ public class TaskData {
             FileUtils.deleteDirectory(taskWorkingDirectory);
         }
 
-        // Copy everything if task directory does not exists...
+        // Copy sources if task directory does not exists...
         if (!taskWorkingDirectory.exists()) {
             System.out.println("Copy TaskData!");
             FileUtils.forceMkdir(new File(taskWorkingDirectory, "sources"));
             FileUtils.copyDirectory(
-                    new File(taskDirectory, "sources"),
+                    new File(taskDirectory, "sources/" + language),
                     new File(taskWorkingDirectory, "sources"));
         }
 
@@ -102,7 +102,7 @@ public class TaskData {
 
     private void makeSources() throws IOException {
         List<File> sourceFiles = new LinkedList<>(FileUtils.listFiles(
-                new File(taskWorkingDirectory, "sources/" + language),
+                new File(taskWorkingDirectory, "sources"),
                 null,
                 false));
         for (File sourceFile : sourceFiles) {
@@ -140,6 +140,10 @@ public class TaskData {
 
     public TaskDescription getTaskDescription() {
         return taskDescription;
+    }
+
+    public String getLanguage() {
+        return language;
     }
 
     public String getSyntaxStyle() {
@@ -183,7 +187,7 @@ public class TaskData {
     public String[] copySourceNamesWithPath() {
         String[] src = new String[sources.size()];
         for (int i = 0; i < sources.size(); i++) {
-            src[i] = "sources/" + language + "/" + sources.get(i).getName();
+            src[i] = "sources/" + sources.get(i).getName();
         }
         return src;
     }
@@ -208,7 +212,7 @@ public class TaskData {
                 return null;
             }
         }
-        SourceFile source = new SourceFile(new File(taskWorkingDirectory + "/sources/" + language + "/" + name));
+        SourceFile source = new SourceFile(new File(taskWorkingDirectory + "/sources/" + name));
         source.save();
 
         // Add the source file if its path is valid!
