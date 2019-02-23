@@ -36,7 +36,10 @@ public class TaskSelectorController {
         parentView.hideView();
         TaskSolvingView taskSolvingView = new TaskSolvingView(parentView, task);
         taskSolvingView.showViewMaximized();
+    }
 
+    public void setTaskShortDescription(String taskName, JEditorPane descriptionArea) {
+        descriptionArea.setText(topic.getTaskDescription(taskName).getShortDescription());
     }
 
     public boolean progressExists(String taskName) {

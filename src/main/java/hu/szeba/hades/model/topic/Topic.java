@@ -61,6 +61,10 @@ public class Topic {
         return new File(Options.getWorkingDirectoryPath(), "tasks/" + taskName).exists();
     }
 
+    public TaskDescription getTaskDescription(String taskName) {
+        return taskDescriptions.get(taskName);
+    }
+
     public List<String> getTaskNames() {
         return taskNames;
     }

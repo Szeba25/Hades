@@ -24,7 +24,7 @@ public class TaskSelectorView extends BaseView {
     private JList<String> taskList;
     private JScrollPane taskListScroller;
 
-    private JTextArea descriptionArea;
+    private JEditorPane descriptionArea;
     private JButton startButton;
     private JButton continueButton;
 
@@ -63,7 +63,7 @@ public class TaskSelectorView extends BaseView {
             public void mousePressed(MouseEvent e) {
                 JList list = (JList) e.getSource();
                 String taskName = (String) list.getSelectedValue();
-                decideButtonStates(taskName);
+                updateSelection(taskName);
             }
         });
 
@@ -71,8 +71,9 @@ public class TaskSelectorView extends BaseView {
         taskListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         taskListScroller.setBorder(BorderFactory.createEtchedBorder());
 
-        descriptionArea = new JTextArea();
+        descriptionArea = new JEditorPane();
         descriptionArea.setAlignmentX(Component.CENTER_ALIGNMENT);
+        descriptionArea.setContentType("text/html");
         descriptionArea.setEditable(false);
         descriptionArea.setBorder(BorderFactory.createEtchedBorder());
 
@@ -146,10 +147,10 @@ public class TaskSelectorView extends BaseView {
     public void showView() {
         super.showView();
         // Enable continue button when exiting from solving view!
-        decideButtonStates(getSelectedTaskName());
+        updateSelection(getSelectedTaskName());
     }
 
-    private void decideButtonStates(String taskName) {
+    private void updateSelection(String taskName) {
         if (taskName != null) {
             startButton.setEnabled(true);
             if (taskSelectorController.progressExists(taskName)) {
@@ -157,6 +158,9 @@ public class TaskSelectorView extends BaseView {
             } else {
                 continueButton.setEnabled(false);
             }
+            taskSelectorController.setTaskShortDescription(taskName, descriptionArea);
+        } else {
+            descriptionArea.setText("<h3>No task selected...</h3>");
         }
     }
 
