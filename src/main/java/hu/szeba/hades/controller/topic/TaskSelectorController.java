@@ -47,7 +47,7 @@ public class TaskSelectorController {
     }
 
     public boolean progressExists(String taskId) {
-        return topic.progressExists(taskId);
+        return topic.progressExistsForTask(taskId);
     }
 
 }

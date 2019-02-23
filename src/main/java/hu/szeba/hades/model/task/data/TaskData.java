@@ -18,13 +18,13 @@ import java.util.Map;
 public class TaskData {
 
     private final User user;
-
-    private File taskDirectory;
-    private File taskWorkingDirectory;
-
     private final String courseName;
     private final String topicName;
     private final String taskId;
+
+    private final File taskDirectory;
+    private final File taskWorkingDirectory;
+
     private final TaskDescription taskDescription;
     private final String language;
     private final String syntaxStyle;
@@ -44,15 +44,17 @@ public class TaskData {
         this.user = user;
         this.courseName = courseName;
         this.topicName = topicName;
+        this.taskId = taskId;
 
-        this.taskDirectory = getTaskDirectory(taskId);
-        this.taskWorkingDirectory = getTaskWorkingDirectory(courseName, topicName, taskId);
+        this.taskDirectory = new File(Options.getDatabasePath(), "tasks/" + taskId);
+        this.taskWorkingDirectory = new File(user.getUserWorkingDirectoryPath(), courseName + "/" + topicName + "/" + taskId);
 
         // If not continuing task, but folder exists, delete everything first!
         if (!continueTask && taskWorkingDirectory.exists()) {
             System.out.println("Reset task!");
             FileUtils.deleteDirectory(taskWorkingDirectory);
         }
+
         // Copy everything if directory does not exists...
         if (!taskWorkingDirectory.exists()) {
             System.out.println("Copy TaskData!");
@@ -60,12 +62,13 @@ public class TaskData {
             FileUtils.copyDirectory(taskDirectory, taskWorkingDirectory);
         }
 
-        this.taskId = taskId;
         this.taskDescription = taskDescription;
         this.language = language;
         this.syntaxStyle = syntaxStyle;
+
         inputResultPairs = new ArrayList<>();
         sources = new ArrayList<>();
+
         makeInputResultPairs();
         makeSources();
     }
@@ -105,12 +108,8 @@ public class TaskData {
         }
     }
 
-    private File getTaskDirectory(String taskId) {
-        return new File(Options.getDatabasePath(), "tasks/" + taskId);
-    }
-
-    private File getTaskWorkingDirectory(String courseName, String topicName, String taskId) {
-        return new File(user.getUserWorkingDirectoryPath(), courseName + "/" + topicName + "/" + taskId);
+    public User getUser() {
+        return user;
     }
 
     public File getTaskDirectory() {

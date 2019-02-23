@@ -32,4 +32,8 @@ public class User {
         return userWorkingDirectoryPath;
     }
 
+    public boolean progressExistsForTask(String courseName, String topicName, String taskId) {
+        return new File(userWorkingDirectoryPath, courseName + "/" + topicName + "/" + taskId).exists();
+    }
+
 }

@@ -35,9 +35,7 @@ public class Topic {
         this.user = user;
         this.courseName = courseName;
         this.topicName = topicName;
-        this.topicDirectory = new File(Options.getDatabasePath(),
-                "courses/" + courseName + "/" + topicName);
-
+        this.topicDirectory = new File(Options.getDatabasePath(), "courses/" + courseName + "/" + topicName);
         this.language = language;
 
         loadTaskIds();
@@ -67,8 +65,8 @@ public class Topic {
         return TaskFactoryDecider.decideFactory(language).getTask(user, courseName, topicName, taskId, taskDescriptions.get(taskId), continueTask);
     }
 
-    public boolean progressExists(String taskId) {
-        return new File(user.getUserWorkingDirectoryPath(), courseName + "/" + topicName + "/" + taskId).exists();
+    public boolean progressExistsForTask(String taskId) {
+        return user.progressExistsForTask(courseName, topicName, taskId);
     }
 
     public TaskDescription getTaskDescription(String taskId) {
