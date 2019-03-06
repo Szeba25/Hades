@@ -15,9 +15,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class TaskSolvingView extends BaseView {
 
@@ -352,12 +351,15 @@ public class TaskSolvingView extends BaseView {
     public void addSourceFile(String name, String syntaxStyle) {
         addCodeArea(name, syntaxStyle);
         if (!fileListModel.contains(name)) {
+            // Add the new element
             fileListModel.addElement(name);
-            fileList.setSelectedIndex(0);
-        } else {
-            // Select the last tab component, as a new area was added!
-            codeTab.setSelectedIndex(codeTab.getTabCount() - 1);
+            // Sort the file list
+            sortFileList();
         }
+        // Select this element in the list!
+        fileList.setSelectedIndex(fileListModel.indexOf(name));
+        // Select the last tab component, as a new area was added!
+        codeTab.setSelectedIndex(codeTab.getTabCount() - 1);
     }
 
     public void setSourceList(String[] sourceList, String syntaxStyle) {
@@ -365,7 +367,17 @@ public class TaskSolvingView extends BaseView {
             fileListModel.addElement(src);
             addCodeArea(src, syntaxStyle);
         }
+        sortFileList();
         fileList.setSelectedIndex(0);
+    }
+
+    private void sortFileList() {
+        List<String> list = Collections.list(fileListModel.elements());
+        Collections.sort(list);
+        fileListModel.clear();
+        for (String added : list) {
+            fileListModel.addElement(added);
+        }
     }
 
     @Deprecated
