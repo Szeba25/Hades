@@ -249,6 +249,7 @@ public class TaskSolvingView extends BaseView {
                         codeTabByName.remove(selectedSourceName);
                         // Delete from list!
                         fileListModel.removeElement(selectedSourceName);
+                        fileList.setSelectedIndex(0);
                     } catch (IOException e) {
                         JOptionPane.showMessageDialog(new JFrame(), "Unable to delete source file: " + e.getMessage());
                     }
