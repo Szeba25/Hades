@@ -399,14 +399,20 @@ public class TaskSolvingView extends BaseView {
 
     private void addCodeArea(String name, boolean readonly, String syntaxStyle) {
         RSyntaxTextArea codeTabArea = new RSyntaxTextArea();
-        codeTabArea.setTabSize(4);
-        codeTabArea.setAutoIndentEnabled(true);
-        codeTabArea.setCodeFoldingEnabled(true);
-        codeTabArea.setSyntaxEditingStyle(syntaxStyle);
-        codeTabArea.setCurrentLineHighlightColor(new Color(10, 30, 140, 50));
         codeTabArea.setEditable(!readonly);
-
+        codeTabArea.setTabSize(4);
+        codeTabArea.setSyntaxEditingStyle(syntaxStyle);
         codeTabArea.setFont(monoFont);
+        if (!readonly) {
+            codeTabArea.setAutoIndentEnabled(true);
+            codeTabArea.setCodeFoldingEnabled(true);
+            codeTabArea.setCurrentLineHighlightColor(new Color(10, 30, 140, 35));
+        } else {
+            codeTabArea.setCurrentLineHighlightColor(new Color(0, 0, 0, 0));
+            codeTabArea.setBracketMatchingEnabled(false);
+            codeTabArea.setPaintMatchedBracketPair(false);
+            codeTabArea.setBackground(new Color(245, 245, 245, 255));
+        }
 
         RTextScrollPane codeTabScroll = new RTextScrollPane(codeTabArea);
         codeTabScroll.setLineNumbersEnabled(true);
