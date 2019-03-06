@@ -1,5 +1,6 @@
 package hu.szeba.hades.model.task.data;
 
+import hu.szeba.hades.io.TabbedFile;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.meta.User;
 import hu.szeba.hades.model.task.program.ProgramInput;
@@ -10,10 +11,7 @@ import org.apache.commons.io.FileUtils;
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TaskData {
 
@@ -30,6 +28,7 @@ public class TaskData {
     private final String syntaxStyle;
 
     private List<InputResultPair> inputResultPairs;
+    private Set<String> readonlySources;
     private List<SourceFile> sources;
 
     public TaskData(User user,
@@ -69,6 +68,7 @@ public class TaskData {
         this.syntaxStyle = syntaxStyle;
 
         inputResultPairs = new ArrayList<>();
+        readonlySources = new HashSet<>();
         sources = new ArrayList<>();
 
         makeInputResultPairs();
@@ -101,12 +101,19 @@ public class TaskData {
     }
 
     private void makeSources() throws IOException {
+        TabbedFile file = new TabbedFile(new File(taskDirectory, "sources/.meta/readonly_" + language + ".txt"));
+        for (int i = 0; i < file.getLineCount(); i++) {
+            readonlySources.add(file.getData(i, 0));
+        }
+
         List<File> sourceFiles = new LinkedList<>(FileUtils.listFiles(
                 new File(taskWorkingDirectory, "sources"),
                 null,
                 false));
         for (File sourceFile : sourceFiles) {
-            sources.add(new SourceFile(sourceFile));
+            sources.add(new SourceFile(
+                    sourceFile,
+                    readonlySources.contains(sourceFile.getName())));
         }
     }
 
@@ -173,7 +180,7 @@ public class TaskData {
 
     public void deleteSourceByName(String name) throws IOException {
         for (int i = sources.size()-1; i >= 0; i--) {
-            if (sources.get(i).getName().equals(name)) {
+            if (sources.get(i).getName().equals(name) && !sources.get(i).isReadonly()) {
                 sources.remove(i).delete();
                 break;
             }
@@ -200,6 +207,10 @@ public class TaskData {
         return src;
     }
 
+    public Set<String> copyReadonlySources() {
+        return new HashSet<>(readonlySources);
+    }
+
     public void saveSources() throws IOException {
         for (SourceFile sourceFile : sources) {
             sourceFile.save();
@@ -212,7 +223,9 @@ public class TaskData {
                 return null;
             }
         }
-        SourceFile source = new SourceFile(new File(taskWorkingDirectory + "/sources/" + name));
+        SourceFile source = new SourceFile(
+                new File(taskWorkingDirectory + "/sources/" + name),
+                readonlySources.contains(name));
         source.save();
 
         // Add the source file if its path is valid!

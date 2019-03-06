@@ -27,7 +27,7 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
     public void setSourceList(TaskSolvingView taskSolvingView) {
         TaskData data = task.getData();
         taskSolvingView.setTaskInstructions(data.getTaskDescription().getLongDescription());
-        taskSolvingView.setSourceList(data.copySourceNames(), data.getSyntaxStyle());
+        taskSolvingView.setSourceList(data.copySourceNames(), data.copyReadonlySources(), data.getSyntaxStyle());
         taskSolvingView.setCodeAreaContents(data.getSources());
     }
 
@@ -114,7 +114,7 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
             SourceFile src = task.getData().addSource(name);
             if (src != null) {
                 // Add the file!
-                taskSolvingView.addSourceFile(name, task.getData().getSyntaxStyle());
+                taskSolvingView.addSourceFile(name, src.isReadonly(), task.getData().getSyntaxStyle());
             }
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "Source file already exists!");
@@ -131,13 +131,17 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
 
     public void openExistingSourceFile(String name, TaskSolvingView taskSolvingView) {
         SourceFile src = task.getData().getSourceByName(name);
-        taskSolvingView.addSourceFile(name, task.getData().getSyntaxStyle());
+        taskSolvingView.addSourceFile(name, src.isReadonly(), task.getData().getSyntaxStyle());
         taskSolvingView.setCodeAreaContent(name, src.getData());
     }
 
     public void saveSourceContents(Map<String, JTextArea> codeAreas) throws IOException {
         task.getData().setSourceContents(codeAreas);
         task.getData().saveSources();
+    }
+
+    public boolean isSourceReadonly(String name) {
+        return task.getData().getSourceByName(name).isReadonly();
     }
 
     public void deleteSourceFile(String name) throws IOException {

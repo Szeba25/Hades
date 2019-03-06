@@ -231,6 +231,8 @@ public class TaskSolvingView extends BaseView {
             String selectedSourceName = fileList.getSelectedValue();
             if (selectedSourceName == null) {
                 JOptionPane.showMessageDialog(new JFrame(), "Please select a source file from the list!");
+            } else if(controller.isSourceReadonly(selectedSourceName)) {
+                JOptionPane.showMessageDialog(new JFrame(), "This source is readonly!");
             } else {
                 int result = JOptionPane.showConfirmDialog(new JFrame(), "Delete source file: " + selectedSourceName + "?",
                         "Delete source file", JOptionPane.YES_NO_OPTION);
@@ -348,8 +350,8 @@ public class TaskSolvingView extends BaseView {
         codeTabByName.get(name).setText(data);
     }
 
-    public void addSourceFile(String name, String syntaxStyle) {
-        addCodeArea(name, syntaxStyle);
+    public void addSourceFile(String name, boolean readonly, String syntaxStyle) {
+        addCodeArea(name, readonly, syntaxStyle);
         if (!fileListModel.contains(name)) {
             // Add the new element
             fileListModel.addElement(name);
@@ -362,10 +364,10 @@ public class TaskSolvingView extends BaseView {
         codeTab.setSelectedIndex(codeTab.getTabCount() - 1);
     }
 
-    public void setSourceList(String[] sourceList, String syntaxStyle) {
+    public void setSourceList(String[] sourceList, Set<String> readonlySources, String syntaxStyle) {
         for (String src : sourceList) {
             fileListModel.addElement(src);
-            addCodeArea(src, syntaxStyle);
+            addCodeArea(src, readonlySources.contains(src), syntaxStyle);
         }
         sortFileList();
         fileList.setSelectedIndex(0);
@@ -381,10 +383,12 @@ public class TaskSolvingView extends BaseView {
     }
 
     @Deprecated
-    private void addSimpleCodeArea(String name, String syntaxStyle) {
+    private void addSimpleCodeArea(String name, boolean readonly) {
         JTextArea codeTabArea = new JTextArea();
         codeTabArea.setTabSize(4);
         codeTabArea.setFont(monoFont);
+        codeTabArea.setEditable(readonly);
+
         JScrollPane codeTabScroll = new JScrollPane(codeTabArea);
 
         codeTab.add(name, codeTabScroll);
@@ -393,13 +397,14 @@ public class TaskSolvingView extends BaseView {
         codeTabByName.put(name, codeTabArea);
     }
 
-    private void addCodeArea(String name, String syntaxStyle) {
+    private void addCodeArea(String name, boolean readonly, String syntaxStyle) {
         RSyntaxTextArea codeTabArea = new RSyntaxTextArea();
         codeTabArea.setTabSize(4);
         codeTabArea.setAutoIndentEnabled(true);
         codeTabArea.setCodeFoldingEnabled(true);
         codeTabArea.setSyntaxEditingStyle(syntaxStyle);
         codeTabArea.setCurrentLineHighlightColor(new Color(10, 30, 140, 50));
+        codeTabArea.setEditable(!readonly);
 
         codeTabArea.setFont(monoFont);
 
