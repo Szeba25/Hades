@@ -65,7 +65,6 @@ public class TaskSolvingView extends BaseView {
 
     private UltimateHelper ultimateHelper;
     private LockedMenusWrapper lockedMenusWrapper;
-    private boolean trackSourceChanges;
 
     public TaskSolvingView(BaseView parentView, Task task) {
         super();
@@ -174,8 +173,6 @@ public class TaskSolvingView extends BaseView {
                 buildAndRunMenuItem,
                 runMenuItem,
                 stopMenuItem);
-
-        trackSourceChanges = false;
 
         menuBar.add(fileMenu);
         menuBar.add(buildMenu);
