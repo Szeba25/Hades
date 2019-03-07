@@ -1,5 +1,7 @@
 package hu.szeba.hades.controller.task;
 
+import hu.szeba.hades.meta.TaskSolverAgent;
+import hu.szeba.hades.meta.User;
 import hu.szeba.hades.model.task.data.InputResultPair;
 import hu.szeba.hades.model.task.program.Program;
 import hu.szeba.hades.model.task.result.Result;
@@ -12,15 +14,21 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TaskRunnerWork implements Work {
 
+    private TaskSolverAgent agent;
+    private String taskIdentifierString;
     private Program program;
     private List<InputResultPair> inputResultPairs;
     private int maxByteCount;
     private AtomicBoolean stopFlag;
 
-    public TaskRunnerWork(Program program,
+    public TaskRunnerWork(TaskSolverAgent agent,
+                          String taskIdentifierString,
+                          Program program,
                           List<InputResultPair> inputResultPairs,
                           int maxByteCount,
                           AtomicBoolean stopFlag) {
+        this.agent = agent;
+        this.taskIdentifierString = taskIdentifierString;
         this.program = program;
         this.inputResultPairs = inputResultPairs;
         this.maxByteCount = maxByteCount;
@@ -66,6 +74,15 @@ public class TaskRunnerWork implements Work {
                     publisher.customPublish("\n");
                 }
             }
+        }
+
+        if (agent.isTaskCompleted(taskIdentifierString)) {
+            publisher.customPublish("#> Task was already completed... (" + matcher.getAllDifferencesCount() + " differences)\n\n");
+        } else if (matcher.getAllDifferencesCount() == 0) {
+            agent.markTaskAsCompleted(taskIdentifierString);
+            publisher.customPublish("#> Task successfully COMPLETED! (0 errors)\n\n");
+        } else {
+            publisher.customPublish("~> There were a total of " + matcher.getAllDifferencesCount() + " differences!\n\n");
         }
 
         publisher.customPublish("... End of running!");

@@ -1,5 +1,6 @@
 package hu.szeba.hades.controller.task;
 
+import hu.szeba.hades.meta.TaskSolverAgent;
 import hu.szeba.hades.model.task.data.InputResultPair;
 import hu.szeba.hades.model.task.program.Program;
 import hu.szeba.hades.view.task.LockedMenusWrapper;
@@ -12,6 +13,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TaskRunnerThread extends SwingWorker<Integer, String> implements Publisher {
 
+    private TaskSolverAgent agent;
+    private String taskIdentifierString;
     private Program program;
     private List<InputResultPair> inputResultPairs;
     private int maxByteCount;
@@ -20,12 +23,16 @@ public class TaskRunnerThread extends SwingWorker<Integer, String> implements Pu
     private LockedMenusWrapper lockedMenusWrapper;
     private TerminalArea terminalArea;
 
-    public TaskRunnerThread(Program program,
+    public TaskRunnerThread(TaskSolverAgent agent,
+                            String taskIdentifierString,
+                            Program program,
                             List<InputResultPair> inputResultPairs,
                             int maxByteCount,
                             AtomicBoolean stopFlag,
                             LockedMenusWrapper lockedMenusWrapper,
                             TerminalArea terminalArea) {
+        this.agent = agent;
+        this.taskIdentifierString = taskIdentifierString;
         this.program = program;
         this.inputResultPairs = inputResultPairs;
         this.maxByteCount = maxByteCount;
@@ -42,7 +49,7 @@ public class TaskRunnerThread extends SwingWorker<Integer, String> implements Pu
 
     @Override
     protected Integer doInBackground() throws IOException, InterruptedException {
-        TaskRunnerWork taskRunnerWork = new TaskRunnerWork(program, inputResultPairs, maxByteCount, stopFlag);
+        TaskRunnerWork taskRunnerWork = new TaskRunnerWork(agent, taskIdentifierString, program, inputResultPairs, maxByteCount, stopFlag);
         taskRunnerWork.execute(this);
         return 0;
     }

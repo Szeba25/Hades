@@ -1,5 +1,6 @@
 package hu.szeba.hades.controller.task;
 
+import hu.szeba.hades.meta.TaskSolverAgent;
 import hu.szeba.hades.model.compiler.CompilerOutput;
 import hu.szeba.hades.model.compiler.ProgramCompiler;
 import hu.szeba.hades.model.task.CompilerOutputRegister;
@@ -14,6 +15,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TaskCompilerAndRunnerThread extends SwingWorker<Integer, String> implements Publisher {
 
+    private TaskSolverAgent agent;
+    private String taskIdentifierString;
     private ProgramCompiler compiler;
     private String[] sources;
     private File path;
@@ -25,7 +28,9 @@ public class TaskCompilerAndRunnerThread extends SwingWorker<Integer, String> im
     private TerminalArea terminalArea;
     private CompilerOutputRegister register;
 
-    public TaskCompilerAndRunnerThread(ProgramCompiler compiler,
+    public TaskCompilerAndRunnerThread(TaskSolverAgent agent,
+                                       String taskIdentifierString,
+                                       ProgramCompiler compiler,
                                        String[] sources,
                                        File path,
                                        List<InputResultPair> inputResultPairs,
@@ -34,6 +39,8 @@ public class TaskCompilerAndRunnerThread extends SwingWorker<Integer, String> im
                                        LockedMenusWrapper lockedMenusWrapper,
                                        TerminalArea terminalArea,
                                        CompilerOutputRegister register) {
+        this.agent = agent;
+        this.taskIdentifierString = taskIdentifierString;
         this.compiler = compiler;
         this.sources = sources;
         this.path = path;
@@ -60,7 +67,9 @@ public class TaskCompilerAndRunnerThread extends SwingWorker<Integer, String> im
         // Run only if output is ready!
         if (output.isReady()) {
             publish("\n"); // To separate the two runs!
-            TaskRunnerWork taskRunnerWork = new TaskRunnerWork(output.getProgram(), inputResultPairs, maxByteCount, stopFlag);
+            TaskRunnerWork taskRunnerWork =
+                    new TaskRunnerWork(agent, taskIdentifierString, output.getProgram(),
+                            inputResultPairs, maxByteCount, stopFlag);
             taskRunnerWork.execute(this);
         }
 

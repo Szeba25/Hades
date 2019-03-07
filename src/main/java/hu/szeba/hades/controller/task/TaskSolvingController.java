@@ -7,7 +7,6 @@ import hu.szeba.hades.model.task.data.TaskData;
 import hu.szeba.hades.view.task.LockedMenusWrapper;
 import hu.szeba.hades.view.task.TaskSolvingView;
 import hu.szeba.hades.view.task.TerminalArea;
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -69,6 +68,8 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
 
         // Start a worker thread to compile the task!
         TaskCompilerAndRunnerThread taskCompilerAndRunnerThread = new TaskCompilerAndRunnerThread(
+                data.getUser(),
+                data.getTaskIdentifierString(),
                 task.getProgramCompiler(),
                 data.copySourceNamesWithPath(),
                 data.copyTaskWorkingDirectory(),
@@ -93,6 +94,8 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
 
         // Start a worker thread to run the task!
         TaskRunnerThread taskRunnerThread = new TaskRunnerThread(
+                data.getUser(),
+                data.getTaskIdentifierString(),
                 task.getCompilerOutputRegister().getCompilerOutput().getProgram(),
                 data.copyInputResultPairs(),
                 Options.getConfigIntData("max_stream_byte_count"),

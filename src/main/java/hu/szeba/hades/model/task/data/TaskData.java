@@ -145,6 +145,10 @@ public class TaskData {
         return taskId;
     }
 
+    public String getTaskIdentifierString() {
+        return courseName + "/" + topicName + "/" + taskId;
+    }
+
     public TaskDescription getTaskDescription() {
         return taskDescription;
     }

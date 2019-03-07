@@ -5,9 +5,11 @@ import java.util.List;
 
 public class ResultMatcher {
 
+    private int allDifferencesCount;
     private List<ResultDifference> differences;
 
     public ResultMatcher() {
+        allDifferencesCount = 0;
         differences = new LinkedList<>();
     }
 
@@ -39,6 +41,8 @@ public class ResultMatcher {
                 }
             }
         }
+
+        allDifferencesCount += differences.size();
     }
 
     public ResultDifference getDifference(int index) {
@@ -47,6 +51,10 @@ public class ResultMatcher {
 
     public int getDifferencesSize() {
         return differences.size();
+    }
+
+    public int getAllDifferencesCount() {
+        return allDifferencesCount;
     }
 
 }

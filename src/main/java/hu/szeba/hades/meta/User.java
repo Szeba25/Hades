@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-public class User {
+public class User implements TaskSolverAgent {
 
     private String id;
     private String name;
@@ -55,17 +55,14 @@ public class User {
         return new File(userWorkingDirectoryPath, courseName + "/" + topicName + "/" + taskId).exists();
     }
 
-    public boolean isTaskCompleted(String courseName, String topicName, String taskId) {
-        // Create the identifier string
-        String identifierString = courseName + "/" + topicName + "/" + taskId;
+    @Override
+    public synchronized boolean isTaskCompleted(String identifierString) {
         // Check in the set
         return completedTasks.contains(identifierString);
     }
 
-    public void completeTask(String courseName, String topicName, String taskId) throws IOException {
-        // Create the identifier string
-        String identifierString = courseName + "/" + topicName + "/" + taskId;
-
+    @Override
+    public synchronized void markTaskAsCompleted(String identifierString) throws IOException {
         // Add only if does not exists!
         if (!completedTasks.contains(identifierString)) {
             completedTasks.add(identifierString);
