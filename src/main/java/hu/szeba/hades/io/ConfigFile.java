@@ -9,4 +9,8 @@ public class ConfigFile extends DataFile {
         super(file, "=");
     }
 
+    public ConfigFile(ConfigFile file) {
+        super(file);
+    }
+
 }

@@ -12,4 +12,5 @@ public class TabbedFile extends DataFile {
     public TabbedFile(TabbedFile file) {
         super(file);
     }
+
 }
