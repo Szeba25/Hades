@@ -31,6 +31,7 @@ public class Topic {
     private Map<String, TaskStory> taskStories;
     private Map<String, String> taskTitleToTaskId;
     private Map<String, String> taskIdToTaskTitle;
+    private Set<String> unavailableTaskIds;
 
     private final String language;
 
@@ -43,6 +44,7 @@ public class Topic {
 
         loadTaskIds();
         loadTaskTexts();
+        generateUnavailableTaskIds();
     }
 
     private void loadTaskIds() throws IOException {
@@ -65,6 +67,21 @@ public class Topic {
 
         StoryXMLFile storyXMLFile = new StoryXMLFile(new File(topicDirectory, "stories.xml"));
         taskStories = storyXMLFile.parseTaskStories();
+    }
+
+    private void generateUnavailableTaskIds() {
+        unavailableTaskIds = new HashSet<>();
+        for (String taskId : taskMatrix.getNodeNames()) {
+            boolean available = true;
+            List<String> list = taskMatrix.getParentNodes(taskId);
+            for (String parents : list) {
+                available = available && (user.isTaskCompleted(courseName + "/" + topicName + "/" + parents));
+            }
+            // The task is unavailable, if any of its parents is not completed...
+            if (!available) {
+                unavailableTaskIds.add(taskId);
+            }
+        }
     }
 
     public Task createTask(String taskId, boolean continueTask)
@@ -94,4 +111,7 @@ public class Topic {
         return taskTitleToTaskId.get(taskTitle);
     }
 
+    public Set<String> getUnavailableTaskIds() {
+        return unavailableTaskIds;
+    }
 }

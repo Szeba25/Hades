@@ -71,11 +71,32 @@ public class AdjacencyMatrix {
         }
     }
 
-    public void printConnectedNodes(String node) {
-        System.out.println("Nodes connected to " + node + ":");
+    public void printChildNodes(String node) {
+        System.out.println("Children of " + node + ":");
         int i = indexByNodes.get(node);
         for (int j = 0; j < getSize(); j++) {
             if (edges[i][j]) {
+                System.out.println("* " + nodesByIndex[j]);
+            }
+        }
+    }
+
+    public List<String> getParentNodes(String node) {
+        List<String> list = new LinkedList<>();
+        int i = indexByNodes.get(node);
+        for (int j = 0; j < getSize(); j++) {
+            if (edges[j][i]) {
+                list.add(nodesByIndex[j]);
+            }
+        }
+        return list;
+    }
+
+    public void printParentNodes(String node) {
+        System.out.println("Parents of " + node + ":");
+        int i = indexByNodes.get(node);
+        for (int j = 0; j < getSize(); j++) {
+            if (edges[j][i]) {
                 System.out.println("* " + nodesByIndex[j]);
             }
         }

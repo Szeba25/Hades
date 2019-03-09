@@ -24,6 +24,10 @@ public class TaskSelectorView extends BaseView {
     private JList<String> taskList;
     private JScrollPane taskListScroller;
 
+    private Color selectedTaskBackground;
+    private Color unavailableTaskForeground;
+    private Color availableTaskForeground;
+
     private JEditorPane descriptionArea;
     private JButton startButton;
     private JButton continueButton;
@@ -73,9 +77,14 @@ public class TaskSelectorView extends BaseView {
                 if (value instanceof String) {
                     String text = (String) value;
                     setText(text);
-                    setBackground(Color.GREEN);
+                    setBackground(Color.WHITE);
                     if (isSelected) {
-                        setBackground(Color.RED);
+                        setBackground(selectedTaskBackground);
+                    }
+                    if (controller.getUnavailableTaskIds().contains(controller.getTaskIdByTaskTitle(text))) {
+                        setForeground(unavailableTaskForeground);
+                    } else {
+                        setForeground(availableTaskForeground);
                     }
                 }
                 return component;
@@ -85,6 +94,10 @@ public class TaskSelectorView extends BaseView {
         taskListScroller = new JScrollPane(taskList);
         taskListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         taskListScroller.setBorder(BorderFactory.createEtchedBorder());
+
+        selectedTaskBackground = new Color(160, 160, 255, 120);
+        unavailableTaskForeground = Color.GRAY;
+        availableTaskForeground = Color.BLACK;
 
         descriptionArea = new JEditorPane();
         descriptionArea.setAlignmentX(Component.CENTER_ALIGNMENT);

@@ -9,6 +9,7 @@ import hu.szeba.hades.view.task.TaskSolvingView;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.util.Set;
 
 public class TaskSelectorController {
 
@@ -20,6 +21,10 @@ public class TaskSelectorController {
 
     public void setTaskListContents(JList<String> taskList) {
         taskList.setListData(topic.getTaskTitles().toArray(new String[0]));
+    }
+
+    public Set<String> getUnavailableTaskIds() {
+        return topic.getUnavailableTaskIds();
     }
 
     public void loadNewTask(String selectedTaskId,
