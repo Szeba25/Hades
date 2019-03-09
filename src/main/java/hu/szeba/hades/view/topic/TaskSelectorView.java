@@ -34,8 +34,15 @@ public class TaskSelectorView extends BaseView {
 
     public TaskSelectorView(Topic topic) {
         super();
+
+        // Create the controller
         controller = new TaskSelectorController(topic);
         controller.setTaskListContents(taskList);
+
+        // Put everything together and pack
+        this.getContentPane().add(leftPanel, BorderLayout.WEST);
+        this.getContentPane().add(rightPanel, BorderLayout.CENTER);
+        this.pack();
     }
 
     @Override
@@ -126,10 +133,6 @@ public class TaskSelectorView extends BaseView {
         rightPanel.add(descriptionArea);
         rightPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         rightPanel.add(bottomPanel);
-
-        this.getContentPane().add(leftPanel, BorderLayout.WEST);
-        this.getContentPane().add(rightPanel, BorderLayout.CENTER);
-        this.pack();
     }
 
     @Override
