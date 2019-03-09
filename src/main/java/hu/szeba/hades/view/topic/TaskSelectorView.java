@@ -65,6 +65,23 @@ public class TaskSelectorView extends BaseView {
             }
         });
 
+        taskList.setCellRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList list, Object value, int index,
+                                                          boolean isSelected, boolean cellHasFocus) {
+                Component component = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof String) {
+                    String text = (String) value;
+                    setText(text);
+                    setBackground(Color.GREEN);
+                    if (isSelected) {
+                        setBackground(Color.RED);
+                    }
+                }
+                return component;
+            }
+        });
+
         taskListScroller = new JScrollPane(taskList);
         taskListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         taskListScroller.setBorder(BorderFactory.createEtchedBorder());
