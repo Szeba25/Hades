@@ -278,8 +278,8 @@ public class TaskSolvingView extends BaseView {
             // TODO: Make this functional...
             JOptionPane.showMessageDialog(new JFrame(),
                     "Not yet implemented :(",
-                    "Sad warning",
-                    JOptionPane.PLAIN_MESSAGE);
+                    "Sad warning...",
+                    JOptionPane.WARNING_MESSAGE);
         });
         // Save all source files now!
         saveAllFileMenuItem.addActionListener((event) -> {
