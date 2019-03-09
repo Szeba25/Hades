@@ -6,10 +6,12 @@ import java.util.List;
 public class ResultMatcher {
 
     private int allDifferencesCount;
+    private int allNoResponsesCount;
     private List<ResultDifference> differences;
 
     public ResultMatcher() {
         allDifferencesCount = 0;
+        allNoResponsesCount = 0;
         differences = new LinkedList<>();
     }
 
@@ -57,4 +59,11 @@ public class ResultMatcher {
         return allDifferencesCount;
     }
 
+    public void noResponseHappened() {
+        allNoResponsesCount++;
+    }
+
+    public int getAllNoResponsesCount() {
+        return allNoResponsesCount;
+    }
 }

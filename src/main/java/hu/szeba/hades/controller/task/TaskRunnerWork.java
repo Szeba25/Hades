@@ -1,7 +1,6 @@
 package hu.szeba.hades.controller.task;
 
 import hu.szeba.hades.meta.TaskSolverAgent;
-import hu.szeba.hades.meta.User;
 import hu.szeba.hades.model.task.data.InputResultPair;
 import hu.szeba.hades.model.task.program.Program;
 import hu.szeba.hades.model.task.result.Result;
@@ -51,6 +50,7 @@ public class TaskRunnerWork implements Work {
             }
 
             if (!result.anyInputPresent()) {
+                matcher.noResponseHappened();
                 publisher.customPublish("~> No response...\n\n");
             } else {
                 if (result.getDebugLineCount() > 0) {
@@ -77,12 +77,14 @@ public class TaskRunnerWork implements Work {
         }
 
         if (agent.isTaskCompleted(taskIdentifierString)) {
-            publisher.customPublish("#> Task was already completed... (" + matcher.getAllDifferencesCount() + " differences)\n\n");
-        } else if (matcher.getAllDifferencesCount() == 0) {
+            publisher.customPublish("#> Task was already completed... (" + matcher.getAllDifferencesCount() +
+                    " differences, and " + matcher.getAllNoResponsesCount() + " no responses)\n\n");
+        } else if (matcher.getAllDifferencesCount() == 0 && matcher.getAllNoResponsesCount() == 0) {
             agent.markTaskAsCompleted(taskIdentifierString);
-            publisher.customPublish("#> Task successfully COMPLETED! (0 errors)\n\n");
+            publisher.customPublish("#> Task successfully COMPLETED! (no errors)\n\n");
         } else {
-            publisher.customPublish("~> There were a total of " + matcher.getAllDifferencesCount() + " differences!\n\n");
+            publisher.customPublish("~> There were a total of " + matcher.getAllDifferencesCount() +
+                    " differences, and " + matcher.getAllNoResponsesCount() + " no responses!\n\n");
         }
 
         publisher.customPublish("... End of running!");
