@@ -44,7 +44,7 @@ public class TaskSolvingView extends BaseView {
     private TerminalArea terminalArea;
     private JScrollPane terminalScroll;
 
-    private JSplitPane splitPane;
+    private JSplitPane mainSplitPane;
     private JSplitPane taskSplitPane;
 
     private JMenuBar menuBar;
@@ -131,11 +131,11 @@ public class TaskSolvingView extends BaseView {
         terminalScroll.getVerticalScrollBar().setUnitIncrement(14);
         terminalScroll.setMinimumSize(new Dimension(300, 200));
 
-        splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, topPanel, terminalScroll);
-        splitPane.setOneTouchExpandable(true);
-        splitPane.setResizeWeight(0.6);
+        mainSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, topPanel, terminalScroll);
+        mainSplitPane.setOneTouchExpandable(true);
+        mainSplitPane.setResizeWeight(0.6);
 
-        taskSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane, taskTextsPane);
+        taskSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, mainSplitPane, taskTextsPane);
         taskSplitPane.setOneTouchExpandable(true);
         taskSplitPane.setResizeWeight(0.8);
 
