@@ -109,7 +109,7 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
     public void stopCurrentProcess(TerminalArea terminalArea) {
         if (!stopFlag.get()) {
             stopFlag.set(true);
-            terminalArea.add("> Stopping running process...\n");
+            terminalArea.add("> Stop running process...\n");
         }
     }
 
