@@ -238,7 +238,7 @@ public class TaskSolvingView extends BaseView {
                     controller.addNewSourceFile(name, this);
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(new JFrame(), "Cannot create source file specified: " +
-                            e.getMessage());
+                            e.getMessage(), "File saving error...", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -246,9 +246,9 @@ public class TaskSolvingView extends BaseView {
         deleteFileMenuItem.addActionListener((event) -> {
             String selectedSourceName = fileList.getSelectedValue();
             if (selectedSourceName == null) {
-                JOptionPane.showMessageDialog(new JFrame(), "Please select a source file from the list!");
+                JOptionPane.showMessageDialog(new JFrame(), "Please select a source file from the list!", "No source selected", JOptionPane.WARNING_MESSAGE);
             } else if(controller.isSourceReadonly(selectedSourceName)) {
-                JOptionPane.showMessageDialog(new JFrame(), "This source is readonly!");
+                JOptionPane.showMessageDialog(new JFrame(), "This source is readonly!", "Readonly file", JOptionPane.WARNING_MESSAGE);
             } else {
                 int result = JOptionPane.showConfirmDialog(new JFrame(), "Delete source file: " + selectedSourceName + "?",
                         "Delete source file", JOptionPane.YES_NO_OPTION);
