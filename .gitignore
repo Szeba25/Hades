@@ -13,3 +13,6 @@
 
 build/
 out/
+
+# Hades files
+working_directory/

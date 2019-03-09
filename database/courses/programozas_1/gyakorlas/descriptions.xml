@@ -1,0 +1,59 @@
+<Descriptions>
+
+	<Description>
+		<Id>feladat_0</Id>
+		<Title>Számok 1-10-ig!</Title>
+		<Short><![CDATA[
+			<p>A feladata számokat kiírni 1-10-ig.</p>
+		]]>
+		</Short>
+		<Long><![CDATA[
+			<h2>A feladata a következő:</h2>
+			<ul>
+				<li>kiírni a számokat 1-10-ig.</li>
+			</ul>
+			<p>Ügyeljen arra hogy minden szám új sorba kerüljön. Jó munkát!</p>
+			<p>A kimenet a következő formában kell legyen:</p>
+			<br>
+			1<br>
+			2<br>
+			3<br>
+			4<br>
+			5<br>
+			6<br>
+			7<br>
+			8<br>
+			9<br>
+			10<br>
+			<p><i>Segítség:</i></p>
+			<pre>for (i = 0; ...</pre>
+		]]>
+		</Long>
+	</Description>
+	
+	<Description>
+		<Id>feladat_1</Id>
+		<Title>Számok kétszerese!</Title>
+		<Short><![CDATA[
+			<p>A feladat számokat bekérni, és azok kétszeresét kiírni.</p>
+		]]>
+		</Short>
+		<Long><![CDATA[
+			<h2>A feladata a következő:</h2>
+			<ul>
+				<li>bekérni egy számot</li>
+				<li>ennyiszer bekérni további számokat, és kiírni ezek kétszeresét</li>
+			</ul>
+			<p>Ügyeljen arra hogy minden szám új sorba kerüljön. Jó munkát!</p>
+			<p>A kimenet a következő formában kell legyen, ha 3 számot kell bekérni, és ezek rendre 20, 75 és 11 voltak:</p>
+			<br>
+			40<br>
+			150<br>
+			22<br>
+			<p><i>Segítség:</i></p>
+			<pre>for (i = 0; ...</pre>
+		]]>
+		</Long>
+	</Description>
+
+</Descriptions>
