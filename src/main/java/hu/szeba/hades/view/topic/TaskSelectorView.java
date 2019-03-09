@@ -180,11 +180,17 @@ public class TaskSelectorView extends BaseView {
 
     private void updateSelection(String taskId) {
         if (taskId != null) {
-            startButton.setEnabled(true);
-            if (controller.progressExists(taskId)) {
-                continueButton.setEnabled(true);
-            } else {
+            boolean available = controller.getUnavailableTaskIds().contains(taskId);
+            if (available) {
+                startButton.setEnabled(false);
                 continueButton.setEnabled(false);
+            } else {
+                startButton.setEnabled(true);
+                if (controller.progressExists(taskId)) {
+                    continueButton.setEnabled(true);
+                } else {
+                    continueButton.setEnabled(false);
+                }
             }
             controller.setTaskShortDescription(taskId, descriptionArea);
         } else {
