@@ -174,7 +174,9 @@ public class TaskSelectorView extends BaseView {
     @Override
     public void showView() {
         super.showView();
-        // Enable continue button when exiting from solving view!
+        // Refresh unavailable tasks
+        controller.generateUnavailableTaskIds();
+        // Refresh buttons
         updateSelection(getSelectedTaskId());
     }
 

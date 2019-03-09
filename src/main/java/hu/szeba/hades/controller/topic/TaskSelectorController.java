@@ -55,4 +55,7 @@ public class TaskSelectorController {
         return topic.progressExistsForTask(taskId);
     }
 
+    public void generateUnavailableTaskIds() {
+        topic.generateUnavailableTaskIds();
+    }
 }

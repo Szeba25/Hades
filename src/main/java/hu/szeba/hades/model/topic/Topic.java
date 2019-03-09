@@ -69,7 +69,7 @@ public class Topic {
         taskStories = storyXMLFile.parseTaskStories();
     }
 
-    private void generateUnavailableTaskIds() {
+    public void generateUnavailableTaskIds() {
         unavailableTaskIds = new HashSet<>();
         for (String taskId : taskMatrix.getNodeNames()) {
             boolean available = true;
