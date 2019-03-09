@@ -77,6 +77,11 @@ public class TaskSolvingView extends BaseView {
         this.controller = new TaskSolvingController(task);
         this.controller.setTaskViewContent(this);
 
+        // Scroll back to top!
+        this.taskInstructionsScroll.getVerticalScrollBar().setValue(0);
+        this.taskStoryScroll.getVerticalScrollBar().setValue(0);
+
+        // Set title, and disable some menus
         this.setTitle("Solving task: " + task.getData().getTaskDescription().getTaskTitle());
         this.runMenuItem.setEnabled(task.getCompilerOutputRegister().getCompilerOutput().isReady());
         this.stopMenuItem.setEnabled(false);
@@ -124,6 +129,7 @@ public class TaskSolvingView extends BaseView {
         taskTextsPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, taskInstructionsScroll, taskStoryScroll);
         taskTextsPane.setOneTouchExpandable(true);
         taskTextsPane.setResizeWeight(0.6);
+        taskTextsPane.setMinimumSize(new Dimension(250, 700));
 
         topPanel.add(fileListScroller, BorderLayout.WEST);
         topPanel.add(codeTab, BorderLayout.CENTER);
@@ -142,7 +148,7 @@ public class TaskSolvingView extends BaseView {
 
         taskSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, mainSplitPane, taskTextsPane);
         taskSplitPane.setOneTouchExpandable(true);
-        taskSplitPane.setResizeWeight(0.8);
+        taskSplitPane.setResizeWeight(1.0);
 
         menuBar = new JMenuBar();
 
