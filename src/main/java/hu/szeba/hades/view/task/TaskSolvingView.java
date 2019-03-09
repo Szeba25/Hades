@@ -75,11 +75,16 @@ public class TaskSolvingView extends BaseView {
         this.parentView = parentView;
 
         this.controller = new TaskSolvingController(task);
-        this.controller.setSourceList(this);
+        this.controller.setTaskViewContent(this);
 
         this.setTitle("Solving task: " + task.getData().getTaskDescription().getTaskTitle());
         this.runMenuItem.setEnabled(task.getCompilerOutputRegister().getCompilerOutput().isReady());
         this.stopMenuItem.setEnabled(false);
+
+        // Put everything together, and pack!
+        this.getContentPane().add(taskSplitPane, BorderLayout.CENTER);
+        this.getContentPane().add(menuBar, BorderLayout.NORTH);
+        this.pack();
     }
 
     @Override
@@ -192,10 +197,6 @@ public class TaskSolvingView extends BaseView {
         menuBar.add(fileMenu);
         menuBar.add(buildMenu);
         menuBar.add(helpMenu);
-
-        this.getContentPane().add(taskSplitPane, BorderLayout.CENTER);
-        this.getContentPane().add(menuBar, BorderLayout.NORTH);
-        this.pack();
     }
 
     @Override

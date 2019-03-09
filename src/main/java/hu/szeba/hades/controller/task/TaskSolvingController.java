@@ -23,7 +23,7 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
         this.stopFlag = new AtomicBoolean(false);
     }
 
-    public void setSourceList(TaskSolvingView taskSolvingView) {
+    public void setTaskViewContent(TaskSolvingView taskSolvingView) {
         TaskData data = task.getData();
         taskSolvingView.setTaskInstructions(data.getTaskDescription().getLongDescription());
         taskSolvingView.setTaskStory(data.getTaskStory().getText());
