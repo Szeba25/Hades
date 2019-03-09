@@ -42,7 +42,7 @@ public class Topic {
         this.language = language;
 
         loadTaskIds();
-        loadTaskDescriptions();
+        loadTaskTexts();
     }
 
     private void loadTaskIds() throws IOException {
@@ -51,7 +51,7 @@ public class Topic {
         taskIds = taskMatrix.getNodeNames();
     }
 
-    private void loadTaskDescriptions() throws IOException, SAXException, ParserConfigurationException {
+    private void loadTaskTexts() throws IOException, SAXException, ParserConfigurationException {
         DescriptionXMLFile descriptionFile = new DescriptionXMLFile(new File(topicDirectory, "descriptions.xml"));
         taskDescriptions = descriptionFile.parseTaskDescriptions();
 
