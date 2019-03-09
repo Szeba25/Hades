@@ -24,6 +24,7 @@ public class TaskData {
     private final File taskWorkingDirectory;
 
     private final TaskDescription taskDescription;
+    private final TaskStory taskStory;
     private final String language;
     private final String syntaxStyle;
 
@@ -36,6 +37,7 @@ public class TaskData {
                     String topicName,
                     String taskId,
                     TaskDescription taskDescription,
+                    TaskStory taskStory,
                     boolean continueTask,
                     String language,
                     String syntaxStyle) throws IOException, MissingResultFileException {
@@ -64,6 +66,7 @@ public class TaskData {
         }
 
         this.taskDescription = taskDescription;
+        this.taskStory = taskStory;
         this.language = language;
         this.syntaxStyle = syntaxStyle;
 
@@ -151,6 +154,10 @@ public class TaskData {
 
     public TaskDescription getTaskDescription() {
         return taskDescription;
+    }
+
+    public TaskStory getTaskStory() {
+        return taskStory;
     }
 
     public String getLanguage() {

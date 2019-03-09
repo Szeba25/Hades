@@ -1,12 +1,14 @@
 package hu.szeba.hades.model.topic;
 
 import hu.szeba.hades.io.DescriptionXMLFile;
+import hu.szeba.hades.io.StoryXMLFile;
 import hu.szeba.hades.io.TaskGraphFile;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.meta.User;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.data.TaskDescription;
+import hu.szeba.hades.model.task.data.TaskStory;
 import hu.szeba.hades.model.task.graph.AdjacencyMatrix;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.model.task.taskfactory.TaskFactoryDecider;
@@ -26,6 +28,7 @@ public class Topic {
     private AdjacencyMatrix taskMatrix;
     private List<String> taskIds;
     private Map<String, TaskDescription> taskDescriptions;
+    private Map<String, TaskStory> taskStories;
     private Map<String, String> taskTitleToTaskId;
     private Map<String, String> taskIdToTaskTitle;
 
@@ -51,6 +54,7 @@ public class Topic {
     private void loadTaskDescriptions() throws IOException, SAXException, ParserConfigurationException {
         DescriptionXMLFile descriptionFile = new DescriptionXMLFile(new File(topicDirectory, "descriptions.xml"));
         taskDescriptions = descriptionFile.parseTaskDescriptions();
+
         // Create mapping for both direction!
         taskTitleToTaskId = new HashMap<>();
         taskIdToTaskTitle = new HashMap<>();
@@ -58,11 +62,16 @@ public class Topic {
             taskTitleToTaskId.put(description.getTaskTitle(), description.getTaskId());
             taskIdToTaskTitle.put(description.getTaskId(), description.getTaskTitle());
         }
+
+        StoryXMLFile storyXMLFile = new StoryXMLFile(new File(topicDirectory, "stories.xml"));
+        taskStories = storyXMLFile.parseTaskStories();
     }
 
     public Task createTask(String taskId, boolean continueTask)
             throws InvalidLanguageException, IOException, MissingResultFileException {
-        return TaskFactoryDecider.decideFactory(language).getTask(user, courseName, topicName, taskId, taskDescriptions.get(taskId), continueTask);
+
+        return TaskFactoryDecider.decideFactory(language).getTask(user, courseName, topicName, taskId,
+                taskDescriptions.get(taskId), taskStories.get(taskId), continueTask);
     }
 
     public boolean progressExistsForTask(String taskId) {

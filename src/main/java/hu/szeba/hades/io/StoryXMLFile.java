@@ -1,5 +1,6 @@
 package hu.szeba.hades.io;
 
+import hu.szeba.hades.model.task.data.TaskStory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -11,6 +12,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class StoryXMLFile {
 
@@ -27,21 +30,19 @@ public class StoryXMLFile {
         this.documentElement.normalize();
     }
 
-    public void printStoryContents() {
-        System.out.println("Root: " + documentElement.getNodeName());
+    public Map<String, TaskStory> parseTaskStories() {
+        HashMap<String, TaskStory> stories = new HashMap<>();
         NodeList nodeList = documentElement.getElementsByTagName("Story");
-
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
-            System.out.println("Current element: " + node.getNodeName());
-
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element element = (Element) node;
-                System.out.println("Dependency: " + element.getElementsByTagName("Dependency").item(0).getTextContent());
-                System.out.println("Title: " + element.getElementsByTagName("Title").item(0).getTextContent());
-                System.out.println("Description: " + element.getElementsByTagName("Description").item(0).getTextContent());
+                String taskId = element.getElementsByTagName("Id").item(0).getTextContent();
+                String taskStory = element.getElementsByTagName("Text").item(0).getTextContent();
+                stories.put(taskId, new TaskStory(taskId, taskStory));
             }
         }
+        return stories;
     }
 
 }
