@@ -23,7 +23,7 @@ public class Main {
     private Main() {
         try {
             Options.initialize();
-            user = new User("C9CO8Q", "Pertic Szebasztián");
+            user = new User("DEFAULT", "Someone");
             courseDatabase = new CourseDatabase(user);
             course = courseDatabase.loadCourse("programozas_1");
             topic = course.loadTopic("gyakorlas");
