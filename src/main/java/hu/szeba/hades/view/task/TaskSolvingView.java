@@ -208,7 +208,7 @@ public class TaskSolvingView extends BaseView {
                     JOptionPane.showMessageDialog(new JFrame(), "Compiling (and/or) running in process!", "Cant't exit", JOptionPane.WARNING_MESSAGE);
                 } else {
                     Object[] options = {"Save and quit", "Cancel"};
-                    int result = JOptionPane.showOptionDialog(new JFrame(), "Already leaving? :(", "Giving up...", JOptionPane.YES_NO_OPTION,
+                    int result = JOptionPane.showOptionDialog(new JFrame(), "Save progress and close this task?", "Goodbye...", JOptionPane.YES_NO_OPTION,
                             JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
                     switch (result) {
                         case JOptionPane.YES_OPTION:
