@@ -36,6 +36,10 @@ public class TaskSolvingView extends BaseView {
     private Map<String, JTextArea> codeTabByName;
 
     private JEditorPane taskInstructionsPane;
+    private JScrollPane taskInstructionsScroll;
+    private JEditorPane taskStoryPane;
+    private JScrollPane taskStoryScroll;
+    private JSplitPane taskTextsPane;
 
     private TerminalArea terminalArea;
     private JScrollPane terminalScroll;
@@ -103,6 +107,18 @@ public class TaskSolvingView extends BaseView {
         taskInstructionsPane = new JEditorPane();
         taskInstructionsPane.setContentType("text/html");
         taskInstructionsPane.setEditable(false);
+        taskInstructionsScroll = new JScrollPane(taskInstructionsPane);
+        taskInstructionsScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        taskStoryPane = new JEditorPane();
+        taskStoryPane.setContentType("text/html");
+        taskStoryPane.setEditable(false);
+        taskStoryScroll = new JScrollPane(taskStoryPane);
+        taskStoryScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        taskTextsPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, taskInstructionsScroll, taskStoryScroll);
+        taskTextsPane.setOneTouchExpandable(true);
+        taskTextsPane.setResizeWeight(0.6);
 
         topPanel.add(fileListScroller, BorderLayout.WEST);
         topPanel.add(codeTab, BorderLayout.CENTER);
@@ -119,7 +135,7 @@ public class TaskSolvingView extends BaseView {
         splitPane.setOneTouchExpandable(true);
         splitPane.setResizeWeight(0.6);
 
-        taskSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane, taskInstructionsPane);
+        taskSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane, taskTextsPane);
         taskSplitPane.setOneTouchExpandable(true);
         taskSplitPane.setResizeWeight(0.8);
 
@@ -340,6 +356,10 @@ public class TaskSolvingView extends BaseView {
 
     public void setTaskInstructions(String longDescription) {
         taskInstructionsPane.setText(longDescription);
+    }
+
+    public void setTaskStory(String text) {
+        taskStoryPane.setText(text);
     }
 
     public void setCodeAreaContents(List<SourceFile> sources) {

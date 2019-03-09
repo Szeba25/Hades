@@ -26,6 +26,7 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
     public void setSourceList(TaskSolvingView taskSolvingView) {
         TaskData data = task.getData();
         taskSolvingView.setTaskInstructions(data.getTaskDescription().getLongDescription());
+        taskSolvingView.setTaskStory(data.getTaskStory().getText());
         taskSolvingView.setSourceList(data.copySourceNames(), data.copyReadonlySources(), data.getSyntaxStyle());
         taskSolvingView.setCodeAreaContents(data.getSources());
     }

@@ -3,18 +3,18 @@ package hu.szeba.hades.model.task.data;
 public class TaskStory {
 
     private final String taskId;
-    private final String taskStory;
+    private final String text;
 
-    public TaskStory(String taskId, String taskStory) {
+    public TaskStory(String taskId, String text) {
         this.taskId = taskId;
-        this.taskStory = taskStory;
+        this.text = text;
     }
 
     public String getTaskId() {
         return taskId;
     }
 
-    public String getTaskStory() {
-        return taskStory;
+    public String getText() {
+        return text;
     }
 }

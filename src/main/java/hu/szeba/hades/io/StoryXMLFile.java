@@ -38,8 +38,8 @@ public class StoryXMLFile {
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element element = (Element) node;
                 String taskId = element.getElementsByTagName("Id").item(0).getTextContent();
-                String taskStory = element.getElementsByTagName("Text").item(0).getTextContent();
-                stories.put(taskId, new TaskStory(taskId, taskStory));
+                String text = element.getElementsByTagName("Text").item(0).getTextContent();
+                stories.put(taskId, new TaskStory(taskId, text));
             }
         }
         return stories;
