@@ -10,10 +10,7 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
@@ -30,6 +27,8 @@ public class TaskSolvingView extends BaseView {
 
     private DefaultListModel<String> fileListModel;
     private JList<String> fileList;
+    private JPopupMenu fileListPopup;
+    private JMenuItem deleteFilePopupItem;
     private JScrollPane fileListScroller;
 
     private JTabbedPane codeTab;
@@ -51,8 +50,6 @@ public class TaskSolvingView extends BaseView {
 
     private JMenu fileMenu;
     private JMenuItem newFileMenuItem;
-    private JMenuItem deleteFileMenuItem;
-    private JMenuItem renameFileMenuItem;
     private JMenuItem saveAllFileMenuItem;
     private JMenuItem clearTerminalMenuItem;
 
@@ -107,6 +104,10 @@ public class TaskSolvingView extends BaseView {
         fileList = new JList<>(fileListModel);
         fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         fileList.setFixedCellWidth(125);
+        fileListPopup = new JPopupMenu();
+        deleteFilePopupItem = new JMenuItem("Delete");
+
+        fileListPopup.add(deleteFilePopupItem);
 
         fileListScroller = new JScrollPane(fileList);
         fileListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -154,14 +155,10 @@ public class TaskSolvingView extends BaseView {
 
         fileMenu = new JMenu("File");
         newFileMenuItem = new JMenuItem("New source file");
-        deleteFileMenuItem = new JMenuItem("Delete source file");
-        renameFileMenuItem = new JMenuItem("Edit source file name");
         saveAllFileMenuItem = new JMenuItem("Save all now...");
         clearTerminalMenuItem = new JMenuItem("Clear terminal");
 
         fileMenu.add(newFileMenuItem);
-        fileMenu.add(deleteFileMenuItem);
-        fileMenu.add(renameFileMenuItem);
         fileMenu.addSeparator();
         fileMenu.add(saveAllFileMenuItem);
         fileMenu.addSeparator();
@@ -192,8 +189,7 @@ public class TaskSolvingView extends BaseView {
 
         lockedMenusWrapper = new LockedMenusWrapper(
                 newFileMenuItem,
-                deleteFileMenuItem,
-                renameFileMenuItem,
+                deleteFilePopupItem,
                 saveAllFileMenuItem,
                 buildMenuItem,
                 buildAndRunMenuItem,
@@ -249,8 +245,18 @@ public class TaskSolvingView extends BaseView {
                 }
             }
         });
+        // Context menu
+        fileList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (SwingUtilities.isRightMouseButton(e)) {
+                    fileList.setSelectedIndex(fileList.locationToIndex(e.getPoint()));
+                    fileListPopup.show(fileList, e.getPoint().x, e.getPoint().y);
+                }
+            }
+        });
         // Delete source file
-        deleteFileMenuItem.addActionListener((event) -> {
+        deleteFilePopupItem.addActionListener((event) -> {
             String selectedSourceName = fileList.getSelectedValue();
             if (selectedSourceName == null) {
                 JOptionPane.showMessageDialog(new JFrame(), "Please select a source file from the list!", "No source selected", JOptionPane.WARNING_MESSAGE);
@@ -279,14 +285,6 @@ public class TaskSolvingView extends BaseView {
                     }
                 }
             }
-        });
-        // Rename source file
-        renameFileMenuItem.addActionListener((event) -> {
-            // TODO: Make this functional...
-            JOptionPane.showMessageDialog(new JFrame(),
-                    "Not yet implemented :(",
-                    "Sad warning...",
-                    JOptionPane.WARNING_MESSAGE);
         });
         // Save all source files now!
         saveAllFileMenuItem.addActionListener((event) -> {
