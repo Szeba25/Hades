@@ -150,7 +150,7 @@ public class TaskSolvingView extends BaseView {
 
         taskSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, mainSplitPane, taskTextsPane);
         taskSplitPane.setOneTouchExpandable(true);
-        taskSplitPane.setResizeWeight(0.75);
+        taskSplitPane.setResizeWeight(1.0);
 
         menuBar = new JMenuBar();
 
