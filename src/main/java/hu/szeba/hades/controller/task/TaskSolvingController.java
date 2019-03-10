@@ -3,7 +3,6 @@ package hu.szeba.hades.controller.task;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.SourceFile;
-import hu.szeba.hades.model.task.data.TaskData;
 import hu.szeba.hades.view.task.LockedMenusWrapper;
 import hu.szeba.hades.view.task.TaskSolvingView;
 import hu.szeba.hades.view.task.TerminalArea;
@@ -24,11 +23,10 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
     }
 
     public void setTaskViewContent(TaskSolvingView taskSolvingView) {
-        TaskData data = task.getData();
-        taskSolvingView.setTaskInstructions(data.getTaskDescription().getLongDescription());
-        taskSolvingView.setTaskStory(data.getTaskStory().getText());
-        taskSolvingView.setSourceList(data.copySourceNames(), data.copyReadonlySources(), data.getSyntaxStyle());
-        taskSolvingView.setCodeAreaContents(data.getSources());
+        taskSolvingView.setTaskInstructions(task.getTaskDescription().getLongDescription());
+        taskSolvingView.setTaskStory(task.getTaskStory().getText());
+        taskSolvingView.setSourceList(task.copySourceNames(), task.copyReadonlySources(), task.getSyntaxStyle());
+        taskSolvingView.setCodeAreaContents(task.getSources());
     }
 
     public void compile(Map<String, JTextArea> codeAreas,
@@ -40,14 +38,11 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
         lockedMenusWrapper.initForCompiler();
         stopFlag.set(false);
 
-        // Get reference to TaskData
-        TaskData data = task.getData();
-
         // Start a worker thread to compile the task!
         TaskCompilerThread taskCompilerThread = new TaskCompilerThread(
                 task.getProgramCompiler(),
-                data.copySourceNamesWithPath(),
-                data.copyTaskWorkingDirectory(),
+                task.copySourceNamesWithPath(),
+                task.copyTaskWorkingDirectory(),
                 stopFlag,
                 lockedMenusWrapper,
                 terminalArea,
@@ -64,17 +59,14 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
         lockedMenusWrapper.initForCompilerAndRunner();
         stopFlag.set(false);
 
-        // Get reference to TaskData
-        TaskData data = task.getData();
-
         // Start a worker thread to compile the task!
         TaskCompilerAndRunnerThread taskCompilerAndRunnerThread = new TaskCompilerAndRunnerThread(
-                data.getUser(),
-                data.getTaskIdentifierString(),
+                task.getUser(),
+                task.getTaskIdentifierString(),
                 task.getProgramCompiler(),
-                data.copySourceNamesWithPath(),
-                data.copyTaskWorkingDirectory(),
-                data.copyInputResultPairs(),
+                task.copySourceNamesWithPath(),
+                task.copyTaskWorkingDirectory(),
+                task.copyInputResultPairs(),
                 Options.getConfigIntData("max_stream_byte_count"),
                 stopFlag,
                 lockedMenusWrapper,
@@ -84,9 +76,6 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
     }
 
     public void run(TerminalArea terminalArea, LockedMenusWrapper lockedMenusWrapper) {
-        // Get task data
-        TaskData data = task.getData();
-
         // Clear terminal, and disable build menu
         terminalArea.clear();
         lockedMenusWrapper.initForRunner();
@@ -95,10 +84,10 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
 
         // Start a worker thread to run the task!
         TaskRunnerThread taskRunnerThread = new TaskRunnerThread(
-                data.getUser(),
-                data.getTaskIdentifierString(),
+                task.getUser(),
+                task.getTaskIdentifierString(),
                 task.getCompilerOutputRegister().getCompilerOutput().getProgram(),
-                data.copyInputResultPairs(),
+                task.copyInputResultPairs(),
                 Options.getConfigIntData("max_stream_byte_count"),
                 stopFlag,
                 lockedMenusWrapper,
@@ -114,11 +103,11 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
     }
 
     public void addNewSourceFile(String name, TaskSolvingView taskSolvingView) throws IOException {
-        if (task.getData().getSourceByName(name) == null) {
-            SourceFile src = task.getData().addSource(name);
+        if (task.getSourceByName(name) == null) {
+            SourceFile src = task.addSource(name);
             if (src != null) {
                 // Add the file!
-                taskSolvingView.addSourceFile(name, src.isReadonly(), task.getData().getSyntaxStyle());
+                taskSolvingView.addSourceFile(name, src.isReadonly(), task.getSyntaxStyle());
             }
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "Source file already exists!");
@@ -134,26 +123,26 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
     }
 
     public void openExistingSourceFile(String name, TaskSolvingView taskSolvingView) {
-        SourceFile src = task.getData().getSourceByName(name);
-        taskSolvingView.addSourceFile(name, src.isReadonly(), task.getData().getSyntaxStyle());
+        SourceFile src = task.getSourceByName(name);
+        taskSolvingView.addSourceFile(name, src.isReadonly(), task.getSyntaxStyle());
         taskSolvingView.setCodeAreaContent(name, src.getData());
     }
 
     public void saveSourceContents(Map<String, JTextArea> codeAreas) throws IOException {
-        task.getData().setSourceContents(codeAreas);
-        task.getData().saveSources();
+        task.setSourceContents(codeAreas);
+        task.saveSources();
     }
 
     public boolean isSourceReadonly(String name) {
-        return task.getData().getSourceByName(name).isReadonly();
+        return task.getSourceByName(name).isReadonly();
     }
 
     public void deleteSourceFile(String name) throws IOException {
-        task.getData().deleteSourceByName(name);
+        task.deleteSourceByName(name);
     }
 
     @Override
     public void updateSourceFileData(String name, JTextArea codeArea) {
-        task.getData().getSourceByName(name).setData(codeArea.getText());
+        task.getSourceByName(name).setData(codeArea.getText());
     }
 }

@@ -1,11 +1,9 @@
 package hu.szeba.hades.model.task.taskfactory;
 
 import hu.szeba.hades.meta.User;
-import hu.szeba.hades.model.compiler.ProgramCompiler;
 import hu.szeba.hades.model.compiler.ProgramCompilerC;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.MissingResultFileException;
-import hu.szeba.hades.model.task.data.TaskData;
 import hu.szeba.hades.model.task.data.TaskDescription;
 import hu.szeba.hades.model.task.data.TaskStory;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -19,10 +17,17 @@ public class TaskCFactory implements TaskFactory {
                         TaskDescription taskDescription, TaskStory taskStory, boolean continueTask)
             throws IOException, MissingResultFileException {
 
-        TaskData taskData = new TaskData(user, courseName, topicName, taskId, taskDescription, taskStory, continueTask,
-                "C", RSyntaxTextArea.SYNTAX_STYLE_C);
-        ProgramCompiler programCompiler = new ProgramCompilerC();
-        return new Task(taskData, programCompiler, "C");
+        return new Task(
+                user,
+                new ProgramCompilerC(),
+                "C",
+                RSyntaxTextArea.SYNTAX_STYLE_C,
+                courseName,
+                topicName,
+                taskId,
+                taskDescription,
+                taskStory,
+                continueTask);
     }
 
 }

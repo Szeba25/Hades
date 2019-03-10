@@ -82,7 +82,7 @@ public class TaskSolvingView extends BaseView {
         this.taskStoryScroll.getVerticalScrollBar().setValue(0);
 
         // Set title, and disable some menus
-        this.setTitle("Solving task: " + task.getData().getTaskDescription().getTaskTitle());
+        this.setTitle("Solving task: " + task.getTaskDescription().getTaskTitle());
         this.runMenuItem.setEnabled(task.getCompilerOutputRegister().getCompilerOutput().isReady());
         this.stopMenuItem.setEnabled(false);
 
