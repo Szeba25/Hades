@@ -75,14 +75,13 @@ public class TaskSolvingView extends BaseView {
         // Set contents
         this.controller.setTaskViewContent(this);
 
-        // Scroll back to top!
-        this.taskInstructionsScroll.getVerticalScrollBar().setValue(0);
-        this.taskStoryScroll.getVerticalScrollBar().setValue(0);
+        // Scroll back to top! (Setting caret position will take care of this)
+        this.taskInstructionsPane.setCaretPosition(0);
+        this.taskStoryPane.setCaretPosition(0);
 
-        // Set title, and disable some menus
+        // Set title, and disable some menus based on the task
         this.setTitle("Solving task: " + task.getTaskDescription().getTaskTitle());
         this.runMenuItem.setEnabled(task.getCompilerOutputRegister().getCompilerOutput().isReady());
-        this.stopMenuItem.setEnabled(false);
 
         // Put everything together, and pack!
         this.getContentPane().add(taskSplitPane, BorderLayout.CENTER);
@@ -120,17 +119,19 @@ public class TaskSolvingView extends BaseView {
         taskInstructionsPane.setContentType("text/html");
         taskInstructionsPane.setEditable(false);
         taskInstructionsScroll = new JScrollPane(taskInstructionsPane);
-        taskInstructionsScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        taskInstructionsScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         taskStoryPane = new JEditorPane();
         taskStoryPane.setContentType("text/html");
         taskStoryPane.setEditable(false);
         taskStoryScroll = new JScrollPane(taskStoryPane);
-        taskStoryScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        taskStoryScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         taskTextsPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, taskInstructionsScroll, taskStoryScroll);
         taskTextsPane.setOneTouchExpandable(true);
         taskTextsPane.setResizeWeight(0.6);
+        taskTextsPane.setMinimumSize(new Dimension(250, 700));
+        taskTextsPane.setPreferredSize(new Dimension(400, 700));
 
         topPanel.add(fileListScroller, BorderLayout.WEST);
         topPanel.add(codeTab, BorderLayout.CENTER);
@@ -149,7 +150,7 @@ public class TaskSolvingView extends BaseView {
 
         taskSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, mainSplitPane, taskTextsPane);
         taskSplitPane.setOneTouchExpandable(true);
-        taskSplitPane.setResizeWeight(0.6);
+        taskSplitPane.setResizeWeight(0.75);
 
         menuBar = new JMenuBar();
 
@@ -169,6 +170,7 @@ public class TaskSolvingView extends BaseView {
         buildAndRunMenuItem = new JMenuItem("Build all and run...");
         runMenuItem = new JMenuItem("Run...");
         stopMenuItem = new JMenuItem("Stop!");
+        stopMenuItem.setEnabled(false);
 
         buildMenu.add(buildMenuItem);
         buildMenu.addSeparator();
