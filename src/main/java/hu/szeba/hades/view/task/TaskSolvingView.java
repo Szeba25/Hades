@@ -126,10 +126,11 @@ public class TaskSolvingView extends BaseView {
         taskStoryPane.setEditable(false);
         taskStoryScroll = new JScrollPane(taskStoryPane);
         taskStoryScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        taskStoryScroll.setMinimumSize(new Dimension(250, 300));
 
         taskTextsPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, taskInstructionsScroll, taskStoryScroll);
         taskTextsPane.setOneTouchExpandable(true);
-        taskTextsPane.setResizeWeight(0.6);
+        taskTextsPane.setResizeWeight(1.0);
         taskTextsPane.setMinimumSize(new Dimension(250, 700));
         taskTextsPane.setPreferredSize(new Dimension(400, 700));
 
