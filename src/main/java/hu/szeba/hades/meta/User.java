@@ -51,8 +51,8 @@ public class User implements TaskSolverAgent {
         return userWorkingDirectoryPath;
     }
 
-    public boolean isProgressExists(String courseName, String topicName, String taskId) {
-        return new File(userWorkingDirectoryPath, courseName + "/" + topicName + "/" + taskId).exists();
+    public boolean isProgressExists(String identifierString) {
+        return new File(userWorkingDirectoryPath, identifierString).exists();
     }
 
     @Override

@@ -96,7 +96,7 @@ public class Topic {
     }
 
     public boolean isProgressExists(String taskId) {
-        return user.isProgressExists(courseName, topicName, taskId);
+        return user.isProgressExists(courseName + "/" + topicName + "/" + taskId);
     }
 
     public boolean isTaskUnavailable(String taskId) {
