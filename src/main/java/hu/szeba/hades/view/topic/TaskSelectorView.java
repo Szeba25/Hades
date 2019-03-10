@@ -21,12 +21,13 @@ public class TaskSelectorView extends BaseView {
     private JPanel bottomPanel;
     private JPanel rightPanel;
 
-    private JList<String> taskList;
-    private JScrollPane taskListScroller;
-
     private Color selectedTaskBackground;
+    private Color completedTaskForeground;
     private Color unavailableTaskForeground;
     private Color availableTaskForeground;
+
+    private JList<String> taskList;
+    private JScrollPane taskListScroller;
 
     private JEditorPane descriptionArea;
     private JButton startButton;
@@ -65,6 +66,11 @@ public class TaskSelectorView extends BaseView {
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         rightPanel.setBorder(new EmptyBorder(5, 0, 5, 5));
 
+        selectedTaskBackground = new Color(160, 160, 255, 120);
+        completedTaskForeground = new Color(20, 140, 20);
+        unavailableTaskForeground = Color.GRAY;
+        availableTaskForeground = Color.BLACK;
+
         taskList = new JList<>();
         taskList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         taskList.setFixedCellWidth(200);
@@ -88,7 +94,9 @@ public class TaskSelectorView extends BaseView {
                     if (isSelected) {
                         setBackground(selectedTaskBackground);
                     }
-                    if (controller.getUnavailableTaskIds().contains(controller.getTaskIdByTaskTitle(text))) {
+                    if (controller.isTaskCompleted(controller.getTaskIdByTaskTitle(text))) {
+                        setForeground(completedTaskForeground);
+                    } else if (controller.isTaskUnavailable(controller.getTaskIdByTaskTitle(text))) {
                         setForeground(unavailableTaskForeground);
                     } else {
                         setForeground(availableTaskForeground);
@@ -101,10 +109,6 @@ public class TaskSelectorView extends BaseView {
         taskListScroller = new JScrollPane(taskList);
         taskListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         taskListScroller.setBorder(BorderFactory.createEtchedBorder());
-
-        selectedTaskBackground = new Color(160, 160, 255, 120);
-        unavailableTaskForeground = Color.GRAY;
-        availableTaskForeground = Color.BLACK;
 
         descriptionArea = new JEditorPane();
         descriptionArea.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -142,7 +146,7 @@ public class TaskSelectorView extends BaseView {
                 if (getSelectedTaskId() != null) {
                     boolean newTrigger = false;
                     // If progress exists, prompt if overwrite it!
-                    if (controller.progressExists(getSelectedTaskId())) {
+                    if (controller.isProgressExists(getSelectedTaskId())) {
                         int option = JOptionPane.showConfirmDialog(new JFrame(),
                                 "This will delete all previous progress for this task. Continue?",
                                 "Start task from scratch...",
@@ -185,13 +189,13 @@ public class TaskSelectorView extends BaseView {
 
     private void updateSelection(String taskId) {
         if (taskId != null) {
-            boolean available = controller.getUnavailableTaskIds().contains(taskId);
+            boolean available = controller.isTaskUnavailable(taskId);
             if (available) {
                 startButton.setEnabled(false);
                 continueButton.setEnabled(false);
             } else {
                 startButton.setEnabled(true);
-                if (controller.progressExists(taskId)) {
+                if (controller.isProgressExists(taskId)) {
                     continueButton.setEnabled(true);
                 } else {
                     continueButton.setEnabled(false);

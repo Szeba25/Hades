@@ -9,7 +9,6 @@ import hu.szeba.hades.view.task.TaskSolvingView;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.util.Set;
 
 public class TaskSelectorController {
 
@@ -21,10 +20,6 @@ public class TaskSelectorController {
 
     public void setTaskListContents(JList<String> taskList) {
         taskList.setListData(topic.getTaskTitles().toArray(new String[0]));
-    }
-
-    public Set<String> getUnavailableTaskIds() {
-        return topic.getUnavailableTaskIds();
     }
 
     public void loadNewTask(String selectedTaskId,
@@ -51,11 +46,20 @@ public class TaskSelectorController {
         return topic.getTaskIdByTaskTitle(taskTitle);
     }
 
-    public boolean progressExists(String taskId) {
-        return topic.progressExistsForTask(taskId);
+    public boolean isTaskCompleted(String taskId) {
+        return topic.isTaskCompleted(taskId);
+    }
+
+    public boolean isProgressExists(String taskId) {
+        return topic.isProgressExists(taskId);
+    }
+
+    public boolean isTaskUnavailable(String taskId) {
+        return topic.isTaskUnavailable(taskId);
     }
 
     public void generateUnavailableTaskIds() {
         topic.generateUnavailableTaskIds();
     }
+
 }

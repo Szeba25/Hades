@@ -91,8 +91,16 @@ public class Topic {
                 taskDescriptions.get(taskId), taskStories.get(taskId), continueTask);
     }
 
-    public boolean progressExistsForTask(String taskId) {
-        return user.progressExistsForTask(courseName, topicName, taskId);
+    public boolean isTaskCompleted(String taskId) {
+        return user.isTaskCompleted(courseName + "/" + topicName + "/" + taskId);
+    }
+
+    public boolean isProgressExists(String taskId) {
+        return user.isProgressExists(courseName, topicName, taskId);
+    }
+
+    public boolean isTaskUnavailable(String taskId) {
+        return unavailableTaskIds.contains(taskId);
     }
 
     public TaskDescription getTaskDescription(String taskId) {
@@ -111,7 +119,4 @@ public class Topic {
         return taskTitleToTaskId.get(taskTitle);
     }
 
-    public Set<String> getUnavailableTaskIds() {
-        return unavailableTaskIds;
-    }
 }
