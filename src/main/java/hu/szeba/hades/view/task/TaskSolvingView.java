@@ -70,8 +70,9 @@ public class TaskSolvingView extends BaseView {
         super();
 
         this.parentView = parentView;
-
         this.controller = new TaskSolvingController(task);
+
+        // Set contents
         this.controller.setTaskViewContent(this);
 
         // Scroll back to top!
@@ -130,7 +131,6 @@ public class TaskSolvingView extends BaseView {
         taskTextsPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, taskInstructionsScroll, taskStoryScroll);
         taskTextsPane.setOneTouchExpandable(true);
         taskTextsPane.setResizeWeight(0.6);
-        taskTextsPane.setMinimumSize(new Dimension(250, 700));
 
         topPanel.add(fileListScroller, BorderLayout.WEST);
         topPanel.add(codeTab, BorderLayout.CENTER);
@@ -149,7 +149,7 @@ public class TaskSolvingView extends BaseView {
 
         taskSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, mainSplitPane, taskTextsPane);
         taskSplitPane.setOneTouchExpandable(true);
-        taskSplitPane.setResizeWeight(1.0);
+        taskSplitPane.setResizeWeight(0.6);
 
         menuBar = new JMenuBar();
 
