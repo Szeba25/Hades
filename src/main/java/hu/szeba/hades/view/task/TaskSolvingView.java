@@ -38,7 +38,7 @@ public class TaskSolvingView extends BaseView {
     private JScrollPane taskInstructionsScroll;
     private JEditorPane taskStoryPane;
     private JScrollPane taskStoryScroll;
-    private JSplitPane taskTextsPane;
+    private JSplitPane taskDescriptionPane;
 
     private TerminalArea terminalArea;
     private JScrollPane terminalScroll;
@@ -128,11 +128,11 @@ public class TaskSolvingView extends BaseView {
         taskStoryScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         taskStoryScroll.setMinimumSize(new Dimension(250, 300));
 
-        taskTextsPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, taskInstructionsScroll, taskStoryScroll);
-        taskTextsPane.setOneTouchExpandable(true);
-        taskTextsPane.setResizeWeight(1.0);
-        taskTextsPane.setMinimumSize(new Dimension(250, 700));
-        taskTextsPane.setPreferredSize(new Dimension(400, 700));
+        taskDescriptionPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, taskInstructionsScroll, taskStoryScroll);
+        taskDescriptionPane.setOneTouchExpandable(true);
+        taskDescriptionPane.setResizeWeight(1.0);
+        taskDescriptionPane.setMinimumSize(new Dimension(250, 700));
+        taskDescriptionPane.setPreferredSize(new Dimension(400, 700));
 
         topPanel.add(fileListScroller, BorderLayout.WEST);
         topPanel.add(codeTab, BorderLayout.CENTER);
@@ -149,7 +149,7 @@ public class TaskSolvingView extends BaseView {
         mainSplitPane.setOneTouchExpandable(true);
         mainSplitPane.setResizeWeight(0.6);
 
-        taskSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, mainSplitPane, taskTextsPane);
+        taskSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, mainSplitPane, taskDescriptionPane);
         taskSplitPane.setOneTouchExpandable(true);
         taskSplitPane.setResizeWeight(1.0);
 
