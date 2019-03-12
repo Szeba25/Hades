@@ -16,11 +16,13 @@ public abstract class BaseView extends JFrame {
     public void showView() {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        this.requestFocus();
     }
 
     public void showViewMaximized() {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
+        this.requestFocus();
     }
 
     public void hideView() {
