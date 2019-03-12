@@ -23,7 +23,7 @@ public class Task {
     private final String syntaxStyle;
 
     private final String courseName;
-    private final String topicName;
+    private final String taskCollectionName;
     private final String taskId;
 
     private final File taskDirectory;
@@ -42,7 +42,7 @@ public class Task {
                 String language,
                 String syntaxStyle,
                 String courseName,
-                String topicName,
+                String taskCollectionName,
                 String taskId,
                 TaskDescription taskDescription,
                 boolean continueTask) throws IOException, MissingResultFileException {
@@ -53,11 +53,11 @@ public class Task {
         this.syntaxStyle = syntaxStyle;
 
         this.courseName = courseName;
-        this.topicName = topicName;
+        this.taskCollectionName = taskCollectionName;
         this.taskId = taskId;
 
         this.taskDirectory = new File(Options.getDatabasePath(), courseName + "/tasks/" + taskId);
-        this.taskWorkingDirectory = new File(user.getUserWorkingDirectoryPath(), courseName + "/" + topicName + "/" + taskId);
+        this.taskWorkingDirectory = new File(user.getUserWorkingDirectoryPath(), courseName + "/" + taskCollectionName + "/" + taskId);
 
         // If not continuing task, but folder exists, delete the folder first!
         if (!continueTask && taskWorkingDirectory.exists()) {
@@ -141,8 +141,8 @@ public class Task {
         return courseName;
     }
 
-    public String getTopicName() {
-        return topicName;
+    public String getTaskCollectionName() {
+        return taskCollectionName;
     }
 
     public String getTaskId() {
@@ -150,7 +150,7 @@ public class Task {
     }
 
     public String getTaskIdentifierString() {
-        return courseName + "/" + topicName + "/" + taskId;
+        return courseName + "/" + taskCollectionName + "/" + taskId;
     }
 
     public TaskDescription getTaskDescription() {

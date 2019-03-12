@@ -1,4 +1,4 @@
-package hu.szeba.hades.controller.topic;
+package hu.szeba.hades.controller.task;
 
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.MissingResultFileException;

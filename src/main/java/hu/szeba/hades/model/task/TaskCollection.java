@@ -36,7 +36,7 @@ public class TaskCollection {
         this.user = user;
         this.courseName = courseName;
         this.taskCollectionName = taskCollectionName;
-        this.taskCollectionDirectory = new File(Options.getDatabasePath(), courseName + "/topics/" + taskCollectionName);
+        this.taskCollectionDirectory = new File(Options.getDatabasePath(), courseName + "/task_collections/" + taskCollectionName);
         this.tasksDirectory = new File(Options.getDatabasePath(), courseName + "/tasks");
         this.language = language;
 

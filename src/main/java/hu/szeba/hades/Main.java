@@ -5,7 +5,7 @@ import hu.szeba.hades.meta.User;
 import hu.szeba.hades.model.course.Course;
 import hu.szeba.hades.model.course.CourseDatabase;
 import hu.szeba.hades.model.task.TaskCollection;
-import hu.szeba.hades.view.topic.TaskSelectorView;
+import hu.szeba.hades.view.task.TaskSelectorView;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
@@ -25,8 +25,8 @@ public class Main {
             Options.initialize();
             user = new User("DEFAULT", "Someone");
             courseDatabase = new CourseDatabase(user);
-            course = courseDatabase.loadCourse("programozas_1");
-            taskCollection = course.loadTaskCollection("temakor");
+            course = courseDatabase.loadCourse("prog_1");
+            taskCollection = course.loadTaskCollection("collection_1");
             taskSelectorView = new TaskSelectorView(taskCollection);
             start();
         } catch (IOException | SAXException | ParserConfigurationException e) {

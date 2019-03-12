@@ -1,6 +1,6 @@
-package hu.szeba.hades.view.topic;
+package hu.szeba.hades.view.task;
 
-import hu.szeba.hades.controller.topic.TaskSelectorController;
+import hu.szeba.hades.controller.task.TaskSelectorController;
 import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.TaskCollection;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;

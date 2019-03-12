@@ -12,7 +12,7 @@ import java.io.IOException;
 public class TaskCFactory implements TaskFactory {
 
     @Override
-    public Task getTask(User user, String courseName, String topicName, String taskId,
+    public Task getTask(User user, String courseName, String taskCollectionName, String taskId,
                         TaskDescription taskDescription, boolean continueTask)
             throws IOException, MissingResultFileException {
 
@@ -22,7 +22,7 @@ public class TaskCFactory implements TaskFactory {
                 "C",
                 RSyntaxTextArea.SYNTAX_STYLE_C,
                 courseName,
-                topicName,
+                taskCollectionName,
                 taskId,
                 taskDescription,
                 continueTask);
