@@ -2,22 +2,22 @@ package hu.szeba.hades.view;
 
 public class ActionGuard {
 
-    private boolean available;
+    private boolean guarded;
 
     public ActionGuard() {
         reset();
     }
 
     public void reset() {
-        available = true;
+        guarded = false;
     }
 
     public void guard() {
-        available = false;
+        guarded = true;
     }
 
-    public boolean isAvailable() {
-        return available;
+    public boolean isGuarded() {
+        return guarded;
     }
 
 }

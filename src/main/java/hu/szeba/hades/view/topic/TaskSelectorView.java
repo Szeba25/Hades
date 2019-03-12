@@ -113,7 +113,7 @@ public class TaskSelectorView extends BaseView {
     public void setupEvents() {
         startButton.addActionListener((event) -> {
             // Protect from multiple actions spawned
-            if (!startButton.getActionGuard().isAvailable()) {
+            if (startButton.getActionGuard().isGuarded()) {
                 return;
             }
             startButton.getActionGuard().guard();
@@ -146,7 +146,7 @@ public class TaskSelectorView extends BaseView {
 
         continueButton.addActionListener((event) -> {
             // Protect from multiple actions spawned
-            if (!continueButton.getActionGuard().isAvailable()) {
+            if (continueButton.getActionGuard().isGuarded()) {
                 return;
             }
             continueButton.getActionGuard().guard();
