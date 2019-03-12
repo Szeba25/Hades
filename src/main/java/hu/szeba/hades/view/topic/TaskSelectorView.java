@@ -5,6 +5,7 @@ import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.topic.Topic;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.view.BaseView;
+import hu.szeba.hades.view.JButtonGuarded;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -30,8 +31,8 @@ public class TaskSelectorView extends BaseView {
     private JScrollPane taskListScroller;
 
     private JEditorPane descriptionArea;
-    private JButton startButton;
-    private JButton continueButton;
+    private JButtonGuarded startButton;
+    private JButtonGuarded continueButton;
 
     public TaskSelectorView(Topic topic) {
         super();
@@ -75,6 +76,90 @@ public class TaskSelectorView extends BaseView {
         taskList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         taskList.setFixedCellWidth(200);
 
+        taskListScroller = new JScrollPane(taskList);
+        taskListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        taskListScroller.setBorder(BorderFactory.createEtchedBorder());
+
+        descriptionArea = new JEditorPane();
+        descriptionArea.setAlignmentX(Component.CENTER_ALIGNMENT);
+        descriptionArea.setContentType("text/html");
+        descriptionArea.setEditable(false);
+        descriptionArea.setBorder(BorderFactory.createEtchedBorder());
+
+        startButton = new JButtonGuarded("Start");
+        startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        startButton.setFocusPainted(false);
+        startButton.setMaximumSize(new Dimension(120, 30));
+        startButton.setEnabled(false);
+
+        continueButton = new JButtonGuarded("Continue");
+        continueButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        continueButton.setFocusPainted(false);
+        continueButton.setMaximumSize(new Dimension(120, 30));
+        continueButton.setEnabled(false);
+
+        leftPanel.add(taskListScroller);
+
+        bottomPanel.add(startButton);
+        bottomPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        bottomPanel.add(continueButton);
+
+        rightPanel.add(descriptionArea);
+        rightPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        rightPanel.add(bottomPanel);
+    }
+
+    @Override
+    public void setupEvents() {
+        startButton.addActionListener((event) -> {
+            // Protect from multiple actions spawned
+            if (!startButton.getActionGuard().isAvailable()) {
+                return;
+            }
+            startButton.getActionGuard().guard();
+
+            try {
+                if (getSelectedTaskId() != null) {
+                    boolean newTrigger = false;
+                    // If progress exists, prompt if overwrite it!
+                    if (controller.isProgressExists(getSelectedTaskId())) {
+                        int option = JOptionPane.showConfirmDialog(new JFrame(),
+                                "This will delete all previous progress for this task. Continue?",
+                                "Start task from scratch...",
+                                JOptionPane.YES_NO_OPTION);
+                        if (option == JOptionPane.YES_OPTION) {
+                            newTrigger = true;
+                        }
+                    } else {
+                        // There was no progress, we can overwrite it...
+                        newTrigger = true;
+                    }
+                    // Finally, if we should create a new task, do it.
+                    if (newTrigger) {
+                        controller.loadNewTask(getSelectedTaskId(), this);
+                    }
+                }
+            } catch (InvalidLanguageException | IOException | MissingResultFileException e) {
+                e.printStackTrace();
+            }
+        });
+
+        continueButton.addActionListener((event) -> {
+            // Protect from multiple actions spawned
+            if (!continueButton.getActionGuard().isAvailable()) {
+                return;
+            }
+            continueButton.getActionGuard().guard();
+
+            try {
+                if (getSelectedTaskId() != null) {
+                    controller.continueTask(getSelectedTaskId(), this);
+                }
+            } catch (InvalidLanguageException | IOException | MissingResultFileException e) {
+                e.printStackTrace();
+            }
+        });
+
         taskList.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -105,86 +190,21 @@ public class TaskSelectorView extends BaseView {
                 return component;
             }
         });
-
-        taskListScroller = new JScrollPane(taskList);
-        taskListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        taskListScroller.setBorder(BorderFactory.createEtchedBorder());
-
-        descriptionArea = new JEditorPane();
-        descriptionArea.setAlignmentX(Component.CENTER_ALIGNMENT);
-        descriptionArea.setContentType("text/html");
-        descriptionArea.setEditable(false);
-        descriptionArea.setBorder(BorderFactory.createEtchedBorder());
-
-        startButton = new JButton("Start");
-        startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        startButton.setFocusPainted(false);
-        startButton.setMaximumSize(new Dimension(120, 30));
-        startButton.setEnabled(false);
-
-        continueButton = new JButton("Continue");
-        continueButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        continueButton.setFocusPainted(false);
-        continueButton.setMaximumSize(new Dimension(120, 30));
-        continueButton.setEnabled(false);
-
-        leftPanel.add(taskListScroller);
-
-        bottomPanel.add(startButton);
-        bottomPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-        bottomPanel.add(continueButton);
-
-        rightPanel.add(descriptionArea);
-        rightPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        rightPanel.add(bottomPanel);
-    }
-
-    @Override
-    public void setupEvents() {
-        startButton.addActionListener((event) -> {
-            try {
-                if (getSelectedTaskId() != null) {
-                    boolean newTrigger = false;
-                    // If progress exists, prompt if overwrite it!
-                    if (controller.isProgressExists(getSelectedTaskId())) {
-                        int option = JOptionPane.showConfirmDialog(new JFrame(),
-                                "This will delete all previous progress for this task. Continue?",
-                                "Start task from scratch...",
-                                JOptionPane.YES_NO_OPTION);
-                        if (option == JOptionPane.YES_OPTION) {
-                            newTrigger = true;
-                        }
-                    } else {
-                        // There was no progress, we can overwrite it...
-                        newTrigger = true;
-                    }
-                    // Finally, if we should create a new task, do it.
-                    if (newTrigger) {
-                        controller.loadNewTask(getSelectedTaskId(), this);
-                    }
-                }
-            } catch (InvalidLanguageException | IOException | MissingResultFileException e) {
-                e.printStackTrace();
-            }
-        });
-        continueButton.addActionListener((event) -> {
-            try {
-                if (getSelectedTaskId() != null) {
-                    controller.continueTask(getSelectedTaskId(), this);
-                }
-            } catch (InvalidLanguageException | IOException | MissingResultFileException e) {
-                e.printStackTrace();
-            }
-        });
     }
 
     @Override
     public void showView() {
         super.showView();
+
         // Refresh unavailable tasks
         controller.generateUnavailableTaskIds();
+
         // Refresh buttons
         updateSelection(getSelectedTaskId());
+
+        // Remove button guards
+        startButton.getActionGuard().reset();
+        continueButton.getActionGuard().reset();
     }
 
     private void updateSelection(String taskId) {
