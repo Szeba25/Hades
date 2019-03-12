@@ -1,8 +1,8 @@
 package hu.szeba.hades.view.task;
 
 import hu.szeba.hades.controller.task.TaskSelectorController;
-import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.TaskCollection;
+import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.view.BaseView;
 import hu.szeba.hades.view.JButtonGuarded;
@@ -10,8 +10,6 @@ import hu.szeba.hades.view.JButtonGuarded;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class TaskSelectorView extends BaseView {
@@ -160,10 +158,15 @@ public class TaskSelectorView extends BaseView {
             }
         });
 
-        taskList.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                updateSelection(getSelectedTaskId());
+        taskList.getSelectionModel().addListSelectionListener((event) ->  {
+            ListSelectionModel listSelectionModel = (ListSelectionModel) event.getSource();
+            ListModel listModel = taskList.getModel();
+            if (!listSelectionModel.isSelectionEmpty()) {
+                int idx = listSelectionModel.getMinSelectionIndex();
+                if (listSelectionModel.isSelectedIndex(idx)) {
+                    String value = (String) listModel.getElementAt(idx);
+                    updateSelection(controller.getTaskIdByTaskTitle(value));
+                }
             }
         });
 
