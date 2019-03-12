@@ -1,10 +1,9 @@
-package hu.szeba.hades.model.topic;
+package hu.szeba.hades.model.task;
 
 import hu.szeba.hades.io.DescriptionXMLFile;
 import hu.szeba.hades.io.TaskGraphFile;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.meta.User;
-import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.data.TaskDescription;
 import hu.szeba.hades.model.task.graph.AdjacencyMatrix;
@@ -17,12 +16,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class Topic {
+public class TaskCollection {
 
     private User user;
     private String courseName;
-    private String topicName;
-    private File topicDirectory;
+    private String taskCollectionName;
+    private File taskCollectionDirectory;
     private File tasksDirectory;
     private AdjacencyMatrix taskMatrix;
     private List<String> taskIds;
@@ -33,11 +32,11 @@ public class Topic {
 
     private final String language;
 
-    public Topic(User user, String courseName, String topicName, String language) throws IOException, ParserConfigurationException, SAXException {
+    public TaskCollection(User user, String courseName, String taskCollectionName, String language) throws IOException, ParserConfigurationException, SAXException {
         this.user = user;
         this.courseName = courseName;
-        this.topicName = topicName;
-        this.topicDirectory = new File(Options.getDatabasePath(), courseName + "/topics/" + topicName);
+        this.taskCollectionName = taskCollectionName;
+        this.taskCollectionDirectory = new File(Options.getDatabasePath(), courseName + "/topics/" + taskCollectionName);
         this.tasksDirectory = new File(Options.getDatabasePath(), courseName + "/tasks");
         this.language = language;
 
@@ -47,7 +46,7 @@ public class Topic {
     }
 
     private void loadTaskIds() throws IOException {
-        TaskGraphFile taskGraphFile = new TaskGraphFile(new File(topicDirectory, "tasks.graph"));
+        TaskGraphFile taskGraphFile = new TaskGraphFile(new File(taskCollectionDirectory, "tasks.graph"));
         taskMatrix = new AdjacencyMatrix(taskGraphFile.getTuples());
         taskIds = taskMatrix.getNodeNames();
     }
@@ -75,7 +74,7 @@ public class Topic {
             boolean available = true;
             List<String> list = taskMatrix.getParentNodes(taskId);
             for (String parents : list) {
-                available = available && (user.isTaskCompleted(courseName + "/" + topicName + "/" + parents));
+                available = available && (user.isTaskCompleted(courseName + "/" + taskCollectionName + "/" + parents));
             }
             // The task is unavailable, if any of its parents is not completed...
             if (!available) {
@@ -87,15 +86,15 @@ public class Topic {
     public Task createTask(String taskId, boolean continueTask)
             throws InvalidLanguageException, IOException, MissingResultFileException {
 
-        return TaskFactoryDecider.decideFactory(language).getTask(user, courseName, topicName, taskId, taskDescriptions.get(taskId), continueTask);
+        return TaskFactoryDecider.decideFactory(language).getTask(user, courseName, taskCollectionName, taskId, taskDescriptions.get(taskId), continueTask);
     }
 
     public boolean isTaskCompleted(String taskId) {
-        return user.isTaskCompleted(courseName + "/" + topicName + "/" + taskId);
+        return user.isTaskCompleted(courseName + "/" + taskCollectionName + "/" + taskId);
     }
 
     public boolean isProgressExists(String taskId) {
-        return user.isProgressExists(courseName + "/" + topicName + "/" + taskId);
+        return user.isProgressExists(courseName + "/" + taskCollectionName + "/" + taskId);
     }
 
     public boolean isTaskUnavailable(String taskId) {

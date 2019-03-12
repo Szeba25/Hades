@@ -2,7 +2,7 @@ package hu.szeba.hades.view.topic;
 
 import hu.szeba.hades.controller.topic.TaskSelectorController;
 import hu.szeba.hades.model.task.data.MissingResultFileException;
-import hu.szeba.hades.model.topic.Topic;
+import hu.szeba.hades.model.task.TaskCollection;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.view.BaseView;
 import hu.szeba.hades.view.JButtonGuarded;
@@ -34,11 +34,11 @@ public class TaskSelectorView extends BaseView {
     private JButtonGuarded startButton;
     private JButtonGuarded continueButton;
 
-    public TaskSelectorView(Topic topic) {
+    public TaskSelectorView(TaskCollection taskCollection) {
         super();
 
         // Create the controller
-        controller = new TaskSelectorController(topic);
+        controller = new TaskSelectorController(taskCollection);
         controller.setTaskListContents(taskList);
 
         // Put everything together and pack
