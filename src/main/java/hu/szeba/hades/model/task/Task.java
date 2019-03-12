@@ -30,7 +30,6 @@ public class Task {
     private final File taskWorkingDirectory;
 
     private final TaskDescription taskDescription;
-    private final TaskStory taskStory;
 
     private List<InputResultPair> inputResultPairs;
     private Set<String> readonlySources;
@@ -46,7 +45,6 @@ public class Task {
                 String topicName,
                 String taskId,
                 TaskDescription taskDescription,
-                TaskStory taskStory,
                 boolean continueTask) throws IOException, MissingResultFileException {
 
         this.user = user;
@@ -58,7 +56,7 @@ public class Task {
         this.topicName = topicName;
         this.taskId = taskId;
 
-        this.taskDirectory = new File(Options.getDatabasePath(), "tasks/" + taskId);
+        this.taskDirectory = new File(Options.getDatabasePath(), courseName + "/tasks/" + taskId);
         this.taskWorkingDirectory = new File(user.getUserWorkingDirectoryPath(), courseName + "/" + topicName + "/" + taskId);
 
         // If not continuing task, but folder exists, delete the folder first!
@@ -72,12 +70,11 @@ public class Task {
             System.out.println("Copy task!");
             FileUtils.forceMkdir(new File(taskWorkingDirectory, "sources"));
             FileUtils.copyDirectory(
-                    new File(taskDirectory, "sources/" + language),
+                    new File(taskDirectory, "sources"),
                     new File(taskWorkingDirectory, "sources"));
         }
 
         this.taskDescription = taskDescription;
-        this.taskStory = taskStory;
 
         this.inputResultPairs = new ArrayList<>();
         this.readonlySources = new HashSet<>();
@@ -116,7 +113,7 @@ public class Task {
     }
 
     private void makeSources() throws IOException {
-        TabbedFile file = new TabbedFile(new File(taskDirectory, "sources/.meta/readonly_" + language + ".txt"));
+        TabbedFile file = new TabbedFile(new File(taskDirectory, "readonly_sources.txt"));
         for (int i = 0; i < file.getLineCount(); i++) {
             readonlySources.add(file.getData(i, 0));
         }
@@ -158,10 +155,6 @@ public class Task {
 
     public TaskDescription getTaskDescription() {
         return taskDescription;
-    }
-
-    public TaskStory getTaskStory() {
-        return taskStory;
     }
 
     public String getLanguage() {

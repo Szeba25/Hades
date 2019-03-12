@@ -26,7 +26,7 @@ public class Main {
             user = new User("DEFAULT", "Someone");
             courseDatabase = new CourseDatabase(user);
             course = courseDatabase.loadCourse("programozas_1");
-            topic = course.loadTopic("gyakorlas");
+            topic = course.loadTopic("temakor");
             taskSelectorView = new TaskSelectorView(topic);
             start();
         } catch (IOException | SAXException | ParserConfigurationException e) {

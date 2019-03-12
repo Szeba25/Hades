@@ -2,20 +2,16 @@ package hu.szeba.hades.model.task.data;
 
 public class TaskDescription {
 
-    private final String taskId;
     private final String taskTitle;
     private final String shortDescription;
-    private final String longDescription;
+    private final String instructions;
+    private final String story;
 
-    public TaskDescription(String taskId, String taskTitle, String shortDescription, String longDescription) {
-        this.taskId = taskId;
+    public TaskDescription(String taskTitle, String shortDescription, String instructions, String story) {
         this.taskTitle = taskTitle;
         this.shortDescription = shortDescription;
-        this.longDescription = longDescription;
-    }
-
-    public String getTaskId() {
-        return taskId;
+        this.instructions = instructions;
+        this.story = story;
     }
 
     public String getTaskTitle() {
@@ -26,7 +22,12 @@ public class TaskDescription {
         return shortDescription;
     }
 
-    public String getLongDescription() {
-        return longDescription;
+    public String getInstructions() {
+        return instructions;
     }
+
+    public String getStory() {
+        return story;
+    }
+
 }

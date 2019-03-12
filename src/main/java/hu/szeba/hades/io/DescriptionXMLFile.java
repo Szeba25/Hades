@@ -30,21 +30,19 @@ public class DescriptionXMLFile {
         this.documentElement.normalize();
     }
 
-    public Map<String, TaskDescription> parseTaskDescriptions() {
-        HashMap<String, TaskDescription> descriptions = new HashMap<>();
-        NodeList nodeList = documentElement.getElementsByTagName("Description");
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node node = nodeList.item(i);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element element = (Element) node;
-                String taskId = element.getElementsByTagName("Id").item(0).getTextContent();
-                String taskTitle = element.getElementsByTagName("Title").item(0).getTextContent();
-                String shortDescription = element.getElementsByTagName("Short").item(0).getTextContent();
-                String longDescription = element.getElementsByTagName("Long").item(0).getTextContent();
-                descriptions.put(taskId, new TaskDescription(taskId, taskTitle, shortDescription, longDescription));
-            }
+    public TaskDescription parse() {
+        NodeList nodeList = documentElement.getElementsByTagName("Task");
+        Node node = nodeList.item(0);
+        if (node.getNodeType() == Node.ELEMENT_NODE) {
+            Element element = (Element) node;
+            String taskTitle = element.getElementsByTagName("Title").item(0).getTextContent();
+            String shortDescription = element.getElementsByTagName("ShortDescription").item(0).getTextContent();
+            String instructions = element.getElementsByTagName("Instructions").item(0).getTextContent();
+            String story = element.getElementsByTagName("Story").item(0).getTextContent();
+            return new TaskDescription(taskTitle, shortDescription, instructions, story);
+        } else {
+            return null;
         }
-        return descriptions;
     }
 
 }

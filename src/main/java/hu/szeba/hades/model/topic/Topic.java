@@ -1,14 +1,12 @@
 package hu.szeba.hades.model.topic;
 
 import hu.szeba.hades.io.DescriptionXMLFile;
-import hu.szeba.hades.io.StoryXMLFile;
 import hu.szeba.hades.io.TaskGraphFile;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.meta.User;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.data.TaskDescription;
-import hu.szeba.hades.model.task.data.TaskStory;
 import hu.szeba.hades.model.task.graph.AdjacencyMatrix;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.model.task.taskfactory.TaskFactoryDecider;
@@ -25,10 +23,10 @@ public class Topic {
     private String courseName;
     private String topicName;
     private File topicDirectory;
+    private File tasksDirectory;
     private AdjacencyMatrix taskMatrix;
     private List<String> taskIds;
     private Map<String, TaskDescription> taskDescriptions;
-    private Map<String, TaskStory> taskStories;
     private Map<String, String> taskTitleToTaskId;
     private Map<String, String> taskIdToTaskTitle;
     private Set<String> unavailableTaskIds;
@@ -39,11 +37,12 @@ public class Topic {
         this.user = user;
         this.courseName = courseName;
         this.topicName = topicName;
-        this.topicDirectory = new File(Options.getDatabasePath(), "courses/" + courseName + "/" + topicName);
+        this.topicDirectory = new File(Options.getDatabasePath(), courseName + "/topics/" + topicName);
+        this.tasksDirectory = new File(Options.getDatabasePath(), courseName + "/tasks");
         this.language = language;
 
         loadTaskIds();
-        loadTaskTexts();
+        loadTaskDescriptions();
         generateUnavailableTaskIds();
     }
 
@@ -53,20 +52,21 @@ public class Topic {
         taskIds = taskMatrix.getNodeNames();
     }
 
-    private void loadTaskTexts() throws IOException, SAXException, ParserConfigurationException {
-        DescriptionXMLFile descriptionFile = new DescriptionXMLFile(new File(topicDirectory, "descriptions.xml"));
-        taskDescriptions = descriptionFile.parseTaskDescriptions();
-
+    private void loadTaskDescriptions() throws IOException, SAXException, ParserConfigurationException {
+        // Create associative map for descriptions
+        taskDescriptions = new HashMap<>();
         // Create mapping for both direction!
         taskTitleToTaskId = new HashMap<>();
         taskIdToTaskTitle = new HashMap<>();
-        for (TaskDescription description : taskDescriptions.values()) {
-            taskTitleToTaskId.put(description.getTaskTitle(), description.getTaskId());
-            taskIdToTaskTitle.put(description.getTaskId(), description.getTaskTitle());
-        }
 
-        StoryXMLFile storyXMLFile = new StoryXMLFile(new File(topicDirectory, "stories.xml"));
-        taskStories = storyXMLFile.parseTaskStories();
+        // Load all task descriptions
+        for (String taskId : taskIds) {
+            DescriptionXMLFile descriptionFile = new DescriptionXMLFile(new File(tasksDirectory, taskId + "/description.xml"));
+            TaskDescription description = descriptionFile.parse();
+            taskDescriptions.put(taskId, description);
+            taskTitleToTaskId.put(description.getTaskTitle(), taskId);
+            taskIdToTaskTitle.put(taskId, description.getTaskTitle());
+        }
     }
 
     public void generateUnavailableTaskIds() {
@@ -87,8 +87,7 @@ public class Topic {
     public Task createTask(String taskId, boolean continueTask)
             throws InvalidLanguageException, IOException, MissingResultFileException {
 
-        return TaskFactoryDecider.decideFactory(language).getTask(user, courseName, topicName, taskId,
-                taskDescriptions.get(taskId), taskStories.get(taskId), continueTask);
+        return TaskFactoryDecider.decideFactory(language).getTask(user, courseName, topicName, taskId, taskDescriptions.get(taskId), continueTask);
     }
 
     public boolean isTaskCompleted(String taskId) {
