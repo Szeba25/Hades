@@ -33,27 +33,20 @@ public class DescriptionXMLFile {
     }
 
     public TaskDescription parse() {
-        NodeList nodeList = documentElement.getElementsByTagName("Task");
-        Node node = nodeList.item(0);
-        if (node.getNodeType() == Node.ELEMENT_NODE) {
-            Element element = (Element) node;
-            String taskTitle = element.getElementsByTagName("Title").item(0).getTextContent();
-            String shortDescription = element.getElementsByTagName("ShortDescription").item(0).getTextContent();
-            String instructions = element.getElementsByTagName("Instructions").item(0).getTextContent();
-            String story = element.getElementsByTagName("Story").item(0).getTextContent();
+        String taskTitle = documentElement.getElementsByTagName("Title").item(0).getTextContent();
+        String shortDescription = documentElement.getElementsByTagName("ShortDescription").item(0).getTextContent();
+        String instructions = documentElement.getElementsByTagName("Instructions").item(0).getTextContent();
+        String story = documentElement.getElementsByTagName("Story").item(0).getTextContent();
 
-            int difficulty = Integer.parseInt(element.getElementsByTagName("Difficulty").item(0).getTextContent());
-            int length = Integer.parseInt(element.getElementsByTagName("Length").item(0).getTextContent());
-            List<String> tags = new LinkedList<>();
-            NodeList tagNodeList = element.getElementsByTagName("Tag");
-            for (int i = 0; i < tagNodeList.getLength(); i++) {
-                tags.add(tagNodeList.item(i).getTextContent());
-            }
-
-            return new TaskDescription(taskTitle, shortDescription, instructions, story, difficulty, length, tags);
-        } else {
-            return null;
+        int difficulty = Integer.parseInt(documentElement.getElementsByTagName("Difficulty").item(0).getTextContent());
+        int length = Integer.parseInt(documentElement.getElementsByTagName("Length").item(0).getTextContent());
+        List<String> tags = new LinkedList<>();
+        NodeList tagNodeList = documentElement.getElementsByTagName("Tag");
+        for (int i = 0; i < tagNodeList.getLength(); i++) {
+            tags.add(tagNodeList.item(i).getTextContent());
         }
+
+        return new TaskDescription(taskTitle, shortDescription, instructions, story, difficulty, length, tags);
     }
 
 }
