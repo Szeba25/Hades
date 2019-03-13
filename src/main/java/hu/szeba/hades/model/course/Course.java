@@ -1,5 +1,6 @@
 package hu.szeba.hades.model.course;
 
+import hu.szeba.hades.io.DataFile;
 import hu.szeba.hades.io.TabbedFile;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.meta.User;
@@ -36,7 +37,7 @@ public class Course {
 
         possibleTaskCollectionIds.forEach((id) -> {
             try {
-                TabbedFile metaFile = new TabbedFile(new File(pathFile, id + "/meta.dat"));
+                TabbedFile metaFile = new TabbedFile(new File(pathFile, id + "/title.dat"));
                 possibleTaskCollectionTitles.add(metaFile.getData(0, 0));
                 taskCollectionTitleToId.put(metaFile.getData(0, 0), id);
             } catch (IOException e) {
@@ -46,8 +47,8 @@ public class Course {
 
         this.taskCollections = new HashMap<>();
 
-        TabbedFile courseMetaFile = new TabbedFile(new File(Options.getDatabasePath(), courseId  + "/meta.dat"));
-        this.language = courseMetaFile.getData(1, 0);
+        DataFile courseMetaFile = new DataFile(new File(Options.getDatabasePath(), courseId  + "/meta.dat"), "=");
+        this.language = courseMetaFile.getData(0, 1);
     }
 
     public List<String> getPossibleTaskCollectionTitles() {

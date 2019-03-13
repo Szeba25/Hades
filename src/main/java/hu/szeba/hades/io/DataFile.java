@@ -1,6 +1,7 @@
 package hu.szeba.hades.io;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -22,8 +23,10 @@ public class DataFile {
         this.name = file.getName();
         this.separator = separator;
         if (file.exists()) {
-            FileReader fReader = new FileReader(file);
-            BufferedReader reader = new BufferedReader(fReader);
+            FileInputStream fis = new FileInputStream(file);
+            InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
+            BufferedReader reader = new BufferedReader(isr);
+
             String line;
             while ((line = reader.readLine()) != null) {
                 if (!line.equals("")) {
@@ -34,8 +37,10 @@ public class DataFile {
                     this.content.add(tmp);
                 }
             }
+
             reader.close();
-            fReader.close();
+            isr.close();
+            fis.close();
         } else if (!file.createNewFile()) {
             throw new IOException("Couldn't create new file at: " + file.getAbsolutePath());
         }
@@ -66,8 +71,9 @@ public class DataFile {
     }
 
     public void save() throws IOException {
-        FileWriter fWriter = new FileWriter(file);
-        BufferedWriter writer = new BufferedWriter(fWriter);
+        FileOutputStream fos = new FileOutputStream(file);
+        OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
+        BufferedWriter writer = new BufferedWriter(osw);
 
         for (String[] data : content) {
             for (int i = 0; i < data.length; i++) {
@@ -80,7 +86,8 @@ public class DataFile {
         }
 
         writer.close();
-        fWriter.close();
+        osw.close();
+        fos.close();
     }
 
     public int getLineCount() {

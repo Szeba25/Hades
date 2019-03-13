@@ -26,7 +26,7 @@ public class CourseDatabase {
 
         possibleCourseIds.forEach((id) -> {
             try {
-                TabbedFile metaFile = new TabbedFile(new File(Options.getDatabasePath(), id + "/meta.dat"));
+                TabbedFile metaFile = new TabbedFile(new File(Options.getDatabasePath(), id + "/title.dat"));
                 possibleCourseTitles.add(metaFile.getData(0, 0));
                 courseTitleToId.put(metaFile.getData(0, 0), id);
             } catch (IOException e) {
