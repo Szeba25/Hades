@@ -22,8 +22,8 @@ public class Task {
     private final String language;
     private final String syntaxStyle;
 
-    private final String courseName;
-    private final String taskCollectionName;
+    private final String courseId;
+    private final String taskCollectionId;
     private final String taskId;
 
     private final File taskDirectory;
@@ -41,8 +41,8 @@ public class Task {
                 ProgramCompiler programCompiler,
                 String language,
                 String syntaxStyle,
-                String courseName,
-                String taskCollectionName,
+                String courseId,
+                String taskCollectionId,
                 String taskId,
                 TaskDescription taskDescription,
                 boolean continueTask) throws IOException, MissingResultFileException {
@@ -52,12 +52,12 @@ public class Task {
         this.language = language;
         this.syntaxStyle = syntaxStyle;
 
-        this.courseName = courseName;
-        this.taskCollectionName = taskCollectionName;
+        this.courseId = courseId;
+        this.taskCollectionId = taskCollectionId;
         this.taskId = taskId;
 
-        this.taskDirectory = new File(Options.getDatabasePath(), courseName + "/tasks/" + taskId);
-        this.taskWorkingDirectory = new File(user.getUserWorkingDirectoryPath(), courseName + "/" + taskCollectionName + "/" + taskId);
+        this.taskDirectory = new File(Options.getDatabasePath(), courseId + "/tasks/" + taskId);
+        this.taskWorkingDirectory = new File(user.getUserWorkingDirectoryPath(), courseId + "/" + taskCollectionId + "/" + taskId);
 
         // If not continuing task, but folder exists, delete the folder first!
         if (!continueTask && taskWorkingDirectory.exists()) {
@@ -137,12 +137,12 @@ public class Task {
         return new File(taskWorkingDirectory.getAbsolutePath());
     }
 
-    public String getCourseName() {
-        return courseName;
+    public String getCourseId() {
+        return courseId;
     }
 
-    public String getTaskCollectionName() {
-        return taskCollectionName;
+    public String getTaskCollectionId() {
+        return taskCollectionId;
     }
 
     public String getTaskId() {
@@ -150,7 +150,7 @@ public class Task {
     }
 
     public String getTaskIdentifierString() {
-        return courseName + "/" + taskCollectionName + "/" + taskId;
+        return courseId + "/" + taskCollectionId + "/" + taskId;
     }
 
     public TaskDescription getTaskDescription() {

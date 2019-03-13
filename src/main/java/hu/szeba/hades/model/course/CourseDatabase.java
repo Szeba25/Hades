@@ -24,12 +24,12 @@ public class CourseDatabase {
         return possibleCourses;
     }
 
-    public Course loadCourse(String courseName) {
-        if (courses.containsKey(courseName)) {
-            return courses.get(courseName);
+    public Course loadCourse(String courseId) {
+        if (courses.containsKey(courseId)) {
+            return courses.get(courseId);
         } else {
-            Course newCourse = new Course(user, courseName);
-            courses.put(courseName, newCourse);
+            Course newCourse = new Course(user, courseId);
+            courses.put(courseId, newCourse);
             return newCourse;
         }
     }

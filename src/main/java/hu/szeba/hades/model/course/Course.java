@@ -13,19 +13,19 @@ import java.util.*;
 public class Course {
 
     private User user;
-    private String courseName;
+    private String courseId;
     private List<String> possibleTaskCollections;
     private Map<String, TaskCollection> taskCollections;
 
     // Language cannot change!
     private final String language;
 
-    public Course(User user, String courseName) {
+    public Course(User user, String courseId) {
         this.user = user;
-        this.courseName = courseName;
+        this.courseId = courseId;
 
         possibleTaskCollections = new ArrayList<>();
-        File pathFile = new File(Options.getDatabasePath().getAbsolutePath(), courseName + "/task_collections");
+        File pathFile = new File(Options.getDatabasePath().getAbsolutePath(), courseId + "/task_collections");
         possibleTaskCollections.addAll(Arrays.asList(pathFile.list()));
 
         this.taskCollections = new HashMap<>();
@@ -38,12 +38,12 @@ public class Course {
         return possibleTaskCollections;
     }
 
-    public TaskCollection loadTaskCollection(String taskCollectionName) throws IOException, ParserConfigurationException, SAXException {
-        if (taskCollections.containsKey(taskCollectionName)) {
-            return taskCollections.get(taskCollectionName);
+    public TaskCollection loadTaskCollection(String taskCollectionId) throws IOException, ParserConfigurationException, SAXException {
+        if (taskCollections.containsKey(taskCollectionId)) {
+            return taskCollections.get(taskCollectionId);
         } else {
-            TaskCollection newTaskCollection = new TaskCollection(user, courseName, taskCollectionName, language);
-            taskCollections.put(taskCollectionName, newTaskCollection);
+            TaskCollection newTaskCollection = new TaskCollection(user, courseId, taskCollectionId, language);
+            taskCollections.put(taskCollectionId, newTaskCollection);
             return newTaskCollection;
         }
     }

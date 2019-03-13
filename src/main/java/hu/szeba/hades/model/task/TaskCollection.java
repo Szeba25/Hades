@@ -19,8 +19,8 @@ import java.util.*;
 public class TaskCollection {
 
     private User user;
-    private String courseName;
-    private String taskCollectionName;
+    private String courseId;
+    private String taskCollectionId;
     private File taskCollectionDirectory;
     private File tasksDirectory;
     private AdjacencyMatrix taskMatrix;
@@ -32,12 +32,12 @@ public class TaskCollection {
 
     private final String language;
 
-    public TaskCollection(User user, String courseName, String taskCollectionName, String language) throws IOException, ParserConfigurationException, SAXException {
+    public TaskCollection(User user, String courseId, String taskCollectionId, String language) throws IOException, ParserConfigurationException, SAXException {
         this.user = user;
-        this.courseName = courseName;
-        this.taskCollectionName = taskCollectionName;
-        this.taskCollectionDirectory = new File(Options.getDatabasePath(), courseName + "/task_collections/" + taskCollectionName);
-        this.tasksDirectory = new File(Options.getDatabasePath(), courseName + "/tasks");
+        this.courseId = courseId;
+        this.taskCollectionId = taskCollectionId;
+        this.taskCollectionDirectory = new File(Options.getDatabasePath(), courseId + "/task_collections/" + taskCollectionId);
+        this.tasksDirectory = new File(Options.getDatabasePath(), courseId + "/tasks");
         this.language = language;
 
         loadTaskIds();
@@ -74,7 +74,7 @@ public class TaskCollection {
             boolean available = true;
             List<String> list = taskMatrix.getParentNodes(taskId);
             for (String parents : list) {
-                available = available && (user.isTaskCompleted(courseName + "/" + taskCollectionName + "/" + parents));
+                available = available && (user.isTaskCompleted(courseId + "/" + taskCollectionId + "/" + parents));
             }
             // The task is unavailable, if any of its parents is not completed...
             if (!available) {
@@ -86,15 +86,15 @@ public class TaskCollection {
     public Task createTask(String taskId, boolean continueTask)
             throws InvalidLanguageException, IOException, MissingResultFileException {
 
-        return TaskFactoryDecider.decideFactory(language).getTask(user, courseName, taskCollectionName, taskId, taskDescriptions.get(taskId), continueTask);
+        return TaskFactoryDecider.decideFactory(language).getTask(user, courseId, taskCollectionId, taskId, taskDescriptions.get(taskId), continueTask);
     }
 
     public boolean isTaskCompleted(String taskId) {
-        return user.isTaskCompleted(courseName + "/" + taskCollectionName + "/" + taskId);
+        return user.isTaskCompleted(courseId + "/" + taskCollectionId + "/" + taskId);
     }
 
     public boolean isProgressExists(String taskId) {
-        return user.isProgressExists(courseName + "/" + taskCollectionName + "/" + taskId);
+        return user.isProgressExists(courseId + "/" + taskCollectionId + "/" + taskId);
     }
 
     public boolean isTaskUnavailable(String taskId) {
