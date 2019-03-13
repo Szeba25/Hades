@@ -1,5 +1,6 @@
 package hu.szeba.hades.model.course;
 
+import hu.szeba.hades.io.TabbedFile;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.meta.User;
 import hu.szeba.hades.model.task.TaskCollection;
@@ -14,28 +15,47 @@ public class Course {
 
     private User user;
     private String courseId;
-    private List<String> possibleTaskCollections;
+    private List<String> possibleTaskCollectionIds;
+    private List<String> possibleTaskCollectionTitles;
+    private Map<String, String> taskCollectionTitleToId;
     private Map<String, TaskCollection> taskCollections;
 
     // Language cannot change!
     private final String language;
 
-    public Course(User user, String courseId) {
+    public Course(User user, String courseId) throws IOException {
         this.user = user;
         this.courseId = courseId;
 
-        possibleTaskCollections = new ArrayList<>();
+        possibleTaskCollectionIds = new ArrayList<>();
         File pathFile = new File(Options.getDatabasePath().getAbsolutePath(), courseId + "/task_collections");
-        possibleTaskCollections.addAll(Arrays.asList(pathFile.list()));
+        possibleTaskCollectionIds.addAll(Arrays.asList(pathFile.list()));
+
+        possibleTaskCollectionTitles = new ArrayList<>();
+        taskCollectionTitleToId = new HashMap<>();
+
+        possibleTaskCollectionIds.forEach((id) -> {
+            try {
+                TabbedFile metaFile = new TabbedFile(new File(pathFile, id + "/meta.dat"));
+                possibleTaskCollectionTitles.add(metaFile.getData(0, 0));
+                taskCollectionTitleToId.put(metaFile.getData(0, 0), id);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         this.taskCollections = new HashMap<>();
 
-        // TODO: Read from config file!
-        this.language = "C";
+        TabbedFile courseMetaFile = new TabbedFile(new File(Options.getDatabasePath(), courseId  + "/meta.dat"));
+        this.language = courseMetaFile.getData(1, 0);
     }
 
-    public List<String> getPossibleTaskCollections() {
-        return possibleTaskCollections;
+    public List<String> getPossibleTaskCollectionTitles() {
+        return possibleTaskCollectionTitles;
+    }
+
+    public String titleToId(String taskCollectionTitle) {
+        return taskCollectionTitleToId.get(taskCollectionTitle);
     }
 
     public TaskCollection loadTaskCollection(String taskCollectionId) throws IOException, ParserConfigurationException, SAXException {

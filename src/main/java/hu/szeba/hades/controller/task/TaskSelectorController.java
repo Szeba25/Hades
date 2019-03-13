@@ -26,27 +26,27 @@ public class TaskSelectorController {
         this.taskCollection = course.loadTaskCollection("collection_1");
     }
 
-    public void updateCourse(JList<String> taskList, JComboBox<String> taskCollectionList, String newCourse)
+    public void updateCourse(JList<String> taskList, JComboBox<String> taskCollectionList, String courseTitle)
             throws IOException, SAXException, ParserConfigurationException {
-        course = courseDatabase.loadCourse(newCourse);
+        course = courseDatabase.loadCourse(courseDatabase.titleToId(courseTitle));
         setTaskCollectionListContents(taskCollectionList);
         updateTaskCollection(taskList, (String)taskCollectionList.getSelectedItem());
     }
 
-    public void updateTaskCollection(JList<String> taskList, String newTaskCollection)
+    public void updateTaskCollection(JList<String> taskList, String taskCollectionTitle)
             throws ParserConfigurationException, SAXException, IOException {
-        taskCollection = course.loadTaskCollection(newTaskCollection);
+        taskCollection = course.loadTaskCollection(course.titleToId(taskCollectionTitle));
         setTaskListContents(taskList);
     }
 
     public void setCourseListContents(JComboBox<String> courseList) {
         courseList.removeAllItems();
-        courseDatabase.getPossibleCourses().forEach(courseList::addItem);
+        courseDatabase.getPossibleCourseTitles().forEach(courseList::addItem);
     }
 
     public void setTaskCollectionListContents(JComboBox<String> taskCollectionList) {
         taskCollectionList.removeAllItems();
-        course.getPossibleTaskCollections().forEach(taskCollectionList::addItem);
+        course.getPossibleTaskCollectionTitles().forEach(taskCollectionList::addItem);
     }
 
     public void setTaskListContents(JList<String> taskList) {
