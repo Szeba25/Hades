@@ -13,6 +13,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class DescriptionXMLFile {
@@ -39,7 +41,16 @@ public class DescriptionXMLFile {
             String shortDescription = element.getElementsByTagName("ShortDescription").item(0).getTextContent();
             String instructions = element.getElementsByTagName("Instructions").item(0).getTextContent();
             String story = element.getElementsByTagName("Story").item(0).getTextContent();
-            return new TaskDescription(taskTitle, shortDescription, instructions, story);
+
+            int difficulty = Integer.parseInt(element.getElementsByTagName("Difficulty").item(0).getTextContent());
+            int length = Integer.parseInt(element.getElementsByTagName("Length").item(0).getTextContent());
+            List<String> tags = new LinkedList<>();
+            NodeList tagNodeList = element.getElementsByTagName("Tag");
+            for (int i = 0; i < tagNodeList.getLength(); i++) {
+                tags.add(tagNodeList.item(i).getTextContent());
+            }
+
+            return new TaskDescription(taskTitle, shortDescription, instructions, story, difficulty, length, tags);
         } else {
             return null;
         }

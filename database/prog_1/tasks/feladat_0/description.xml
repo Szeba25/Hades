@@ -49,6 +49,12 @@
 			<p>És itt egy másik sor!</p>
 		]]>
 		</Story>
+		<Difficulty>1</Difficulty>
+		<Length>2</Length>
+		<Tags>
+			<Tag>Variables</Tag>
+			<Tag>Control flow</Tag>
+		</Tags>
 	</Task>
 
 </Description>
