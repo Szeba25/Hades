@@ -133,6 +133,30 @@ public class TaskSelectorView extends BaseView {
 
     @Override
     public void setupEvents() {
+        courseList.addActionListener((event) -> {
+            Object selectedItem = courseList.getSelectedItem();
+            if (selectedItem != null) {
+                try {
+                    controller.updateCourse(taskList, taskCollectionList, (String) selectedItem);
+                    clearTaskSelection();
+                } catch (IOException | SAXException | ParserConfigurationException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        taskCollectionList.addActionListener((event) -> {
+            Object selectedItem = taskCollectionList.getSelectedItem();
+            if (selectedItem != null) {
+                try {
+                    controller.updateTaskCollection(taskList, (String) selectedItem);
+                    clearTaskSelection();
+                } catch (ParserConfigurationException | SAXException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         startButton.addActionListener((event) -> {
             // Protect from multiple actions spawned
             if (startButton.getActionGuard().isGuarded()) {
@@ -151,6 +175,8 @@ public class TaskSelectorView extends BaseView {
                                 JOptionPane.YES_NO_OPTION);
                         if (option == JOptionPane.YES_OPTION) {
                             newTrigger = true;
+                        } else {
+                            startButton.getActionGuard().reset();
                         }
                     } else {
                         // There was no progress, we can overwrite it...
@@ -250,8 +276,14 @@ public class TaskSelectorView extends BaseView {
             }
             controller.setTaskShortDescription(taskId, descriptionArea);
         } else {
-            descriptionArea.setText("<h3>No task selected...</h3>");
+            clearTaskSelection();
         }
+    }
+
+    private void clearTaskSelection() {
+        descriptionArea.setText("<h3>No task selected...</h3>");
+        startButton.setEnabled(false);
+        continueButton.setEnabled(false);
     }
 
     private String getSelectedTaskId() {
