@@ -15,19 +15,13 @@ import java.io.IOException;
 public class Main {
 
     private User user;
-    private CourseDatabase courseDatabase;
-    private Course course;
-    private TaskCollection taskCollection;
     private TaskSelectorView taskSelectorView;
 
     private Main() {
         try {
             Options.initialize();
             user = new User("DEFAULT", "Someone");
-            courseDatabase = new CourseDatabase(user);
-            course = courseDatabase.loadCourse("prog_1");
-            taskCollection = course.loadTaskCollection("collection_1");
-            taskSelectorView = new TaskSelectorView(taskCollection);
+            taskSelectorView = new TaskSelectorView(new CourseDatabase(user));
             start();
         } catch (IOException | SAXException | ParserConfigurationException e) {
             e.printStackTrace();

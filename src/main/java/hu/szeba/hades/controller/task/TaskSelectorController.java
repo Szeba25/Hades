@@ -1,21 +1,37 @@
 package hu.szeba.hades.controller.task;
 
+import hu.szeba.hades.model.course.Course;
+import hu.szeba.hades.model.course.CourseDatabase;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.model.task.TaskCollection;
 import hu.szeba.hades.view.BaseView;
 import hu.szeba.hades.view.task.TaskSolvingView;
+import org.xml.sax.SAXException;
 
 import javax.swing.*;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
 public class TaskSelectorController {
 
+    private CourseDatabase courseDatabase;
+    private Course course;
     private TaskCollection taskCollection;
 
-    public TaskSelectorController(TaskCollection taskCollection) {
-        this.taskCollection = taskCollection;
+    public TaskSelectorController(CourseDatabase courseDatabase) throws ParserConfigurationException, SAXException, IOException {
+        this.courseDatabase = courseDatabase;
+        this.course = courseDatabase.loadCourse("prog_1");
+        this.taskCollection = course.loadTaskCollection("collection_1");
+    }
+
+    public void setCourseListContents(JComboBox<String> courseList) {
+        courseDatabase.getPossibleCourses().forEach(courseList::addItem);
+    }
+
+    public void setTaskCollectionListContents(JComboBox<String> taskCollectionList) {
+        course.getPossibleTaskCollections().forEach(taskCollectionList::addItem);
     }
 
     public void setTaskListContents(JList<String> taskList) {

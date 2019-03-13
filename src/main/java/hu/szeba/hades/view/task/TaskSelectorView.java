@@ -1,14 +1,17 @@
 package hu.szeba.hades.view.task;
 
 import hu.szeba.hades.controller.task.TaskSelectorController;
+import hu.szeba.hades.model.course.CourseDatabase;
 import hu.szeba.hades.model.task.TaskCollection;
 import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.view.BaseView;
 import hu.szeba.hades.view.JButtonGuarded;
+import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.io.IOException;
 
@@ -16,6 +19,7 @@ public class TaskSelectorView extends BaseView {
 
     private TaskSelectorController controller;
 
+    private JPanel topPanel;
     private JPanel leftPanel;
     private JPanel bottomPanel;
     private JPanel rightPanel;
@@ -25,6 +29,9 @@ public class TaskSelectorView extends BaseView {
     private Color unavailableTaskForeground;
     private Color availableTaskForeground;
 
+    private JComboBox<String> courseList;
+    private JComboBox<String> taskCollectionList;
+
     private JList<String> taskList;
     private JScrollPane taskListScroller;
 
@@ -32,14 +39,18 @@ public class TaskSelectorView extends BaseView {
     private JButtonGuarded startButton;
     private JButtonGuarded continueButton;
 
-    public TaskSelectorView(TaskCollection taskCollection) {
+    public TaskSelectorView(CourseDatabase courseDatabase) throws IOException, SAXException, ParserConfigurationException {
         super();
 
         // Create the controller
-        controller = new TaskSelectorController(taskCollection);
+        controller = new TaskSelectorController(courseDatabase);
+
+        controller.setCourseListContents(courseList);
+        controller.setTaskCollectionListContents(taskCollectionList);
         controller.setTaskListContents(taskList);
 
         // Put everything together and pack
+        this.getContentPane().add(topPanel, BorderLayout.NORTH);
         this.getContentPane().add(leftPanel, BorderLayout.WEST);
         this.getContentPane().add(rightPanel, BorderLayout.CENTER);
         this.pack();
@@ -52,6 +63,10 @@ public class TaskSelectorView extends BaseView {
         this.setLayout(new BorderLayout());
         this.setMinimumSize(new Dimension(640, 480));
         this.setTitle("Hades: Please select a task");
+
+        topPanel = new JPanel();
+        topPanel.setLayout(new FlowLayout());
+        topPanel.setBorder(new EmptyBorder(5, 5, 0, 5));
 
         leftPanel = new JPanel();
         leftPanel.setLayout(new BorderLayout());
@@ -69,6 +84,15 @@ public class TaskSelectorView extends BaseView {
         completedTaskForeground = new Color(20, 140, 20);
         unavailableTaskForeground = Color.GRAY;
         availableTaskForeground = Color.BLACK;
+
+        courseList = new JComboBox<>();
+        courseList.setPreferredSize(new Dimension(200, 20));
+
+        taskCollectionList = new JComboBox<>();
+        taskCollectionList.setPreferredSize(new Dimension(200, 20));
+
+        topPanel.add(courseList);
+        topPanel.add(taskCollectionList);
 
         taskList = new JList<>();
         taskList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
