@@ -21,14 +21,13 @@ public class TaskSelectorController {
     private Course course;
     private TaskCollection taskCollection;
 
-    public TaskSelectorController(CourseDatabase courseDatabase) throws ParserConfigurationException, SAXException, IOException {
+    public TaskSelectorController(CourseDatabase courseDatabase) {
         this.courseDatabase = courseDatabase;
-        this.course = courseDatabase.loadCourse("prog_1");
-        this.taskCollection = course.loadTaskCollection("collection_1");
     }
 
     public void updateCourse(JList<MappedElement> taskList, JComboBox<MappedElement> taskCollectionList, MappedElement selectedCourse)
             throws IOException, SAXException, ParserConfigurationException {
+
         course = courseDatabase.loadCourse(selectedCourse.getId());
         setTaskCollectionListContents(taskCollectionList);
         updateTaskCollection(taskList, (MappedElement)taskCollectionList.getSelectedItem());
@@ -36,6 +35,7 @@ public class TaskSelectorController {
 
     public void updateTaskCollection(JList<MappedElement> taskList, MappedElement selectedTaskCollection)
             throws ParserConfigurationException, SAXException, IOException {
+
         taskCollection = course.loadTaskCollection(selectedTaskCollection.getId());
         setTaskListContents(taskList);
     }
@@ -54,36 +54,38 @@ public class TaskSelectorController {
         taskList.setListData(taskCollection.getPossibleTasks().toArray(new MappedElement[0]));
     }
 
-    public void loadNewTask(String selectedTaskId,
-                            BaseView parentView) throws InvalidLanguageException, IOException, MissingResultFileException {
-        Task task = taskCollection.createTask(selectedTaskId, false);
+    public void loadNewTask(MappedElement selectedTask, BaseView parentView)
+            throws InvalidLanguageException, IOException, MissingResultFileException {
+
+        Task task = taskCollection.createTask(selectedTask.getId(), false);
         parentView.hideView();
         TaskSolvingView taskSolvingView = new TaskSolvingView(parentView, task);
         taskSolvingView.showViewMaximized();
     }
 
-    public void continueTask(String selectedTaskId,
-                             BaseView parentView) throws InvalidLanguageException, IOException, MissingResultFileException {
-        Task task = taskCollection.createTask(selectedTaskId, true);
+    public void continueTask(MappedElement selectedTask, BaseView parentView)
+            throws InvalidLanguageException, IOException, MissingResultFileException {
+
+        Task task = taskCollection.createTask(selectedTask.getId(), true);
         parentView.hideView();
         TaskSolvingView taskSolvingView = new TaskSolvingView(parentView, task);
         taskSolvingView.showViewMaximized();
     }
 
-    public void setTaskShortDescription(String taskId, JEditorPane descriptionArea) {
-        descriptionArea.setText(taskCollection.getTaskDescription(taskId).getShortDescription());
+    public void setTaskShortDescription(MappedElement selectedTask, JEditorPane descriptionArea) {
+        descriptionArea.setText(taskCollection.getTaskDescription(selectedTask.getId()).getShortDescription());
     }
 
-    public boolean isTaskCompleted(String taskId) {
-        return taskCollection.isTaskCompleted(taskId);
+    public boolean isTaskCompleted(MappedElement taskElement) {
+        return taskCollection.isTaskCompleted(taskElement.getId());
     }
 
-    public boolean isProgressExists(String taskId) {
-        return taskCollection.isProgressExists(taskId);
+    public boolean isProgressExists(MappedElement taskElement) {
+        return taskCollection.isProgressExists(taskElement.getId());
     }
 
-    public boolean isTaskUnavailable(String taskId) {
-        return taskCollection.isTaskUnavailable(taskId);
+    public boolean isTaskUnavailable(MappedElement taskElement) {
+        return taskCollection.isTaskUnavailable(taskElement.getId());
     }
 
     public void generateUnavailableTaskIds() {

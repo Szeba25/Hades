@@ -169,7 +169,7 @@ public class TaskSelectorView extends BaseView {
                 if (getSelectedTask() != null) {
                     boolean newTrigger = false;
                     // If progress exists, prompt if overwrite it!
-                    if (controller.isProgressExists(getSelectedTask().getId())) {
+                    if (controller.isProgressExists(getSelectedTask())) {
                         int option = JOptionPane.showConfirmDialog(new JFrame(),
                                 "This will delete all previous progress for this task. Continue?",
                                 "Start task from scratch...",
@@ -185,7 +185,7 @@ public class TaskSelectorView extends BaseView {
                     }
                     // Finally, if we should create a new task, do it.
                     if (newTrigger) {
-                        controller.loadNewTask(getSelectedTask().getId(), this);
+                        controller.loadNewTask(getSelectedTask(), this);
                     }
                 }
             } catch (InvalidLanguageException | IOException | MissingResultFileException e) {
@@ -202,7 +202,7 @@ public class TaskSelectorView extends BaseView {
 
             try {
                 if (getSelectedTask() != null) {
-                    controller.continueTask(getSelectedTask().getId(), this);
+                    controller.continueTask(getSelectedTask(), this);
                 }
             } catch (InvalidLanguageException | IOException | MissingResultFileException e) {
                 e.printStackTrace();
@@ -233,9 +233,9 @@ public class TaskSelectorView extends BaseView {
                     if (isSelected) {
                         setBackground(selectedTaskBackground);
                     }
-                    if (controller.isTaskCompleted(element.getId())) {
+                    if (controller.isTaskCompleted(element)) {
                         setForeground(completedTaskForeground);
-                    } else if (controller.isTaskUnavailable(element.getId())) {
+                    } else if (controller.isTaskUnavailable(element)) {
                         setForeground(unavailableTaskForeground);
                     } else {
                         setForeground(availableTaskForeground);
@@ -264,19 +264,19 @@ public class TaskSelectorView extends BaseView {
 
     private void updateSelection(MappedElement selectedTask) {
         if (selectedTask != null) {
-            boolean available = controller.isTaskUnavailable(selectedTask.getId());
+            boolean available = controller.isTaskUnavailable(selectedTask);
             if (available) {
                 startButton.setEnabled(false);
                 continueButton.setEnabled(false);
             } else {
                 startButton.setEnabled(true);
-                if (controller.isProgressExists(selectedTask.getId())) {
+                if (controller.isProgressExists(selectedTask)) {
                     continueButton.setEnabled(true);
                 } else {
                     continueButton.setEnabled(false);
                 }
             }
-            controller.setTaskShortDescription(selectedTask.getId(), descriptionArea);
+            controller.setTaskShortDescription(selectedTask, descriptionArea);
         } else {
             clearTaskSelection();
         }
