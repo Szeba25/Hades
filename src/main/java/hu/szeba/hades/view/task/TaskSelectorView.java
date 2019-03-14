@@ -40,7 +40,7 @@ public class TaskSelectorView extends BaseView {
     private JButtonGuarded startButton;
     private JButtonGuarded continueButton;
 
-    public TaskSelectorView(CourseDatabase courseDatabase) throws IOException, SAXException, ParserConfigurationException {
+    public TaskSelectorView(CourseDatabase courseDatabase) {
         super();
 
         // Create the controller
