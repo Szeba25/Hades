@@ -28,19 +28,15 @@ public class TaskSelectorView extends BaseView {
     /* TOP PART */
 
     private JPanel topPanel;
-
-    private JPanel topPanelLeft;
     private JComboBox<MappedElement> courseList;
     private JComboBox<MappedElement> taskCollectionList;
-
-    private JPanel topPanelRight;
-    private JTextField titleSearchFilter;
 
     /* LEFT PART */
 
     private JPanel leftPanel;
     private JList<MappedElement> taskList;
     private JScrollPane taskListScroller;
+    private JButtonGuarded filtersButton;
 
     /* RIGHT PART */
 
@@ -72,10 +68,9 @@ public class TaskSelectorView extends BaseView {
     @Override
     public void initializeComponents() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(false);
+        this.setResizable(true);
         this.setLayout(new BorderLayout());
         this.setMinimumSize(new Dimension(800, 600));
-        this.setSize(new Dimension(800, 600));
         this.setTitle("Hades: Please select a task");
 
         selectedTaskBackground = new Color(160, 160, 255, 120);
@@ -86,68 +81,24 @@ public class TaskSelectorView extends BaseView {
         /* TOP PART */
 
         topPanel = new JPanel();
-        topPanel.setLayout(new BorderLayout());
-
-        /* TOP PART LEFT */
-
-        topPanelLeft = new JPanel();
-        topPanelLeft.setLayout(new SpringLayout());
-        topPanelLeft.setBorder(new EmptyBorder(5, 5, 0, 5));
+        topPanel.setLayout(new SpringLayout());
+        topPanel.setBorder(new EmptyBorder(5, 5, 0, 5));
 
         JLabel courseListLabel = new JLabel("Course:");
         courseList = new JComboBox<>();
         courseList.setPreferredSize(new Dimension(160, 20));
         courseListLabel.setLabelFor(courseList);
 
-        JLabel taskCollectionListLabel = new JLabel("Collection:");
+        JLabel taskCollectionListLabel = new JLabel("Tasks:");
         taskCollectionList = new JComboBox<>();
         taskCollectionList.setPreferredSize(new Dimension(160, 20));
         taskCollectionListLabel.setLabelFor(taskCollectionList);
 
-        topPanelLeft.add(courseListLabel);
-        topPanelLeft.add(courseList);
-        topPanelLeft.add(taskCollectionListLabel);
-        topPanelLeft.add(taskCollectionList);
-        SpringUtilities.makeCompactGrid(topPanelLeft, 2, 2, 5, 5, 5, 5);
-
-        /* TOP PART RIGHT */
-
-        topPanelRight = new JPanel();
-        topPanelRight.setLayout(new BorderLayout());
-        topPanelRight.setBorder(new EmptyBorder(5, 0, 0, 5));
-
-        JPanel topPanelRightTop = new JPanel();
-        topPanelRightTop.setLayout(new FlowLayout(FlowLayout.LEFT));
-
-        JLabel titleSearchLabel = new JLabel("Task title filter:");
-        titleSearchFilter = new JTextField();
-        titleSearchFilter.setPreferredSize(new Dimension(400, 20));
-        titleSearchLabel.setLabelFor(titleSearchFilter);
-
-        topPanelRightTop.add(titleSearchLabel);
-        topPanelRightTop.add(titleSearchFilter);
-
-        JPanel topPanelRightBottom = new JPanel();
-        topPanelRightBottom.setLayout(new FlowLayout(FlowLayout.LEFT));
-
-        JLabel difficultyLabel = new JLabel("Difficulty:");
-        JComboBox<String> difficultyList = new JComboBox<>();
-        difficultyList.setPreferredSize(new Dimension(120, 20));
-
-        JLabel statusLabel = new JLabel("Status:");
-        JComboBox<String> statusList = new JComboBox<>();
-        statusList.setPreferredSize(new Dimension(120, 20));
-
-        topPanelRightBottom.add(difficultyLabel);
-        topPanelRightBottom.add(difficultyList);
-        topPanelRightBottom.add(statusLabel);
-        topPanelRightBottom.add(statusList);
-
-        topPanelRight.add(topPanelRightTop, BorderLayout.NORTH);
-        topPanelRight.add(topPanelRightBottom, BorderLayout.CENTER);
-
-        topPanel.add(topPanelLeft, BorderLayout.WEST);
-        topPanel.add(topPanelRight, BorderLayout.CENTER);
+        topPanel.add(courseListLabel);
+        topPanel.add(courseList);
+        topPanel.add(taskCollectionListLabel);
+        topPanel.add(taskCollectionList);
+        SpringUtilities.makeCompactGrid(topPanel, 2, 2, 5, 5, 5, 5);
 
         /* LEFT PART */
 
@@ -163,7 +114,11 @@ public class TaskSelectorView extends BaseView {
         taskListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         taskListScroller.setBorder(BorderFactory.createEtchedBorder());
 
-        leftPanel.add(taskListScroller);
+        filtersButton = new JButtonGuarded("Filters");
+        filtersButton.setFocusPainted(false);
+
+        leftPanel.add(taskListScroller, BorderLayout.CENTER);
+        leftPanel.add(filtersButton, BorderLayout.SOUTH);
 
         /* RIGHT PART */
 
