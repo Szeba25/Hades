@@ -25,7 +25,6 @@ public class TaskCollection {
     private File taskCollectionDirectory;
     private File tasksDirectory;
     private AdjacencyMatrix taskMatrix;
-    private List<String> taskIds;
     private List<MappedElement> possibleTasks;
     private Map<String, TaskDescription> taskDescriptions;
     private Set<String> unavailableTaskIds;
@@ -48,7 +47,6 @@ public class TaskCollection {
     private void loadTaskIds() throws IOException {
         TaskGraphFile taskGraphFile = new TaskGraphFile(new File(taskCollectionDirectory, "tasks.graph"));
         taskMatrix = new AdjacencyMatrix(taskGraphFile.getTuples());
-        taskIds = taskMatrix.getNodeNames();
     }
 
     private void loadTaskDescriptions() throws IOException, SAXException, ParserConfigurationException {
@@ -58,7 +56,7 @@ public class TaskCollection {
         taskDescriptions = new HashMap<>();
 
         // Load all task descriptions
-        for (String taskId : taskIds) {
+        for (String taskId : taskMatrix.getNodeNames()) {
             DescriptionXMLFile descriptionFile = new DescriptionXMLFile(new File(tasksDirectory, taskId + "/description.xml"));
             TaskDescription description = descriptionFile.parse();
             possibleTasks.add(new MappedElement(taskId, description.getTaskTitle()));
@@ -68,7 +66,7 @@ public class TaskCollection {
 
     public void generateUnavailableTaskIds() {
         unavailableTaskIds = new HashSet<>();
-        for (String taskId : taskIds) {
+        for (String taskId : taskMatrix.getNodeNames()) {
             boolean available = true;
             List<String> list = taskMatrix.getParentNodes(taskId);
             for (String parents : list) {
