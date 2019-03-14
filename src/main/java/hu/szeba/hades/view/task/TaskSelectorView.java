@@ -7,6 +7,7 @@ import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.view.BaseView;
 import hu.szeba.hades.view.JButtonGuarded;
+import hu.szeba.hades.view.MappedElement;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
@@ -29,10 +30,10 @@ public class TaskSelectorView extends BaseView {
     private Color unavailableTaskForeground;
     private Color availableTaskForeground;
 
-    private JComboBox<String> courseList;
-    private JComboBox<String> taskCollectionList;
+    private JComboBox<MappedElement> courseList;
+    private JComboBox<MappedElement> taskCollectionList;
 
-    private JList<String> taskList;
+    private JList<MappedElement> taskList;
     private JScrollPane taskListScroller;
 
     private JEditorPane descriptionArea;
@@ -137,7 +138,7 @@ public class TaskSelectorView extends BaseView {
             Object selectedItem = courseList.getSelectedItem();
             if (selectedItem != null) {
                 try {
-                    controller.updateCourse(taskList, taskCollectionList, (String) selectedItem);
+                    controller.updateCourse(taskList, taskCollectionList, (MappedElement) selectedItem);
                     clearTaskSelection();
                 } catch (IOException | SAXException | ParserConfigurationException e) {
                     e.printStackTrace();
@@ -149,7 +150,7 @@ public class TaskSelectorView extends BaseView {
             Object selectedItem = taskCollectionList.getSelectedItem();
             if (selectedItem != null) {
                 try {
-                    controller.updateTaskCollection(taskList, (String) selectedItem);
+                    controller.updateTaskCollection(taskList, (MappedElement) selectedItem);
                     clearTaskSelection();
                 } catch (ParserConfigurationException | SAXException | IOException e) {
                     e.printStackTrace();
@@ -165,10 +166,10 @@ public class TaskSelectorView extends BaseView {
             startButton.getActionGuard().guard();
 
             try {
-                if (getSelectedTaskId() != null) {
+                if (getSelectedTask() != null) {
                     boolean newTrigger = false;
                     // If progress exists, prompt if overwrite it!
-                    if (controller.isProgressExists(getSelectedTaskId())) {
+                    if (controller.isProgressExists(getSelectedTask().getId())) {
                         int option = JOptionPane.showConfirmDialog(new JFrame(),
                                 "This will delete all previous progress for this task. Continue?",
                                 "Start task from scratch...",
@@ -184,7 +185,7 @@ public class TaskSelectorView extends BaseView {
                     }
                     // Finally, if we should create a new task, do it.
                     if (newTrigger) {
-                        controller.loadNewTask(getSelectedTaskId(), this);
+                        controller.loadNewTask(getSelectedTask().getId(), this);
                     }
                 }
             } catch (InvalidLanguageException | IOException | MissingResultFileException e) {
@@ -200,8 +201,8 @@ public class TaskSelectorView extends BaseView {
             continueButton.getActionGuard().guard();
 
             try {
-                if (getSelectedTaskId() != null) {
-                    controller.continueTask(getSelectedTaskId(), this);
+                if (getSelectedTask() != null) {
+                    controller.continueTask(getSelectedTask().getId(), this);
                 }
             } catch (InvalidLanguageException | IOException | MissingResultFileException e) {
                 e.printStackTrace();
@@ -214,8 +215,8 @@ public class TaskSelectorView extends BaseView {
             if (!listSelectionModel.isSelectionEmpty()) {
                 int idx = listSelectionModel.getMinSelectionIndex();
                 if (listSelectionModel.isSelectedIndex(idx)) {
-                    String value = (String) listModel.getElementAt(idx);
-                    updateSelection(controller.getTaskIdByTaskTitle(value));
+                    MappedElement value = (MappedElement) listModel.getElementAt(idx);
+                    updateSelection(value);
                 }
             }
         });
@@ -225,20 +226,21 @@ public class TaskSelectorView extends BaseView {
             public Component getListCellRendererComponent(JList list, Object value, int index,
                                                           boolean isSelected, boolean cellHasFocus) {
                 Component component = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if (value instanceof String) {
-                    String text = (String) value;
-                    setText(text);
+                if (value instanceof MappedElement) {
+                    MappedElement element = (MappedElement)value;
+                    setText(element.toString());
                     setBackground(Color.WHITE);
                     if (isSelected) {
                         setBackground(selectedTaskBackground);
                     }
-                    if (controller.isTaskCompleted(controller.getTaskIdByTaskTitle(text))) {
+                    if (controller.isTaskCompleted(element.getId())) {
                         setForeground(completedTaskForeground);
-                    } else if (controller.isTaskUnavailable(controller.getTaskIdByTaskTitle(text))) {
+                    } else if (controller.isTaskUnavailable(element.getId())) {
                         setForeground(unavailableTaskForeground);
                     } else {
                         setForeground(availableTaskForeground);
                     }
+
                 }
                 return component;
             }
@@ -253,28 +255,28 @@ public class TaskSelectorView extends BaseView {
         controller.generateUnavailableTaskIds();
 
         // Refresh buttons
-        updateSelection(getSelectedTaskId());
+        updateSelection(getSelectedTask());
 
         // Remove button guards
         startButton.getActionGuard().reset();
         continueButton.getActionGuard().reset();
     }
 
-    private void updateSelection(String taskId) {
-        if (taskId != null) {
-            boolean available = controller.isTaskUnavailable(taskId);
+    private void updateSelection(MappedElement selectedTask) {
+        if (selectedTask != null) {
+            boolean available = controller.isTaskUnavailable(selectedTask.getId());
             if (available) {
                 startButton.setEnabled(false);
                 continueButton.setEnabled(false);
             } else {
                 startButton.setEnabled(true);
-                if (controller.isProgressExists(taskId)) {
+                if (controller.isProgressExists(selectedTask.getId())) {
                     continueButton.setEnabled(true);
                 } else {
                     continueButton.setEnabled(false);
                 }
             }
-            controller.setTaskShortDescription(taskId, descriptionArea);
+            controller.setTaskShortDescription(selectedTask.getId(), descriptionArea);
         } else {
             clearTaskSelection();
         }
@@ -286,8 +288,8 @@ public class TaskSelectorView extends BaseView {
         continueButton.setEnabled(false);
     }
 
-    private String getSelectedTaskId() {
-        return controller.getTaskIdByTaskTitle(taskList.getSelectedValue());
+    private MappedElement getSelectedTask() {
+        return taskList.getSelectedValue();
     }
 
 }

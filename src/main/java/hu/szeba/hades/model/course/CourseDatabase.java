@@ -3,6 +3,7 @@ package hu.szeba.hades.model.course;
 import hu.szeba.hades.io.TabbedFile;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.meta.User;
+import hu.szeba.hades.view.MappedElement;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,38 +12,27 @@ import java.util.*;
 public class CourseDatabase {
 
     private User user;
-    private List<String> possibleCourseIds;
-    private List<String> possibleCourseTitles;
-    private Map<String, String> courseTitleToId;
+    private List<MappedElement> possibleCourses;
     private Map<String, Course> courses;
 
     public CourseDatabase(User user) {
         this.user = user;
-        possibleCourseIds = new ArrayList<>();
-        possibleCourseIds.addAll(Arrays.asList(Options.getDatabasePath().list()));
 
-        possibleCourseTitles = new ArrayList<>();
-        courseTitleToId = new HashMap<>();
-
-        possibleCourseIds.forEach((id) -> {
+        possibleCourses = new ArrayList<>();
+        for (String id : Options.getDatabasePath().list()) {
             try {
                 TabbedFile metaFile = new TabbedFile(new File(Options.getDatabasePath(), id + "/title.dat"));
-                possibleCourseTitles.add(metaFile.getData(0, 0));
-                courseTitleToId.put(metaFile.getData(0, 0), id);
+                possibleCourses.add(new MappedElement(id, metaFile.getData(0, 0)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        });
+        }
 
         courses = new HashMap<>();
     }
 
-    public List<String> getPossibleCourseTitles() {
-        return possibleCourseTitles;
-    }
-
-    public String titleToId(String courseTitle) {
-        return courseTitleToId.get(courseTitle);
+    public List<MappedElement> getPossibleCourses() {
+        return possibleCourses;
     }
 
     public Course loadCourse(String courseId) throws IOException {

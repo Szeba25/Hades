@@ -9,6 +9,7 @@ import hu.szeba.hades.model.task.data.TaskDescription;
 import hu.szeba.hades.model.task.graph.AdjacencyMatrix;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.model.task.taskfactory.TaskFactoryDecider;
+import hu.szeba.hades.view.MappedElement;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -25,9 +26,8 @@ public class TaskCollection {
     private File tasksDirectory;
     private AdjacencyMatrix taskMatrix;
     private List<String> taskIds;
+    private List<MappedElement> possibleTasks;
     private Map<String, TaskDescription> taskDescriptions;
-    private Map<String, String> taskTitleToTaskId;
-    private Map<String, String> taskIdToTaskTitle;
     private Set<String> unavailableTaskIds;
 
     private final String language;
@@ -52,25 +52,23 @@ public class TaskCollection {
     }
 
     private void loadTaskDescriptions() throws IOException, SAXException, ParserConfigurationException {
+        // Create list of possible tasks
+        possibleTasks = new ArrayList<>();
         // Create associative map for descriptions
         taskDescriptions = new HashMap<>();
-        // Create mapping for both direction!
-        taskTitleToTaskId = new HashMap<>();
-        taskIdToTaskTitle = new HashMap<>();
 
         // Load all task descriptions
         for (String taskId : taskIds) {
             DescriptionXMLFile descriptionFile = new DescriptionXMLFile(new File(tasksDirectory, taskId + "/description.xml"));
             TaskDescription description = descriptionFile.parse();
+            possibleTasks.add(new MappedElement(taskId, description.getTaskTitle()));
             taskDescriptions.put(taskId, description);
-            taskTitleToTaskId.put(description.getTaskTitle(), taskId);
-            taskIdToTaskTitle.put(taskId, description.getTaskTitle());
         }
     }
 
     public void generateUnavailableTaskIds() {
         unavailableTaskIds = new HashSet<>();
-        for (String taskId : taskMatrix.getNodeNames()) {
+        for (String taskId : taskIds) {
             boolean available = true;
             List<String> list = taskMatrix.getParentNodes(taskId);
             for (String parents : list) {
@@ -105,16 +103,8 @@ public class TaskCollection {
         return taskDescriptions.get(taskId);
     }
 
-    public List<String> getTaskTitles() {
-        List<String> taskTitles = new LinkedList<>();
-        for (String taskId : taskIds) {
-            taskTitles.add(taskDescriptions.get(taskId).getTaskTitle());
-        }
-        return taskTitles;
-    }
-
-    public String getTaskIdByTaskTitle(String taskTitle) {
-        return taskTitleToTaskId.get(taskTitle);
+    public List<MappedElement> getPossibleTasks() {
+        return possibleTasks;
     }
 
 }

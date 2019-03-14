@@ -7,6 +7,7 @@ import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.model.task.TaskCollection;
 import hu.szeba.hades.view.BaseView;
+import hu.szeba.hades.view.MappedElement;
 import hu.szeba.hades.view.task.TaskSolvingView;
 import org.xml.sax.SAXException;
 
@@ -26,31 +27,31 @@ public class TaskSelectorController {
         this.taskCollection = course.loadTaskCollection("collection_1");
     }
 
-    public void updateCourse(JList<String> taskList, JComboBox<String> taskCollectionList, String courseTitle)
+    public void updateCourse(JList<MappedElement> taskList, JComboBox<MappedElement> taskCollectionList, MappedElement selectedCourse)
             throws IOException, SAXException, ParserConfigurationException {
-        course = courseDatabase.loadCourse(courseDatabase.titleToId(courseTitle));
+        course = courseDatabase.loadCourse(selectedCourse.getId());
         setTaskCollectionListContents(taskCollectionList);
-        updateTaskCollection(taskList, (String)taskCollectionList.getSelectedItem());
+        updateTaskCollection(taskList, (MappedElement)taskCollectionList.getSelectedItem());
     }
 
-    public void updateTaskCollection(JList<String> taskList, String taskCollectionTitle)
+    public void updateTaskCollection(JList<MappedElement> taskList, MappedElement selectedTaskCollection)
             throws ParserConfigurationException, SAXException, IOException {
-        taskCollection = course.loadTaskCollection(course.titleToId(taskCollectionTitle));
+        taskCollection = course.loadTaskCollection(selectedTaskCollection.getId());
         setTaskListContents(taskList);
     }
 
-    public void setCourseListContents(JComboBox<String> courseList) {
+    public void setCourseListContents(JComboBox<MappedElement> courseList) {
         courseList.removeAllItems();
-        courseDatabase.getPossibleCourseTitles().forEach(courseList::addItem);
+        courseDatabase.getPossibleCourses().forEach(courseList::addItem);
     }
 
-    public void setTaskCollectionListContents(JComboBox<String> taskCollectionList) {
+    public void setTaskCollectionListContents(JComboBox<MappedElement> taskCollectionList) {
         taskCollectionList.removeAllItems();
-        course.getPossibleTaskCollectionTitles().forEach(taskCollectionList::addItem);
+        course.getPossibleTaskCollections().forEach(taskCollectionList::addItem);
     }
 
-    public void setTaskListContents(JList<String> taskList) {
-        taskList.setListData(taskCollection.getTaskTitles().toArray(new String[0]));
+    public void setTaskListContents(JList<MappedElement> taskList) {
+        taskList.setListData(taskCollection.getPossibleTasks().toArray(new MappedElement[0]));
     }
 
     public void loadNewTask(String selectedTaskId,
@@ -71,10 +72,6 @@ public class TaskSelectorController {
 
     public void setTaskShortDescription(String taskId, JEditorPane descriptionArea) {
         descriptionArea.setText(taskCollection.getTaskDescription(taskId).getShortDescription());
-    }
-
-    public String getTaskIdByTaskTitle(String taskTitle) {
-        return taskCollection.getTaskIdByTaskTitle(taskTitle);
     }
 
     public boolean isTaskCompleted(String taskId) {

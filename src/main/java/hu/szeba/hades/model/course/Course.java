@@ -5,6 +5,7 @@ import hu.szeba.hades.io.TabbedFile;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.meta.User;
 import hu.szeba.hades.model.task.TaskCollection;
+import hu.szeba.hades.view.MappedElement;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -16,9 +17,7 @@ public class Course {
 
     private User user;
     private String courseId;
-    private List<String> possibleTaskCollectionIds;
-    private List<String> possibleTaskCollectionTitles;
-    private Map<String, String> taskCollectionTitleToId;
+    private List<MappedElement> possibleTaskCollections;
     private Map<String, TaskCollection> taskCollections;
 
     // Language cannot change!
@@ -28,22 +27,16 @@ public class Course {
         this.user = user;
         this.courseId = courseId;
 
-        possibleTaskCollectionIds = new ArrayList<>();
+        possibleTaskCollections = new ArrayList<>();
         File pathFile = new File(Options.getDatabasePath().getAbsolutePath(), courseId + "/task_collections");
-        possibleTaskCollectionIds.addAll(Arrays.asList(pathFile.list()));
-
-        possibleTaskCollectionTitles = new ArrayList<>();
-        taskCollectionTitleToId = new HashMap<>();
-
-        possibleTaskCollectionIds.forEach((id) -> {
+        for (String id : pathFile.list()) {
             try {
                 TabbedFile metaFile = new TabbedFile(new File(pathFile, id + "/title.dat"));
-                possibleTaskCollectionTitles.add(metaFile.getData(0, 0));
-                taskCollectionTitleToId.put(metaFile.getData(0, 0), id);
+                possibleTaskCollections.add(new MappedElement(id, metaFile.getData(0, 0)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        });
+        }
 
         this.taskCollections = new HashMap<>();
 
@@ -51,12 +44,8 @@ public class Course {
         this.language = courseMetaFile.getData(0, 1);
     }
 
-    public List<String> getPossibleTaskCollectionTitles() {
-        return possibleTaskCollectionTitles;
-    }
-
-    public String titleToId(String taskCollectionTitle) {
-        return taskCollectionTitleToId.get(taskCollectionTitle);
+    public List<MappedElement> getPossibleTaskCollections() {
+        return possibleTaskCollections;
     }
 
     public TaskCollection loadTaskCollection(String taskCollectionId) throws IOException, ParserConfigurationException, SAXException {
