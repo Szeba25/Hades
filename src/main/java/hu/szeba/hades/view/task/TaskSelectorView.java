@@ -19,6 +19,7 @@ import java.io.IOException;
 public class TaskSelectorView extends BaseView {
 
     private TaskSelectorController controller;
+    private TaskFiltersView taskFiltersView;
 
     private Color selectedTaskBackground;
     private Color completedTaskForeground;
@@ -36,7 +37,7 @@ public class TaskSelectorView extends BaseView {
     private JPanel leftPanel;
     private JList<MappedElement> taskList;
     private JScrollPane taskListScroller;
-    private JButtonGuarded filtersButton;
+    private JButton filtersButton;
 
     /* RIGHT PART */
 
@@ -58,6 +59,9 @@ public class TaskSelectorView extends BaseView {
         controller.setTaskCollectionListContents(taskCollectionList);
         controller.setTaskListContents(taskList);
 
+        // Create the filters dialogue
+        taskFiltersView = new TaskFiltersView();
+
         // Put everything together and pack
         this.getContentPane().add(topPanel, BorderLayout.NORTH);
         this.getContentPane().add(leftPanel, BorderLayout.WEST);
@@ -71,7 +75,7 @@ public class TaskSelectorView extends BaseView {
         this.setResizable(true);
         this.setLayout(new BorderLayout());
         this.setMinimumSize(new Dimension(800, 600));
-        this.setTitle("Hades: Please select a task");
+        this.setTitle("Please select a task");
 
         selectedTaskBackground = new Color(160, 160, 255, 120);
         completedTaskForeground = new Color(20, 140, 20);
@@ -114,7 +118,7 @@ public class TaskSelectorView extends BaseView {
         taskListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         taskListScroller.setBorder(BorderFactory.createEtchedBorder());
 
-        filtersButton = new JButtonGuarded("Filters");
+        filtersButton = new JButton("Filters");
         filtersButton.setFocusPainted(false);
 
         leftPanel.add(taskListScroller, BorderLayout.CENTER);
@@ -269,6 +273,10 @@ public class TaskSelectorView extends BaseView {
                 }
                 return component;
             }
+        });
+
+        filtersButton.addActionListener((e) -> {
+            taskFiltersView.setVisible(true);
         });
     }
 
