@@ -2,9 +2,9 @@ package hu.szeba.hades.view.task;
 
 import hu.szeba.hades.controller.task.TaskSelectorController;
 import hu.szeba.hades.model.course.CourseDatabase;
-import hu.szeba.hades.model.task.TaskCollection;
 import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
+import hu.szeba.hades.util.SpringUtilities;
 import hu.szeba.hades.view.BaseView;
 import hu.szeba.hades.view.JButtonGuarded;
 import hu.szeba.hades.view.MappedElement;
@@ -20,25 +20,37 @@ public class TaskSelectorView extends BaseView {
 
     private TaskSelectorController controller;
 
-    private JPanel topPanel;
-    private JPanel leftPanel;
-    private JPanel bottomPanel;
-    private JPanel rightPanel;
-
     private Color selectedTaskBackground;
     private Color completedTaskForeground;
     private Color unavailableTaskForeground;
     private Color availableTaskForeground;
 
+    /* TOP PART */
+
+    private JPanel topPanel;
+
+    private JPanel topPanelLeft;
     private JComboBox<MappedElement> courseList;
     private JComboBox<MappedElement> taskCollectionList;
 
+    private JPanel topPanelRight;
+    private JTextField titleSearchFilter;
+
+    /* LEFT PART */
+
+    private JPanel leftPanel;
     private JList<MappedElement> taskList;
     private JScrollPane taskListScroller;
 
-    private JEditorPane descriptionArea;
+    /* RIGHT PART */
+
+    private JPanel rightPanel;
+
+    private JPanel rightPanelBottom;
     private JButtonGuarded startButton;
     private JButtonGuarded continueButton;
+
+    private JEditorPane descriptionArea;
 
     public TaskSelectorView(CourseDatabase courseDatabase) {
         super();
@@ -60,40 +72,88 @@ public class TaskSelectorView extends BaseView {
     @Override
     public void initializeComponents() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(true);
+        this.setResizable(false);
         this.setLayout(new BorderLayout());
-        this.setMinimumSize(new Dimension(640, 480));
+        this.setMinimumSize(new Dimension(800, 600));
+        this.setSize(new Dimension(800, 600));
         this.setTitle("Hades: Please select a task");
-
-        topPanel = new JPanel();
-        topPanel.setLayout(new FlowLayout());
-        topPanel.setBorder(new EmptyBorder(5, 5, 0, 5));
-
-        leftPanel = new JPanel();
-        leftPanel.setLayout(new BorderLayout());
-        leftPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-        bottomPanel = new JPanel();
-        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
-        bottomPanel.setBorder(new EmptyBorder(5, 0, 5, 5));
-
-        rightPanel = new JPanel();
-        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-        rightPanel.setBorder(new EmptyBorder(5, 0, 5, 5));
 
         selectedTaskBackground = new Color(160, 160, 255, 120);
         completedTaskForeground = new Color(20, 140, 20);
         unavailableTaskForeground = Color.GRAY;
         availableTaskForeground = Color.BLACK;
 
+        /* TOP PART */
+
+        topPanel = new JPanel();
+        topPanel.setLayout(new BorderLayout());
+
+        /* TOP PART LEFT */
+
+        topPanelLeft = new JPanel();
+        topPanelLeft.setLayout(new SpringLayout());
+        topPanelLeft.setBorder(new EmptyBorder(5, 5, 0, 5));
+
+        JLabel courseListLabel = new JLabel("Course:");
         courseList = new JComboBox<>();
-        courseList.setPreferredSize(new Dimension(200, 20));
+        courseList.setPreferredSize(new Dimension(160, 20));
+        courseListLabel.setLabelFor(courseList);
 
+        JLabel taskCollectionListLabel = new JLabel("Collection:");
         taskCollectionList = new JComboBox<>();
-        taskCollectionList.setPreferredSize(new Dimension(200, 20));
+        taskCollectionList.setPreferredSize(new Dimension(160, 20));
+        taskCollectionListLabel.setLabelFor(taskCollectionList);
 
-        topPanel.add(courseList);
-        topPanel.add(taskCollectionList);
+        topPanelLeft.add(courseListLabel);
+        topPanelLeft.add(courseList);
+        topPanelLeft.add(taskCollectionListLabel);
+        topPanelLeft.add(taskCollectionList);
+        SpringUtilities.makeCompactGrid(topPanelLeft, 2, 2, 5, 5, 5, 5);
+
+        /* TOP PART RIGHT */
+
+        topPanelRight = new JPanel();
+        topPanelRight.setLayout(new BorderLayout());
+        topPanelRight.setBorder(new EmptyBorder(5, 0, 0, 5));
+
+        JPanel topPanelRightTop = new JPanel();
+        topPanelRightTop.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        JLabel titleSearchLabel = new JLabel("Task title filter:");
+        titleSearchFilter = new JTextField();
+        titleSearchFilter.setPreferredSize(new Dimension(400, 20));
+        titleSearchLabel.setLabelFor(titleSearchFilter);
+
+        topPanelRightTop.add(titleSearchLabel);
+        topPanelRightTop.add(titleSearchFilter);
+
+        JPanel topPanelRightBottom = new JPanel();
+        topPanelRightBottom.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        JLabel difficultyLabel = new JLabel("Difficulty:");
+        JComboBox<String> difficultyList = new JComboBox<>();
+        difficultyList.setPreferredSize(new Dimension(120, 20));
+
+        JLabel statusLabel = new JLabel("Status:");
+        JComboBox<String> statusList = new JComboBox<>();
+        statusList.setPreferredSize(new Dimension(120, 20));
+
+        topPanelRightBottom.add(difficultyLabel);
+        topPanelRightBottom.add(difficultyList);
+        topPanelRightBottom.add(statusLabel);
+        topPanelRightBottom.add(statusList);
+
+        topPanelRight.add(topPanelRightTop, BorderLayout.NORTH);
+        topPanelRight.add(topPanelRightBottom, BorderLayout.CENTER);
+
+        topPanel.add(topPanelLeft, BorderLayout.WEST);
+        topPanel.add(topPanelRight, BorderLayout.CENTER);
+
+        /* LEFT PART */
+
+        leftPanel = new JPanel();
+        leftPanel.setLayout(new BorderLayout());
+        leftPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         taskList = new JList<>();
         taskList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -103,11 +163,17 @@ public class TaskSelectorView extends BaseView {
         taskListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         taskListScroller.setBorder(BorderFactory.createEtchedBorder());
 
-        descriptionArea = new JEditorPane();
-        descriptionArea.setAlignmentX(Component.CENTER_ALIGNMENT);
-        descriptionArea.setContentType("text/html");
-        descriptionArea.setEditable(false);
-        descriptionArea.setBorder(BorderFactory.createEtchedBorder());
+        leftPanel.add(taskListScroller);
+
+        /* RIGHT PART */
+
+        rightPanel = new JPanel();
+        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+        rightPanel.setBorder(new EmptyBorder(5, 0, 5, 5));
+
+        rightPanelBottom = new JPanel();
+        rightPanelBottom.setLayout(new BoxLayout(rightPanelBottom, BoxLayout.X_AXIS));
+        rightPanelBottom.setBorder(new EmptyBorder(5, 0, 5, 5));
 
         startButton = new JButtonGuarded("Start");
         startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -121,15 +187,19 @@ public class TaskSelectorView extends BaseView {
         continueButton.setMaximumSize(new Dimension(120, 30));
         continueButton.setEnabled(false);
 
-        leftPanel.add(taskListScroller);
+        rightPanelBottom.add(startButton);
+        rightPanelBottom.add(Box.createRigidArea(new Dimension(10, 0)));
+        rightPanelBottom.add(continueButton);
 
-        bottomPanel.add(startButton);
-        bottomPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-        bottomPanel.add(continueButton);
+        descriptionArea = new JEditorPane();
+        descriptionArea.setAlignmentX(Component.CENTER_ALIGNMENT);
+        descriptionArea.setContentType("text/html");
+        descriptionArea.setEditable(false);
+        descriptionArea.setBorder(BorderFactory.createEtchedBorder());
 
         rightPanel.add(descriptionArea);
         rightPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        rightPanel.add(bottomPanel);
+        rightPanel.add(rightPanelBottom);
     }
 
     @Override
