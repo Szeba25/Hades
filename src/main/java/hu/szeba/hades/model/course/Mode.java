@@ -1,6 +1,6 @@
 package hu.szeba.hades.model.course;
 
-import hu.szeba.hades.io.DataFile;
+import hu.szeba.hades.io.ConfigFile;
 import hu.szeba.hades.io.GraphFile;
 import hu.szeba.hades.io.TabbedFile;
 import hu.szeba.hades.meta.Options;
@@ -51,7 +51,7 @@ public class Mode {
         unavailableTaskCollectionIds = new ArrayList<>();
         taskCollections = new HashMap<>();
 
-        DataFile metaFile = new DataFile(new File(modeDirectory, "meta.dat"), "=");
+        ConfigFile metaFile = new ConfigFile(new File(modeDirectory, "meta.dat"));
         modeData = new ModeData(
                 Boolean.parseBoolean(metaFile.getData(0, 1)),  // ignore dependency
                 Boolean.parseBoolean(metaFile.getData(1, 1)),  // ignore story

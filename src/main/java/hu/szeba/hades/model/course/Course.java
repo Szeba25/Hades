@@ -1,17 +1,17 @@
 package hu.szeba.hades.model.course;
 
-import hu.szeba.hades.io.DataFile;
+import hu.szeba.hades.io.ConfigFile;
 import hu.szeba.hades.io.TabbedFile;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.meta.User;
-import hu.szeba.hades.model.task.TaskCollection;
 import hu.szeba.hades.view.MappedElement;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Course {
 
@@ -36,7 +36,7 @@ public class Course {
 
         this.modes = new HashMap<>();
 
-        DataFile courseMetaFile = new DataFile(new File(Options.getDatabasePath(), courseId  + "/meta.dat"), "=");
+        ConfigFile courseMetaFile = new ConfigFile(new File(Options.getDatabasePath(), courseId  + "/meta.dat"));
         this.language = courseMetaFile.getData(0, 1);
     }
 
