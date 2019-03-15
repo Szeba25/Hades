@@ -21,6 +21,7 @@ public class TaskSelectorView extends BaseView {
     private TaskSelectorController controller;
 
     private Color selectedTaskBackground;
+    private Color inProgressTaskForeground;
     private Color completedTaskForeground;
     private Color unavailableTaskForeground;
     private Color availableTaskForeground;
@@ -77,6 +78,7 @@ public class TaskSelectorView extends BaseView {
         this.setTitle("Please select a task");
 
         selectedTaskBackground = new Color(160, 160, 255, 120);
+        inProgressTaskForeground = new Color(50, 50, 210);
         completedTaskForeground = new Color(20, 140, 20);
         unavailableTaskForeground = Color.GRAY;
         availableTaskForeground = Color.BLACK;
@@ -285,6 +287,8 @@ public class TaskSelectorView extends BaseView {
                         setForeground(completedTaskForeground);
                     } else if (controller.isTaskUnavailable(element)) {
                         setForeground(unavailableTaskForeground);
+                    } else if (controller.isProgressExists(element)) {
+                        setForeground(inProgressTaskForeground);
                     } else {
                         setForeground(availableTaskForeground);
                     }
