@@ -124,8 +124,10 @@ public class TaskFilterView extends JDialog {
     public void setVisible(boolean value) {
         super.setVisible(value);
 
-        this.requestFocus();
-        this.loadData();
+        if (value) {
+            this.requestFocus();
+            this.loadData();
+        }
     }
 
     private void loadData() {
