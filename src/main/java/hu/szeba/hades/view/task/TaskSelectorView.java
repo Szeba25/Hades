@@ -61,7 +61,7 @@ public class TaskSelectorView extends BaseView {
         controller.setTaskListContents(taskList);
 
         // Create the filter dialogue
-        taskFilterView = new TaskFilterView();
+        taskFilterView = new TaskFilterView(controller.getTaskFilterData());
 
         // Put everything together and pack
         this.getContentPane().add(topPanel, BorderLayout.NORTH);
@@ -120,6 +120,7 @@ public class TaskSelectorView extends BaseView {
 
         taskList = new JList<>();
         taskList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        taskList.setModel(new DefaultListModel<>());
         taskList.setFixedCellWidth(200);
 
         taskListScroller = new JScrollPane(taskList);
@@ -297,6 +298,9 @@ public class TaskSelectorView extends BaseView {
 
         filtersButton.addActionListener((e) -> {
             taskFilterView.setVisible(true);
+            // Blocks until closed
+            controller.setTaskListContents(taskList);
+            clearTaskSelection();
         });
     }
 

@@ -1,15 +1,31 @@
 package hu.szeba.hades.view.task;
 
+import hu.szeba.hades.model.task.TaskCollection;
+import hu.szeba.hades.model.task.data.TaskDescription;
+
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TaskFilterData {
 
+    public enum TaskStatus {
+        ALL, AVAILABLE, COMPLETED, IN_PROGRESS, UNAVAILABLE;
+        public String toString() {
+            return (name().charAt(0) + name().toLowerCase().substring(1)).replace("_", " ");
+        }
+    }
+
     private String titleFilter;
     private int difficultyFilter;
-    private String statusFilter;
+    private TaskStatus statusFilter;
     private Map<String, Boolean> tagFilters;
 
-    public TaskFilterData(String titleFilter, int difficultyFilter, String statusFilter, Map<String, Boolean> tagFilters) {
+    public TaskFilterData() {
+        set("", 0, TaskStatus.ALL, new HashMap<>());
+    }
+
+    public void set(String titleFilter, int difficultyFilter, TaskStatus statusFilter, Map<String, Boolean> tagFilters) {
         this.titleFilter = titleFilter;
         this.difficultyFilter = difficultyFilter;
         this.statusFilter = statusFilter;
@@ -24,7 +40,7 @@ public class TaskFilterData {
         return difficultyFilter;
     }
 
-    public String getStatusFilter() {
+    public TaskStatus getStatusFilter() {
         return statusFilter;
     }
 
@@ -32,4 +48,38 @@ public class TaskFilterData {
         return tagFilters;
     }
 
+    public boolean matches(TaskCollection collection, String taskId) {
+        TaskDescription description = collection.getTaskDescription(taskId);
+
+        boolean matchesTitle = description.getTaskTitle().contains(titleFilter);
+        boolean matchesDifficulty = description.getDifficulty() >= difficultyFilter;
+
+        boolean matchesStatus = false;
+        switch (statusFilter) {
+            case ALL:
+                matchesStatus = true;
+                break;
+            case AVAILABLE:
+                matchesStatus = !collection.isTaskUnavailable(taskId);
+                break;
+            case COMPLETED:
+                matchesStatus = collection.isTaskCompleted(taskId);
+                break;
+            case IN_PROGRESS:
+                matchesStatus = collection.isProgressExists(taskId);
+                break;
+            case UNAVAILABLE:
+                matchesStatus = collection.isTaskUnavailable(taskId);
+                break;
+        }
+
+        boolean matchesTags = true;
+        List<String> tags = description.getTags();
+        for (String tag : tags) {
+            Boolean filterValue = tagFilters.get(tag);
+            matchesTags = matchesTags && (filterValue == null || filterValue);
+        }
+
+        return matchesTitle && matchesDifficulty && matchesStatus && matchesTags;
+    }
 }

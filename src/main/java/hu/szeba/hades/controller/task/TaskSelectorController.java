@@ -5,16 +5,19 @@ import hu.szeba.hades.model.course.CourseDatabase;
 import hu.szeba.hades.model.course.Mode;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.MissingResultFileException;
+import hu.szeba.hades.model.task.data.TaskDescription;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.model.task.TaskCollection;
 import hu.szeba.hades.view.BaseView;
 import hu.szeba.hades.view.MappedElement;
+import hu.szeba.hades.view.task.TaskFilterData;
 import hu.szeba.hades.view.task.TaskSolvingView;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.List;
 
 public class TaskSelectorController {
 
@@ -22,9 +25,11 @@ public class TaskSelectorController {
     private Course course;
     private Mode mode;
     private TaskCollection taskCollection;
+    private TaskFilterData taskFilterData;
 
     public TaskSelectorController(CourseDatabase courseDatabase) {
         this.courseDatabase = courseDatabase;
+        this.taskFilterData = new TaskFilterData();
     }
 
     public void updateCourse(JList<MappedElement> taskList,
@@ -48,7 +53,8 @@ public class TaskSelectorController {
         updateTaskCollection(taskList, (MappedElement)taskCollectionList.getSelectedItem());
     }
 
-    public void updateTaskCollection(JList<MappedElement> taskList, MappedElement selectedTaskCollection)
+    public void updateTaskCollection(JList<MappedElement> taskList,
+                                     MappedElement selectedTaskCollection)
             throws ParserConfigurationException, SAXException, IOException {
 
         taskCollection = mode.loadTaskCollection(selectedTaskCollection.getId());
@@ -71,7 +77,16 @@ public class TaskSelectorController {
     }
 
     public void setTaskListContents(JList<MappedElement> taskList) {
-        taskList.setListData(taskCollection.getPossibleTasks().toArray(new MappedElement[0]));
+        DefaultListModel model = (DefaultListModel) taskList.getModel();
+        model.removeAllElements();
+        List<MappedElement> elements = taskCollection.getPossibleTasks();
+        for (MappedElement me : elements) {
+            // Filter by task collection
+            if (taskFilterData.matches(taskCollection, me.getId())) {
+                // Matches the task!
+                model.addElement(me);
+            }
+        }
     }
 
     public void loadNewTask(MappedElement selectedTask, BaseView parentView)
@@ -110,6 +125,10 @@ public class TaskSelectorController {
 
     public void generateUnavailableTaskIds() {
         taskCollection.generateUnavailableTaskIds();
+    }
+
+    public TaskFilterData getTaskFilterData() {
+        return taskFilterData;
     }
 
 }

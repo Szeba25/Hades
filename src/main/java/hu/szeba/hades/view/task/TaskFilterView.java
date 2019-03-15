@@ -11,19 +11,19 @@ import java.util.Map;
 
 public class TaskFilterView extends JDialog {
 
+    private TaskFilterData data;
+
     private JButton okButton;
 
     private JTextField titleField;
     private JComboBox<String> difficultyList;
-    private JComboBox<String> statusList;
+    private JComboBox<TaskFilterData.TaskStatus> statusList;
     private Map<String, JCheckBox> tags;
 
     private JButton selectAll;
     private JButton clearAll;
 
-    private TaskFilterData data;
-
-    public TaskFilterView() {
+    public TaskFilterView(TaskFilterData data) {
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setResizable(false);
         this.setLayout(new BorderLayout());
@@ -37,6 +37,7 @@ public class TaskFilterView extends JDialog {
         this.pack();
         this.setLocationRelativeTo(null);
 
+        this.data = data;
         createData();
     }
 
@@ -56,10 +57,11 @@ public class TaskFilterView extends JDialog {
         }
 
         statusList = new JComboBox<>();
-        statusList.addItem("All");
-        statusList.addItem("Available");
-        statusList.addItem("In progress");
-        statusList.addItem("Unavailable");
+        statusList.addItem(TaskFilterData.TaskStatus.ALL);
+        statusList.addItem(TaskFilterData.TaskStatus.AVAILABLE);
+        statusList.addItem(TaskFilterData.TaskStatus.COMPLETED);
+        statusList.addItem(TaskFilterData.TaskStatus.IN_PROGRESS);
+        statusList.addItem(TaskFilterData.TaskStatus.UNAVAILABLE);
 
         topPanel.add(titleLabel);
         topPanel.add(titleField);
@@ -127,8 +129,8 @@ public class TaskFilterView extends JDialog {
         titleField.setText(data.getTitleFilter());
         difficultyList.setSelectedIndex(data.getDifficultyFilter());
         for (int i = 0; i < statusList.getItemCount(); i++) {
-            String statusListItem = statusList.getItemAt(i);
-            if (statusListItem.equals(data.getStatusFilter())) {
+            TaskFilterData.TaskStatus statusListItem = statusList.getItemAt(i);
+            if (statusListItem == data.getStatusFilter()) {
                 statusList.setSelectedIndex(i);
             }
         }
@@ -144,14 +146,14 @@ public class TaskFilterView extends JDialog {
             difficultyFilterStr = "0";
         }
         int difficultyFilter = Integer.parseInt(difficultyFilterStr);
-        String statusFilter = (String) statusList.getSelectedItem();
+        TaskFilterData.TaskStatus statusFilter = (TaskFilterData.TaskStatus) statusList.getSelectedItem();
 
         Map<String, Boolean> tagFilter = new HashMap<>();
         for (String tag : tags.keySet()) {
             tagFilter.put(tag, tags.get(tag).isSelected());
         }
 
-        data = new TaskFilterData(titleFilter, difficultyFilter, statusFilter, tagFilter);
+        data.set(titleFilter, difficultyFilter, statusFilter, tagFilter);
     }
 
     private void setupEvents() {
