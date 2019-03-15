@@ -1,5 +1,6 @@
 package hu.szeba.hades.model.course;
 
+import hu.szeba.hades.io.DataFile;
 import hu.szeba.hades.io.GraphFile;
 import hu.szeba.hades.io.TabbedFile;
 import hu.szeba.hades.meta.Options;
@@ -28,6 +29,8 @@ public class Mode {
     private List<String> unavailableTaskCollectionIds;
     private Map<String, TaskCollection> taskCollections;
 
+    private ModeData modeData;
+
     private final String language;
 
     public Mode(User user, String courseId, String modeId, String language) throws IOException {
@@ -41,12 +44,18 @@ public class Mode {
 
         possibleTaskCollections = new ArrayList<>();
         for (String id : taskCollectionMatrix.getNodeNames()) {
-            TabbedFile metaFile = new TabbedFile(new File(Options.getDatabasePath(), courseId + "/task_collections/" + id + "/title.dat"));
-            possibleTaskCollections.add(new MappedElement(id, metaFile.getData(0, 0)));
+            TabbedFile titleFile = new TabbedFile(new File(Options.getDatabasePath(), courseId + "/task_collections/" + id + "/title.dat"));
+            possibleTaskCollections.add(new MappedElement(id, titleFile.getData(0, 0)));
         }
 
         unavailableTaskCollectionIds = new ArrayList<>();
         taskCollections = new HashMap<>();
+
+        DataFile metaFile = new DataFile(new File(modeDirectory, "meta.dat"), "=");
+        modeData = new ModeData(
+                Boolean.parseBoolean(metaFile.getData(0, 1)),  // ignore dependency
+                Boolean.parseBoolean(metaFile.getData(1, 1)),  // ignore story
+                Boolean.parseBoolean(metaFile.getData(2, 1))); // iron man
 
         this.language = language;
     }
@@ -59,7 +68,7 @@ public class Mode {
         if (taskCollections.containsKey(taskCollectionId)) {
             return taskCollections.get(taskCollectionId);
         } else {
-            TaskCollection newTaskCollection = new TaskCollection(user, courseId, modeId, taskCollectionId, language);
+            TaskCollection newTaskCollection = new TaskCollection(user, courseId, modeId, taskCollectionId, modeData, language);
             taskCollections.put(taskCollectionId, newTaskCollection);
             return newTaskCollection;
         }

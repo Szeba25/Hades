@@ -4,6 +4,7 @@ import hu.szeba.hades.io.DescriptionXMLFile;
 import hu.szeba.hades.io.GraphFile;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.meta.User;
+import hu.szeba.hades.model.course.ModeData;
 import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.data.TaskDescription;
 import hu.szeba.hades.model.task.graph.AdjacencyMatrix;
@@ -23,6 +24,7 @@ public class TaskCollection {
     private String courseId;
     private String modeId;
     private String taskCollectionId;
+    private ModeData modeData;
     private File taskCollectionDirectory;
     private File tasksDirectory;
     private AdjacencyMatrix taskMatrix;
@@ -32,13 +34,14 @@ public class TaskCollection {
 
     private final String language;
 
-    public TaskCollection(User user, String courseId, String modeId, String taskCollectionId, String language)
+    public TaskCollection(User user, String courseId, String modeId, String taskCollectionId, ModeData modeData, String language)
             throws IOException, ParserConfigurationException, SAXException {
 
         this.user = user;
         this.courseId = courseId;
         this.modeId = modeId;
         this.taskCollectionId = taskCollectionId;
+        this.modeData = modeData;
         this.taskCollectionDirectory = new File(Options.getDatabasePath(), courseId + "/task_collections/" + taskCollectionId);
         this.tasksDirectory = new File(Options.getDatabasePath(), courseId + "/tasks");
         this.language = language;
@@ -62,23 +65,26 @@ public class TaskCollection {
         // Load all task descriptions
         for (String taskId : taskMatrix.getNodeNames()) {
             DescriptionXMLFile descriptionFile = new DescriptionXMLFile(new File(tasksDirectory, taskId + "/description.xml"));
-            TaskDescription description = descriptionFile.parse();
+            TaskDescription description = descriptionFile.parse(modeData.isIgnoreStory());
             possibleTasks.add(new MappedElement(taskId, description.getTaskTitle()));
             taskDescriptions.put(taskId, description);
         }
     }
 
     public void generateUnavailableTaskIds() {
+        // Only generate, if we don't ignore dependencies
         unavailableTaskIds = new HashSet<>();
-        for (String taskId : taskMatrix.getNodeNames()) {
-            boolean available = true;
-            List<String> list = taskMatrix.getParentNodes(taskId);
-            for (String parents : list) {
-                available = available && (user.isTaskCompleted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + parents));
-            }
-            // The task is unavailable, if any of its parents is not completed...
-            if (!available) {
-                unavailableTaskIds.add(taskId);
+        if (!modeData.isIgnoreDependency()) {
+            for (String taskId : taskMatrix.getNodeNames()) {
+                boolean available = true;
+                List<String> list = taskMatrix.getParentNodes(taskId);
+                for (String parents : list) {
+                    available = available && (user.isTaskCompleted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + parents));
+                }
+                // The task is unavailable, if any of its parents is not completed...
+                if (!available) {
+                    unavailableTaskIds.add(taskId);
+                }
             }
         }
     }

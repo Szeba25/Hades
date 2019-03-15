@@ -32,11 +32,15 @@ public class DescriptionXMLFile {
         this.documentElement.normalize();
     }
 
-    public TaskDescription parse() {
+    public TaskDescription parse(boolean ignoreStory) {
         String taskTitle = documentElement.getElementsByTagName("Title").item(0).getTextContent();
         String shortDescription = documentElement.getElementsByTagName("ShortDescription").item(0).getTextContent();
         String instructions = documentElement.getElementsByTagName("Instructions").item(0).getTextContent();
-        String story = documentElement.getElementsByTagName("Story").item(0).getTextContent();
+
+        String story = "";
+        if (!ignoreStory) {
+            story = documentElement.getElementsByTagName("Story").item(0).getTextContent();
+        }
 
         int difficulty = Integer.parseInt(documentElement.getElementsByTagName("Difficulty").item(0).getTextContent());
         int length = Integer.parseInt(documentElement.getElementsByTagName("Length").item(0).getTextContent());
