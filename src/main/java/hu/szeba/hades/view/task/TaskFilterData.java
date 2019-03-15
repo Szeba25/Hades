@@ -18,6 +18,7 @@ public class TaskFilterData {
 
     private String titleFilter;
     private int difficultyFilter;
+    private int lengthFilter;
     private TaskStatus statusFilter;
     private Map<String, Boolean> tagFilters;
 
@@ -26,9 +27,10 @@ public class TaskFilterData {
         reset();
     }
 
-    public void set(String titleFilter, int difficultyFilter, TaskStatus statusFilter, Map<String, Boolean> tagFilters) {
+    public void set(String titleFilter, int difficultyFilter, int lengthFilter, TaskStatus statusFilter, Map<String, Boolean> tagFilters) {
         this.titleFilter = titleFilter;
         this.difficultyFilter = difficultyFilter;
+        this.lengthFilter = lengthFilter;
         this.statusFilter = statusFilter;
         this.tagFilters = tagFilters;
     }
@@ -36,6 +38,7 @@ public class TaskFilterData {
     public void reset() {
         this.titleFilter = "";
         this.difficultyFilter = 0;
+        this.lengthFilter = 0;
         this.statusFilter = TaskStatus.ALL;
         this.tagFilters.clear();
     }
@@ -46,6 +49,10 @@ public class TaskFilterData {
 
     public int getDifficultyFilter() {
         return difficultyFilter;
+    }
+
+    public int getLengthFilter() {
+        return lengthFilter;
     }
 
     public TaskStatus getStatusFilter() {
@@ -61,6 +68,7 @@ public class TaskFilterData {
 
         boolean matchesTitle = description.getTaskTitle().toLowerCase().contains(titleFilter);
         boolean matchesDifficulty = description.getDifficulty() >= difficultyFilter;
+        boolean matchesLength = description.getLength() >= lengthFilter;
 
         boolean matchesStatus = false;
         switch (statusFilter) {
@@ -88,6 +96,6 @@ public class TaskFilterData {
             matchesTags = matchesTags || (filterValue == null || filterValue);
         }
 
-        return matchesTitle && matchesDifficulty && matchesStatus && matchesTags;
+        return matchesTitle && matchesDifficulty && matchesLength && matchesStatus && matchesTags;
     }
 }

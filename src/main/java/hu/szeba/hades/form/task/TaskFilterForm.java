@@ -3,7 +3,6 @@ package hu.szeba.hades.form.task;
 import hu.szeba.hades.model.task.TaskCollection;
 import hu.szeba.hades.model.task.data.TaskDescription;
 import hu.szeba.hades.util.SpringUtilities;
-import hu.szeba.hades.view.BaseView;
 import hu.szeba.hades.view.MappedElement;
 import hu.szeba.hades.view.task.TaskFilterData;
 
@@ -22,6 +21,7 @@ public class TaskFilterForm extends JDialog {
 
     private JTextField titleField;
     private JComboBox<String> difficultyList;
+    private JSpinner lengthSpinner;
     private JComboBox<TaskFilterData.TaskStatus> statusList;
     private JPanel tagPanel;
     private Map<String, JCheckBox> tags;
@@ -53,6 +53,7 @@ public class TaskFilterForm extends JDialog {
 
         JLabel titleLabel = new JLabel("Task title:");
         JLabel difficultyLabel = new JLabel("Minimum difficulty:");
+        JLabel lengthLabel = new JLabel("Minimum length:");
         JLabel statusLabel = new JLabel("Status:");
 
         titleField = new JTextField();
@@ -61,6 +62,11 @@ public class TaskFilterForm extends JDialog {
         for (int i = 1; i <= 10; i++) {
             difficultyList.addItem(Integer.toString(i));
         }
+
+        lengthSpinner = new JSpinner();
+        JComponent lengthSpinnerEditorComponent = lengthSpinner.getEditor();
+        JSpinner.DefaultEditor lengthSpinnerEditor = (JSpinner.DefaultEditor)lengthSpinnerEditorComponent;
+        lengthSpinnerEditor.getTextField().setHorizontalAlignment(JTextField.LEFT);
 
         statusList = new JComboBox<>();
         statusList.addItem(TaskFilterData.TaskStatus.ALL);
@@ -73,9 +79,11 @@ public class TaskFilterForm extends JDialog {
         topPanel.add(titleField);
         topPanel.add(difficultyLabel);
         topPanel.add(difficultyList);
+        topPanel.add(lengthLabel);
+        topPanel.add(lengthSpinner);
         topPanel.add(statusLabel);
         topPanel.add(statusList);
-        SpringUtilities.makeCompactGrid(topPanel, 3, 2, 5, 5, 5, 5);
+        SpringUtilities.makeCompactGrid(topPanel, 4, 2, 5, 5, 5, 5);
 
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new FlowLayout());
@@ -127,6 +135,7 @@ public class TaskFilterForm extends JDialog {
     private void loadData() {
         titleField.setText(data.getTitleFilter());
         difficultyList.setSelectedIndex(data.getDifficultyFilter());
+        lengthSpinner.setValue(data.getLengthFilter());
         for (int i = 0; i < statusList.getItemCount(); i++) {
             TaskFilterData.TaskStatus statusListItem = statusList.getItemAt(i);
             if (statusListItem == data.getStatusFilter()) {
@@ -145,6 +154,7 @@ public class TaskFilterForm extends JDialog {
             difficultyFilterStr = "0";
         }
         int difficultyFilter = Integer.parseInt(difficultyFilterStr);
+        int lengthFilter = (int) lengthSpinner.getValue();
         TaskFilterData.TaskStatus statusFilter = (TaskFilterData.TaskStatus) statusList.getSelectedItem();
 
         Map<String, Boolean> tagFilter = new HashMap<>();
@@ -152,7 +162,7 @@ public class TaskFilterForm extends JDialog {
             tagFilter.put(tag, tags.get(tag).isSelected());
         }
 
-        data.set(titleFilter, difficultyFilter, statusFilter, tagFilter);
+        data.set(titleFilter, difficultyFilter, lengthFilter, statusFilter, tagFilter);
     }
 
     private void setupEvents() {
@@ -189,6 +199,7 @@ public class TaskFilterForm extends JDialog {
         // Reset form data
         titleField.setText("");
         difficultyList.setSelectedIndex(0);
+        lengthSpinner.setValue(0);
         statusList.setSelectedIndex(0);
         removeAllTags();
 
