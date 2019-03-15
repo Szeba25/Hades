@@ -82,7 +82,7 @@ public class TaskSelectorController {
     }
 
     public void setTaskListContents(JList<MappedElement> taskList) {
-        DefaultListModel model = (DefaultListModel) taskList.getModel();
+        DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) taskList.getModel();
         model.removeAllElements();
         List<MappedElement> elements = taskCollection.getPossibleTasks();
         for (MappedElement me : elements) {
