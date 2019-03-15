@@ -4,11 +4,12 @@ import hu.szeba.hades.util.SpringUtilities;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class TaskFiltersView extends JDialog {
 
     private JButton okButton;
-    private JButton cancelButton;
 
     public TaskFiltersView() {
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -62,11 +63,9 @@ public class TaskFiltersView extends JDialog {
 
         okButton = new JButton("Ok");
         okButton.setFocusPainted(false);
-        cancelButton = new JButton("Cancel");
-        cancelButton.setFocusPainted(false);
+        okButton.setPreferredSize(new Dimension(120, 25));
 
         bottomPanel.add(okButton);
-        bottomPanel.add(cancelButton);
 
         this.getContentPane().add(topPanel, BorderLayout.NORTH);
         this.getContentPane().add(tagPanel, BorderLayout.CENTER);
@@ -78,8 +77,11 @@ public class TaskFiltersView extends JDialog {
             this.setVisible(false);
         });
 
-        cancelButton.addActionListener((e) -> {
-            this.setVisible(false);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent event) {
+                TaskFiltersView.this.setVisible(false);
+            }
         });
     }
 
