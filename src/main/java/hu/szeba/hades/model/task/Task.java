@@ -203,7 +203,9 @@ public class Task {
     }
 
     public void setSourceContents(Map<String, JTextArea> codeAreas) {
-        sources.forEach((src) -> src.setData(codeAreas.get(src.getName()).getText()));
+        for (SourceFile sf : sources) {
+            sf.setData(codeAreas.get(sf.getName()).getText());
+        }
     }
 
     public String[] copySourceNamesWithPath() {

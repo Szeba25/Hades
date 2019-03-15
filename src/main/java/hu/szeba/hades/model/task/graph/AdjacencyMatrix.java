@@ -1,7 +1,9 @@
 package hu.szeba.hades.model.task.graph;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class AdjacencyMatrix {
 
@@ -37,11 +39,9 @@ public class AdjacencyMatrix {
 
     private void createNodesByIndex() {
         nodesByIndex = new String[indexByNodes.size()];
-        indexByNodes.forEach(this::putToNodesByIndex);
-    }
-
-    private void putToNodesByIndex(String name, int i) {
-        nodesByIndex[i] = name;
+        for (String key : indexByNodes.keySet()) {
+            nodesByIndex[indexByNodes.get(key)] = key;
+        }
     }
 
     private void setEdges(List<Tuple> tuples) {
@@ -104,8 +104,13 @@ public class AdjacencyMatrix {
 
     public List<String> getNodeNames() {
         // Return a list of node names EXCLUDING the NULL node.
-        // Filter the list using the stream API
-        return Arrays.stream(nodesByIndex).filter((s) -> !s.equals("NULL")).collect(Collectors.toList());
+        List<String> nodeNames = new LinkedList<>();
+        for (String str : nodesByIndex) {
+            if (!str.equals("NULL")) {
+                nodeNames.add(str);
+            }
+        }
+        return nodeNames;
     }
 
     private String edgeValueToPrintValue(boolean edgeValue) {

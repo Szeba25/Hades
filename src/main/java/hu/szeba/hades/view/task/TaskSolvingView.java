@@ -374,7 +374,9 @@ public class TaskSolvingView extends BaseView {
     }
 
     public void setCodeAreaContents(List<SourceFile> sources) {
-        sources.forEach((file) -> codeTabByName.get(file.getName()).setText(file.getData()));
+        for (SourceFile sf : sources) {
+            codeTabByName.get(sf.getName()).setText(sf.getData());
+        }
     }
 
     public void setCodeAreaContent(String name, String data) {

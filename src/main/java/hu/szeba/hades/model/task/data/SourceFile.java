@@ -2,12 +2,8 @@ package hu.szeba.hades.model.task.data;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SourceFile {
 
@@ -58,7 +54,7 @@ public class SourceFile {
             OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
             BufferedWriter writer = new BufferedWriter(osw);
 
-            List<String> lines = Arrays.stream(data.split("\n")).collect(Collectors.toList());
+            String[] lines = data.split("\n");
             for (String line : lines) {
                 writer.write(line);
                 writer.newLine();

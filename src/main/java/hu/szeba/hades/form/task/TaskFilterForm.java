@@ -3,6 +3,7 @@ package hu.szeba.hades.form.task;
 import hu.szeba.hades.model.task.TaskCollection;
 import hu.szeba.hades.model.task.data.TaskDescription;
 import hu.szeba.hades.util.SpringUtilities;
+import hu.szeba.hades.view.MappedElement;
 import hu.szeba.hades.view.task.TaskFilterData;
 
 import javax.swing.*;
@@ -183,10 +184,12 @@ public class TaskFilterForm extends JDialog {
 
     public void addAllTags(TaskCollection taskCollection) {
         removeAllTags();
-        taskCollection.getPossibleTasks().forEach((p) -> {
-            TaskDescription description = taskCollection.getTaskDescription(p.getId());
-            description.getTags().forEach(this::addTag);
-        });
+        for (MappedElement element : taskCollection.getPossibleTasks()) {
+            TaskDescription description = taskCollection.getTaskDescription(element.getId());
+            for (String tag : description.getTags()) {
+                this.addTag(tag);
+            }
+        }
     }
 
     private void addTag(String name) {

@@ -48,7 +48,9 @@ public class Options {
     public static File getWorkingDirectoryPath() { return paths.get("working_directory"); }
 
     private static void checkPaths() {
-        paths.forEach((location, file) -> System.out.println("Check -> " + location + " exists: " + file.exists()));
+        for (String key : paths.keySet()) {
+            System.out.println("Check -> " + key + " exists: " + paths.get(key).exists());
+        }
     }
 
 }

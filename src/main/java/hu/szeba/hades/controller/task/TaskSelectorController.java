@@ -62,17 +62,23 @@ public class TaskSelectorController {
 
     public void setCourseListContents(JComboBox<MappedElement> courseList) {
         courseList.removeAllItems();
-        courseDatabase.getPossibleCourses().forEach(courseList::addItem);
+        for (MappedElement element : courseDatabase.getPossibleCourses()) {
+            courseList.addItem(element);
+        }
     }
 
     public void setModeListContents(JComboBox<MappedElement> modeList) {
         modeList.removeAllItems();
-        course.getPossibleModes().forEach(modeList::addItem);
+        for (MappedElement element : course.getPossibleModes()) {
+            modeList.addItem(element);
+        }
     }
 
     public void setTaskCollectionListContents(JComboBox<MappedElement> taskCollectionList) {
         taskCollectionList.removeAllItems();
-        mode.getPossibleTaskCollections().forEach(taskCollectionList::addItem);
+        for (MappedElement element : mode.getPossibleTaskCollections()) {
+            taskCollectionList.addItem(element);
+        }
     }
 
     public void setTaskListContents(JList<MappedElement> taskList) {
