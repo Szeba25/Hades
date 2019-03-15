@@ -63,10 +63,8 @@ public class TaskFilterForm extends JDialog {
             difficultyList.addItem(Integer.toString(i));
         }
 
-        lengthSpinner = new JSpinner();
-        JComponent lengthSpinnerEditorComponent = lengthSpinner.getEditor();
-        JSpinner.DefaultEditor lengthSpinnerEditor = (JSpinner.DefaultEditor)lengthSpinnerEditorComponent;
-        lengthSpinnerEditor.getTextField().setHorizontalAlignment(JTextField.LEFT);
+        SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel(0, 0, 1000, 5);
+        lengthSpinner = new JSpinner(spinnerNumberModel);
 
         statusList = new JComboBox<>();
         statusList.addItem(TaskFilterData.TaskStatus.ALL);
