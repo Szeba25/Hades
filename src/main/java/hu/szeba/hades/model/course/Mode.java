@@ -23,7 +23,6 @@ public class Mode {
     private User user;
     private String courseId;
     private String modeId;
-    private File modeDirectory;
     private AdjacencyMatrix taskCollectionMatrix;
     private List<MappedElement> possibleTaskCollections;
     private List<String> unavailableTaskCollectionIds;
@@ -38,7 +37,7 @@ public class Mode {
         this.courseId = courseId;
         this.modeId = modeId;
 
-        this.modeDirectory = new File(Options.getDatabasePath(), courseId + "/modes/" + modeId);
+        File modeDirectory = new File(Options.getDatabasePath(), courseId + "/modes/" + modeId);
         GraphFile graphFile = new GraphFile(new File(modeDirectory, "task_collections.graph"));
         this.taskCollectionMatrix = new AdjacencyMatrix(graphFile.getTuples());
 
