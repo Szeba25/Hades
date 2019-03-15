@@ -321,11 +321,11 @@ public class TaskSelectorView extends BaseView {
                     } else if (controller.isTaskUnavailable(element)) {
                         setForeground(unavailableTaskForeground);
                     } else if (controller.isProgressExists(element)) {
+                        // TODO: Optimize this abomination ^
                         setForeground(inProgressTaskForeground);
                     } else {
                         setForeground(availableTaskForeground);
                     }
-
                 }
                 return component;
             }
