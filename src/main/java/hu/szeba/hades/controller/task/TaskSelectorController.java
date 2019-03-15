@@ -67,21 +67,21 @@ public class TaskSelectorController {
         }
     }
 
-    public void setModeListContents(JComboBox<MappedElement> modeList) {
+    private void setModeListContents(JComboBox<MappedElement> modeList) {
         modeList.removeAllItems();
         for (MappedElement element : course.getPossibleModes()) {
             modeList.addItem(element);
         }
     }
 
-    public void setTaskCollectionListContents(JComboBox<MappedElement> taskCollectionList) {
+    private void setTaskCollectionListContents(JComboBox<MappedElement> taskCollectionList) {
         taskCollectionList.removeAllItems();
         for (MappedElement element : mode.getPossibleTaskCollections()) {
             taskCollectionList.addItem(element);
         }
     }
 
-    public void setTaskListContents(JList<MappedElement> taskList) {
+    private void setTaskListContents(JList<MappedElement> taskList) {
         DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) taskList.getModel();
         model.removeAllElements();
         List<MappedElement> elements = taskCollection.getPossibleTasks();
