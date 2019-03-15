@@ -249,6 +249,11 @@ public class Task {
         return source;
     }
 
+    public void renameSource(String oldName, String newName) throws IOException {
+        SourceFile src = getSourceByName(oldName);
+        src.rename(newName);
+    }
+
     public ProgramCompiler getProgramCompiler() {
         return programCompiler;
     }

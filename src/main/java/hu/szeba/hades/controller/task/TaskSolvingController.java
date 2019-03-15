@@ -110,7 +110,7 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
                 taskSolvingView.addSourceFile(name, src.isReadonly(), task.getSyntaxStyle());
             }
         } else {
-            JOptionPane.showMessageDialog(new JFrame(), "Source file already exists!");
+            JOptionPane.showMessageDialog(new JFrame(), "Source file with this name already exists!");
         }
     }
 
@@ -137,12 +137,23 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
         return task.getSourceByName(name).isReadonly();
     }
 
-    public void deleteSourceFile(String name) throws IOException {
+    public void deleteSourceFile(String name, TaskSolvingView taskSolvingView) throws IOException {
         task.deleteSourceByName(name);
+        taskSolvingView.deleteSourceFile(name);
+    }
+
+    public void renameSourceFile(String oldName, String newName, TaskSolvingView taskSolvingView) throws IOException {
+        if (task.getSourceByName(newName) == null) {
+            task.renameSource(oldName, newName);
+            taskSolvingView.renameSourceFile(oldName, newName);
+        } else {
+            JOptionPane.showMessageDialog(new JFrame(), "Source file with this name already exists!");
+        }
     }
 
     @Override
     public void updateSourceFileData(String name, JTextArea codeArea) {
         task.getSourceByName(name).setData(codeArea.getText());
     }
+
 }

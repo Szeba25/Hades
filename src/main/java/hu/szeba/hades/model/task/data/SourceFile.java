@@ -74,6 +74,17 @@ public class SourceFile {
         }
     }
 
+    public void rename(String newName) throws IOException {
+        File newFile = new File(file.getParentFile(), newName);
+        if (readonly) {
+            throw new IOException("Source is readonly: " + name);
+        } else if (!file.renameTo(newFile)) {
+            throw new IOException("Couldn't rename file: " + file.getAbsolutePath());
+        }
+        file = newFile;
+        name = newName;
+    }
+
     public boolean isReadonly() {
         return readonly;
     }

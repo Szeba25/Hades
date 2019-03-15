@@ -32,6 +32,7 @@ public class TaskSolvingView extends BaseView {
     private JList<String> fileList;
     private JPopupMenu fileListPopup;
     private JMenuItem deleteFilePopupItem;
+    private JMenuItem renameFilePopupItem;
     private JScrollPane fileListScroller;
 
     private JTabbedPane codeTab;
@@ -109,8 +110,10 @@ public class TaskSolvingView extends BaseView {
         fileList.setFixedCellWidth(125);
         fileListPopup = new JPopupMenu();
         deleteFilePopupItem = new JMenuItem("Delete");
+        renameFilePopupItem = new JMenuItem("Rename");
 
         fileListPopup.add(deleteFilePopupItem);
+        fileListPopup.add(renameFilePopupItem);
 
         fileListScroller = new JScrollPane(fileList);
         fileListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -196,6 +199,7 @@ public class TaskSolvingView extends BaseView {
         lockedMenusWrapper = new LockedMenusWrapper(
                 newFileMenuItem,
                 deleteFilePopupItem,
+                renameFilePopupItem,
                 saveAllFileMenuItem,
                 buildMenuItem,
                 buildAndRunMenuItem,
@@ -273,21 +277,30 @@ public class TaskSolvingView extends BaseView {
                         "Delete source file", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
                     try {
-                        // Delete from sources (data)
-                        controller.deleteSourceFile(selectedSourceName);
-                        // Delete tab (if present)
-                        for (int i = 0; i < codeTab.getTabCount(); i++) {
-                            if (codeTab.getTitleAt(i).equals(selectedSourceName)) {
-                                codeTab.remove(i);
-                                break;
-                            }
-                        }
-                        // Delete from map!
-                        codeTabByName.remove(selectedSourceName);
-                        // Delete from list!
-                        fileListModel.removeElement(selectedSourceName);
+                        controller.deleteSourceFile(selectedSourceName, this);
                     } catch (IOException e) {
                         JOptionPane.showMessageDialog(new JFrame(), "Unable to delete source file: " + e.getMessage());
+                    }
+                }
+            }
+        });
+        // Rename source file
+        renameFilePopupItem.addActionListener((event) -> {
+            String selectedSourceName = fileList.getSelectedValue();
+            if (selectedSourceName == null) {
+                JOptionPane.showMessageDialog(new JFrame(), "Please select a source file from the list!", "No source selected", JOptionPane.WARNING_MESSAGE);
+            } else if(controller.isSourceReadonly(selectedSourceName)) {
+                JOptionPane.showMessageDialog(new JFrame(), "This source is readonly!", "Readonly file", JOptionPane.WARNING_MESSAGE);
+            } else {
+                String newName = (String) JOptionPane.showInputDialog(new JFrame(),
+                        "Rename source file:",
+                        "Rename source file",
+                        JOptionPane.PLAIN_MESSAGE, null, null, selectedSourceName);
+                if (newName != null) {
+                    try {
+                        controller.renameSourceFile(selectedSourceName, newName, this);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
             }
@@ -395,6 +408,37 @@ public class TaskSolvingView extends BaseView {
         fileList.setSelectedIndex(fileListModel.indexOf(name));
         // Select the last tab component, as a new area was added!
         codeTab.setSelectedIndex(codeTab.getTabCount() - 1);
+    }
+
+    public void renameSourceFile(String oldName, String newName) {
+        // Rename tab (if present)
+        for (int i = 0; i < codeTab.getTabCount(); i++) {
+            if (codeTab.getTitleAt(i).equals(oldName)) {
+                codeTab.setTitleAt(i, newName);
+                break;
+            }
+        }
+        // Re-put to map
+        JTextArea area = codeTabByName.remove(oldName);
+        codeTabByName.put(newName, area);
+        // Rename in list!
+        fileListModel.removeElement(oldName);
+        fileListModel.addElement(newName);
+        sortFileList();
+    }
+
+    public void deleteSourceFile(String name) {
+        // Delete tab (if present)
+        for (int i = 0; i < codeTab.getTabCount(); i++) {
+            if (codeTab.getTitleAt(i).equals(name)) {
+                codeTab.remove(i);
+                break;
+            }
+        }
+        // Delete from map!
+        codeTabByName.remove(name);
+        // Delete from list!
+        fileListModel.removeElement(name);
     }
 
     public void setSourceList(String[] sourceList, Set<String> readonlySources, String syntaxStyle) {
