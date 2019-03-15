@@ -100,8 +100,8 @@ public class TaskCollection {
         return user.isTaskCompleted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + taskId);
     }
 
-    public boolean isProgressExists(String taskId) {
-        return user.isProgressExists(courseId + "/" + modeId + "/" + taskCollectionId + "/" + taskId);
+    public boolean isTaskStarted(String taskId) {
+        return user.isTaskStarted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + taskId);
     }
 
     public boolean isTaskUnavailable(String taskId) {

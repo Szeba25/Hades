@@ -64,17 +64,16 @@ public class Task {
 
         // If not continuing task, but folder exists, delete the folder first!
         if (!continueTask && taskWorkingDirectory.exists()) {
-            System.out.println("Reset task!");
             FileUtils.deleteDirectory(taskWorkingDirectory);
         }
 
         // Copy sources if task directory does not exists...
         if (!taskWorkingDirectory.exists()) {
-            System.out.println("Copy task!");
             FileUtils.forceMkdir(new File(taskWorkingDirectory, "sources"));
             FileUtils.copyDirectory(
                     new File(taskDirectory, "sources"),
                     new File(taskWorkingDirectory, "sources"));
+            user.markTaskAsStarted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + taskId);
         }
 
         this.taskDescription = taskDescription;

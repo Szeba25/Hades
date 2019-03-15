@@ -124,8 +124,8 @@ public class TaskSelectorController {
         return taskCollection.isTaskCompleted(taskElement.getId());
     }
 
-    public boolean isProgressExists(MappedElement taskElement) {
-        return taskCollection.isProgressExists(taskElement.getId());
+    public boolean isTaskInProgress(MappedElement taskElement) {
+        return taskCollection.isTaskStarted(taskElement.getId()) && !taskCollection.isTaskCompleted(taskElement.getId());
     }
 
     public boolean isTaskUnavailable(MappedElement taskElement) {
