@@ -9,11 +9,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskGraphFile {
+public class GraphFile {
 
     private List<Tuple> tuples;
 
-    public TaskGraphFile(File file) throws IOException {
+    public GraphFile(File file) throws IOException {
         this.tuples = new ArrayList<>();
 
         ArrayList<String> strings = new ArrayList<>();

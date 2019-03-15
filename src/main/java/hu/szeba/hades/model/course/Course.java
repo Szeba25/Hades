@@ -30,12 +30,8 @@ public class Course {
         possibleTaskCollections = new ArrayList<>();
         File pathFile = new File(Options.getDatabasePath().getAbsolutePath(), courseId + "/task_collections");
         for (String id : pathFile.list()) {
-            try {
-                TabbedFile metaFile = new TabbedFile(new File(pathFile, id + "/title.dat"));
-                possibleTaskCollections.add(new MappedElement(id, metaFile.getData(0, 0)));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            TabbedFile metaFile = new TabbedFile(new File(pathFile, id + "/title.dat"));
+            possibleTaskCollections.add(new MappedElement(id, metaFile.getData(0, 0)));
         }
 
         this.taskCollections = new HashMap<>();

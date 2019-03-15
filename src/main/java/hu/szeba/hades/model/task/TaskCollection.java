@@ -1,7 +1,7 @@
 package hu.szeba.hades.model.task;
 
 import hu.szeba.hades.io.DescriptionXMLFile;
-import hu.szeba.hades.io.TaskGraphFile;
+import hu.szeba.hades.io.GraphFile;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.meta.User;
 import hu.szeba.hades.model.task.data.MissingResultFileException;
@@ -45,8 +45,8 @@ public class TaskCollection {
     }
 
     private void loadTaskIds() throws IOException {
-        TaskGraphFile taskGraphFile = new TaskGraphFile(new File(taskCollectionDirectory, "tasks.graph"));
-        taskMatrix = new AdjacencyMatrix(taskGraphFile.getTuples());
+        GraphFile graphFile = new GraphFile(new File(taskCollectionDirectory, "tasks.graph"));
+        taskMatrix = new AdjacencyMatrix(graphFile.getTuples());
     }
 
     private void loadTaskDescriptions() throws IOException, SAXException, ParserConfigurationException {
