@@ -2,6 +2,7 @@ package hu.szeba.hades.controller.task;
 
 import hu.szeba.hades.model.course.Course;
 import hu.szeba.hades.model.course.CourseDatabase;
+import hu.szeba.hades.model.course.Mode;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
@@ -19,16 +20,30 @@ public class TaskSelectorController {
 
     private CourseDatabase courseDatabase;
     private Course course;
+    private Mode mode;
     private TaskCollection taskCollection;
 
     public TaskSelectorController(CourseDatabase courseDatabase) {
         this.courseDatabase = courseDatabase;
     }
 
-    public void updateCourse(JList<MappedElement> taskList, JComboBox<MappedElement> taskCollectionList, MappedElement selectedCourse)
+    public void updateCourse(JList<MappedElement> taskList,
+                             JComboBox<MappedElement> taskCollectionList,
+                             JComboBox<MappedElement> modeList,
+                             MappedElement selectedCourse)
             throws IOException, SAXException, ParserConfigurationException {
 
         course = courseDatabase.loadCourse(selectedCourse.getId());
+        setModeListContents(modeList);
+        updateMode(taskList, taskCollectionList, (MappedElement)modeList.getSelectedItem());
+    }
+
+    public void updateMode(JList<MappedElement> taskList,
+                           JComboBox<MappedElement> taskCollectionList,
+                           MappedElement selectedMode)
+            throws IOException, ParserConfigurationException, SAXException {
+
+        mode = course.loadMode(selectedMode.getId());
         setTaskCollectionListContents(taskCollectionList);
         updateTaskCollection(taskList, (MappedElement)taskCollectionList.getSelectedItem());
     }
@@ -36,7 +51,7 @@ public class TaskSelectorController {
     public void updateTaskCollection(JList<MappedElement> taskList, MappedElement selectedTaskCollection)
             throws ParserConfigurationException, SAXException, IOException {
 
-        taskCollection = course.loadTaskCollection(selectedTaskCollection.getId());
+        taskCollection = mode.loadTaskCollection(selectedTaskCollection.getId());
         setTaskListContents(taskList);
     }
 
@@ -45,9 +60,14 @@ public class TaskSelectorController {
         courseDatabase.getPossibleCourses().forEach(courseList::addItem);
     }
 
+    public void setModeListContents(JComboBox<MappedElement> modeList) {
+        modeList.removeAllItems();
+        course.getPossibleModes().forEach(modeList::addItem);
+    }
+
     public void setTaskCollectionListContents(JComboBox<MappedElement> taskCollectionList) {
         taskCollectionList.removeAllItems();
-        course.getPossibleTaskCollections().forEach(taskCollectionList::addItem);
+        mode.getPossibleTaskCollections().forEach(taskCollectionList::addItem);
     }
 
     public void setTaskListContents(JList<MappedElement> taskList) {

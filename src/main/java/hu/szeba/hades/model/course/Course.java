@@ -17,8 +17,8 @@ public class Course {
 
     private User user;
     private String courseId;
-    private List<MappedElement> possibleTaskCollections;
-    private Map<String, TaskCollection> taskCollections;
+    private List<MappedElement> possibleModes;
+    private Map<String, Mode> modes;
 
     // Language cannot change!
     private final String language;
@@ -27,30 +27,30 @@ public class Course {
         this.user = user;
         this.courseId = courseId;
 
-        possibleTaskCollections = new ArrayList<>();
-        File pathFile = new File(Options.getDatabasePath().getAbsolutePath(), courseId + "/task_collections");
+        possibleModes = new ArrayList<>();
+        File pathFile = new File(Options.getDatabasePath().getAbsolutePath(), courseId + "/modes");
         for (String id : pathFile.list()) {
             TabbedFile metaFile = new TabbedFile(new File(pathFile, id + "/title.dat"));
-            possibleTaskCollections.add(new MappedElement(id, metaFile.getData(0, 0)));
+            possibleModes.add(new MappedElement(id, metaFile.getData(0, 0)));
         }
 
-        this.taskCollections = new HashMap<>();
+        this.modes = new HashMap<>();
 
         DataFile courseMetaFile = new DataFile(new File(Options.getDatabasePath(), courseId  + "/meta.dat"), "=");
         this.language = courseMetaFile.getData(0, 1);
     }
 
-    public List<MappedElement> getPossibleTaskCollections() {
-        return possibleTaskCollections;
+    public List<MappedElement> getPossibleModes() {
+        return possibleModes;
     }
 
-    public TaskCollection loadTaskCollection(String taskCollectionId) throws IOException, ParserConfigurationException, SAXException {
-        if (taskCollections.containsKey(taskCollectionId)) {
-            return taskCollections.get(taskCollectionId);
+    public Mode loadMode(String modeId) throws IOException {
+        if (modes.containsKey(modeId)) {
+            return modes.get(modeId);
         } else {
-            TaskCollection newTaskCollection = new TaskCollection(user, courseId, taskCollectionId, language);
-            taskCollections.put(taskCollectionId, newTaskCollection);
-            return newTaskCollection;
+            Mode newMode = new Mode(user, courseId, modeId, language);
+            modes.put(modeId, newMode);
+            return newMode;
         }
     }
 

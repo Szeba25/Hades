@@ -23,6 +23,7 @@ public class Task {
     private final String syntaxStyle;
 
     private final String courseId;
+    private final String modeId;
     private final String taskCollectionId;
     private final String taskId;
 
@@ -42,6 +43,7 @@ public class Task {
                 String language,
                 String syntaxStyle,
                 String courseId,
+                String modeId,
                 String taskCollectionId,
                 String taskId,
                 TaskDescription taskDescription,
@@ -53,11 +55,12 @@ public class Task {
         this.syntaxStyle = syntaxStyle;
 
         this.courseId = courseId;
+        this.modeId = modeId;
         this.taskCollectionId = taskCollectionId;
         this.taskId = taskId;
 
         this.taskDirectory = new File(Options.getDatabasePath(), courseId + "/tasks/" + taskId);
-        this.taskWorkingDirectory = new File(user.getUserWorkingDirectoryPath(), courseId + "/" + taskCollectionId + "/" + taskId);
+        this.taskWorkingDirectory = new File(user.getUserWorkingDirectoryPath(), courseId + "/" + modeId + "/" + taskCollectionId + "/" + taskId);
 
         // If not continuing task, but folder exists, delete the folder first!
         if (!continueTask && taskWorkingDirectory.exists()) {
@@ -141,6 +144,10 @@ public class Task {
         return courseId;
     }
 
+    public String getModeId() {
+        return modeId;
+    }
+
     public String getTaskCollectionId() {
         return taskCollectionId;
     }
@@ -150,7 +157,7 @@ public class Task {
     }
 
     public String getTaskIdentifierString() {
-        return courseId + "/" + taskCollectionId + "/" + taskId;
+        return courseId + "/" + modeId + "/" + taskCollectionId + "/" + taskId;
     }
 
     public TaskDescription getTaskDescription() {

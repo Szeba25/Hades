@@ -21,6 +21,7 @@ public class TaskCollection {
 
     private User user;
     private String courseId;
+    private String modeId;
     private String taskCollectionId;
     private File taskCollectionDirectory;
     private File tasksDirectory;
@@ -31,9 +32,12 @@ public class TaskCollection {
 
     private final String language;
 
-    public TaskCollection(User user, String courseId, String taskCollectionId, String language) throws IOException, ParserConfigurationException, SAXException {
+    public TaskCollection(User user, String courseId, String modeId, String taskCollectionId, String language)
+            throws IOException, ParserConfigurationException, SAXException {
+
         this.user = user;
         this.courseId = courseId;
+        this.modeId = modeId;
         this.taskCollectionId = taskCollectionId;
         this.taskCollectionDirectory = new File(Options.getDatabasePath(), courseId + "/task_collections/" + taskCollectionId);
         this.tasksDirectory = new File(Options.getDatabasePath(), courseId + "/tasks");
@@ -70,7 +74,7 @@ public class TaskCollection {
             boolean available = true;
             List<String> list = taskMatrix.getParentNodes(taskId);
             for (String parents : list) {
-                available = available && (user.isTaskCompleted(courseId + "/" + taskCollectionId + "/" + parents));
+                available = available && (user.isTaskCompleted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + parents));
             }
             // The task is unavailable, if any of its parents is not completed...
             if (!available) {
@@ -82,15 +86,16 @@ public class TaskCollection {
     public Task createTask(String taskId, boolean continueTask)
             throws InvalidLanguageException, IOException, MissingResultFileException {
 
-        return TaskFactoryDecider.decideFactory(language).getTask(user, courseId, taskCollectionId, taskId, taskDescriptions.get(taskId), continueTask);
+        return TaskFactoryDecider.decideFactory(language).getTask(user, courseId, modeId, taskCollectionId, taskId,
+                taskDescriptions.get(taskId), continueTask);
     }
 
     public boolean isTaskCompleted(String taskId) {
-        return user.isTaskCompleted(courseId + "/" + taskCollectionId + "/" + taskId);
+        return user.isTaskCompleted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + taskId);
     }
 
     public boolean isProgressExists(String taskId) {
-        return user.isProgressExists(courseId + "/" + taskCollectionId + "/" + taskId);
+        return user.isProgressExists(courseId + "/" + modeId + "/" + taskCollectionId + "/" + taskId);
     }
 
     public boolean isTaskUnavailable(String taskId) {

@@ -30,6 +30,7 @@ public class TaskSelectorView extends BaseView {
 
     private JPanel topPanel;
     private JComboBox<MappedElement> courseList;
+    private JComboBox<MappedElement> modeList;
     private JComboBox<MappedElement> taskCollectionList;
 
     /* LEFT PART */
@@ -93,6 +94,11 @@ public class TaskSelectorView extends BaseView {
         courseList.setPreferredSize(new Dimension(160, 20));
         courseListLabel.setLabelFor(courseList);
 
+        JLabel modeListLabel = new JLabel("Mode:");
+        modeList = new JComboBox<>();
+        modeList.setPreferredSize(new Dimension(160, 20));
+        modeListLabel.setLabelFor(modeList);
+
         JLabel taskCollectionListLabel = new JLabel("Tasks:");
         taskCollectionList = new JComboBox<>();
         taskCollectionList.setPreferredSize(new Dimension(160, 20));
@@ -100,9 +106,11 @@ public class TaskSelectorView extends BaseView {
 
         topPanel.add(courseListLabel);
         topPanel.add(courseList);
+        topPanel.add(modeListLabel);
+        topPanel.add(modeList);
         topPanel.add(taskCollectionListLabel);
         topPanel.add(taskCollectionList);
-        SpringUtilities.makeCompactGrid(topPanel, 2, 2, 5, 5, 5, 5);
+        SpringUtilities.makeCompactGrid(topPanel, 3, 2, 5, 5, 5, 5);
 
         /* LEFT PART */
 
@@ -167,9 +175,21 @@ public class TaskSelectorView extends BaseView {
             Object selectedItem = courseList.getSelectedItem();
             if (selectedItem != null) {
                 try {
-                    controller.updateCourse(taskList, taskCollectionList, (MappedElement) selectedItem);
+                    controller.updateCourse(taskList, taskCollectionList, modeList, (MappedElement) selectedItem);
                     clearTaskSelection();
                 } catch (IOException | SAXException | ParserConfigurationException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        modeList.addActionListener((event) -> {
+            Object selectedItem = modeList.getSelectedItem();
+            if (selectedItem != null) {
+                try {
+                    controller.updateMode(taskList, taskCollectionList, (MappedElement) selectedItem);
+                    clearTaskSelection();
+                } catch (ParserConfigurationException | SAXException | IOException e) {
                     e.printStackTrace();
                 }
             }
