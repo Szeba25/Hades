@@ -36,6 +36,8 @@ public class TaskFilterView extends JDialog {
 
         this.pack();
         this.setLocationRelativeTo(null);
+
+        createData();
     }
 
     private void initializeComponents() {
@@ -121,15 +123,6 @@ public class TaskFilterView extends JDialog {
         this.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
     }
 
-    public void setVisible(boolean value) {
-        super.setVisible(value);
-
-        if (value) {
-            this.requestFocus();
-            this.loadData();
-        }
-    }
-
     private void loadData() {
         titleField.setText(data.getTitleFilter());
         difficultyList.setSelectedIndex(data.getDifficultyFilter());
@@ -170,6 +163,7 @@ public class TaskFilterView extends JDialog {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent event) {
+                loadData();
                 TaskFilterView.this.setVisible(false);
             }
         });
