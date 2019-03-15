@@ -183,13 +183,25 @@ public class TaskFilterForm extends JDialog {
     }
 
     public void addAllTags(TaskCollection taskCollection) {
+        // Reset logical data
+        data.reset();
+
+        // Reset form data
+        titleField.setText("");
+        difficultyList.setSelectedIndex(0);
+        statusList.setSelectedIndex(0);
         removeAllTags();
+
+        // Add new tags
         for (MappedElement element : taskCollection.getPossibleTasks()) {
             TaskDescription description = taskCollection.getTaskDescription(element.getId());
             for (String tag : description.getTags()) {
                 this.addTag(tag);
             }
         }
+
+        // Set new logical data
+        createData();
     }
 
     private void addTag(String name) {

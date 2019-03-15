@@ -22,7 +22,8 @@ public class TaskFilterData {
     private Map<String, Boolean> tagFilters;
 
     public TaskFilterData() {
-        set("", 0, TaskStatus.ALL, new HashMap<>());
+        tagFilters = new HashMap<>();
+        reset();
     }
 
     public void set(String titleFilter, int difficultyFilter, TaskStatus statusFilter, Map<String, Boolean> tagFilters) {
@@ -30,6 +31,13 @@ public class TaskFilterData {
         this.difficultyFilter = difficultyFilter;
         this.statusFilter = statusFilter;
         this.tagFilters = tagFilters;
+    }
+
+    public void reset() {
+        this.titleFilter = "";
+        this.difficultyFilter = 0;
+        this.statusFilter = TaskStatus.ALL;
+        this.tagFilters.clear();
     }
 
     public String getTitleFilter() {
