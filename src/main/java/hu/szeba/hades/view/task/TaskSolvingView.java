@@ -415,6 +415,8 @@ public class TaskSolvingView extends BaseView {
         for (int i = 0; i < codeTab.getTabCount(); i++) {
             if (codeTab.getTitleAt(i).equals(oldName)) {
                 codeTab.setTitleAt(i, newName);
+                // Update the tab width
+                ((ClosableTabComponent)codeTab.getTabComponentAt(i)).updateUI();
                 break;
             }
         }
