@@ -19,7 +19,7 @@ import java.io.IOException;
 public class TaskSelectorView extends BaseView {
 
     private TaskSelectorController controller;
-    private TaskFiltersView taskFiltersView;
+    private TaskFilterView taskFilterView;
 
     private Color selectedTaskBackground;
     private Color completedTaskForeground;
@@ -60,8 +60,8 @@ public class TaskSelectorView extends BaseView {
         controller.setTaskCollectionListContents(taskCollectionList);
         controller.setTaskListContents(taskList);
 
-        // Create the filters dialogue
-        taskFiltersView = new TaskFiltersView();
+        // Create the filter dialogue
+        taskFilterView = new TaskFilterView();
 
         // Put everything together and pack
         this.getContentPane().add(topPanel, BorderLayout.NORTH);
@@ -296,7 +296,7 @@ public class TaskSelectorView extends BaseView {
         });
 
         filtersButton.addActionListener((e) -> {
-            taskFiltersView.setVisible(true);
+            taskFilterView.setVisible(true);
         });
     }
 
