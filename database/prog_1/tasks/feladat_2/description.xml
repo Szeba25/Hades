@@ -21,9 +21,9 @@
 		8<br>
 		13<br>
 		<p><i>Segítség:</i></p>
-		<img src=file:resources/fibonacci.png></img>
+		<img src="file:resources/fibonacci.png"></img>
 		<br>
-		<img src=file:resources/fibonacci_grid.png></img>
+		<img src="file:resources/fibonacci_grid.png"></img>
 	]]>
 	</Instructions>
 	<Story><![CDATA[
