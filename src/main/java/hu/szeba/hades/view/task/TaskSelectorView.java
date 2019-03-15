@@ -252,7 +252,7 @@ public class TaskSelectorView extends BaseView {
                 if (getSelectedTask() != null) {
                     boolean newTrigger = false;
                     // If progress exists, prompt if overwrite it!
-                    if (controller.isTaskInProgress(getSelectedTask())) {
+                    if (controller.isTaskStarted(getSelectedTask())) {
                         int option = JOptionPane.showConfirmDialog(new JFrame(),
                                 "This will delete all previous progress for this task. Continue?",
                                 "Start task from scratch...",
@@ -320,7 +320,7 @@ public class TaskSelectorView extends BaseView {
                         setForeground(completedTaskForeground);
                     } else if (controller.isTaskUnavailable(element)) {
                         setForeground(unavailableTaskForeground);
-                    } else if (controller.isTaskInProgress(element)) {
+                    } else if (controller.isTaskStarted(element)) {
                         setForeground(inProgressTaskForeground);
                     } else {
                         setForeground(availableTaskForeground);
@@ -359,7 +359,7 @@ public class TaskSelectorView extends BaseView {
                 continueButton.setEnabled(false);
             } else {
                 startButton.setEnabled(true);
-                if (controller.isTaskInProgress(selectedTask)) {
+                if (controller.isTaskStarted(selectedTask)) {
                     continueButton.setEnabled(true);
                 } else {
                     continueButton.setEnabled(false);
