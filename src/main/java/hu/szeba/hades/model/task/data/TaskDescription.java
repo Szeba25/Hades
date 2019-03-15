@@ -1,5 +1,7 @@
 package hu.szeba.hades.model.task.data;
 
+import hu.szeba.hades.util.HTMLUtilities;
+
 import java.util.List;
 
 public class TaskDescription {
@@ -11,6 +13,7 @@ public class TaskDescription {
     private final int difficulty;
     private final int length;
     private final List<String> tags;
+    private final String infoHTML;
 
     public TaskDescription(String taskTitle, String shortDescription, String instructions, String story,
                            int difficulty, int length, List<String> tags) {
@@ -21,6 +24,11 @@ public class TaskDescription {
         this.difficulty = difficulty;
         this.length = length;
         this.tags = tags;
+        this.infoHTML = HTMLUtilities.generateTaskInfoHTML(difficulty, length, tags);
+    }
+
+    public String getInfoHTML() {
+        return infoHTML;
     }
 
     public String getTaskTitle() {

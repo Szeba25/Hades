@@ -4,6 +4,7 @@ import hu.szeba.hades.controller.task.TaskSelectorController;
 import hu.szeba.hades.model.course.CourseDatabase;
 import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
+import hu.szeba.hades.util.HTMLUtilities;
 import hu.szeba.hades.util.SpringUtilities;
 import hu.szeba.hades.view.BaseView;
 import hu.szeba.hades.view.JButtonGuarded;
@@ -37,18 +38,17 @@ public class TaskSelectorView extends BaseView {
 
     private JPanel leftPanel;
     private JList<MappedElement> taskList;
-    private JScrollPane taskListScroller;
     private JButton filtersButton;
 
     /* RIGHT PART */
 
     private JPanel rightPanel;
 
-    private JPanel rightPanelBottom;
     private JButtonGuarded startButton;
     private JButtonGuarded continueButton;
 
     private JEditorPane descriptionArea;
+    private JEditorPane infoArea;
 
     public TaskSelectorView(CourseDatabase courseDatabase) throws IOException, SAXException, ParserConfigurationException {
         super();
@@ -123,7 +123,7 @@ public class TaskSelectorView extends BaseView {
         taskList.setModel(new DefaultListModel<>());
         taskList.setFixedCellWidth(200);
 
-        taskListScroller = new JScrollPane(taskList);
+        JScrollPane taskListScroller = new JScrollPane(taskList);
         taskListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         taskListScroller.setBorder(BorderFactory.createEtchedBorder());
 
@@ -136,28 +136,24 @@ public class TaskSelectorView extends BaseView {
         /* RIGHT PART */
 
         rightPanel = new JPanel();
-        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+        rightPanel.setLayout(new GridBagLayout());
         rightPanel.setBorder(new EmptyBorder(5, 0, 5, 5));
 
-        rightPanelBottom = new JPanel();
-        rightPanelBottom.setLayout(new BoxLayout(rightPanelBottom, BoxLayout.X_AXIS));
-        rightPanelBottom.setBorder(new EmptyBorder(5, 0, 5, 5));
+        infoArea = new JEditorPane();
+        infoArea.setAlignmentX(Component.LEFT_ALIGNMENT);
+        infoArea.setContentType("text/html");
+        infoArea.setEditable(false);
+        infoArea.setBorder(BorderFactory.createEtchedBorder());
 
         startButton = new JButtonGuarded("Start");
-        startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         startButton.setFocusPainted(false);
-        startButton.setMaximumSize(new Dimension(120, 30));
+        startButton.setMaximumSize(new Dimension(150, 30));
         startButton.setEnabled(false);
 
         continueButton = new JButtonGuarded("Continue");
-        continueButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         continueButton.setFocusPainted(false);
-        continueButton.setMaximumSize(new Dimension(120, 30));
+        continueButton.setMaximumSize(new Dimension(150, 30));
         continueButton.setEnabled(false);
-
-        rightPanelBottom.add(startButton);
-        rightPanelBottom.add(Box.createRigidArea(new Dimension(10, 0)));
-        rightPanelBottom.add(continueButton);
 
         descriptionArea = new JEditorPane();
         descriptionArea.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -165,9 +161,46 @@ public class TaskSelectorView extends BaseView {
         descriptionArea.setEditable(false);
         descriptionArea.setBorder(BorderFactory.createEtchedBorder());
 
-        rightPanel.add(descriptionArea);
-        rightPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        rightPanel.add(rightPanelBottom);
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridx = 0;
+        c.gridy = 0;
+        c.fill = GridBagConstraints.BOTH;
+        c.gridwidth = 2;
+        c.gridheight = 1;
+        c.weightx = 1.0;
+        c.weighty = 1.0;
+        c.insets = new Insets(0, 0, 0, 0);
+        rightPanel.add(descriptionArea, c);
+
+        c.gridx = 0;
+        c.gridy = 1;
+        c.fill = GridBagConstraints.BOTH;
+        c.gridwidth = 1;
+        c.gridheight = 2;
+        c.weightx = 1.0;
+        c.weighty = 0;
+        c.insets = new Insets(0, 0, 0, 0);
+        rightPanel.add(infoArea, c);
+
+        c.gridx = 1;
+        c.gridy = 1;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridwidth = 1;
+        c.gridheight = 1;
+        c.weightx = 0;
+        c.weighty = 0;
+        c.insets = new Insets(5, 0, 0, 0);
+        rightPanel.add(startButton, c);
+
+        c.gridx = 1;
+        c.gridy = 2;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridwidth = 1;
+        c.gridheight = 1;
+        c.weightx = 0;
+        c.weighty = 0;
+        c.insets = new Insets(0, 0, 0, 0);
+        rightPanel.add(continueButton, c);
     }
 
     private void setupListEvents() {
@@ -334,13 +367,15 @@ public class TaskSelectorView extends BaseView {
                 }
             }
             controller.setTaskShortDescription(selectedTask, descriptionArea);
+            controller.setTaskInfo(selectedTask, infoArea);
         } else {
             clearTaskSelection();
         }
     }
 
     private void clearTaskSelection() {
-        descriptionArea.setText("<h3>No task selected...</h3>");
+        descriptionArea.setText(HTMLUtilities.getEmptyTaskDescription());
+        infoArea.setText(HTMLUtilities.getEmptyTaskInfoHTML());
         startButton.setEnabled(false);
         continueButton.setEnabled(false);
     }
