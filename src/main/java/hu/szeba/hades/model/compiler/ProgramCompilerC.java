@@ -20,7 +20,9 @@ public class ProgramCompilerC implements ProgramCompiler {
 
         List<String> commands = new LinkedList<>();
         commands.add(finalProcessPath);
-        commands.addAll(Arrays.asList(sourceNames));
+        for (String sourceName : sourceNames) {
+            commands.add(sourceName);
+        }
         commands.add("-o");
         commands.add("program.exe");
 
