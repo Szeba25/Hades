@@ -332,7 +332,7 @@ public class TaskSelectorView extends BaseView {
         });
 
         filtersButton.addActionListener((e) -> {
-            controller.showTaskFilterView(taskList);
+            controller.showTaskFilterView(taskList, this);
             clearTaskSelection();
         });
     }

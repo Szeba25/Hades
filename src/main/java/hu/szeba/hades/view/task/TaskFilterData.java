@@ -74,7 +74,7 @@ public class TaskFilterData {
                 matchesStatus = collection.isTaskCompleted(taskId);
                 break;
             case IN_PROGRESS:
-                matchesStatus = collection.isProgressExists(taskId);
+                matchesStatus = collection.isProgressExists(taskId) && !collection.isTaskCompleted(taskId);
                 break;
             case UNAVAILABLE:
                 matchesStatus = collection.isTaskUnavailable(taskId);

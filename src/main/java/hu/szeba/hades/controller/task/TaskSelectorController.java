@@ -140,7 +140,8 @@ public class TaskSelectorController {
         return taskFilterData;
     }
 
-    public void showTaskFilterView(JList<MappedElement> taskList) {
+    public void showTaskFilterView(JList<MappedElement> taskList, BaseView parentView) {
+        taskFilterForm.setLocationRelativeTo(parentView);
         taskFilterForm.setVisible(true);
         // Blocks until closed
         setTaskListContents(taskList);

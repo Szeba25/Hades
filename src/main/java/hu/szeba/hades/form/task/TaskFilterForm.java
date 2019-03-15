@@ -3,6 +3,7 @@ package hu.szeba.hades.form.task;
 import hu.szeba.hades.model.task.TaskCollection;
 import hu.szeba.hades.model.task.data.TaskDescription;
 import hu.szeba.hades.util.SpringUtilities;
+import hu.szeba.hades.view.BaseView;
 import hu.szeba.hades.view.MappedElement;
 import hu.szeba.hades.view.task.TaskFilterData;
 
@@ -41,7 +42,6 @@ public class TaskFilterForm extends JDialog {
 
         SwingUtilities.getRootPane(this).setDefaultButton(okButton);
         this.pack();
-        this.setLocationRelativeTo(null);
 
         this.data = data;
         createData();
