@@ -73,11 +73,11 @@ public class TaskFilterData {
                 break;
         }
 
-        boolean matchesTags = true;
+        boolean matchesTags = false;
         List<String> tags = description.getTags();
         for (String tag : tags) {
             Boolean filterValue = tagFilters.get(tag);
-            matchesTags = matchesTags && (filterValue == null || filterValue);
+            matchesTags = matchesTags || (filterValue == null || filterValue);
         }
 
         return matchesTitle && matchesDifficulty && matchesStatus && matchesTags;
