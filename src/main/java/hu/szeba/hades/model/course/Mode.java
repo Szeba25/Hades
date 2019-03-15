@@ -51,7 +51,7 @@ public class Mode {
         unavailableTaskCollectionIds = new ArrayList<>();
         taskCollections = new HashMap<>();
 
-        ConfigFile metaFile = new ConfigFile(new File(modeDirectory, "meta.dat"));
+        ConfigFile metaFile = new ConfigFile(new File(modeDirectory, "meta.conf"));
         modeData = new ModeData(
                 Boolean.parseBoolean(metaFile.getData(0, 1)),  // ignore dependency
                 Boolean.parseBoolean(metaFile.getData(1, 1)),  // ignore story

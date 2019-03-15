@@ -36,7 +36,7 @@ public class Course {
 
         this.modes = new HashMap<>();
 
-        ConfigFile courseMetaFile = new ConfigFile(new File(Options.getDatabasePath(), courseId  + "/meta.dat"));
+        ConfigFile courseMetaFile = new ConfigFile(new File(Options.getDatabasePath(), courseId  + "/meta.conf"));
         this.language = courseMetaFile.getData(0, 1);
     }
 
