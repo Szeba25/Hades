@@ -5,22 +5,19 @@ import hu.szeba.hades.model.course.CourseDatabase;
 import hu.szeba.hades.model.course.Mode;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.MissingResultFileException;
-import hu.szeba.hades.model.task.data.TaskDescription;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.model.task.TaskCollection;
 import hu.szeba.hades.view.BaseView;
 import hu.szeba.hades.view.MappedElement;
 import hu.szeba.hades.view.task.TaskFilterData;
-import hu.szeba.hades.view.task.TaskFilterView;
+import hu.szeba.hades.form.task.TaskFilterForm;
 import hu.szeba.hades.view.task.TaskSolvingView;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class TaskSelectorController {
 
@@ -29,13 +26,13 @@ public class TaskSelectorController {
     private Mode mode;
     private TaskCollection taskCollection;
 
-    private TaskFilterView taskFilterView;
+    private TaskFilterForm taskFilterForm;
     private TaskFilterData taskFilterData;
 
     public TaskSelectorController(CourseDatabase courseDatabase) {
         this.courseDatabase = courseDatabase;
         this.taskFilterData = new TaskFilterData();
-        this.taskFilterView = new TaskFilterView(taskFilterData);
+        this.taskFilterForm = new TaskFilterForm(taskFilterData);
     }
 
     public void updateCourse(JComboBox<MappedElement> modeList,
@@ -59,7 +56,7 @@ public class TaskSelectorController {
             throws ParserConfigurationException, SAXException, IOException {
 
         taskCollection = mode.loadTaskCollection(selectedTaskCollection.getId());
-        taskFilterView.addAllTags(taskCollection);
+        taskFilterForm.addAllTags(taskCollection);
         setTaskListContents(taskList);
     }
 
@@ -134,7 +131,7 @@ public class TaskSelectorController {
     }
 
     public void showTaskFilterView(JList<MappedElement> taskList) {
-        taskFilterView.setVisible(true);
+        taskFilterForm.setVisible(true);
         // Blocks until closed
         setTaskListContents(taskList);
     }

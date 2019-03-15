@@ -1,8 +1,9 @@
-package hu.szeba.hades.view.task;
+package hu.szeba.hades.form.task;
 
 import hu.szeba.hades.model.task.TaskCollection;
 import hu.szeba.hades.model.task.data.TaskDescription;
 import hu.szeba.hades.util.SpringUtilities;
+import hu.szeba.hades.view.task.TaskFilterData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +12,7 @@ import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TaskFilterView extends JDialog {
+public class TaskFilterForm extends JDialog {
 
     private TaskFilterData data;
 
@@ -26,7 +27,7 @@ public class TaskFilterView extends JDialog {
     private JButton selectAll;
     private JButton clearAll;
 
-    public TaskFilterView(TaskFilterData data) {
+    public TaskFilterForm(TaskFilterData data) {
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setResizable(false);
         this.setLayout(new BorderLayout());
@@ -37,6 +38,7 @@ public class TaskFilterView extends JDialog {
         initializeComponents();
         setupEvents();
 
+        SwingUtilities.getRootPane(this).setDefaultButton(okButton);
         this.pack();
         this.setLocationRelativeTo(null);
 
@@ -162,7 +164,7 @@ public class TaskFilterView extends JDialog {
             @Override
             public void windowClosing(WindowEvent event) {
                 loadData();
-                TaskFilterView.this.setVisible(false);
+                TaskFilterForm.this.setVisible(false);
             }
         });
 

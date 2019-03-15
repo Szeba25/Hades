@@ -51,7 +51,7 @@ public class TaskFilterData {
     public boolean matches(TaskCollection collection, String taskId) {
         TaskDescription description = collection.getTaskDescription(taskId);
 
-        boolean matchesTitle = description.getTaskTitle().contains(titleFilter);
+        boolean matchesTitle = description.getTaskTitle().toLowerCase().contains(titleFilter);
         boolean matchesDifficulty = description.getDifficulty() >= difficultyFilter;
 
         boolean matchesStatus = false;
