@@ -23,7 +23,7 @@ public class Main {
             user = new User("DEFAULT", "Someone");
             taskSelectorView = new TaskSelectorView(new CourseDatabase(user));
             start();
-        } catch (IOException e) {
+        } catch (IOException | SAXException | ParserConfigurationException e) {
             e.printStackTrace();
         }
     }

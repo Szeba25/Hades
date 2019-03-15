@@ -1,5 +1,7 @@
 package hu.szeba.hades.view.task;
 
+import hu.szeba.hades.model.task.TaskCollection;
+import hu.szeba.hades.model.task.data.TaskDescription;
 import hu.szeba.hades.util.SpringUtilities;
 
 import javax.swing.*;
@@ -18,6 +20,7 @@ public class TaskFilterView extends JDialog {
     private JTextField titleField;
     private JComboBox<String> difficultyList;
     private JComboBox<TaskFilterData.TaskStatus> statusList;
+    private JPanel tagPanel;
     private Map<String, JCheckBox> tags;
 
     private JButton selectAll;
@@ -76,17 +79,10 @@ public class TaskFilterView extends JDialog {
 
         JLabel tagLabel = new JLabel("Tags:");
 
-        JPanel tagPanel = new JPanel();
+        tagPanel = new JPanel();
         tagPanel.setLayout(new GridLayout(0,  1));
 
         tags = new HashMap<>();
-
-        for (int i = 0; i < 40; i++) {
-            JCheckBox box = new JCheckBox("Tag " + i);
-            box.setSelected(true);
-            tags.put("Tag " + i, box);
-            tagPanel.add(box);
-        }
 
         JScrollPane tagScroll = new JScrollPane();
         tagScroll.setPreferredSize(new Dimension(300, 160));
@@ -181,6 +177,28 @@ public class TaskFilterView extends JDialog {
                 box.setSelected(false);
             }
         });
+    }
+
+    public void addAllTags(TaskCollection taskCollection) {
+        removeAllTags();
+        taskCollection.getPossibleTasks().forEach((p) -> {
+            TaskDescription description = taskCollection.getTaskDescription(p.getId());
+            description.getTags().forEach(this::addTag);
+        });
+    }
+
+    private void addTag(String name) {
+        JCheckBox box = new JCheckBox(name);
+        box.setSelected(true);
+        if (!tags.containsKey(name)) {
+            tagPanel.add(box);
+            tags.put(name, box);
+        }
+    }
+
+    private void removeAllTags() {
+        tagPanel.removeAll();
+        tags.clear();
     }
 
 }

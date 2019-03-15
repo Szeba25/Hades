@@ -19,7 +19,6 @@ import java.io.IOException;
 public class TaskSelectorView extends BaseView {
 
     private TaskSelectorController controller;
-    private TaskFilterView taskFilterView;
 
     private Color selectedTaskBackground;
     private Color completedTaskForeground;
@@ -50,18 +49,17 @@ public class TaskSelectorView extends BaseView {
 
     private JEditorPane descriptionArea;
 
-    public TaskSelectorView(CourseDatabase courseDatabase) {
+    public TaskSelectorView(CourseDatabase courseDatabase) throws IOException, SAXException, ParserConfigurationException {
         super();
 
         // Create the controller
         controller = new TaskSelectorController(courseDatabase);
 
         controller.setCourseListContents(courseList);
-        controller.setTaskCollectionListContents(taskCollectionList);
-        controller.setTaskListContents(taskList);
-
-        // Create the filter dialogue
-        taskFilterView = new TaskFilterView(controller.getTaskFilterData());
+        controller.updateCourse(modeList, (MappedElement) courseList.getSelectedItem());
+        controller.updateMode(taskCollectionList, (MappedElement) modeList.getSelectedItem());
+        controller.updateTaskCollection(taskList, (MappedElement) taskCollectionList.getSelectedItem());
+        setupListEvents();
 
         // Put everything together and pack
         this.getContentPane().add(topPanel, BorderLayout.NORTH);
@@ -170,15 +168,13 @@ public class TaskSelectorView extends BaseView {
         rightPanel.add(rightPanelBottom);
     }
 
-    @Override
-    public void setupEvents() {
+    private void setupListEvents() {
         courseList.addActionListener((event) -> {
             Object selectedItem = courseList.getSelectedItem();
             if (selectedItem != null) {
                 try {
-                    controller.updateCourse(taskList, taskCollectionList, modeList, (MappedElement) selectedItem);
-                    clearTaskSelection();
-                } catch (IOException | SAXException | ParserConfigurationException e) {
+                    controller.updateCourse(modeList, (MappedElement) selectedItem);
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -188,9 +184,8 @@ public class TaskSelectorView extends BaseView {
             Object selectedItem = modeList.getSelectedItem();
             if (selectedItem != null) {
                 try {
-                    controller.updateMode(taskList, taskCollectionList, (MappedElement) selectedItem);
-                    clearTaskSelection();
-                } catch (ParserConfigurationException | SAXException | IOException e) {
+                    controller.updateMode(taskCollectionList, (MappedElement) selectedItem);
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -207,7 +202,10 @@ public class TaskSelectorView extends BaseView {
                 }
             }
         });
+    }
 
+    @Override
+    public void setupEvents() {
         startButton.addActionListener((event) -> {
             // Protect from multiple actions spawned
             if (startButton.getActionGuard().isGuarded()) {
@@ -297,9 +295,7 @@ public class TaskSelectorView extends BaseView {
         });
 
         filtersButton.addActionListener((e) -> {
-            taskFilterView.setVisible(true);
-            // Blocks until closed
-            controller.setTaskListContents(taskList);
+            controller.showTaskFilterView(taskList);
             clearTaskSelection();
         });
     }
