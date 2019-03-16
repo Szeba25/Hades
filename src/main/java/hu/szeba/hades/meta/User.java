@@ -130,7 +130,7 @@ public class User implements TaskSolverAgent {
                         count++;
                     }
                 }
-                System.out.println("User: collection -> " + count + " / " + currentTaskCollectionInfo.getTaskCompletionCount());
+                System.out.println("User: " + currentTaskCollectionFullId + " -> " + count + " / " + currentTaskCollectionInfo.getTaskCompletionCount());
                 // Then check against threshold and complete the task collection too
                 if (count >= currentTaskCollectionInfo.getTaskCompletionCount()) {
                     completedTaskCollections.add(currentTaskCollectionFullId);
