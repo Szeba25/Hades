@@ -86,7 +86,7 @@ public class TaskSelectorView extends BaseView {
         /* TOP PART */
 
         topPanel = new JPanel();
-        topPanel.setLayout(new SpringLayout());
+        topPanel.setLayout(new GridBagLayout());
         topPanel.setBorder(new EmptyBorder(5, 5, 0, 5));
 
         JLabel courseListLabel = new JLabel("Course:");
@@ -99,11 +99,59 @@ public class TaskSelectorView extends BaseView {
         modeList.setPreferredSize(new Dimension(160, 20));
         modeListLabel.setLabelFor(modeList);
 
-        topPanel.add(courseListLabel);
-        topPanel.add(courseList);
-        topPanel.add(modeListLabel);
-        topPanel.add(modeList);
-        SpringUtilities.makeCompactGrid(topPanel, 2, 2, 0, 5, 5, 5);
+        JSeparator headerSeparator = new JSeparator(JSeparator.HORIZONTAL);
+
+        GridBagConstraints c0 = new GridBagConstraints();
+
+        c0.gridx = 0;
+        c0.gridy = 0;
+        c0.fill = GridBagConstraints.BOTH;
+        c0.gridwidth = 1;
+        c0.gridheight = 1;
+        c0.weightx = 0.0;
+        c0.weighty = 0.0;
+        c0.insets = new Insets(0, 0, 5, 5);
+        topPanel.add(courseListLabel, c0);
+
+        c0.gridx = 1;
+        c0.gridy = 0;
+        c0.fill = GridBagConstraints.BOTH;
+        c0.gridwidth = 1;
+        c0.gridheight = 1;
+        c0.weightx = 1.0;
+        c0.weighty = 0.0;
+        c0.insets = new Insets(0, 0, 5, 0);
+        topPanel.add(courseList, c0);
+
+        c0.gridx = 0;
+        c0.gridy = 1;
+        c0.fill = GridBagConstraints.BOTH;
+        c0.gridwidth = 1;
+        c0.gridheight = 1;
+        c0.weightx = 0.0;
+        c0.weighty = 0.0;
+        c0.insets = new Insets(0, 0, 5, 5);
+        topPanel.add(modeListLabel, c0);
+
+        c0.gridx = 1;
+        c0.gridy = 1;
+        c0.fill = GridBagConstraints.BOTH;
+        c0.gridwidth = 1;
+        c0.gridheight = 1;
+        c0.weightx = 1.0;
+        c0.weighty = 0.0;
+        c0.insets = new Insets(0, 0, 5, 0);
+        topPanel.add(modeList, c0);
+
+        c0.gridx = 0;
+        c0.gridy = 2;
+        c0.fill = GridBagConstraints.BOTH;
+        c0.gridwidth = 2;
+        c0.gridheight = 1;
+        c0.weightx = 0.0;
+        c0.weighty = 0.0;
+        c0.insets = new Insets(10, 0, 10, 0);
+        topPanel.add(headerSeparator, c0);
 
         /* LEFT PART */
 
