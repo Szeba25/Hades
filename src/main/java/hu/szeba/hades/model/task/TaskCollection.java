@@ -3,6 +3,7 @@ package hu.szeba.hades.model.task;
 import hu.szeba.hades.io.DescriptionXMLFile;
 import hu.szeba.hades.io.GraphFile;
 import hu.szeba.hades.meta.Options;
+import hu.szeba.hades.meta.TaskCollectionInfo;
 import hu.szeba.hades.meta.User;
 import hu.szeba.hades.model.course.ModeData;
 import hu.szeba.hades.model.task.data.MissingResultFileException;
@@ -92,7 +93,10 @@ public class TaskCollection {
     public Task createTask(String taskId, boolean continueTask)
             throws InvalidLanguageException, IOException, MissingResultFileException {
 
-        // Set the current task collection, and task identifier strings!
+        // Set task collection info!
+        user.setCurrentTaskCollectionInfo(new TaskCollectionInfo(possibleTasks.size(), 0.8));
+
+        // Set the current task collection full id, and task full id!
         String taskCollectionFullId = courseId + "/" + modeId + "/" + taskCollectionId;
         user.setCurrentTaskCollection(taskCollectionFullId);
         user.setCurrentTask(taskCollectionFullId + "/" + taskId);

@@ -5,6 +5,7 @@ import java.io.IOException;
 
 public interface TaskSolverAgent {
 
+    void setCurrentTaskCollectionInfo(TaskCollectionInfo info);
     void setCurrentTaskCollection(String taskCollectionFullId);
     void setCurrentTask(String taskFullId);
 

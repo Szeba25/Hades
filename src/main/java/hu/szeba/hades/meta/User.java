@@ -17,6 +17,7 @@ public class User implements TaskSolverAgent {
     private Set<String> startedTasks;
     private File userWorkingDirectoryPath;
 
+    private TaskCollectionInfo currentTaskCollectionInfo;
     private String currentTaskCollectionFullId;
     private String currentTaskFullId;
 
@@ -52,6 +53,7 @@ public class User implements TaskSolverAgent {
             }
         }
 
+        currentTaskCollectionInfo = null;
         currentTaskCollectionFullId = null;
         currentTaskFullId = null;
     }
@@ -70,6 +72,11 @@ public class User implements TaskSolverAgent {
 
     public boolean isTaskCompleted(String taskFullId) {
         return completedTasks.contains(taskFullId);
+    }
+
+    @Override
+    public void setCurrentTaskCollectionInfo(TaskCollectionInfo info) {
+        currentTaskCollectionInfo = info;
     }
 
     @Override
