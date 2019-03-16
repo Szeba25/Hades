@@ -120,13 +120,24 @@ public class TaskSelectorController {
         descriptionArea.setText(taskCollection.getTaskDescription(selectedTask.getId()).getShortDescription());
     }
 
-    public void setTaskCollectionInfo() {
+    public void setTaskCollectionInfo(MappedElement selectedTaskCollection, JTextField statusField,
+                                      JTextField percentField, JTextField progressField, JTextField taskCountField) {
 
+        if (this.isTaskCollectionCompleted(selectedTaskCollection)) {
+            statusField.setText("Completed");
+        } else if (this.isTaskCollectionUnavailable(selectedTaskCollection)) {
+            statusField.setText("Unavailable");
+        } else {
+            statusField.setText("Available");
+        }
+        percentField.setText((int)(taskCollection.getCompletionThreshold() * 100) + "%");
+        progressField.setText(taskCollection.getCompletedTasksCount() + " / " + taskCollection.getTaskCompletionCount());
+        taskCountField.setText(String.valueOf(taskCollection.getPossibleTasks().size()));
     }
 
     public void setTaskInfo(MappedElement selectedTask, JTextField statusField,
                             JTextField difficultyField, JTextField lengthField,
-                            JList<String> infoFieldTaskPrerequisites) {
+                            JList<String> prerequisitesList) {
 
         statusField.setText(taskCollection.getTaskEffectiveStatus(selectedTask.getId()).toString());
 
@@ -134,7 +145,7 @@ public class TaskSelectorController {
         difficultyField.setText(description.getDifficulty());
         lengthField.setText(description.getLength());
 
-        DefaultListModel<String> model = (DefaultListModel<String>) infoFieldTaskPrerequisites.getModel();
+        DefaultListModel<String> model = (DefaultListModel<String>) prerequisitesList.getModel();
         model.removeAllElements();
         for (String req : taskCollection.getTaskPrerequisites(selectedTask.getId())) {
             model.addElement(req);

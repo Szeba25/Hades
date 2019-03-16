@@ -14,4 +14,7 @@ public class TaskCollectionInfo {
         return (int)Math.ceil((double)taskCount * completionThreshold);
     }
 
+    public double getCompletionThreshold() {
+        return completionThreshold;
+    }
 }

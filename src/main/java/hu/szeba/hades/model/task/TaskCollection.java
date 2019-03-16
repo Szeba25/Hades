@@ -150,6 +150,24 @@ public class TaskCollection {
         return possibleTasks;
     }
 
+    public int getCompletedTasksCount() {
+        int count = 0;
+        for (MappedElement element : possibleTasks) {
+            if (user.isTaskCompleted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + element.getId())) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int getTaskCompletionCount() {
+        return info.getTaskCompletionCount();
+    }
+
+    public double getCompletionThreshold() {
+        return info.getCompletionThreshold();
+    }
+
     public List<String> getTaskPrerequisites(String taskId) {
         List<String> taskParentIds = taskMatrix.getParentNodes(taskId);
         for (int i = taskParentIds.size()-1; i >= 0; i--) {

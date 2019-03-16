@@ -50,9 +50,9 @@ public class TaskSelectorView extends BaseView {
     private JEditorPane descriptionArea;
 
     private JTextField infoFieldTaskCollectionStatus;
+    private JTextField infoFieldTaskCollectionPercentNeeded;
     private JTextField infoFieldTaskCollectionProgress;
     private JTextField infoFieldTaskCollectionTaskCount;
-    private JList<String> infoFieldTaskCollectionPrerequisites;
 
     private JTextField infoFieldTaskStatus;
     private JTextField infoFieldTaskDifficulty;
@@ -69,6 +69,10 @@ public class TaskSelectorView extends BaseView {
         controller.updateCourse(modeList, (MappedElement) courseList.getSelectedItem());
         controller.updateMode(taskCollectionList, (MappedElement) modeList.getSelectedItem());
         controller.updateTaskCollection(taskList, taskCollectionList.getSelectedValue());
+        controller.setTaskCollectionInfo(taskCollectionList.getSelectedValue(), infoFieldTaskCollectionStatus,
+                infoFieldTaskCollectionPercentNeeded, infoFieldTaskCollectionProgress,
+                infoFieldTaskCollectionTaskCount);
+
         setupListEvents();
 
         // Put everything together and pack
@@ -213,11 +217,13 @@ public class TaskSelectorView extends BaseView {
 
         JPanel taskCollectionDetails = new JPanel();
         taskCollectionDetails.setLayout(new GridBagLayout());
-        taskCollectionDetails.setPreferredSize(new Dimension(200, 200));
         taskCollectionDetails.setBorder(BorderFactory.createEtchedBorder());
 
         infoFieldTaskCollectionStatus = new JTextField();
         infoFieldTaskCollectionStatus.setEditable(false);
+
+        infoFieldTaskCollectionPercentNeeded = new JTextField();
+        infoFieldTaskCollectionPercentNeeded.setEditable(false);
 
         infoFieldTaskCollectionProgress = new JTextField();
         infoFieldTaskCollectionProgress.setEditable(false);
@@ -225,23 +231,21 @@ public class TaskSelectorView extends BaseView {
         infoFieldTaskCollectionTaskCount = new JTextField();
         infoFieldTaskCollectionTaskCount.setEditable(false);
 
-        infoFieldTaskCollectionPrerequisites = new JList<>();
-        infoFieldTaskCollectionPrerequisites.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        infoFieldTaskCollectionPrerequisites.setModel(new DefaultListModel<>());
-        JScrollPane taskCollectionPrerequisitesScroll = new JScrollPane(infoFieldTaskCollectionPrerequisites);
-        taskCollectionPrerequisitesScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-
         gs.setComponent(taskCollectionDetails);
 
         gs.add(new JLabel("Status:"), 0, 0, GridBagConstraints.BOTH,
                 1, 1, 0, 0,
                 new Insets(5, 0, 5, 5));
 
-        gs.add(new JLabel("Progress:"), 0, 1, GridBagConstraints.BOTH,
+        gs.add(new JLabel("Percent needed:"), 0, 1, GridBagConstraints.BOTH,
                 1, 1, 0, 0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(new JLabel("Task count:"), 0, 2, GridBagConstraints.BOTH,
+        gs.add(new JLabel("Progress:"), 0, 2, GridBagConstraints.BOTH,
+                1, 1, 0, 0,
+                new Insets(0, 0, 5, 5));
+
+        gs.add(new JLabel("Task count:"), 0, 3, GridBagConstraints.BOTH,
                 1, 1, 0, 0,
                 new Insets(0, 0, 5, 5));
 
@@ -249,21 +253,17 @@ public class TaskSelectorView extends BaseView {
                 1, 1, 1.0, 0,
                 new Insets(5, 0, 5, 5));
 
-        gs.add(infoFieldTaskCollectionProgress, 1, 1, GridBagConstraints.HORIZONTAL,
+        gs.add(infoFieldTaskCollectionPercentNeeded, 1, 1, GridBagConstraints.HORIZONTAL,
                 1, 1, 1.0, 0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(infoFieldTaskCollectionTaskCount, 1, 2, GridBagConstraints.HORIZONTAL,
+        gs.add(infoFieldTaskCollectionProgress, 1, 2, GridBagConstraints.HORIZONTAL,
                 1, 1, 1.0, 0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(new JLabel("Task collection prerequisites:"), 0, 3, GridBagConstraints.BOTH,
-                2, 1, 0, 0,
-                new Insets(0, 0, 5, 0));
-
-        gs.add(taskCollectionPrerequisitesScroll, 0, 4, GridBagConstraints.BOTH,
-                2, 1, 1.0, 1.0,
-                new Insets(0, 0, 0, 0));
+        gs.add(infoFieldTaskCollectionTaskCount, 1, 3, GridBagConstraints.HORIZONTAL,
+                1, 1, 1.0, 0,
+                new Insets(0, 0, 5, 5));
 
         JLabel taskDetailsLabel = new JLabel("Task details:");
 
@@ -394,6 +394,9 @@ public class TaskSelectorView extends BaseView {
                     MappedElement value = (MappedElement) listModel.getElementAt(idx);
                     try {
                         controller.updateTaskCollection(taskList, value);
+                        controller.setTaskCollectionInfo(value, infoFieldTaskCollectionStatus,
+                                infoFieldTaskCollectionPercentNeeded, infoFieldTaskCollectionProgress,
+                                infoFieldTaskCollectionTaskCount);
                         clearTaskSelection();
                     } catch (ParserConfigurationException | SAXException | IOException e) {
                         e.printStackTrace();
