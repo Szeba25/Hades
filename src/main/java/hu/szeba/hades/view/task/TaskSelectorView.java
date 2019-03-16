@@ -237,7 +237,7 @@ public class TaskSelectorView extends BaseView {
         infoFieldTaskCollectionPrerequisites.setModel(new DefaultListModel<>());
         JScrollPane taskCollectionPrerequisitesScroll = new JScrollPane(infoFieldTaskCollectionPrerequisites);
         taskCollectionPrerequisitesScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        taskCollectionPrerequisitesScroll.setPreferredSize(new Dimension(250, 60));
+        taskCollectionPrerequisitesScroll.setPreferredSize(new Dimension(250, 80));
 
         gs.setComponent(taskCollectionDetails);
 
