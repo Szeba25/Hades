@@ -13,10 +13,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Mode {
 
@@ -25,10 +22,9 @@ public class Mode {
     private String modeId;
     private AdjacencyMatrix taskCollectionMatrix;
     private List<MappedElement> possibleTaskCollections;
-    private List<String> unavailableTaskCollectionIds;
-    private Map<String, TaskCollection> taskCollections;
-
     private ModeData modeData;
+    private Set<String> unavailableTaskCollectionIds;
+    private Map<String, TaskCollection> taskCollections;
 
     private final String language;
 
@@ -47,7 +43,6 @@ public class Mode {
             possibleTaskCollections.add(new MappedElement(id, titleFile.getData(0, 0)));
         }
 
-        unavailableTaskCollectionIds = new ArrayList<>();
         taskCollections = new HashMap<>();
 
         ConfigFile metaFile = new ConfigFile(new File(modeDirectory, "meta.conf"));
@@ -56,7 +51,43 @@ public class Mode {
                 Boolean.parseBoolean(metaFile.getData(1, 1)),  // ignore story
                 Boolean.parseBoolean(metaFile.getData(2, 1))); // iron man
 
+        unavailableTaskCollectionIds = new HashSet<>();
+        generateUnavailableTaskCollectionIds();
+
         this.language = language;
+    }
+
+    public void generateUnavailableTaskCollectionIds() {
+        // Only generate, if we don't ignore dependencies
+        unavailableTaskCollectionIds.clear();
+        if (!modeData.isIgnoreDependency()) {
+            for (String taskCollectionId : taskCollectionMatrix.getNodeNames()) {
+                boolean taskCollectionAvailable = true;
+                List<String> list = taskCollectionMatrix.getParentNodes(taskCollectionId);
+                for (String parents : list) {
+                    taskCollectionAvailable = taskCollectionAvailable &&
+                            (user.isTaskCollectionCompleted(courseId + "/" + modeId + "/" + parents));
+                }
+                if (!taskCollectionAvailable) {
+                    unavailableTaskCollectionIds.add(taskCollectionId);
+                }
+            }
+        }
+        // Notify existing collections about availability
+        for (MappedElement taskCollection : possibleTaskCollections) {
+            TaskCollection collection = taskCollections.get(taskCollection.getId());
+            if (collection != null) {
+                collection.updateAvailability(!unavailableTaskCollectionIds.contains(taskCollection.getId()));
+            }
+        }
+    }
+
+    public boolean isTaskCollectionCompleted(String taskCollectionId) {
+        return user.isTaskCollectionCompleted(courseId + "/" + modeId + "/" + taskCollectionId);
+    }
+
+    public boolean isTaskCollectionUnavailable(String taskCollectionId) {
+        return unavailableTaskCollectionIds.contains(taskCollectionId);
     }
 
     public List<MappedElement> getPossibleTaskCollections() {
@@ -67,7 +98,8 @@ public class Mode {
         if (taskCollections.containsKey(taskCollectionId)) {
             return taskCollections.get(taskCollectionId);
         } else {
-            TaskCollection newTaskCollection = new TaskCollection(user, courseId, modeId, taskCollectionId, modeData, language);
+            TaskCollection newTaskCollection = new TaskCollection(user, courseId, modeId, taskCollectionId, modeData,
+                    language, !unavailableTaskCollectionIds.contains(taskCollectionId));
             taskCollections.put(taskCollectionId, newTaskCollection);
             return newTaskCollection;
         }

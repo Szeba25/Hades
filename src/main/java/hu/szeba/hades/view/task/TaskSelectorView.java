@@ -21,11 +21,11 @@ public class TaskSelectorView extends BaseView {
 
     private TaskSelectorController controller;
 
-    private Color selectedTaskBackground;
-    private Color inProgressTaskForeground;
-    private Color completedTaskForeground;
-    private Color unavailableTaskForeground;
-    private Color availableTaskForeground;
+    private Color selectedColor;
+    private Color inProgressColor;
+    private Color completedColor;
+    private Color unavailableColor;
+    private Color availableColor;
 
     /* TOP PART */
 
@@ -77,11 +77,11 @@ public class TaskSelectorView extends BaseView {
         this.setMinimumSize(new Dimension(800, 600));
         this.setTitle("Please select a task");
 
-        selectedTaskBackground = new Color(160, 160, 255, 120);
-        inProgressTaskForeground = new Color(50, 50, 210);
-        completedTaskForeground = new Color(20, 140, 20);
-        unavailableTaskForeground = Color.GRAY;
-        availableTaskForeground = Color.BLACK;
+        selectedColor = new Color(160, 160, 255, 120);
+        inProgressColor = new Color(50, 50, 210);
+        completedColor = new Color(20, 140, 20);
+        unavailableColor = Color.GRAY;
+        availableColor = Color.BLACK;
 
         /* TOP PART */
 
@@ -309,6 +309,18 @@ public class TaskSelectorView extends BaseView {
                 }
             }
         });
+
+        taskList.getSelectionModel().addListSelectionListener((event) ->  {
+            ListSelectionModel listSelectionModel = (ListSelectionModel) event.getSource();
+            ListModel listModel = taskList.getModel();
+            if (!listSelectionModel.isSelectionEmpty()) {
+                int idx = listSelectionModel.getMinSelectionIndex();
+                if (listSelectionModel.isSelectedIndex(idx)) {
+                    MappedElement value = (MappedElement) listModel.getElementAt(idx);
+                    updateSelection(value);
+                }
+            }
+        });
     }
 
     @Override
@@ -364,15 +376,27 @@ public class TaskSelectorView extends BaseView {
             }
         });
 
-        taskList.getSelectionModel().addListSelectionListener((event) ->  {
-            ListSelectionModel listSelectionModel = (ListSelectionModel) event.getSource();
-            ListModel listModel = taskList.getModel();
-            if (!listSelectionModel.isSelectionEmpty()) {
-                int idx = listSelectionModel.getMinSelectionIndex();
-                if (listSelectionModel.isSelectedIndex(idx)) {
-                    MappedElement value = (MappedElement) listModel.getElementAt(idx);
-                    updateSelection(value);
+        taskCollectionList.setCellRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList list, Object value, int index,
+                                                          boolean isSelected, boolean cellHasFocus) {
+                Component component = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof MappedElement) {
+                    MappedElement element = (MappedElement)value;
+                    setText(element.toString());
+                    setBackground(Color.WHITE);
+                    if (isSelected) {
+                        setBackground(selectedColor);
+                    }
+                    if (controller.isTaskCollectionCompleted(element)) {
+                        setForeground(completedColor);
+                    } else if (controller.isTaskCollectionUnavailable(element)) {
+                        setForeground(unavailableColor);
+                    } else {
+                        setForeground(availableColor);
+                    }
                 }
+                return component;
             }
         });
 
@@ -386,16 +410,16 @@ public class TaskSelectorView extends BaseView {
                     setText(element.toString());
                     setBackground(Color.WHITE);
                     if (isSelected) {
-                        setBackground(selectedTaskBackground);
+                        setBackground(selectedColor);
                     }
                     if (controller.isTaskCompleted(element)) {
-                        setForeground(completedTaskForeground);
+                        setForeground(completedColor);
                     } else if (controller.isTaskUnavailable(element)) {
-                        setForeground(unavailableTaskForeground);
+                        setForeground(unavailableColor);
                     } else if (controller.isTaskStarted(element)) {
-                        setForeground(inProgressTaskForeground);
+                        setForeground(inProgressColor);
                     } else {
-                        setForeground(availableTaskForeground);
+                        setForeground(availableColor);
                     }
                 }
                 return component;
@@ -412,8 +436,8 @@ public class TaskSelectorView extends BaseView {
     public void showView() {
         super.showView();
 
-        // Refresh unavailable tasks
-        controller.generateUnavailableTaskIds();
+        // Refresh unavailable task collections and tasks
+        controller.generateUnavailableIds();
 
         // Refresh buttons
         updateSelection(getSelectedTask());

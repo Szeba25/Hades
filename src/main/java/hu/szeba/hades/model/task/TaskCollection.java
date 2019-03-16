@@ -37,7 +37,10 @@ public class TaskCollection {
     private final String language;
     private final TaskCollectionInfo info;
 
-    public TaskCollection(User user, String courseId, String modeId, String taskCollectionId, ModeData modeData, String language)
+    private boolean available;
+
+    public TaskCollection(User user, String courseId, String modeId, String taskCollectionId, ModeData modeData,
+                          String language, boolean available)
             throws IOException, ParserConfigurationException, SAXException {
 
         this.user = user;
@@ -51,10 +54,14 @@ public class TaskCollection {
 
         loadTaskIds();
         loadTaskDescriptions();
+
+        unavailableTaskIds = new HashSet<>();
         generateUnavailableTaskIds();
 
         ConfigFile file = new ConfigFile(new File(taskCollectionDirectory, "meta.conf"));
         info = new TaskCollectionInfo(possibleTasks.size(), Double.parseDouble(file.getData(0, 1)));
+
+        this.available = available;
     }
 
     private void loadTaskIds() throws IOException {
@@ -67,7 +74,6 @@ public class TaskCollection {
         possibleTasks = new ArrayList<>();
         // Create associative map for descriptions
         taskDescriptions = new HashMap<>();
-
         // Load all task descriptions
         for (String taskId : taskMatrix.getNodeNames()) {
             DescriptionXMLFile descriptionFile = new DescriptionXMLFile(new File(tasksDirectory, taskId + "/description.xml"));
@@ -77,18 +83,23 @@ public class TaskCollection {
         }
     }
 
+    public void updateAvailability(boolean value) {
+        available = value;
+    }
+
     public void generateUnavailableTaskIds() {
         // Only generate, if we don't ignore dependencies
-        unavailableTaskIds = new HashSet<>();
+        unavailableTaskIds.clear();
         if (!modeData.isIgnoreDependency()) {
             for (String taskId : taskMatrix.getNodeNames()) {
-                boolean available = true;
+                boolean taskAvailable = true;
                 List<String> list = taskMatrix.getParentNodes(taskId);
                 for (String parents : list) {
-                    available = available && (user.isTaskCompleted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + parents));
+                    taskAvailable = taskAvailable &&
+                            (user.isTaskCompleted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + parents));
                 }
                 // The task is unavailable, if any of its parents is not completed...
-                if (!available) {
+                if (!taskAvailable) {
                     unavailableTaskIds.add(taskId);
                 }
             }
@@ -119,7 +130,11 @@ public class TaskCollection {
     }
 
     public boolean isTaskUnavailable(String taskId) {
-        return unavailableTaskIds.contains(taskId);
+        if (!available) {
+            return true;
+        } else {
+            return unavailableTaskIds.contains(taskId);
+        }
     }
 
     public TaskDescription getTaskDescription(String taskId) {

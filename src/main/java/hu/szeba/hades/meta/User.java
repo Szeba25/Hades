@@ -77,6 +77,10 @@ public class User implements TaskSolverAgent {
         return name;
     }
 
+    public boolean isTaskCollectionCompleted(String taskCollectionFullId) {
+        return completedTaskCollections.contains(taskCollectionFullId);
+    }
+
     public boolean isTaskStarted(String taskFullId) {
         return startedTasks.contains(taskFullId);
     }

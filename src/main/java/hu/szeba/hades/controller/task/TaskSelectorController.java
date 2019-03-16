@@ -134,7 +134,16 @@ public class TaskSelectorController {
         return taskCollection.isTaskUnavailable(taskElement.getId());
     }
 
-    public void generateUnavailableTaskIds() {
+    public boolean isTaskCollectionCompleted(MappedElement taskCollectionElement) {
+        return mode.isTaskCollectionCompleted(taskCollectionElement.getId());
+    }
+
+    public boolean isTaskCollectionUnavailable(MappedElement taskCollectionElement) {
+        return mode.isTaskCollectionUnavailable(taskCollectionElement.getId());
+    }
+
+    public void generateUnavailableIds() {
+        mode.generateUnavailableTaskCollectionIds();
         taskCollection.generateUnavailableTaskIds();
     }
 
