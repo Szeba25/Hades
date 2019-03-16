@@ -32,7 +32,9 @@ public class TaskCollection {
     private AdjacencyMatrix taskMatrix;
     private List<MappedElement> possibleTasks;
     private Map<String, TaskDescription> taskDescriptions;
+
     private Set<String> unavailableTaskIds;
+    private Map<String, List<String>> cachedNeededTaskPrerequisites;
 
     private final String language;
     private final TaskCollectionInfo info;
@@ -56,7 +58,8 @@ public class TaskCollection {
         loadTaskDescriptions();
 
         unavailableTaskIds = new HashSet<>();
-        generateUnavailableTaskIds();
+        cachedNeededTaskPrerequisites = new HashMap<>();
+        generateUnavailableTaskIdsAndCachedPrerequisites();
 
         ConfigFile file = new ConfigFile(new File(taskCollectionDirectory, "meta.conf"));
         info = new TaskCollectionInfo(possibleTasks.size(), Double.parseDouble(file.getData(0, 1)));
@@ -87,21 +90,35 @@ public class TaskCollection {
         unavailable = value;
     }
 
-    public void generateUnavailableTaskIds() {
+    public void generateUnavailableTaskIdsAndCachedPrerequisites() {
         // Only generate, if we don't ignore dependencies
         unavailableTaskIds.clear();
+        cachedNeededTaskPrerequisites.clear();
+
         if (!modeData.isIgnoreDependency()) {
             for (String taskId : taskMatrix.getNodeNames()) {
                 boolean taskAvailable = true;
                 List<String> list = taskMatrix.getParentNodes(taskId);
+                List<String> reqList = new ArrayList<>();
+                cachedNeededTaskPrerequisites.put(taskId, reqList);
+
                 for (String parents : list) {
-                    taskAvailable = taskAvailable &&
-                            (user.isTaskCompleted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + parents));
+                    boolean parentCompleted = user.isTaskCompleted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + parents);
+                    if (!parentCompleted) {
+                        TaskDescription parentDescription = taskDescriptions.get(parents);
+                        reqList.add(parentDescription.getTaskTitle());
+                    }
+                    taskAvailable = taskAvailable && parentCompleted;
                 }
+
                 // The task is unavailable, if any of its parents is not completed...
                 if (!taskAvailable) {
                     unavailableTaskIds.add(taskId);
                 }
+            }
+        } else {
+            for (String taskId : taskMatrix.getNodeNames()) {
+                cachedNeededTaskPrerequisites.put(taskId, new ArrayList<>());
             }
         }
     }
@@ -169,17 +186,7 @@ public class TaskCollection {
     }
 
     public List<String> getTaskPrerequisites(String taskId) {
-        List<String> taskParentIds = taskMatrix.getParentNodes(taskId);
-        for (int i = taskParentIds.size()-1; i >= 0; i--) {
-            String id = taskParentIds.get(i);
-            if (!user.isTaskCompleted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + id)) {
-                TaskDescription description = taskDescriptions.get(id);
-                taskParentIds.set(i, description.getTaskTitle());
-            } else {
-                taskParentIds.remove(i);
-            }
-        }
-        return taskParentIds;
+        return cachedNeededTaskPrerequisites.get(taskId);
     }
 
 }
