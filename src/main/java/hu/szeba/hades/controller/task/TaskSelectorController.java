@@ -172,9 +172,9 @@ public class TaskSelectorController {
         return mode.isTaskCollectionUnavailable(taskCollectionElement.getId());
     }
 
-    public void generateUnavailableIdsAndCachedPrerequisites() {
-        mode.generateUnavailableTaskCollectionIds();
-        taskCollection.generateUnavailableTaskIdsAndCachedPrerequisites();
+    public void generateCachedData() {
+        mode.generateCachedData();
+        taskCollection.generateCachedData();
     }
 
     public TaskFilterData getTaskFilterData() {

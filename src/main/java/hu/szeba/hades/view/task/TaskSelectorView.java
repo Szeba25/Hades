@@ -536,8 +536,8 @@ public class TaskSelectorView extends BaseView {
     public void showView() {
         super.showView();
 
-        // Refresh unavailable task collections and tasks
-        controller.generateUnavailableIdsAndCachedPrerequisites();
+        // Refresh unavailable task collections, tasks, and dependency lists
+        controller.generateCachedData();
 
         // Refresh buttons
         updateSelection(getSelectedTask());

@@ -59,7 +59,7 @@ public class TaskCollection {
 
         unavailableTaskIds = new HashSet<>();
         cachedNeededTaskPrerequisites = new HashMap<>();
-        generateUnavailableTaskIdsAndCachedPrerequisites();
+        generateCachedData();
 
         ConfigFile file = new ConfigFile(new File(taskCollectionDirectory, "meta.conf"));
         info = new TaskCollectionInfo(possibleTasks.size(), Double.parseDouble(file.getData(0, 1)));
@@ -90,7 +90,7 @@ public class TaskCollection {
         unavailable = value;
     }
 
-    public void generateUnavailableTaskIdsAndCachedPrerequisites() {
+    public void generateCachedData() {
         // Only generate, if we don't ignore dependencies
         unavailableTaskIds.clear();
         cachedNeededTaskPrerequisites.clear();

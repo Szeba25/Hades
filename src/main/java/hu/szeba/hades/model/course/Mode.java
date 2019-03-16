@@ -52,12 +52,12 @@ public class Mode {
                 Boolean.parseBoolean(metaFile.getData(2, 1))); // iron man
 
         unavailableTaskCollectionIds = new HashSet<>();
-        generateUnavailableTaskCollectionIds();
+        generateCachedData();
 
         this.language = language;
     }
 
-    public void generateUnavailableTaskCollectionIds() {
+    public void generateCachedData() {
         // Only generate, if we don't ignore dependencies
         unavailableTaskCollectionIds.clear();
         if (!modeData.isIgnoreDependency()) {
