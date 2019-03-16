@@ -121,7 +121,7 @@ public class TaskCollection {
                 taskDescriptions.get(taskId), continueTask);
     }
 
-    public TaskStatus getTaskStatus(String taskId) {
+    public TaskStatus getTaskEffectiveStatus(String taskId) {
         String taskFullId = courseId + "/" + modeId + "/" + taskCollectionId + "/" + taskId;
         if (user.isTaskCompleted(taskFullId)) {
             return TaskStatus.COMPLETED;

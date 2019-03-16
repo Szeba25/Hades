@@ -500,7 +500,7 @@ public class TaskSelectorView extends BaseView {
                     if (isSelected) {
                         setBackground(selectedColor);
                     }
-                    switch(controller.getTaskStatus(element)) {
+                    switch(controller.getTaskEffectiveStatus(element)) {
                         case COMPLETED:
                             setForeground(completedColor);
                             break;

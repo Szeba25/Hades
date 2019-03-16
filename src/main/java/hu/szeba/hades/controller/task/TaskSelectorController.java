@@ -125,13 +125,13 @@ public class TaskSelectorController {
 
     public void setTaskInfo(MappedElement selectedTask, JTextField statusField,
                             JTextField difficultyField, JTextField lengthField) {
-        statusField.setText(taskCollection.getTaskStatus(selectedTask.getId()).toString());
+        statusField.setText(taskCollection.getTaskEffectiveStatus(selectedTask.getId()).toString());
         difficultyField.setText(taskCollection.getTaskDescription(selectedTask.getId()).getDifficulty());
         lengthField.setText(taskCollection.getTaskDescription(selectedTask.getId()).getLength());
     }
 
-    public TaskStatus getTaskStatus(MappedElement taskElement) {
-        return taskCollection.getTaskStatus(taskElement.getId());
+    public TaskStatus getTaskEffectiveStatus(MappedElement taskElement) {
+        return taskCollection.getTaskEffectiveStatus(taskElement.getId());
     }
 
     public boolean isTaskStarted(MappedElement taskElement) {

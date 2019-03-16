@@ -69,7 +69,7 @@ public class TaskFilterData {
         boolean matchesLength = lengthFilter.equals("All") ||
                 description.getLength().equals(lengthFilter);
 
-        boolean matchesStatus = (statusFilter == TaskStatus.ALL) || statusFilter == collection.getTaskStatus(taskId);
+        boolean matchesStatus = (statusFilter == TaskStatus.ALL) || statusFilter == collection.getTaskEffectiveStatus(taskId);
 
         boolean matchesTags = false;
         List<String> tags = description.getTags();
