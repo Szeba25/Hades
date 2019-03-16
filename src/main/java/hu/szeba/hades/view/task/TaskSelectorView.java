@@ -410,9 +410,7 @@ public class TaskSelectorView extends BaseView {
                     MappedElement value = (MappedElement) listModel.getElementAt(idx);
                     try {
                         controller.updateTaskCollection(taskList, value);
-                        controller.setTaskCollectionInfo(value, infoFieldTaskCollectionStatus,
-                                infoFieldTaskCollectionPercentNeeded, infoFieldTaskCollectionProgress,
-                                infoFieldTaskCollectionTaskCount, infoFieldTaskCollectionPrerequisites);
+                        updateTaskCollectionInfo(value);
                         clearTaskSelection();
                     } catch (ParserConfigurationException | SAXException | IOException e) {
                         e.printStackTrace();
@@ -428,7 +426,7 @@ public class TaskSelectorView extends BaseView {
                 int idx = listSelectionModel.getMinSelectionIndex();
                 if (listSelectionModel.isSelectedIndex(idx)) {
                     MappedElement value = (MappedElement) listModel.getElementAt(idx);
-                    updateSelection(value);
+                    updateTaskSelection(value);
                 }
             }
         });
@@ -555,15 +553,22 @@ public class TaskSelectorView extends BaseView {
         // Refresh unavailable task collections, tasks, and dependency lists
         controller.generateCachedData();
 
-        // Refresh buttons
-        updateSelection(getSelectedTask());
+        // Refresh buttons and info panels
+        updateTaskSelection(getSelectedTask());
+        updateTaskCollectionInfo(getSelectedTaskCollection());
 
         // Remove button guards
         startButton.getActionGuard().reset();
         continueButton.getActionGuard().reset();
     }
 
-    private void updateSelection(MappedElement selectedTask) {
+    private void updateTaskCollectionInfo(MappedElement selectedTaskCollection) {
+        controller.setTaskCollectionInfo(selectedTaskCollection, infoFieldTaskCollectionStatus,
+                infoFieldTaskCollectionPercentNeeded, infoFieldTaskCollectionProgress,
+                infoFieldTaskCollectionTaskCount, infoFieldTaskCollectionPrerequisites);
+    }
+
+    private void updateTaskSelection(MappedElement selectedTask) {
         if (selectedTask != null) {
             boolean available = controller.isTaskUnavailable(selectedTask);
             if (available) {
@@ -598,6 +603,10 @@ public class TaskSelectorView extends BaseView {
 
     private MappedElement getSelectedTask() {
         return taskList.getSelectedValue();
+    }
+
+    private MappedElement getSelectedTaskCollection() {
+        return taskCollectionList.getSelectedValue();
     }
 
 }
