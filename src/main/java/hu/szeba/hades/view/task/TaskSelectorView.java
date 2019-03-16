@@ -103,18 +103,20 @@ public class TaskSelectorView extends BaseView {
         topPanel.add(courseList);
         topPanel.add(modeListLabel);
         topPanel.add(modeList);
-        SpringUtilities.makeCompactGrid(topPanel, 2, 2, 5, 5, 5, 5);
+        SpringUtilities.makeCompactGrid(topPanel, 2, 2, 0, 5, 5, 5);
 
         /* LEFT PART */
 
         leftPanel = new JPanel();
-        leftPanel.setLayout(new BorderLayout());
+        leftPanel.setLayout(new GridBagLayout());
         leftPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         taskCollectionList = new JList<>();
         taskCollectionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         taskCollectionList.setModel(new DefaultListModel<>());
         taskCollectionList.setFixedCellWidth(200);
+
+        JLabel taskCollectionLabel = new JLabel("Task collections:");
 
         JScrollPane taskCollectionListScroller = new JScrollPane(taskCollectionList);
         taskCollectionListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -125,6 +127,8 @@ public class TaskSelectorView extends BaseView {
         taskList.setModel(new DefaultListModel<>());
         taskList.setFixedCellWidth(200);
 
+        JLabel taskLabel = new JLabel("Tasks:");
+
         JScrollPane taskListScroller = new JScrollPane(taskList);
         taskListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         taskListScroller.setBorder(BorderFactory.createEtchedBorder());
@@ -132,9 +136,57 @@ public class TaskSelectorView extends BaseView {
         filtersButton = new JButton("Filters");
         filtersButton.setFocusPainted(false);
 
-        leftPanel.add(taskCollectionListScroller, BorderLayout.NORTH);
-        leftPanel.add(taskListScroller, BorderLayout.CENTER);
-        leftPanel.add(filtersButton, BorderLayout.SOUTH);
+        GridBagConstraints c1 = new GridBagConstraints();
+
+        c1.gridx = 0;
+        c1.gridy = 0;
+        c1.fill = GridBagConstraints.BOTH;
+        c1.gridwidth = 1;
+        c1.gridheight = 1;
+        c1.weightx = 1.0;
+        c1.weighty = 0.0;
+        c1.insets = new Insets(0, 0, 5, 0);
+        leftPanel.add(taskCollectionLabel, c1);
+
+        c1.gridx = 0;
+        c1.gridy = 1;
+        c1.fill = GridBagConstraints.BOTH;
+        c1.gridwidth = 1;
+        c1.gridheight = 1;
+        c1.weightx = 1.0;
+        c1.weighty = 0.1;
+        c1.insets = new Insets(0, 0, 0, 0);
+        leftPanel.add(taskCollectionListScroller, c1);
+
+        c1.gridx = 0;
+        c1.gridy = 2;
+        c1.fill = GridBagConstraints.BOTH;
+        c1.gridwidth = 1;
+        c1.gridheight = 1;
+        c1.weightx = 1.0;
+        c1.weighty = 0.0;
+        c1.insets = new Insets(5, 0, 5, 0);
+        leftPanel.add(taskLabel, c1);
+
+        c1.gridx = 0;
+        c1.gridy = 3;
+        c1.fill = GridBagConstraints.BOTH;
+        c1.gridwidth = 1;
+        c1.gridheight = 1;
+        c1.weightx = 1.0;
+        c1.weighty = 0.8;
+        c1.insets = new Insets(0, 0, 0, 0);
+        leftPanel.add(taskListScroller, c1);
+
+        c1.gridx = 0;
+        c1.gridy = 4;
+        c1.fill = GridBagConstraints.BOTH;
+        c1.gridwidth = 1;
+        c1.gridheight = 1;
+        c1.weightx = 1.0;
+        c1.weighty = 0.0;
+        c1.insets = new Insets(0, 0, 0, 0);
+        leftPanel.add(filtersButton, c1);
 
         /* RIGHT PART */
 
@@ -158,52 +210,64 @@ public class TaskSelectorView extends BaseView {
         continueButton.setMaximumSize(new Dimension(150, 30));
         continueButton.setEnabled(false);
 
+        JLabel descriptionLabel = new JLabel("Task description:");
+
         descriptionArea = new JEditorPane();
         descriptionArea.setAlignmentX(Component.CENTER_ALIGNMENT);
         descriptionArea.setContentType("text/html");
         descriptionArea.setEditable(false);
         descriptionArea.setBorder(BorderFactory.createEtchedBorder());
 
-        GridBagConstraints c = new GridBagConstraints();
-        c.gridx = 0;
-        c.gridy = 0;
-        c.fill = GridBagConstraints.BOTH;
-        c.gridwidth = 2;
-        c.gridheight = 1;
-        c.weightx = 1.0;
-        c.weighty = 1.0;
-        c.insets = new Insets(0, 0, 0, 0);
-        rightPanel.add(descriptionArea, c);
+        GridBagConstraints c2 = new GridBagConstraints();
+        c2.gridx = 0;
+        c2.gridy = 0;
+        c2.fill = GridBagConstraints.BOTH;
+        c2.gridwidth = 2;
+        c2.gridheight = 1;
+        c2.weightx = 1.0;
+        c2.weighty = 0.0;
+        c2.insets = new Insets(0, 0, 5, 0);
+        rightPanel.add(descriptionLabel, c2);
 
-        c.gridx = 0;
-        c.gridy = 1;
-        c.fill = GridBagConstraints.BOTH;
-        c.gridwidth = 1;
-        c.gridheight = 2;
-        c.weightx = 1.0;
-        c.weighty = 0;
-        c.insets = new Insets(0, 0, 0, 0);
-        rightPanel.add(infoArea, c);
+        c2.gridx = 0;
+        c2.gridy = 1;
+        c2.fill = GridBagConstraints.BOTH;
+        c2.gridwidth = 2;
+        c2.gridheight = 1;
+        c2.weightx = 1.0;
+        c2.weighty = 1.0;
+        c2.insets = new Insets(0, 0, 5, 0);
+        rightPanel.add(descriptionArea, c2);
 
-        c.gridx = 1;
-        c.gridy = 1;
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-        c.weightx = 0;
-        c.weighty = 0;
-        c.insets = new Insets(5, 0, 0, 0);
-        rightPanel.add(startButton, c);
+        c2.gridx = 0;
+        c2.gridy = 2;
+        c2.fill = GridBagConstraints.BOTH;
+        c2.gridwidth = 1;
+        c2.gridheight = 2;
+        c2.weightx = 1.0;
+        c2.weighty = 0;
+        c2.insets = new Insets(0, 0, 0, 5);
+        rightPanel.add(infoArea, c2);
 
-        c.gridx = 1;
-        c.gridy = 2;
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-        c.weightx = 0;
-        c.weighty = 0;
-        c.insets = new Insets(0, 0, 0, 0);
-        rightPanel.add(continueButton, c);
+        c2.gridx = 1;
+        c2.gridy = 2;
+        c2.fill = GridBagConstraints.HORIZONTAL;
+        c2.gridwidth = 1;
+        c2.gridheight = 1;
+        c2.weightx = 0;
+        c2.weighty = 0;
+        c2.insets = new Insets(5, 0, 0, 0);
+        rightPanel.add(startButton, c2);
+
+        c2.gridx = 1;
+        c2.gridy = 3;
+        c2.fill = GridBagConstraints.HORIZONTAL;
+        c2.gridwidth = 1;
+        c2.gridheight = 1;
+        c2.weightx = 0;
+        c2.weighty = 0;
+        c2.insets = new Insets(0, 0, 0, 0);
+        rightPanel.add(continueButton, c2);
     }
 
     private void setupListEvents() {
