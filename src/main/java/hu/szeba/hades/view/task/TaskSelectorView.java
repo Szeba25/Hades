@@ -6,7 +6,6 @@ import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.util.GridBagSetter;
 import hu.szeba.hades.util.HTMLUtilities;
-import hu.szeba.hades.util.SpringUtilities;
 import hu.szeba.hades.view.BaseView;
 import hu.szeba.hades.view.JButtonGuarded;
 import hu.szeba.hades.view.MappedElement;
@@ -49,6 +48,16 @@ public class TaskSelectorView extends BaseView {
     private JButtonGuarded continueButton;
 
     private JEditorPane descriptionArea;
+
+    private JTextField infoFieldTaskCollectionStatus;
+    private JTextField infoFieldTaskCollectionProgress;
+    private JTextField infoFieldTaskCollectionTaskCount;
+    private JList infoFieldTaskCollectionPrerequisites;
+
+    private JTextField infoFieldTaskStatus;
+    private JTextField infoFieldTaskDifficulty;
+    private JTextField infoFieldTaskLength;
+    private JList infoFieldTaskPrerequisites;
 
     public TaskSelectorView(CourseDatabase courseDatabase) throws IOException, SAXException, ParserConfigurationException {
         super();
@@ -207,18 +216,18 @@ public class TaskSelectorView extends BaseView {
         taskCollectionDetails.setPreferredSize(new Dimension(200, 200));
         taskCollectionDetails.setBorder(BorderFactory.createEtchedBorder());
 
-        JTextField field1 = new JTextField();
-        field1.setEditable(false);
+        infoFieldTaskCollectionStatus = new JTextField();
+        infoFieldTaskCollectionStatus.setEditable(false);
 
-        JTextField field2 = new JTextField();
-        field2.setEditable(false);
+        infoFieldTaskCollectionProgress = new JTextField();
+        infoFieldTaskCollectionProgress.setEditable(false);
 
-        JTextField field3 = new JTextField();
-        field3.setEditable(false);
+        infoFieldTaskCollectionTaskCount = new JTextField();
+        infoFieldTaskCollectionTaskCount.setEditable(false);
 
-        JList taskCollectionRequirements = new JList();
-        JScrollPane taskCollectionRequirementsScroll = new JScrollPane(taskCollectionRequirements);
-        taskCollectionRequirementsScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        infoFieldTaskCollectionPrerequisites = new JList();
+        JScrollPane taskCollectionPrerequisitesScroll = new JScrollPane(infoFieldTaskCollectionPrerequisites);
+        taskCollectionPrerequisitesScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         gs.setComponent(taskCollectionDetails);
 
@@ -234,15 +243,15 @@ public class TaskSelectorView extends BaseView {
                 1, 1, 0, 0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(field1, 1, 0, GridBagConstraints.HORIZONTAL,
+        gs.add(infoFieldTaskCollectionStatus, 1, 0, GridBagConstraints.HORIZONTAL,
                 1, 1, 1.0, 0,
                 new Insets(5, 0, 5, 5));
 
-        gs.add(field2, 1, 1, GridBagConstraints.HORIZONTAL,
+        gs.add(infoFieldTaskCollectionProgress, 1, 1, GridBagConstraints.HORIZONTAL,
                 1, 1, 1.0, 0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(field3, 1, 2, GridBagConstraints.HORIZONTAL,
+        gs.add(infoFieldTaskCollectionTaskCount, 1, 2, GridBagConstraints.HORIZONTAL,
                 1, 1, 1.0, 0,
                 new Insets(0, 0, 5, 5));
 
@@ -250,7 +259,7 @@ public class TaskSelectorView extends BaseView {
                 2, 1, 0, 0,
                 new Insets(0, 0, 5, 0));
 
-        gs.add(taskCollectionRequirementsScroll, 0, 4, GridBagConstraints.BOTH,
+        gs.add(taskCollectionPrerequisitesScroll, 0, 4, GridBagConstraints.BOTH,
                 2, 1, 1.0, 1.0,
                 new Insets(0, 0, 0, 0));
 
@@ -261,18 +270,18 @@ public class TaskSelectorView extends BaseView {
         taskDetails.setPreferredSize(new Dimension(200, 50));
         taskDetails.setBorder(BorderFactory.createEtchedBorder());
 
-        JTextField field4 = new JTextField();
-        field4.setEditable(false);
+        infoFieldTaskStatus = new JTextField();
+        infoFieldTaskStatus.setEditable(false);
 
-        JTextField field5 = new JTextField();
-        field5.setEditable(false);
+        infoFieldTaskDifficulty = new JTextField();
+        infoFieldTaskDifficulty.setEditable(false);
 
-        JTextField field6 = new JTextField();
-        field6.setEditable(false);
+        infoFieldTaskLength = new JTextField();
+        infoFieldTaskLength.setEditable(false);
 
-        JList taskRequirements = new JList();
-        JScrollPane taskRequirementsScroll = new JScrollPane(taskRequirements);
-        taskCollectionRequirementsScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        infoFieldTaskPrerequisites = new JList();
+        JScrollPane taskPrerequisitesScroll = new JScrollPane(infoFieldTaskPrerequisites);
+        taskPrerequisitesScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         gs.setComponent(taskDetails);
 
@@ -288,15 +297,15 @@ public class TaskSelectorView extends BaseView {
                 1, 1, 0, 0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(field4, 1, 0, GridBagConstraints.HORIZONTAL,
+        gs.add(infoFieldTaskStatus, 1, 0, GridBagConstraints.HORIZONTAL,
                 1, 1, 1.0, 0,
                 new Insets(5, 0, 5, 5));
 
-        gs.add(field5, 1, 1, GridBagConstraints.HORIZONTAL,
+        gs.add(infoFieldTaskDifficulty, 1, 1, GridBagConstraints.HORIZONTAL,
                 1, 1, 1.0, 0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(field6, 1, 2, GridBagConstraints.HORIZONTAL,
+        gs.add(infoFieldTaskLength, 1, 2, GridBagConstraints.HORIZONTAL,
                 1, 1, 1.0, 0,
                 new Insets(0, 0, 5, 5));
 
@@ -304,7 +313,7 @@ public class TaskSelectorView extends BaseView {
                 2, 1, 0, 0,
                 new Insets(0, 0, 5, 0));
 
-        gs.add(taskRequirementsScroll, 0, 4, GridBagConstraints.BOTH,
+        gs.add(taskPrerequisitesScroll, 0, 4, GridBagConstraints.BOTH,
                 2, 1, 1.0, 1.0,
                 new Insets(0, 0, 0, 0));
 
