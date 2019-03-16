@@ -21,7 +21,7 @@ public class TaskFilterForm extends JDialog {
 
     private JTextField titleField;
     private JComboBox<String> difficultyList;
-    private JSpinner lengthSpinner;
+    private JComboBox<String> lengthSpinner;
     private JComboBox<TaskFilterData.TaskStatus> statusList;
     private JPanel tagPanel;
     private Map<String, JCheckBox> tags;
@@ -52,19 +52,25 @@ public class TaskFilterForm extends JDialog {
         topPanel.setLayout(new SpringLayout());
 
         JLabel titleLabel = new JLabel("Task title:");
-        JLabel difficultyLabel = new JLabel("Minimum difficulty:");
-        JLabel lengthLabel = new JLabel("Minimum length:");
+        JLabel difficultyLabel = new JLabel("Difficulty:");
+        JLabel lengthLabel = new JLabel("Length:");
         JLabel statusLabel = new JLabel("Status:");
 
         titleField = new JTextField();
+
         difficultyList = new JComboBox<>();
         difficultyList.addItem("All");
-        for (int i = 1; i <= 10; i++) {
-            difficultyList.addItem(Integer.toString(i));
-        }
+        difficultyList.addItem("Novice");
+        difficultyList.addItem("Easy");
+        difficultyList.addItem("Normal");
+        difficultyList.addItem("Hard");
+        difficultyList.addItem("Master");
 
-        SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel(0, 0, 1000, 5);
-        lengthSpinner = new JSpinner(spinnerNumberModel);
+        lengthSpinner = new JComboBox<>();
+        lengthSpinner.addItem("All");
+        lengthSpinner.addItem("Short");
+        lengthSpinner.addItem("Medium");
+        lengthSpinner.addItem("Long");
 
         statusList = new JComboBox<>();
         statusList.addItem(TaskFilterData.TaskStatus.ALL);
@@ -132,14 +138,9 @@ public class TaskFilterForm extends JDialog {
 
     private void loadData() {
         titleField.setText(data.getTitleFilter());
-        difficultyList.setSelectedIndex(data.getDifficultyFilter());
-        lengthSpinner.setValue(data.getLengthFilter());
-        for (int i = 0; i < statusList.getItemCount(); i++) {
-            TaskFilterData.TaskStatus statusListItem = statusList.getItemAt(i);
-            if (statusListItem == data.getStatusFilter()) {
-                statusList.setSelectedIndex(i);
-            }
-        }
+        difficultyList.setSelectedItem(data.getDifficultyFilter());
+        lengthSpinner.setSelectedItem(data.getLengthFilter());
+        statusList.setSelectedItem(data.getStatusFilter());
         for (String tag : data.getTagFilters().keySet()) {
             tags.get(tag).setSelected(data.getTagFilters().get(tag));
         }
@@ -147,19 +148,13 @@ public class TaskFilterForm extends JDialog {
 
     private void createData() {
         String titleFilter = titleField.getText();
-        String difficultyFilterStr = (String) difficultyList.getSelectedItem();
-        if (difficultyFilterStr.equals("All")) {
-            difficultyFilterStr = "0";
-        }
-        int difficultyFilter = Integer.parseInt(difficultyFilterStr);
-        int lengthFilter = (int) lengthSpinner.getValue();
+        String difficultyFilter = (String) difficultyList.getSelectedItem();
+        String lengthFilter = (String) lengthSpinner.getSelectedItem();
         TaskFilterData.TaskStatus statusFilter = (TaskFilterData.TaskStatus) statusList.getSelectedItem();
-
         Map<String, Boolean> tagFilter = new HashMap<>();
         for (String tag : tags.keySet()) {
             tagFilter.put(tag, tags.get(tag).isSelected());
         }
-
         data.set(titleFilter, difficultyFilter, lengthFilter, statusFilter, tagFilter);
     }
 
@@ -197,7 +192,7 @@ public class TaskFilterForm extends JDialog {
         // Reset form data
         titleField.setText("");
         difficultyList.setSelectedIndex(0);
-        lengthSpinner.setValue(0);
+        lengthSpinner.setSelectedIndex(0);
         statusList.setSelectedIndex(0);
         removeAllTags();
 

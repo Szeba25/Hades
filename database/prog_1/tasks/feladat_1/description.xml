@@ -28,8 +28,8 @@
 		<p>És itt egy másik sor!</p>
 	]]>
 	</Story>
-	<Difficulty>3</Difficulty>
-	<Length>5</Length>
+	<Difficulty>Easy</Difficulty>
+	<Length>Short</Length>
 	<Tags>
 		<Tag>Variables</Tag>
 		<Tag>Control flow</Tag>

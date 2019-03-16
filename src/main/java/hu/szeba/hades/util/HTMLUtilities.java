@@ -4,11 +4,11 @@ import java.util.List;
 
 public class HTMLUtilities {
 
-    public static String generateTaskInfoHTML(int difficulty, int length, List<String> tags) {
+    public static String generateTaskInfoHTML(String difficulty, String length, List<String> tags) {
         return "<html>" +
             "<style type=\"text/css\"> p {margin-bottom: 2px;  margin-top: 0px;} </style>" +
-            "<p><b>Difficulty: </b>" + difficulty + " / 10</p>" +
-            "<p><b>Length: </b>~" + length + " minutes</p>" +
+            "<p><b>Difficulty: </b>" + difficulty + "</p>" +
+            "<p><b>Length: </b>" + length + "</p>" +
             "<p><b>Tags: </b>" + String.join(", ", tags) + "</p>" +
             "</html>";
     }

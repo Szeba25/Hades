@@ -17,8 +17,8 @@ public class TaskFilterData {
     }
 
     private String titleFilter;
-    private int difficultyFilter;
-    private int lengthFilter;
+    private String difficultyFilter;
+    private String lengthFilter;
     private TaskStatus statusFilter;
     private Map<String, Boolean> tagFilters;
 
@@ -27,7 +27,8 @@ public class TaskFilterData {
         reset();
     }
 
-    public void set(String titleFilter, int difficultyFilter, int lengthFilter, TaskStatus statusFilter, Map<String, Boolean> tagFilters) {
+    public void set(String titleFilter, String difficultyFilter, String lengthFilter, TaskStatus statusFilter,
+                    Map<String, Boolean> tagFilters) {
         this.titleFilter = titleFilter;
         this.difficultyFilter = difficultyFilter;
         this.lengthFilter = lengthFilter;
@@ -37,8 +38,8 @@ public class TaskFilterData {
 
     public void reset() {
         this.titleFilter = "";
-        this.difficultyFilter = 0;
-        this.lengthFilter = 0;
+        this.difficultyFilter = "All";
+        this.lengthFilter = "All";
         this.statusFilter = TaskStatus.ALL;
         this.tagFilters.clear();
     }
@@ -47,11 +48,11 @@ public class TaskFilterData {
         return titleFilter;
     }
 
-    public int getDifficultyFilter() {
+    public String getDifficultyFilter() {
         return difficultyFilter;
     }
 
-    public int getLengthFilter() {
+    public String getLengthFilter() {
         return lengthFilter;
     }
 
@@ -67,8 +68,12 @@ public class TaskFilterData {
         TaskDescription description = collection.getTaskDescription(taskId);
 
         boolean matchesTitle = description.getTaskTitle().toLowerCase().contains(titleFilter);
-        boolean matchesDifficulty = description.getDifficulty() >= difficultyFilter;
-        boolean matchesLength = description.getLength() >= lengthFilter;
+
+        boolean matchesDifficulty = difficultyFilter.equals("All") ||
+                description.getDifficulty().equals(difficultyFilter);
+
+        boolean matchesLength = lengthFilter.equals("All") ||
+                description.getLength().equals(lengthFilter);
 
         boolean matchesStatus = false;
         switch (statusFilter) {

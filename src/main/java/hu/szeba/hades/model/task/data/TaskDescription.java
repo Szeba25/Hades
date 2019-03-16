@@ -10,13 +10,13 @@ public class TaskDescription {
     private final String shortDescription;
     private final String instructions;
     private final String story;
-    private final int difficulty;
-    private final int length;
+    private final String difficulty;
+    private final String length;
     private final List<String> tags;
     private final String infoHTML;
 
     public TaskDescription(String taskTitle, String shortDescription, String instructions, String story,
-                           int difficulty, int length, List<String> tags) {
+                           String difficulty, String length, List<String> tags) {
         this.taskTitle = taskTitle;
         this.shortDescription = shortDescription;
         this.instructions = instructions;
@@ -47,11 +47,11 @@ public class TaskDescription {
         return story;
     }
 
-    public int getDifficulty() {
+    public String getDifficulty() {
         return difficulty;
     }
 
-    public int getLength() {
+    public String getLength() {
         return length;
     }
 

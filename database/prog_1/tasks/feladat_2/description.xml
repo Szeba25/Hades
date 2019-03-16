@@ -32,8 +32,8 @@
 		<p>És itt egy másik sor!</p>
 	]]>
 	</Story>
-	<Difficulty>4</Difficulty>
-	<Length>15</Length>
+	<Difficulty>Normal</Difficulty>
+	<Length>Normal</Length>
 	<Tags>
 		<Tag>Variables</Tag>
 		<Tag>Recursion</Tag>
