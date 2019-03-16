@@ -90,7 +90,7 @@ public class TaskFilterForm extends JDialog {
         SpringUtilities.makeCompactGrid(topPanel, 4, 2, 5, 5, 5, 5);
 
         JPanel centerPanel = new JPanel();
-        centerPanel.setLayout(new FlowLayout());
+        centerPanel.setLayout(new GridBagLayout());
 
         JLabel tagLabel = new JLabel("Tags:");
 
@@ -104,9 +104,6 @@ public class TaskFilterForm extends JDialog {
         tagScroll.getVerticalScrollBar().setUnitIncrement(10);
         tagScroll.setViewportView(tagPanel);
 
-        JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-
         selectAll = new JButton("All");
         selectAll.setFocusPainted(false);
         selectAll.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -114,13 +111,49 @@ public class TaskFilterForm extends JDialog {
         clearAll.setFocusPainted(false);
         clearAll.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        rightPanel.add(selectAll);
-        rightPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        rightPanel.add(clearAll);
+        GridBagConstraints c0 = new GridBagConstraints();
 
-        centerPanel.add(tagLabel);
-        centerPanel.add(tagScroll);
-        centerPanel.add(rightPanel);
+        c0.gridx = 0;
+        c0.gridy = 0;
+        c0.fill = GridBagConstraints.BOTH;
+        c0.gridwidth = 1;
+        c0.gridheight = 2;
+        c0.weightx = 0.0;
+        c0.weighty = 0.0;
+        c0.insets = new Insets(0, 5, 0, 5);
+        centerPanel.add(tagLabel, c0);
+
+        c0.gridx = 1;
+        c0.gridy = 0;
+        c0.fill = GridBagConstraints.BOTH;
+        c0.gridwidth = 1;
+        c0.gridheight = 2;
+        c0.weightx = 1.0;
+        c0.weighty = 1.0;
+        c0.insets = new Insets(0, 0, 0, 5);
+        centerPanel.add(tagScroll, c0);
+
+        c0.gridx = 2;
+        c0.gridy = 0;
+        c0.fill = GridBagConstraints.HORIZONTAL;
+        c0.gridwidth = 1;
+        c0.gridheight = 1;
+        c0.weightx = 1.0;
+        c0.weighty = 0.9;
+        c0.insets = new Insets(0, 0, 0, 5);
+        c0.anchor = GridBagConstraints.SOUTH;
+        centerPanel.add(selectAll, c0);
+
+        c0.gridx = 2;
+        c0.gridy = 1;
+        c0.fill = GridBagConstraints.HORIZONTAL;
+        c0.gridwidth = 1;
+        c0.gridheight = 1;
+        c0.weightx = 1.0;
+        c0.weighty = 0.1;
+        c0.insets = new Insets(0, 0, 5, 5);
+        c0.anchor = GridBagConstraints.SOUTH;
+        centerPanel.add(clearAll, c0);
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new FlowLayout());
