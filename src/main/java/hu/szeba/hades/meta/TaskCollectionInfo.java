@@ -3,19 +3,15 @@ package hu.szeba.hades.meta;
 public class TaskCollectionInfo {
 
     private int taskCount;
-    private double threshold;
+    private double completionThreshold;
 
-    public TaskCollectionInfo(int taskCount, double threshold) {
+    public TaskCollectionInfo(int taskCount, double completionThreshold) {
         this.taskCount = taskCount;
-        this.threshold = threshold;
+        this.completionThreshold = completionThreshold;
     }
 
-    public int getTaskCount() {
-        return taskCount;
-    }
-
-    public double getThreshold() {
-        return threshold;
+    public int getTaskCompletionCount() {
+        return (int)(taskCount * completionThreshold);
     }
 
 }

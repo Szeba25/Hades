@@ -1,5 +1,6 @@
 package hu.szeba.hades.model.task;
 
+import hu.szeba.hades.io.ConfigFile;
 import hu.szeba.hades.io.DescriptionXMLFile;
 import hu.szeba.hades.io.GraphFile;
 import hu.szeba.hades.meta.Options;
@@ -34,6 +35,7 @@ public class TaskCollection {
     private Set<String> unavailableTaskIds;
 
     private final String language;
+    private final TaskCollectionInfo info;
 
     public TaskCollection(User user, String courseId, String modeId, String taskCollectionId, ModeData modeData, String language)
             throws IOException, ParserConfigurationException, SAXException {
@@ -50,6 +52,9 @@ public class TaskCollection {
         loadTaskIds();
         loadTaskDescriptions();
         generateUnavailableTaskIds();
+
+        ConfigFile file = new ConfigFile(new File(taskCollectionDirectory, "meta.conf"));
+        info = new TaskCollectionInfo(possibleTasks.size(), Double.parseDouble(file.getData(0, 1)));
     }
 
     private void loadTaskIds() throws IOException {
@@ -94,7 +99,7 @@ public class TaskCollection {
             throws InvalidLanguageException, IOException, MissingResultFileException {
 
         // Set task collection info!
-        user.setCurrentTaskCollectionInfo(new TaskCollectionInfo(possibleTasks.size(), 0.8));
+        user.setCurrentTaskCollectionInfo(info);
 
         // Set the current task collection full id, and task full id!
         String taskCollectionFullId = courseId + "/" + modeId + "/" + taskCollectionId;
