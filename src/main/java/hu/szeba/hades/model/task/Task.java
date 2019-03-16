@@ -2,7 +2,7 @@ package hu.szeba.hades.model.task;
 
 import hu.szeba.hades.io.TabbedFile;
 import hu.szeba.hades.meta.Options;
-import hu.szeba.hades.meta.User;
+import hu.szeba.hades.meta.TaskSolverAgent;
 import hu.szeba.hades.model.compiler.ProgramCompiler;
 import hu.szeba.hades.model.task.data.*;
 import hu.szeba.hades.model.task.program.ProgramInput;
@@ -17,7 +17,7 @@ import java.util.*;
 
 public class Task {
 
-    private final User user;
+    private final TaskSolverAgent agent;
     private final ProgramCompiler programCompiler;
     private final String language;
     private final String syntaxStyle;
@@ -38,7 +38,7 @@ public class Task {
 
     private final CompilerOutputRegister compilerOutputRegister;
 
-    public Task(User user,
+    public Task(TaskSolverAgent agent,
                 ProgramCompiler programCompiler,
                 String language,
                 String syntaxStyle,
@@ -49,7 +49,7 @@ public class Task {
                 TaskDescription taskDescription,
                 boolean continueTask) throws IOException, MissingResultFileException {
 
-        this.user = user;
+        this.agent = agent;
         this.programCompiler = programCompiler;
         this.language = language;
         this.syntaxStyle = syntaxStyle;
@@ -60,7 +60,7 @@ public class Task {
         this.taskId = taskId;
 
         this.taskDirectory = new File(Options.getDatabasePath(), courseId + "/tasks/" + taskId);
-        this.taskWorkingDirectory = new File(user.getUserWorkingDirectoryPath(), courseId + "/" + modeId + "/" + taskCollectionId + "/" + taskId);
+        this.taskWorkingDirectory = agent.getCurrentTaskWorkingDirectoryPath();
 
         // If not continuing task, but folder exists, delete the folder first!
         if (!continueTask && taskWorkingDirectory.exists()) {
@@ -73,7 +73,7 @@ public class Task {
             FileUtils.copyDirectory(
                     new File(taskDirectory, "sources"),
                     new File(taskWorkingDirectory, "sources"));
-            user.markTaskAsStarted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + taskId);
+            agent.markCurrentTaskAsStarted();
         }
 
         this.taskDescription = taskDescription;
@@ -104,7 +104,7 @@ public class Task {
 
             if (!resultFile.exists()) {
                 inputResultPairs.clear();
-                throw new MissingResultFileException(taskId, inputFileName);
+                throw new MissingResultFileException(inputFileName);
             }
 
             ProgramInput programInput = new ProgramInput(inputFiles.get(i));
@@ -131,12 +131,24 @@ public class Task {
         }
     }
 
-    public User getUser() {
-        return user;
+    public TaskSolverAgent getAgent() {
+        return agent;
     }
 
     public File copyTaskWorkingDirectory() {
         return new File(taskWorkingDirectory.getAbsolutePath());
+    }
+
+    public TaskDescription getTaskDescription() {
+        return taskDescription;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public String getSyntaxStyle() {
+        return syntaxStyle;
     }
 
     public String getCourseId() {
@@ -153,22 +165,6 @@ public class Task {
 
     public String getTaskId() {
         return taskId;
-    }
-
-    public String getTaskIdentifierString() {
-        return courseId + "/" + modeId + "/" + taskCollectionId + "/" + taskId;
-    }
-
-    public TaskDescription getTaskDescription() {
-        return taskDescription;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public String getSyntaxStyle() {
-        return syntaxStyle;
     }
 
     public List<InputResultPair> copyInputResultPairs() {

@@ -61,8 +61,7 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
 
         // Start a worker thread to compile the task!
         TaskCompilerAndRunnerThread taskCompilerAndRunnerThread = new TaskCompilerAndRunnerThread(
-                task.getUser(),
-                task.getTaskIdentifierString(),
+                task.getAgent(),
                 task.getProgramCompiler(),
                 task.copySourceNamesWithPath(),
                 task.copyTaskWorkingDirectory(),
@@ -84,8 +83,7 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
 
         // Start a worker thread to run the task!
         TaskRunnerThread taskRunnerThread = new TaskRunnerThread(
-                task.getUser(),
-                task.getTaskIdentifierString(),
+                task.getAgent(),
                 task.getCompilerOutputRegister().getCompilerOutput().getProgram(),
                 task.copyInputResultPairs(),
                 Options.getConfigIntData("max_stream_byte_count"),

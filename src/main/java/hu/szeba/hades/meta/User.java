@@ -17,6 +17,9 @@ public class User implements TaskSolverAgent {
     private Set<String> startedTasks;
     private File userWorkingDirectoryPath;
 
+    private String currentTaskCollectionFullIdentifier;
+    private String currentTaskFullIdentifier;
+
     public User(String id, String name) throws IOException {
         this.id = id;
         this.name = name;
@@ -48,6 +51,9 @@ public class User implements TaskSolverAgent {
                 startedTasks.add(pFile.getData(i, 0));
             }
         }
+
+        currentTaskCollectionFullIdentifier = null;
+        currentTaskFullIdentifier = null;
     }
 
     public String getId() {
@@ -58,40 +64,55 @@ public class User implements TaskSolverAgent {
         return name;
     }
 
-    public File getUserWorkingDirectoryPath() {
-        return userWorkingDirectoryPath;
+    public boolean isTaskStarted(String taskFullIdentifier) {
+        return startedTasks.contains(taskFullIdentifier);
     }
 
-    public boolean isTaskStarted(String identifierString) {
-        // Optimized (cached) version
-        return startedTasks.contains(identifierString);
+    public boolean isTaskCompleted(String taskFullIdentifier) {
+        return completedTasks.contains(taskFullIdentifier);
     }
 
     @Override
-    public synchronized boolean isTaskCompleted(String identifierString) {
+    public synchronized void setCurrentTaskCollection(String taskCollectionFullIdentifier) {
+        currentTaskCollectionFullIdentifier = taskCollectionFullIdentifier;
+    }
+
+    @Override
+    public synchronized void setCurrentTask(String taskFullIdentifier) {
+        currentTaskFullIdentifier = taskFullIdentifier;
+    }
+
+    @Override
+    public synchronized boolean isCurrentTaskCompleted() {
         // Check in the set
-        return completedTasks.contains(identifierString);
+        return completedTasks.contains(currentTaskFullIdentifier);
     }
 
     @Override
-    public synchronized void markTaskAsCompleted(String identifierString) throws IOException {
+    public synchronized void markCurrentTaskAsCompleted() throws IOException {
         // Add only if does not exist!
-        if (!completedTasks.contains(identifierString)) {
-            completedTasks.add(identifierString);
+        if (!completedTasks.contains(currentTaskFullIdentifier)) {
+            completedTasks.add(currentTaskFullIdentifier);
             TabbedFile file = new TabbedFile(new File(userWorkingDirectoryPath, ".meta/completed_tasks.txt"));
-            file.addData(identifierString);
+            file.addData(currentTaskFullIdentifier);
             file.save();
         }
     }
 
-    public void markTaskAsStarted(String identifierString) throws IOException {
+    @Override
+    public synchronized void markCurrentTaskAsStarted() throws IOException {
         // Add only if does not exist!
-        if (!startedTasks.contains(identifierString)) {
-            startedTasks.add(identifierString);
+        if (!startedTasks.contains(currentTaskFullIdentifier)) {
+            startedTasks.add(currentTaskFullIdentifier);
             TabbedFile file = new TabbedFile(new File(userWorkingDirectoryPath, ".meta/started_tasks.txt"));
-            file.addData(identifierString);
+            file.addData(currentTaskFullIdentifier);
             file.save();
         }
+    }
+
+    @Override
+    public File getCurrentTaskWorkingDirectoryPath() {
+        return new File(userWorkingDirectoryPath, currentTaskFullIdentifier);
     }
 
 }

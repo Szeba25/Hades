@@ -14,20 +14,17 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class TaskRunnerWork implements Work {
 
     private TaskSolverAgent agent;
-    private String taskIdentifierString;
     private Program program;
     private List<InputResultPair> inputResultPairs;
     private int maxByteCount;
     private AtomicBoolean stopFlag;
 
     public TaskRunnerWork(TaskSolverAgent agent,
-                          String taskIdentifierString,
                           Program program,
                           List<InputResultPair> inputResultPairs,
                           int maxByteCount,
                           AtomicBoolean stopFlag) {
         this.agent = agent;
-        this.taskIdentifierString = taskIdentifierString;
         this.program = program;
         this.inputResultPairs = inputResultPairs;
         this.maxByteCount = maxByteCount;
@@ -76,11 +73,11 @@ public class TaskRunnerWork implements Work {
             }
         }
 
-        if (agent.isTaskCompleted(taskIdentifierString)) {
+        if (agent.isCurrentTaskCompleted()) {
             publisher.customPublish("#> Task was already completed... (" + matcher.getAllDifferencesCount() +
                     " differences, and " + matcher.getAllNoResponsesCount() + " no responses)\n\n");
         } else if (matcher.getAllDifferencesCount() == 0 && matcher.getAllNoResponsesCount() == 0) {
-            agent.markTaskAsCompleted(taskIdentifierString);
+            agent.markCurrentTaskAsCompleted();
             publisher.customPublish("#> Task successfully COMPLETED! (no errors)\n\n");
         } else {
             publisher.customPublish("~> There were a total of " + matcher.getAllDifferencesCount() +
