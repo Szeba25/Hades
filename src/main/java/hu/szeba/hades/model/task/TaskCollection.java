@@ -150,4 +150,18 @@ public class TaskCollection {
         return possibleTasks;
     }
 
+    public List<String> getTaskPrerequisites(String taskId) {
+        List<String> taskParentIds = taskMatrix.getParentNodes(taskId);
+        for (int i = taskParentIds.size()-1; i >= 0; i--) {
+            String id = taskParentIds.get(i);
+            if (!user.isTaskCompleted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + id)) {
+                TaskDescription description = taskDescriptions.get(id);
+                taskParentIds.set(i, description.getTaskTitle());
+            } else {
+                taskParentIds.remove(i);
+            }
+        }
+        return taskParentIds;
+    }
+
 }

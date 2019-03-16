@@ -6,6 +6,7 @@ import hu.szeba.hades.model.course.Mode;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.TaskStatus;
 import hu.szeba.hades.model.task.data.MissingResultFileException;
+import hu.szeba.hades.model.task.data.TaskDescription;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.model.task.TaskCollection;
 import hu.szeba.hades.view.BaseView;
@@ -124,10 +125,20 @@ public class TaskSelectorController {
     }
 
     public void setTaskInfo(MappedElement selectedTask, JTextField statusField,
-                            JTextField difficultyField, JTextField lengthField) {
+                            JTextField difficultyField, JTextField lengthField,
+                            JList<String> infoFieldTaskPrerequisites) {
+
         statusField.setText(taskCollection.getTaskEffectiveStatus(selectedTask.getId()).toString());
-        difficultyField.setText(taskCollection.getTaskDescription(selectedTask.getId()).getDifficulty());
-        lengthField.setText(taskCollection.getTaskDescription(selectedTask.getId()).getLength());
+
+        TaskDescription description = taskCollection.getTaskDescription(selectedTask.getId());
+        difficultyField.setText(description.getDifficulty());
+        lengthField.setText(description.getLength());
+
+        DefaultListModel<String> model = (DefaultListModel<String>) infoFieldTaskPrerequisites.getModel();
+        model.removeAllElements();
+        for (String req : taskCollection.getTaskPrerequisites(selectedTask.getId())) {
+            model.addElement(req);
+        }
     }
 
     public TaskStatus getTaskEffectiveStatus(MappedElement taskElement) {

@@ -52,12 +52,12 @@ public class TaskSelectorView extends BaseView {
     private JTextField infoFieldTaskCollectionStatus;
     private JTextField infoFieldTaskCollectionProgress;
     private JTextField infoFieldTaskCollectionTaskCount;
-    private JList infoFieldTaskCollectionPrerequisites;
+    private JList<String> infoFieldTaskCollectionPrerequisites;
 
     private JTextField infoFieldTaskStatus;
     private JTextField infoFieldTaskDifficulty;
     private JTextField infoFieldTaskLength;
-    private JList infoFieldTaskPrerequisites;
+    private JList<String> infoFieldTaskPrerequisites;
 
     public TaskSelectorView(CourseDatabase courseDatabase) throws IOException, SAXException, ParserConfigurationException {
         super();
@@ -225,7 +225,9 @@ public class TaskSelectorView extends BaseView {
         infoFieldTaskCollectionTaskCount = new JTextField();
         infoFieldTaskCollectionTaskCount.setEditable(false);
 
-        infoFieldTaskCollectionPrerequisites = new JList();
+        infoFieldTaskCollectionPrerequisites = new JList<>();
+        infoFieldTaskCollectionPrerequisites.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        infoFieldTaskCollectionPrerequisites.setModel(new DefaultListModel<>());
         JScrollPane taskCollectionPrerequisitesScroll = new JScrollPane(infoFieldTaskCollectionPrerequisites);
         taskCollectionPrerequisitesScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
@@ -279,7 +281,9 @@ public class TaskSelectorView extends BaseView {
         infoFieldTaskLength = new JTextField();
         infoFieldTaskLength.setEditable(false);
 
-        infoFieldTaskPrerequisites = new JList();
+        infoFieldTaskPrerequisites = new JList<>();
+        infoFieldTaskPrerequisites.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        infoFieldTaskPrerequisites.setModel(new DefaultListModel<>());
         JScrollPane taskPrerequisitesScroll = new JScrollPane(infoFieldTaskPrerequisites);
         taskPrerequisitesScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
@@ -555,7 +559,9 @@ public class TaskSelectorView extends BaseView {
                 }
             }
             controller.setTaskShortDescription(selectedTask, descriptionArea);
-            // TODO: Populate task info
+            controller.setTaskInfo(selectedTask, infoFieldTaskStatus,
+                    infoFieldTaskDifficulty, infoFieldTaskLength,
+                    infoFieldTaskPrerequisites);
         } else {
             clearTaskSelection();
         }
@@ -563,7 +569,10 @@ public class TaskSelectorView extends BaseView {
 
     private void clearTaskSelection() {
         descriptionArea.setText(HTMLUtilities.getEmptyTaskDescription());
-        // TODO: Clear info
+        infoFieldTaskStatus.setText("");
+        infoFieldTaskDifficulty.setText("");
+        infoFieldTaskLength.setText("");
+        ((DefaultListModel<String>)infoFieldTaskPrerequisites.getModel()).removeAllElements();
         startButton.setEnabled(false);
         continueButton.setEnabled(false);
     }
