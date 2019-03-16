@@ -98,14 +98,14 @@ public class TaskCollection {
         if (!modeData.isIgnoreDependency()) {
             for (String taskId : taskMatrix.getNodeNames()) {
                 boolean taskAvailable = true;
-                List<String> list = taskMatrix.getParentNodes(taskId);
+                List<String> parentList = taskMatrix.getParentNodes(taskId);
                 List<String> reqList = new ArrayList<>();
                 cachedNeededTaskPrerequisites.put(taskId, reqList);
 
-                for (String parents : list) {
-                    boolean parentCompleted = user.isTaskCompleted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + parents);
+                for (String parentId : parentList) {
+                    boolean parentCompleted = user.isTaskCompleted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + parentId);
                     if (!parentCompleted) {
-                        TaskDescription parentDescription = taskDescriptions.get(parents);
+                        TaskDescription parentDescription = taskDescriptions.get(parentId);
                         reqList.add(parentDescription.getTaskTitle());
                     }
                     taskAvailable = taskAvailable && parentCompleted;
