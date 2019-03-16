@@ -34,7 +34,7 @@ public class TaskCollection {
     private Map<String, TaskDescription> taskDescriptions;
 
     private Set<String> unavailableTaskIds;
-    private Map<String, List<String>> cachedNeededTaskPrerequisites;
+    private Map<String, List<String>> cachedTaskPrerequisites;
 
     private final String language;
     private final TaskCollectionInfo info;
@@ -58,7 +58,7 @@ public class TaskCollection {
         loadTaskDescriptions();
 
         unavailableTaskIds = new HashSet<>();
-        cachedNeededTaskPrerequisites = new HashMap<>();
+        cachedTaskPrerequisites = new HashMap<>();
         generateCachedData();
 
         ConfigFile file = new ConfigFile(new File(taskCollectionDirectory, "meta.conf"));
@@ -93,14 +93,14 @@ public class TaskCollection {
     public void generateCachedData() {
         // Only generate, if we don't ignore dependencies
         unavailableTaskIds.clear();
-        cachedNeededTaskPrerequisites.clear();
+        cachedTaskPrerequisites.clear();
 
         if (!modeData.isIgnoreDependency()) {
             for (String taskId : taskMatrix.getNodeNames()) {
                 boolean taskAvailable = true;
                 List<String> parentList = taskMatrix.getParentNodes(taskId);
                 List<String> reqList = new ArrayList<>();
-                cachedNeededTaskPrerequisites.put(taskId, reqList);
+                cachedTaskPrerequisites.put(taskId, reqList);
 
                 for (String parentId : parentList) {
                     boolean parentCompleted = user.isTaskCompleted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + parentId);
@@ -118,7 +118,7 @@ public class TaskCollection {
             }
         } else {
             for (String taskId : taskMatrix.getNodeNames()) {
-                cachedNeededTaskPrerequisites.put(taskId, new ArrayList<>());
+                cachedTaskPrerequisites.put(taskId, new ArrayList<>());
             }
         }
     }
@@ -186,7 +186,7 @@ public class TaskCollection {
     }
 
     public List<String> getTaskPrerequisites(String taskId) {
-        return cachedNeededTaskPrerequisites.get(taskId);
+        return cachedTaskPrerequisites.get(taskId);
     }
 
 }
