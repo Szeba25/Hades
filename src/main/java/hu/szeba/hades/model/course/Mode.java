@@ -23,7 +23,10 @@ public class Mode {
     private AdjacencyMatrix taskCollectionMatrix;
     private List<MappedElement> possibleTaskCollections;
     private ModeData modeData;
+
     private Set<String> unavailableTaskCollectionIds;
+    private Map<String, List<String>> cachedTaskCollectionPrerequisites;
+
     private Map<String, TaskCollection> taskCollections;
 
     private final String language;
@@ -52,6 +55,7 @@ public class Mode {
                 Boolean.parseBoolean(metaFile.getData(2, 1))); // iron man
 
         unavailableTaskCollectionIds = new HashSet<>();
+        cachedTaskCollectionPrerequisites = new HashMap<>();
         generateCachedData();
 
         this.language = language;
@@ -60,19 +64,34 @@ public class Mode {
     public void generateCachedData() {
         // Only generate, if we don't ignore dependencies
         unavailableTaskCollectionIds.clear();
+        cachedTaskCollectionPrerequisites.clear();
+
         if (!modeData.isIgnoreDependency()) {
             for (String taskCollectionId : taskCollectionMatrix.getNodeNames()) {
                 boolean taskCollectionAvailable = true;
-                List<String> list = taskCollectionMatrix.getParentNodes(taskCollectionId);
-                for (String parents : list) {
-                    taskCollectionAvailable = taskCollectionAvailable &&
-                            (user.isTaskCollectionCompleted(courseId + "/" + modeId + "/" + parents));
+                List<String> parentList = taskCollectionMatrix.getParentNodes(taskCollectionId);
+                List<String> reqList = new ArrayList<>();
+                cachedTaskCollectionPrerequisites.put(taskCollectionId, reqList);
+
+                for (String parentId : parentList) {
+                    boolean parentCompleted = user.isTaskCollectionCompleted(courseId + "/" + modeId + "/" + parentId);
+                    if (!parentCompleted) {
+                        // TODO: Get display name here, and add that!
+                        reqList.add(parentId);
+                    }
+                    taskCollectionAvailable = taskCollectionAvailable && parentCompleted;
                 }
+
                 if (!taskCollectionAvailable) {
                     unavailableTaskCollectionIds.add(taskCollectionId);
                 }
             }
+        } else {
+            for (String taskCollectionId : taskCollectionMatrix.getNodeNames()) {
+                cachedTaskCollectionPrerequisites.put(taskCollectionId, new ArrayList<>());
+            }
         }
+
         // Notify existing collections about availability
         for (MappedElement taskCollection : possibleTaskCollections) {
             TaskCollection collection = taskCollections.get(taskCollection.getId());
