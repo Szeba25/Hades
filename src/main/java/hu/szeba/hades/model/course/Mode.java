@@ -22,6 +22,7 @@ public class Mode {
     private String modeId;
     private AdjacencyMatrix taskCollectionMatrix;
     private List<MappedElement> possibleTaskCollections;
+    private Map<String, String> idToNameMapForPrerequisites;
     private ModeData modeData;
 
     private Set<String> unavailableTaskCollectionIds;
@@ -41,9 +42,11 @@ public class Mode {
         this.taskCollectionMatrix = new AdjacencyMatrix(graphFile.getTuples());
 
         possibleTaskCollections = new ArrayList<>();
+        idToNameMapForPrerequisites = new HashMap<>();
         for (String id : taskCollectionMatrix.getNodeNames()) {
             TabbedFile titleFile = new TabbedFile(new File(Options.getDatabasePath(), courseId + "/task_collections/" + id + "/title.dat"));
             possibleTaskCollections.add(new MappedElement(id, titleFile.getData(0, 0)));
+            idToNameMapForPrerequisites.put(id, titleFile.getData(0, 0));
         }
 
         taskCollections = new HashMap<>();
@@ -76,8 +79,7 @@ public class Mode {
                 for (String parentId : parentList) {
                     boolean parentCompleted = user.isTaskCollectionCompleted(courseId + "/" + modeId + "/" + parentId);
                     if (!parentCompleted) {
-                        // TODO: Get display name here, and add that!
-                        reqList.add(parentId);
+                        reqList.add(idToNameMapForPrerequisites.get(parentId));
                     }
                     taskCollectionAvailable = taskCollectionAvailable && parentCompleted;
                 }
