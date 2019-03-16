@@ -154,7 +154,7 @@ public class TaskSelectorView extends BaseView {
         c1.gridwidth = 1;
         c1.gridheight = 1;
         c1.weightx = 1.0;
-        c1.weighty = 0.1;
+        c1.weighty = 0.0;
         c1.insets = new Insets(0, 0, 0, 0);
         leftPanel.add(taskCollectionListScroller, c1);
 
@@ -174,7 +174,7 @@ public class TaskSelectorView extends BaseView {
         c1.gridwidth = 1;
         c1.gridheight = 1;
         c1.weightx = 1.0;
-        c1.weighty = 0.8;
+        c1.weighty = 1.0;
         c1.insets = new Insets(0, 0, 0, 0);
         leftPanel.add(taskListScroller, c1);
 
