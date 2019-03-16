@@ -121,8 +121,17 @@ public class TaskCollection {
                 taskDescriptions.get(taskId), continueTask);
     }
 
-    public boolean isTaskCompleted(String taskId) {
-        return user.isTaskCompleted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + taskId);
+    public TaskStatus getTaskStatus(String taskId) {
+        String taskFullId = courseId + "/" + modeId + "/" + taskCollectionId + "/" + taskId;
+        if (user.isTaskCompleted(taskFullId)) {
+            return TaskStatus.COMPLETED;
+        } else if (user.isTaskStarted(taskFullId)) {
+            return TaskStatus.IN_PROGRESS;
+        } else if (unavailable || unavailableTaskIds.contains(taskId)) {
+            return TaskStatus.UNAVAILABLE;
+        } else {
+            return TaskStatus.AVAILABLE;
+        }
     }
 
     public boolean isTaskStarted(String taskId) {

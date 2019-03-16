@@ -500,14 +500,19 @@ public class TaskSelectorView extends BaseView {
                     if (isSelected) {
                         setBackground(selectedColor);
                     }
-                    if (controller.isTaskCompleted(element)) {
-                        setForeground(completedColor);
-                    } else if (controller.isTaskUnavailable(element)) {
-                        setForeground(unavailableColor);
-                    } else if (controller.isTaskStarted(element)) {
-                        setForeground(inProgressColor);
-                    } else {
-                        setForeground(availableColor);
+                    switch(controller.getTaskStatus(element)) {
+                        case COMPLETED:
+                            setForeground(completedColor);
+                            break;
+                        case UNAVAILABLE:
+                            setForeground(unavailableColor);
+                            break;
+                        case IN_PROGRESS:
+                            setForeground(inProgressColor);
+                            break;
+                        default:
+                            setForeground(availableColor);
+                            break;
                     }
                 }
                 return component;

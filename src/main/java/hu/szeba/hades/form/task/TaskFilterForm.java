@@ -1,6 +1,7 @@
 package hu.szeba.hades.form.task;
 
 import hu.szeba.hades.model.task.TaskCollection;
+import hu.szeba.hades.model.task.TaskStatus;
 import hu.szeba.hades.model.task.data.TaskDescription;
 import hu.szeba.hades.util.SpringUtilities;
 import hu.szeba.hades.view.MappedElement;
@@ -22,7 +23,7 @@ public class TaskFilterForm extends JDialog {
     private JTextField titleField;
     private JComboBox<String> difficultyList;
     private JComboBox<String> lengthSpinner;
-    private JComboBox<TaskFilterData.TaskStatus> statusList;
+    private JComboBox<TaskStatus> statusList;
     private JPanel tagPanel;
     private Map<String, JCheckBox> tags;
 
@@ -73,11 +74,11 @@ public class TaskFilterForm extends JDialog {
         lengthSpinner.addItem("Long");
 
         statusList = new JComboBox<>();
-        statusList.addItem(TaskFilterData.TaskStatus.ALL);
-        statusList.addItem(TaskFilterData.TaskStatus.AVAILABLE);
-        statusList.addItem(TaskFilterData.TaskStatus.COMPLETED);
-        statusList.addItem(TaskFilterData.TaskStatus.IN_PROGRESS);
-        statusList.addItem(TaskFilterData.TaskStatus.UNAVAILABLE);
+        statusList.addItem(TaskStatus.ALL);
+        statusList.addItem(TaskStatus.AVAILABLE);
+        statusList.addItem(TaskStatus.COMPLETED);
+        statusList.addItem(TaskStatus.IN_PROGRESS);
+        statusList.addItem(TaskStatus.UNAVAILABLE);
 
         topPanel.add(titleLabel);
         topPanel.add(titleField);
@@ -183,7 +184,7 @@ public class TaskFilterForm extends JDialog {
         String titleFilter = titleField.getText();
         String difficultyFilter = (String) difficultyList.getSelectedItem();
         String lengthFilter = (String) lengthSpinner.getSelectedItem();
-        TaskFilterData.TaskStatus statusFilter = (TaskFilterData.TaskStatus) statusList.getSelectedItem();
+        TaskStatus statusFilter = (TaskStatus) statusList.getSelectedItem();
         Map<String, Boolean> tagFilter = new HashMap<>();
         for (String tag : tags.keySet()) {
             tagFilter.put(tag, tags.get(tag).isSelected());

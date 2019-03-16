@@ -4,6 +4,7 @@ import hu.szeba.hades.model.course.Course;
 import hu.szeba.hades.model.course.CourseDatabase;
 import hu.szeba.hades.model.course.Mode;
 import hu.szeba.hades.model.task.Task;
+import hu.szeba.hades.model.task.TaskStatus;
 import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.model.task.TaskCollection;
@@ -118,8 +119,19 @@ public class TaskSelectorController {
         descriptionArea.setText(taskCollection.getTaskDescription(selectedTask.getId()).getShortDescription());
     }
 
-    public boolean isTaskCompleted(MappedElement taskElement) {
-        return taskCollection.isTaskCompleted(taskElement.getId());
+    public void setTaskCollectionInfo() {
+
+    }
+
+    public void setTaskInfo(MappedElement selectedTask, JTextField statusField,
+                            JTextField difficultyField, JTextField lengthField) {
+        statusField.setText(taskCollection.getTaskStatus(selectedTask.getId()).toString());
+        difficultyField.setText(taskCollection.getTaskDescription(selectedTask.getId()).getDifficulty());
+        lengthField.setText(taskCollection.getTaskDescription(selectedTask.getId()).getLength());
+    }
+
+    public TaskStatus getTaskStatus(MappedElement taskElement) {
+        return taskCollection.getTaskStatus(taskElement.getId());
     }
 
     public boolean isTaskStarted(MappedElement taskElement) {

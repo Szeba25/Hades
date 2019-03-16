@@ -1,6 +1,7 @@
 package hu.szeba.hades.view.task;
 
 import hu.szeba.hades.model.task.TaskCollection;
+import hu.szeba.hades.model.task.TaskStatus;
 import hu.szeba.hades.model.task.data.TaskDescription;
 
 import java.util.HashMap;
@@ -8,13 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 public class TaskFilterData {
-
-    public enum TaskStatus {
-        ALL, AVAILABLE, COMPLETED, IN_PROGRESS, UNAVAILABLE;
-        public String toString() {
-            return (name().charAt(0) + name().toLowerCase().substring(1)).replace("_", " ");
-        }
-    }
 
     private String titleFilter;
     private String difficultyFilter;
@@ -75,24 +69,7 @@ public class TaskFilterData {
         boolean matchesLength = lengthFilter.equals("All") ||
                 description.getLength().equals(lengthFilter);
 
-        boolean matchesStatus = false;
-        switch (statusFilter) {
-            case ALL:
-                matchesStatus = true;
-                break;
-            case AVAILABLE:
-                matchesStatus = !collection.isTaskUnavailable(taskId);
-                break;
-            case COMPLETED:
-                matchesStatus = collection.isTaskCompleted(taskId);
-                break;
-            case IN_PROGRESS:
-                matchesStatus = collection.isTaskStarted(taskId) && !collection.isTaskCompleted(taskId);
-                break;
-            case UNAVAILABLE:
-                matchesStatus = collection.isTaskUnavailable(taskId);
-                break;
-        }
+        boolean matchesStatus = (statusFilter == TaskStatus.ALL) || statusFilter == collection.getTaskStatus(taskId);
 
         boolean matchesTags = false;
         List<String> tags = description.getTags();
