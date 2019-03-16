@@ -77,7 +77,7 @@ public class Mode {
         for (MappedElement taskCollection : possibleTaskCollections) {
             TaskCollection collection = taskCollections.get(taskCollection.getId());
             if (collection != null) {
-                collection.updateAvailability(!unavailableTaskCollectionIds.contains(taskCollection.getId()));
+                collection.updateUnavailability(unavailableTaskCollectionIds.contains(taskCollection.getId()));
             }
         }
     }
@@ -99,7 +99,7 @@ public class Mode {
             return taskCollections.get(taskCollectionId);
         } else {
             TaskCollection newTaskCollection = new TaskCollection(user, courseId, modeId, taskCollectionId, modeData,
-                    language, !unavailableTaskCollectionIds.contains(taskCollectionId));
+                    language, unavailableTaskCollectionIds.contains(taskCollectionId));
             taskCollections.put(taskCollectionId, newTaskCollection);
             return newTaskCollection;
         }

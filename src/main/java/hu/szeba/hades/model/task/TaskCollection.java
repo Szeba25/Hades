@@ -37,10 +37,10 @@ public class TaskCollection {
     private final String language;
     private final TaskCollectionInfo info;
 
-    private boolean available;
+    private boolean unavailable;
 
     public TaskCollection(User user, String courseId, String modeId, String taskCollectionId, ModeData modeData,
-                          String language, boolean available)
+                          String language, boolean unavailable)
             throws IOException, ParserConfigurationException, SAXException {
 
         this.user = user;
@@ -61,7 +61,7 @@ public class TaskCollection {
         ConfigFile file = new ConfigFile(new File(taskCollectionDirectory, "meta.conf"));
         info = new TaskCollectionInfo(possibleTasks.size(), Double.parseDouble(file.getData(0, 1)));
 
-        this.available = available;
+        this.unavailable = unavailable;
     }
 
     private void loadTaskIds() throws IOException {
@@ -83,8 +83,8 @@ public class TaskCollection {
         }
     }
 
-    public void updateAvailability(boolean value) {
-        available = value;
+    public void updateUnavailability(boolean value) {
+        unavailable = value;
     }
 
     public void generateUnavailableTaskIds() {
@@ -130,11 +130,7 @@ public class TaskCollection {
     }
 
     public boolean isTaskUnavailable(String taskId) {
-        if (!available) {
-            return true;
-        } else {
-            return unavailableTaskIds.contains(taskId);
-        }
+        return unavailable || unavailableTaskIds.contains(taskId);
     }
 
     public TaskDescription getTaskDescription(String taskId) {

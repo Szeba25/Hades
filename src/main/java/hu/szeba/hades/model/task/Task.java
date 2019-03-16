@@ -64,11 +64,13 @@ public class Task {
 
         // If not continuing task, but folder exists, delete the folder first!
         if (!continueTask && taskWorkingDirectory.exists()) {
+            System.out.println("Task: Reset!");
             FileUtils.deleteDirectory(taskWorkingDirectory);
         }
 
         // Copy sources if task directory does not exists...
         if (!taskWorkingDirectory.exists()) {
+            System.out.println("Task: Copy!");
             FileUtils.forceMkdir(new File(taskWorkingDirectory, "sources"));
             FileUtils.copyDirectory(
                     new File(taskDirectory, "sources"),

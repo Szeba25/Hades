@@ -116,6 +116,7 @@ public class User implements TaskSolverAgent {
         if (!completedTasks.contains(currentTaskFullId)) {
             // Complete the task
             completedTasks.add(currentTaskFullId);
+            System.out.println("User: " + currentTaskFullId + " completed!");
             TabbedFile file = new TabbedFile(new File(userWorkingDirectoryPath, ".meta/completed_tasks.txt"));
             file.addData(currentTaskFullId);
             file.save();
@@ -131,6 +132,7 @@ public class User implements TaskSolverAgent {
                 // Then check against threshold and complete the task collection too
                 if (count >= currentTaskCollectionInfo.getTaskCompletionCount()) {
                     completedTaskCollections.add(currentTaskCollectionFullId);
+                    System.out.println("User: " + currentTaskCollectionFullId + " completed!!!");
                     TabbedFile file2 = new TabbedFile(new File(userWorkingDirectoryPath, ".meta/completed_task_collections.txt"));
                     file2.addData(currentTaskCollectionFullId);
                     file2.save();
