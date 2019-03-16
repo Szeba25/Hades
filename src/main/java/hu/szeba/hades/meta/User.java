@@ -17,8 +17,8 @@ public class User implements TaskSolverAgent {
     private Set<String> startedTasks;
     private File userWorkingDirectoryPath;
 
-    private String currentTaskCollectionFullIdentifier;
-    private String currentTaskFullIdentifier;
+    private String currentTaskCollectionFullId;
+    private String currentTaskFullId;
 
     public User(String id, String name) throws IOException {
         this.id = id;
@@ -52,8 +52,8 @@ public class User implements TaskSolverAgent {
             }
         }
 
-        currentTaskCollectionFullIdentifier = null;
-        currentTaskFullIdentifier = null;
+        currentTaskCollectionFullId = null;
+        currentTaskFullId = null;
     }
 
     public String getId() {
@@ -64,37 +64,37 @@ public class User implements TaskSolverAgent {
         return name;
     }
 
-    public boolean isTaskStarted(String taskFullIdentifier) {
-        return startedTasks.contains(taskFullIdentifier);
+    public boolean isTaskStarted(String taskFullId) {
+        return startedTasks.contains(taskFullId);
     }
 
-    public boolean isTaskCompleted(String taskFullIdentifier) {
-        return completedTasks.contains(taskFullIdentifier);
-    }
-
-    @Override
-    public synchronized void setCurrentTaskCollection(String taskCollectionFullIdentifier) {
-        currentTaskCollectionFullIdentifier = taskCollectionFullIdentifier;
+    public boolean isTaskCompleted(String taskFullId) {
+        return completedTasks.contains(taskFullId);
     }
 
     @Override
-    public synchronized void setCurrentTask(String taskFullIdentifier) {
-        currentTaskFullIdentifier = taskFullIdentifier;
+    public synchronized void setCurrentTaskCollection(String taskCollectionFullId) {
+        currentTaskCollectionFullId = taskCollectionFullId;
+    }
+
+    @Override
+    public synchronized void setCurrentTask(String taskFullId) {
+        currentTaskFullId = taskFullId;
     }
 
     @Override
     public synchronized boolean isCurrentTaskCompleted() {
         // Check in the set
-        return completedTasks.contains(currentTaskFullIdentifier);
+        return completedTasks.contains(currentTaskFullId);
     }
 
     @Override
     public synchronized void markCurrentTaskAsCompleted() throws IOException {
         // Add only if does not exist!
-        if (!completedTasks.contains(currentTaskFullIdentifier)) {
-            completedTasks.add(currentTaskFullIdentifier);
+        if (!completedTasks.contains(currentTaskFullId)) {
+            completedTasks.add(currentTaskFullId);
             TabbedFile file = new TabbedFile(new File(userWorkingDirectoryPath, ".meta/completed_tasks.txt"));
-            file.addData(currentTaskFullIdentifier);
+            file.addData(currentTaskFullId);
             file.save();
         }
     }
@@ -102,17 +102,17 @@ public class User implements TaskSolverAgent {
     @Override
     public synchronized void markCurrentTaskAsStarted() throws IOException {
         // Add only if does not exist!
-        if (!startedTasks.contains(currentTaskFullIdentifier)) {
-            startedTasks.add(currentTaskFullIdentifier);
+        if (!startedTasks.contains(currentTaskFullId)) {
+            startedTasks.add(currentTaskFullId);
             TabbedFile file = new TabbedFile(new File(userWorkingDirectoryPath, ".meta/started_tasks.txt"));
-            file.addData(currentTaskFullIdentifier);
+            file.addData(currentTaskFullId);
             file.save();
         }
     }
 
     @Override
     public File getCurrentTaskWorkingDirectoryPath() {
-        return new File(userWorkingDirectoryPath, currentTaskFullIdentifier);
+        return new File(userWorkingDirectoryPath, currentTaskFullId);
     }
 
 }

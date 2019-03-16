@@ -5,8 +5,8 @@ import java.io.IOException;
 
 public interface TaskSolverAgent {
 
-    void setCurrentTaskCollection(String taskCollectionFullIdentifier);
-    void setCurrentTask(String taskFullIdentifier);
+    void setCurrentTaskCollection(String taskCollectionFullId);
+    void setCurrentTask(String taskFullId);
 
     boolean isCurrentTaskCompleted();
     void markCurrentTaskAsCompleted() throws IOException;

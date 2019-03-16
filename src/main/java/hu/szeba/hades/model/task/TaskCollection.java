@@ -93,9 +93,9 @@ public class TaskCollection {
             throws InvalidLanguageException, IOException, MissingResultFileException {
 
         // Set the current task collection, and task identifier strings!
-        String taskCollectionFullIdentifier = courseId + "/" + modeId + "/" + taskCollectionId;
-        user.setCurrentTaskCollection(taskCollectionFullIdentifier);
-        user.setCurrentTask(taskCollectionFullIdentifier + "/" + taskId);
+        String taskCollectionFullId = courseId + "/" + modeId + "/" + taskCollectionId;
+        user.setCurrentTaskCollection(taskCollectionFullId);
+        user.setCurrentTask(taskCollectionFullId + "/" + taskId);
 
         return TaskFactoryDecider.decideFactory(language).getTask(user, courseId, modeId, taskCollectionId, taskId,
                 taskDescriptions.get(taskId), continueTask);
