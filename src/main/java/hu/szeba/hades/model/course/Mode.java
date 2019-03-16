@@ -113,6 +113,10 @@ public class Mode {
         return possibleTaskCollections;
     }
 
+    public List<String> getTaskCollectionPrerequisites(String taskCollectionId) {
+        return cachedTaskCollectionPrerequisites.get(taskCollectionId);
+    }
+
     public TaskCollection loadTaskCollection(String taskCollectionId) throws IOException, ParserConfigurationException, SAXException {
         if (taskCollections.containsKey(taskCollectionId)) {
             return taskCollections.get(taskCollectionId);

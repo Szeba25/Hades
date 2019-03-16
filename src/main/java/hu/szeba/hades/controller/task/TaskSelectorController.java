@@ -121,7 +121,8 @@ public class TaskSelectorController {
     }
 
     public void setTaskCollectionInfo(MappedElement selectedTaskCollection, JTextField statusField,
-                                      JTextField percentField, JTextField progressField, JTextField taskCountField) {
+                                      JTextField percentField, JTextField progressField, JTextField taskCountField,
+                                      JList<String> prerequisitesList) {
 
         if (this.isTaskCollectionCompleted(selectedTaskCollection)) {
             statusField.setText("Completed");
@@ -133,6 +134,12 @@ public class TaskSelectorController {
         percentField.setText((int)(taskCollection.getCompletionThreshold() * 100) + "%");
         progressField.setText(taskCollection.getCompletedTasksCount() + " / " + taskCollection.getTaskCompletionCount());
         taskCountField.setText(String.valueOf(taskCollection.getPossibleTasks().size()));
+
+        DefaultListModel<String> model = (DefaultListModel<String>) prerequisitesList.getModel();
+        model.removeAllElements();
+        for (String req : mode.getTaskCollectionPrerequisites(selectedTaskCollection.getId())) {
+            model.addElement(req);
+        }
     }
 
     public void setTaskInfo(MappedElement selectedTask, JTextField statusField,
