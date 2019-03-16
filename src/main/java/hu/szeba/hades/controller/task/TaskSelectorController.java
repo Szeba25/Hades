@@ -43,7 +43,7 @@ public class TaskSelectorController {
         setModeListContents(modeList);
     }
 
-    public void updateMode(JComboBox<MappedElement> taskCollectionList,
+    public void updateMode(JList<MappedElement> taskCollectionList,
                            MappedElement selectedMode)
             throws IOException {
 
@@ -74,11 +74,13 @@ public class TaskSelectorController {
         }
     }
 
-    private void setTaskCollectionListContents(JComboBox<MappedElement> taskCollectionList) {
-        taskCollectionList.removeAllItems();
+    private void setTaskCollectionListContents(JList<MappedElement> taskCollectionList) {
+        DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) taskCollectionList.getModel();
+        model.removeAllElements();
         for (MappedElement element : mode.getPossibleTaskCollections()) {
-            taskCollectionList.addItem(element);
+            model.addElement(element);
         }
+        taskCollectionList.setSelectedIndex(0);
     }
 
     private void setTaskListContents(JList<MappedElement> taskList) {

@@ -32,11 +32,11 @@ public class TaskSelectorView extends BaseView {
     private JPanel topPanel;
     private JComboBox<MappedElement> courseList;
     private JComboBox<MappedElement> modeList;
-    private JComboBox<MappedElement> taskCollectionList;
 
     /* LEFT PART */
 
     private JPanel leftPanel;
+    private JList<MappedElement> taskCollectionList;
     private JList<MappedElement> taskList;
     private JButton filtersButton;
 
@@ -59,7 +59,7 @@ public class TaskSelectorView extends BaseView {
         controller.setCourseListContents(courseList);
         controller.updateCourse(modeList, (MappedElement) courseList.getSelectedItem());
         controller.updateMode(taskCollectionList, (MappedElement) modeList.getSelectedItem());
-        controller.updateTaskCollection(taskList, (MappedElement) taskCollectionList.getSelectedItem());
+        controller.updateTaskCollection(taskList, taskCollectionList.getSelectedValue());
         setupListEvents();
 
         // Put everything together and pack
@@ -99,24 +99,26 @@ public class TaskSelectorView extends BaseView {
         modeList.setPreferredSize(new Dimension(160, 20));
         modeListLabel.setLabelFor(modeList);
 
-        JLabel taskCollectionListLabel = new JLabel("Tasks:");
-        taskCollectionList = new JComboBox<>();
-        taskCollectionList.setPreferredSize(new Dimension(160, 20));
-        taskCollectionListLabel.setLabelFor(taskCollectionList);
-
         topPanel.add(courseListLabel);
         topPanel.add(courseList);
         topPanel.add(modeListLabel);
         topPanel.add(modeList);
-        topPanel.add(taskCollectionListLabel);
-        topPanel.add(taskCollectionList);
-        SpringUtilities.makeCompactGrid(topPanel, 3, 2, 5, 5, 5, 5);
+        SpringUtilities.makeCompactGrid(topPanel, 2, 2, 5, 5, 5, 5);
 
         /* LEFT PART */
 
         leftPanel = new JPanel();
         leftPanel.setLayout(new BorderLayout());
         leftPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+        taskCollectionList = new JList<>();
+        taskCollectionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        taskCollectionList.setModel(new DefaultListModel<>());
+        taskCollectionList.setFixedCellWidth(200);
+
+        JScrollPane taskCollectionListScroller = new JScrollPane(taskCollectionList);
+        taskCollectionListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        taskCollectionListScroller.setBorder(BorderFactory.createEtchedBorder());
 
         taskList = new JList<>();
         taskList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -130,6 +132,7 @@ public class TaskSelectorView extends BaseView {
         filtersButton = new JButton("Filters");
         filtersButton.setFocusPainted(false);
 
+        leftPanel.add(taskCollectionListScroller, BorderLayout.NORTH);
         leftPanel.add(taskListScroller, BorderLayout.CENTER);
         leftPanel.add(filtersButton, BorderLayout.SOUTH);
 
@@ -226,14 +229,19 @@ public class TaskSelectorView extends BaseView {
             }
         });
 
-        taskCollectionList.addActionListener((event) -> {
-            Object selectedItem = taskCollectionList.getSelectedItem();
-            if (selectedItem != null) {
-                try {
-                    controller.updateTaskCollection(taskList, (MappedElement) selectedItem);
-                    clearTaskSelection();
-                } catch (ParserConfigurationException | SAXException | IOException e) {
-                    e.printStackTrace();
+        taskCollectionList.getSelectionModel().addListSelectionListener((event) -> {
+            ListSelectionModel listSelectionModel = (ListSelectionModel) event.getSource();
+            ListModel listModel = taskCollectionList.getModel();
+            if (!listSelectionModel.isSelectionEmpty()) {
+                int idx = listSelectionModel.getMinSelectionIndex();
+                if (listSelectionModel.isSelectedIndex(idx)) {
+                    MappedElement value = (MappedElement) listModel.getElementAt(idx);
+                    try {
+                        controller.updateTaskCollection(taskList, value);
+                        clearTaskSelection();
+                    } catch (ParserConfigurationException | SAXException | IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
