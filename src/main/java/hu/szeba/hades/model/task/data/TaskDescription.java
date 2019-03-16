@@ -13,22 +13,19 @@ public class TaskDescription {
     private final String difficulty;
     private final String length;
     private final List<String> tags;
-    private final String infoHTML;
 
     public TaskDescription(String taskTitle, String shortDescription, String instructions, String story,
                            String difficulty, String length, List<String> tags) {
         this.taskTitle = taskTitle;
-        this.shortDescription = shortDescription;
+        this.shortDescription = shortDescription +
+                "<footer>" +
+                "<p><b>Tags: </b>" + String.join(", ", tags) + "</p>" +
+                "</footer>";
         this.instructions = instructions;
         this.story = story;
         this.difficulty = difficulty;
         this.length = length;
         this.tags = tags;
-        this.infoHTML = HTMLUtilities.generateTaskInfoHTML(difficulty, length, tags);
-    }
-
-    public String getInfoHTML() {
-        return infoHTML;
     }
 
     public String getTaskTitle() {

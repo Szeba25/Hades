@@ -118,10 +118,6 @@ public class TaskSelectorController {
         descriptionArea.setText(taskCollection.getTaskDescription(selectedTask.getId()).getShortDescription());
     }
 
-    public void setTaskInfo(MappedElement selectedTask, JEditorPane infoArea) {
-        infoArea.setText(taskCollection.getTaskDescription(selectedTask.getId()).getInfoHTML());
-    }
-
     public boolean isTaskCompleted(MappedElement taskElement) {
         return taskCollection.isTaskCompleted(taskElement.getId());
     }
