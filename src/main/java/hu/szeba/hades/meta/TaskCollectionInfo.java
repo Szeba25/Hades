@@ -11,7 +11,7 @@ public class TaskCollectionInfo {
     }
 
     public int getTaskCompletionCount() {
-        return (int)(taskCount * completionThreshold);
+        return (int)Math.ceil((double)taskCount * completionThreshold);
     }
 
 }

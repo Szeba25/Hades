@@ -124,11 +124,13 @@ public class User implements TaskSolverAgent {
             if (!completedTaskCollections.contains(currentTaskCollectionFullId)) {
                 // First, count the completed tasks
                 int count = 0;
+
                 for (String taskFullId : completedTasks) {
-                    if (currentTaskCollectionFullId.contains(taskFullId)) {
+                    if (taskFullId.contains(currentTaskCollectionFullId)) {
                         count++;
                     }
                 }
+                System.out.println("User: collection -> " + count + " / " + currentTaskCollectionInfo.getTaskCompletionCount());
                 // Then check against threshold and complete the task collection too
                 if (count >= currentTaskCollectionInfo.getTaskCompletionCount()) {
                     completedTaskCollections.add(currentTaskCollectionFullId);
