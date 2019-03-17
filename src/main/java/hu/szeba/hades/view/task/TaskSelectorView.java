@@ -8,7 +8,7 @@ import hu.szeba.hades.util.GridBagSetter;
 import hu.szeba.hades.util.HTMLUtilities;
 import hu.szeba.hades.view.BaseView;
 import hu.szeba.hades.view.JButtonGuarded;
-import hu.szeba.hades.view.MappedElement;
+import hu.szeba.hades.view.elements.MappedElement;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;

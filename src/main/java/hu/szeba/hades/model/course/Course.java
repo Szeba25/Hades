@@ -4,7 +4,7 @@ import hu.szeba.hades.io.ConfigFile;
 import hu.szeba.hades.io.TabbedFile;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.meta.User;
-import hu.szeba.hades.view.MappedElement;
+import hu.szeba.hades.view.elements.MappedElement;
 
 import java.io.File;
 import java.io.IOException;

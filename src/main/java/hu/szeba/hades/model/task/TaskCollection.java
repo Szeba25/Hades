@@ -12,7 +12,7 @@ import hu.szeba.hades.model.task.data.TaskDescription;
 import hu.szeba.hades.model.task.graph.AdjacencyMatrix;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.model.task.taskfactory.TaskFactoryDecider;
-import hu.szeba.hades.view.MappedElement;
+import hu.szeba.hades.view.elements.MappedElement;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;

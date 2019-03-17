@@ -4,7 +4,7 @@ import hu.szeba.hades.model.task.TaskCollection;
 import hu.szeba.hades.model.task.TaskStatus;
 import hu.szeba.hades.model.task.data.TaskDescription;
 import hu.szeba.hades.util.SpringUtilities;
-import hu.szeba.hades.view.MappedElement;
+import hu.szeba.hades.view.elements.MappedElement;
 import hu.szeba.hades.view.task.TaskFilterData;
 
 import javax.swing.*;

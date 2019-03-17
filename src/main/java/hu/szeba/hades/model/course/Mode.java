@@ -7,7 +7,7 @@ import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.meta.User;
 import hu.szeba.hades.model.task.TaskCollection;
 import hu.szeba.hades.model.task.graph.AdjacencyMatrix;
-import hu.szeba.hades.view.MappedElement;
+import hu.szeba.hades.view.elements.MappedElement;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;

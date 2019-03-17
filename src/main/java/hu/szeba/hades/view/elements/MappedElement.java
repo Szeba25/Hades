@@ -1,4 +1,4 @@
-package hu.szeba.hades.view;
+package hu.szeba.hades.view.elements;
 
 public class MappedElement {
 
