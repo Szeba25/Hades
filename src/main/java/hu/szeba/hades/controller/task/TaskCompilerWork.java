@@ -28,7 +28,7 @@ public class TaskCompilerWork implements Work {
         publisher.customPublish(">>> Compilation started...\n\n");
         output = compiler.compile(sources, path);
         for (String message : output.getCompilerMessages()) {
-            publisher.customPublish("#" + message + "\n");
+            publisher.customPublish("@" + message + "\n");
         }
     }
 
