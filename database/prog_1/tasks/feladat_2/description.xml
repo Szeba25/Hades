@@ -1,7 +1,7 @@
 <Task>
 	<Title>Fibonacci</Title>
 	<ShortDescription><![CDATA[
-		<p>A feladat Fibonacci számok generálása</p>
+		<p>A feladat Fibonacci számok generálása.</p>
 	]]>
 	</ShortDescription>
 	<Instructions><![CDATA[
@@ -33,7 +33,7 @@
 	]]>
 	</Story>
 	<Difficulty>Normal</Difficulty>
-	<Length>Normal</Length>
+	<Length>Medium</Length>
 	<Tags>
 		<Tag>Variables</Tag>
 		<Tag>Recursion</Tag>

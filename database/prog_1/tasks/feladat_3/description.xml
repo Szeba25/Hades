@@ -1,7 +1,7 @@
 <Task>
 	<Title>Rendezés</Title>
 	<ShortDescription><![CDATA[
-		<p>A feladat számok rendezése (fix méretű tömb)</p>
+		<p>A feladat számok rendezése. (fix méretű tömb)</p>
 	]]>
 	</ShortDescription>
 	<Instructions><![CDATA[
@@ -19,6 +19,8 @@
 		15<br>
 		25<br>
 		45<br>
+		<br>
+		<img src="file:resources/sorting.gif"></img>
 	]]>
 	</Instructions>
 	<Story><![CDATA[
@@ -28,7 +30,7 @@
 	]]>
 	</Story>
 	<Difficulty>Hard</Difficulty>
-	<Length>Normal</Length>
+	<Length>Medium</Length>
 	<Tags>
 		<Tag>Variables</Tag>
 		<Tag>Sorting</Tag>
