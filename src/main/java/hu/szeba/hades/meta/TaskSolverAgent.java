@@ -1,5 +1,7 @@
 package hu.szeba.hades.meta;
 
+import hu.szeba.hades.model.course.TaskCollectionInfo;
+
 import java.io.File;
 import java.io.IOException;
 

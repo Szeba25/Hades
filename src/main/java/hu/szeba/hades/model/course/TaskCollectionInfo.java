@@ -1,4 +1,4 @@
-package hu.szeba.hades.meta;
+package hu.szeba.hades.model.course;
 
 public class TaskCollectionInfo {
 

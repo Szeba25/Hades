@@ -1,6 +1,7 @@
 package hu.szeba.hades.meta;
 
 import hu.szeba.hades.io.TabbedFile;
+import hu.szeba.hades.model.course.TaskCollectionInfo;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
