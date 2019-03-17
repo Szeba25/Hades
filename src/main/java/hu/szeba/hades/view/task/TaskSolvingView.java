@@ -37,10 +37,12 @@ public class TaskSolvingView extends BaseView {
     private Map<String, JTextArea> codeTabByName;
 
     private JEditorPane taskInstructionsPane;
+
     private JButton taskStoryShowButton;
     private JEditorPane taskStoryPane;
     private JDialog taskStoryDialog;
     private JButton taskStoryOkButton;
+    private boolean storyPresent;
 
     private TerminalArea terminalArea;
 
@@ -84,7 +86,7 @@ public class TaskSolvingView extends BaseView {
 
         // Set task story title
         this.taskStoryDialog.setTitle("Story: " + task.getTaskDescription().getTaskTitle());
-        this.taskStoryShowButton.setEnabled(storyPresent());
+        this.taskStoryShowButton.setEnabled(storyPresent);
 
         // Put everything together, and pack!
         this.getContentPane().add(taskSplitPane, BorderLayout.CENTER);
@@ -455,6 +457,7 @@ public class TaskSolvingView extends BaseView {
 
     public void setTaskStory(String text) {
         taskStoryPane.setText(text);
+        storyPresent = text.length() > 0;
     }
 
     public void setCodeAreaContents(List<SourceFile> sources) {
@@ -523,12 +526,8 @@ public class TaskSolvingView extends BaseView {
         fileList.setSelectedIndex(0);
     }
 
-    private boolean storyPresent() {
-        return taskStoryPane.getText().length() > 0;
-    }
-
     public void showStoryDialog() {
-        if (storyPresent()) {
+        if (storyPresent) {
             taskStoryDialog.setLocationRelativeTo(this);
             taskStoryDialog.requestFocus();
             taskStoryDialog.setVisible(true);

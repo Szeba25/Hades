@@ -63,39 +63,40 @@ public class Mode {
     }
 
     public void generateCachedData() {
-        // Only generate, if we don't ignore dependencies
-        if (!modeData.isIgnoreDependency()) {
-            for (StatefulElement element : possibleTaskCollections) {
-                // If the task collection is completed, set COMPLETED status
-                if (user.isTaskCollectionCompleted(courseId + "/" + modeId + "/" + element.getId())) {
-                    element.setState(AbstractState.COMPLETED);
-                } else {
-                    // Assume that the collection is available
-                    boolean available = true;
+        for (StatefulElement element : possibleTaskCollections) {
+            // If the task collection is completed, set COMPLETED status
+            if (user.isTaskCollectionCompleted(courseId + "/" + modeId + "/" + element.getId())) {
+                element.setState(AbstractState.COMPLETED);
+            } else if (!modeData.isIgnoreDependency()) {
+                // Only generate, if we don't ignore dependencies
+                // Assume that the collection is available
+                boolean available = true;
 
-                    // Get the parent node names, and create an empty list for the prerequisites
-                    List<String> parentList = taskCollectionMatrix.getParentNodes(element.getId());
-                    List<String> prerequisites = new ArrayList<>();
+                // Get the parent node names, and create an empty list for the prerequisites
+                List<String> parentList = taskCollectionMatrix.getParentNodes(element.getId());
+                List<String> prerequisites = new ArrayList<>();
 
-                    // Loop in the parent list
-                    for (String parentId : parentList) {
-                        // If the parent is not completed, add its title to the prerequisites
-                        boolean parentCompleted = user.isTaskCollectionCompleted(courseId + "/" + modeId + "/" + parentId);
-                        if (!parentCompleted) {
-                            prerequisites.add(idToTitleMap.get(parentId));
-                        }
-                        // The collection is available only if all of its parents are available
-                        available = available && parentCompleted;
+                // Loop in the parent list
+                for (String parentId : parentList) {
+                    // If the parent is not completed, add its title to the prerequisites
+                    boolean parentCompleted = user.isTaskCollectionCompleted(courseId + "/" + modeId + "/" + parentId);
+                    if (!parentCompleted) {
+                        prerequisites.add(idToTitleMap.get(parentId));
                     }
-
-                    // Set the calculated values
-                    if (available) {
-                        element.setState(AbstractState.AVAILABLE);
-                    } else {
-                        element.setState(AbstractState.UNAVAILABLE);
-                    }
-                    element.setPrerequisites(prerequisites);
+                    // The collection is available only if all of its parents are available
+                    available = available && parentCompleted;
                 }
+
+                // Set the calculated values
+                if (available) {
+                    element.setState(AbstractState.AVAILABLE);
+                } else {
+                    element.setState(AbstractState.UNAVAILABLE);
+                }
+                element.setPrerequisites(prerequisites);
+            } else {
+                // Otherwise set to available
+                element.setState(AbstractState.AVAILABLE);
             }
         }
 

@@ -86,16 +86,16 @@ public class TaskCollection {
     }
 
     public void generateCachedData() {
-        // Only generate, if we don't ignore dependencies
-        if (!modeData.isIgnoreDependency()) {
-            for (TaskElement element : possibleTasks) {
-                // If the task is completed, set COMPLETED status!
-                String taskFullId = courseId + "/" + modeId + "/" + taskCollectionId + "/" + element.getId();
-                if (user.isTaskCompleted(taskFullId)) {
-                    element.setState(AbstractState.COMPLETED);
-                } else if (user.isTaskStarted(taskFullId)) {
-                    element.setState(AbstractState.IN_PROGRESS);
-                } else if (collectionUnavailable) {
+        for (TaskElement element : possibleTasks) {
+            // If the task is completed, set COMPLETED status!
+            String taskFullId = courseId + "/" + modeId + "/" + taskCollectionId + "/" + element.getId();
+            if (user.isTaskCompleted(taskFullId)) {
+                element.setState(AbstractState.COMPLETED);
+            } else if (user.isTaskStarted(taskFullId)) {
+                element.setState(AbstractState.IN_PROGRESS);
+            } else if (!modeData.isIgnoreDependency()) {
+                // Only generate, if we don't ignore dependencies
+                if (collectionUnavailable) {
                     element.setState(AbstractState.UNAVAILABLE);
                 } else {
                     // Assume that the task is available
@@ -123,6 +123,9 @@ public class TaskCollection {
                     }
                     element.setPrerequisites(prerequisites);
                 }
+            } else {
+                // Otherwise set to available
+                element.setState(AbstractState.AVAILABLE);
             }
         }
     }
