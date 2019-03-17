@@ -1,6 +1,6 @@
 package hu.szeba.hades.model.task.result;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ResultMatcher {
@@ -12,7 +12,7 @@ public class ResultMatcher {
     public ResultMatcher() {
         allDifferencesCount = 0;
         allNoResponsesCount = 0;
-        differences = new LinkedList<>();
+        differences = new ArrayList<>();
     }
 
     public void match(Result referenceResult, Result desiredResult) {

@@ -2,7 +2,7 @@ package hu.szeba.hades.model.task.data;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SourceFile {
@@ -21,7 +21,7 @@ public class SourceFile {
             BufferedReader reader = new BufferedReader(isr);
 
             String line;
-            List<String> lines = new LinkedList<>();
+            List<String> lines = new ArrayList<>();
             while ((line = reader.readLine()) != null) {
                 lines.add(line);
             }

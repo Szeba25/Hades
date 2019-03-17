@@ -11,7 +11,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DescriptionXMLFile {
@@ -42,7 +42,7 @@ public class DescriptionXMLFile {
         String difficulty = documentElement.getElementsByTagName("Difficulty").item(0).getTextContent();
         String length = documentElement.getElementsByTagName("Length").item(0).getTextContent();
 
-        List<String> tags = new LinkedList<>();
+        List<String> tags = new ArrayList<>();
         NodeList tagNodeList = documentElement.getElementsByTagName("Tag");
         for (int i = 0; i < tagNodeList.getLength(); i++) {
             tags.add(tagNodeList.item(i).getTextContent());

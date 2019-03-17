@@ -93,7 +93,7 @@ public class Task {
 
     private void makeInputResultPairs() throws IOException, MissingResultFileException {
         String[] extInput = { "input" };
-        List<File> inputFiles = new LinkedList<>(FileUtils.listFiles(
+        List<File> inputFiles = new ArrayList<>(FileUtils.listFiles(
                 new File(taskDirectory, "input_result_pairs"),
                 extInput,
                 false));
@@ -122,7 +122,7 @@ public class Task {
             readonlySources.add(file.getData(i, 0));
         }
 
-        List<File> sourceFiles = new LinkedList<>(FileUtils.listFiles(
+        List<File> sourceFiles = new ArrayList<>(FileUtils.listFiles(
                 new File(taskWorkingDirectory, "sources"),
                 null,
                 false));

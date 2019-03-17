@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -53,7 +53,7 @@ public class StreamUtilities {
                                          int maxStartWaitInMillis, int maxTimeoutWaitInMillis)
             throws IOException, InterruptedException {
         InputStreamReader is = new InputStreamReader(stream);
-        List<String> messageList = new LinkedList<>();
+        List<String> messageList = new ArrayList<>();
 
         StringBuilder builder = new StringBuilder();
         int byteCount = 0;
@@ -146,7 +146,7 @@ public class StreamUtilities {
     public static List<String> getStream(InputStream stream) throws IOException {
         InputStreamReader is = new InputStreamReader(stream);
         BufferedReader br = new BufferedReader(is);
-        List<String> messageList = new LinkedList<>();
+        List<String> messageList = new ArrayList<>();
 
         // IMPORTANT: This read blocks when there is no output from the program!!!
         String line = br.readLine();

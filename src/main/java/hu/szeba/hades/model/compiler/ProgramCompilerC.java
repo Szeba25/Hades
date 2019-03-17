@@ -6,7 +6,7 @@ import hu.szeba.hades.util.StreamUtilities;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProgramCompilerC implements ProgramCompiler {
@@ -17,7 +17,7 @@ public class ProgramCompilerC implements ProgramCompiler {
 
         String finalProcessPath = compilerPath.getAbsolutePath() + "/bin/gcc";
 
-        List<String> commands = new LinkedList<>();
+        List<String> commands = new ArrayList<>();
         commands.add(finalProcessPath);
         for (String sourceName : sourceNames) {
             commands.add(sourceName);
@@ -32,7 +32,7 @@ public class ProgramCompilerC implements ProgramCompiler {
         Process process = processBuilder.start();
         process.waitFor();
 
-        List<String> compilerMessages = new LinkedList<>();
+        List<String> compilerMessages = new ArrayList<>();
         compilerMessages.addAll(StreamUtilities.getStream(process.getErrorStream()));
         compilerMessages.addAll(StreamUtilities.getStream(process.getInputStream()));
         compilerMessages.add("Exit value: " + process.exitValue());
@@ -42,7 +42,7 @@ public class ProgramCompilerC implements ProgramCompiler {
 
     @Override
     public CompilerOutput getCached(File taskWorkingDirectory) {
-        return generateOutput(new LinkedList<>(), taskWorkingDirectory, 0);
+        return generateOutput(new ArrayList<>(), taskWorkingDirectory, 0);
     }
 
     private CompilerOutput generateOutput(List<String> compilerMessages, File taskWorkingDirectory, int exitValue) {

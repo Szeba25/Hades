@@ -59,7 +59,7 @@ public class AdjacencyMatrix {
 
     public List<String> getNodeNames() {
         // Return a list of node names EXCLUDING the NULL node.
-        List<String> nodeNames = new LinkedList<>();
+        List<String> nodeNames = new ArrayList<>();
         for (String str : nodesByIndex) {
             if (!str.equals("NULL")) {
                 nodeNames.add(str);
