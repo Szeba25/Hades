@@ -24,8 +24,11 @@ public class UltimateHelper {
 
     public void help() throws IOException {
         if (links != null) {
-            int id = random.nextInt(links.getLineCount() + 1);
+            int id = random.nextInt(links.getLineCount());
             String link = links.getData(id, 0);
+
+            System.out.println("UltimateHelper: " + link);
+
             Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
             if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
                 desktop.browse(URI.create(link));

@@ -86,6 +86,7 @@ public class TaskSolvingView extends BaseView {
 
         // Set task story title
         this.taskStoryDialog.setTitle("Story: " + task.getTaskDescription().getTaskTitle());
+        SwingUtilities.getRootPane(taskStoryDialog).setDefaultButton(taskStoryOkButton);
         this.taskStoryShowButton.setEnabled(storyPresent);
 
         // Put everything together, and pack!
@@ -135,6 +136,7 @@ public class TaskSolvingView extends BaseView {
         taskStoryPane = new JEditorPane();
         taskStoryPane.setContentType("text/html");
         taskStoryPane.setEditable(false);
+        taskStoryPane.setFocusable(false);
         JScrollPane taskStoryScroll = new JScrollPane(taskStoryPane);
         taskStoryScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         taskStoryScroll.setMinimumSize(new Dimension(250, 300));
