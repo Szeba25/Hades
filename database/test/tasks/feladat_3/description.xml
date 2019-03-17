@@ -1,9 +1,9 @@
 <Task>
 	<Title>Rendezés</Title>
-	<ShortDescription><![CDATA[
+	<ShortInstructions><![CDATA[
 		<p>A feladat számok rendezése. (fix méretű tömb)</p>
 	]]>
-	</ShortDescription>
+	</ShortInstructions>
 	<Instructions><![CDATA[
 		<h2>A feladata a következő:</h2>
 		<ul>
@@ -23,6 +23,11 @@
 		<img src="file:resources/sorting.gif"></img>
 	]]>
 	</Instructions>
+	<ShortStory><![CDATA[
+		<h2>A rövid történet (feladat_3):</h2>
+		<p>Itt a történet szövege.</p>
+	]]>
+	</ShortStory>
 	<Story><![CDATA[
 		<h2>A történet (feladat_3):</h2>
 		<p>Itt a történet szövege.</p>

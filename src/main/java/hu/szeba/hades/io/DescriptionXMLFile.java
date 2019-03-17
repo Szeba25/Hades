@@ -31,7 +31,15 @@ public class DescriptionXMLFile {
 
     public TaskDescription parse(boolean ignoreStory) {
         String taskTitle = documentElement.getElementsByTagName("Title").item(0).getTextContent();
-        String shortDescription = documentElement.getElementsByTagName("ShortDescription").item(0).getTextContent();
+
+        String shortInstructions = documentElement.getElementsByTagName("ShortInstructions").item(0).getTextContent();
+        String shortStory = "";
+        if (!ignoreStory) {
+            shortStory = documentElement.getElementsByTagName("ShortStory").item(0).getTextContent() + "<br><hr>";
+        }
+
+        String shortDescription = shortStory + shortInstructions + "<br><hr>";
+
         String instructions = documentElement.getElementsByTagName("Instructions").item(0).getTextContent();
 
         String story = "";

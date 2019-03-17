@@ -1,9 +1,9 @@
 <Task>
 	<Title>Fibonacci</Title>
-	<ShortDescription><![CDATA[
+	<ShortInstructions><![CDATA[
 		<p>A feladat Fibonacci számok generálása.</p>
 	]]>
-	</ShortDescription>
+	</ShortInstructions>
 	<Instructions><![CDATA[
 		<h2>A feladata a következő:</h2>
 		<ul>
@@ -26,6 +26,11 @@
 		<img src="file:resources/fibonacci_grid.png"></img>
 	]]>
 	</Instructions>
+	<ShortStory><![CDATA[
+		<h2>A rövid történet (feladat_2):</h2>
+		<p>Itt a történet szövege.</p>
+	]]>
+	</ShortStory>
 	<Story><![CDATA[
 		<h2>A történet (feladat_2):</h2>
 		<p>Itt a történet szövege.</p>
