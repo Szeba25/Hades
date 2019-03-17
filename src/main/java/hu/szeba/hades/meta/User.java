@@ -95,12 +95,12 @@ public class User implements TaskSolverAgent {
     }
 
     @Override
-    public synchronized void setCurrentTaskCollection(String taskCollectionFullId) {
+    public void setCurrentTaskCollection(String taskCollectionFullId) {
         currentTaskCollectionFullId = taskCollectionFullId;
     }
 
     @Override
-    public synchronized void setCurrentTask(String taskFullId) {
+    public void setCurrentTask(String taskFullId) {
         currentTaskFullId = taskFullId;
     }
 
@@ -145,7 +145,7 @@ public class User implements TaskSolverAgent {
     }
 
     @Override
-    public synchronized void markCurrentTaskAsStarted() throws IOException {
+    public void markCurrentTaskAsStarted() throws IOException {
         // Add only if does not exist!
         if (!startedTasks.contains(currentTaskFullId)) {
             startedTasks.add(currentTaskFullId);
@@ -156,7 +156,7 @@ public class User implements TaskSolverAgent {
     }
 
     @Override
-    public synchronized File getCurrentTaskWorkingDirectoryPath() {
+    public File getCurrentTaskWorkingDirectoryPath() {
         return new File(userWorkingDirectoryPath, currentTaskFullId);
     }
 
