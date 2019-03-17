@@ -4,6 +4,7 @@ import hu.szeba.hades.controller.task.TaskSolvingController;
 import hu.szeba.hades.meta.UltimateHelper;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.SourceFile;
+import hu.szeba.hades.util.GridBagSetter;
 import hu.szeba.hades.view.BaseView;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -36,7 +37,10 @@ public class TaskSolvingView extends BaseView {
     private Map<String, JTextArea> codeTabByName;
 
     private JEditorPane taskInstructionsPane;
+    private JButton taskStoryShowButton;
     private JEditorPane taskStoryPane;
+    private JDialog taskStoryDialog;
+    private JButton taskStoryOkButton;
 
     private TerminalArea terminalArea;
 
@@ -78,6 +82,10 @@ public class TaskSolvingView extends BaseView {
         this.setTitle("Solving task: " + task.getTaskDescription().getTaskTitle());
         this.runMenuItem.setEnabled(task.getCompilerOutputRegister().getCompilerOutput().isReady());
 
+        // Set task story title
+        this.taskStoryDialog.setTitle("Story: " + task.getTaskDescription().getTaskTitle());
+        this.taskStoryShowButton.setEnabled(storyPresent());
+
         // Put everything together, and pack!
         this.getContentPane().add(taskSplitPane, BorderLayout.CENTER);
         this.getContentPane().add(menuBar, BorderLayout.NORTH);
@@ -118,6 +126,10 @@ public class TaskSolvingView extends BaseView {
         JScrollPane taskInstructionsScroll = new JScrollPane(taskInstructionsPane);
         taskInstructionsScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
+        taskStoryShowButton = new JButton("Show story");
+        taskStoryShowButton.setPreferredSize(new Dimension(180, 30));
+        taskStoryShowButton.setFocusPainted(false);
+
         taskStoryPane = new JEditorPane();
         taskStoryPane.setContentType("text/html");
         taskStoryPane.setEditable(false);
@@ -125,11 +137,71 @@ public class TaskSolvingView extends BaseView {
         taskStoryScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         taskStoryScroll.setMinimumSize(new Dimension(250, 300));
 
-        JSplitPane taskDescriptionPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, taskInstructionsScroll, taskStoryScroll);
-        taskDescriptionPane.setOneTouchExpandable(true);
-        taskDescriptionPane.setResizeWeight(1.0);
-        taskDescriptionPane.setMinimumSize(new Dimension(250, 700));
-        taskDescriptionPane.setPreferredSize(new Dimension(400, 700));
+        taskStoryDialog = new JDialog();
+        taskStoryDialog.setModal(true);
+        taskStoryDialog.setVisible(false);
+        taskStoryDialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+        taskStoryDialog.setMinimumSize(new Dimension(640, 480));
+
+        JPanel taskStoryContents = new JPanel();
+        taskStoryContents.setLayout(new GridBagLayout());
+
+        taskStoryOkButton = new JButton("Challenge accepted!");
+        taskStoryOkButton.setFocusPainted(false);
+
+        GridBagSetter gs0 = new GridBagSetter();
+        gs0.setComponent(taskStoryContents);
+
+        gs0.add(taskStoryScroll,
+                0,
+                0,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                1,
+                1,
+                new Insets(5, 5, 5, 5));
+
+        gs0.add(taskStoryOkButton,
+                0,
+                1,
+                GridBagConstraints.NONE,
+                1,
+                1,
+                0,
+                0,
+                new Insets(0, 0, 5, 0));
+
+        taskStoryDialog.getContentPane().add(taskStoryContents);
+        taskStoryDialog.pack();
+
+        JPanel taskInstructionAndStoryPanel = new JPanel();
+        taskInstructionAndStoryPanel.setLayout(new GridBagLayout());
+        taskInstructionAndStoryPanel.setMinimumSize(new Dimension(250, 700));
+        taskInstructionAndStoryPanel.setPreferredSize(new Dimension(400, 700));
+
+        GridBagSetter gs1 = new GridBagSetter();
+        gs1.setComponent(taskInstructionAndStoryPanel);
+
+        gs1.add(taskInstructionsScroll,
+                0,
+                0,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                1,
+                1,
+                new Insets(0, 0, 10, 0));
+
+        gs1.add(taskStoryShowButton,
+                0,
+                1,
+                GridBagConstraints.NONE,
+                1,
+                1,
+                0,
+                0,
+                new Insets(0, 0, 10, 0));
 
         topPanel.add(fileListScroller, BorderLayout.WEST);
         topPanel.add(codeTab, BorderLayout.CENTER);
@@ -146,7 +218,7 @@ public class TaskSolvingView extends BaseView {
         mainSplitPane.setOneTouchExpandable(true);
         mainSplitPane.setResizeWeight(0.6);
 
-        taskSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, mainSplitPane, taskDescriptionPane);
+        taskSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, mainSplitPane, taskInstructionAndStoryPanel);
         taskSplitPane.setOneTouchExpandable(true);
         taskSplitPane.setResizeWeight(1.0);
 
@@ -367,6 +439,14 @@ public class TaskSolvingView extends BaseView {
                     "License: MIT (see repository)",
                     "About...",  JOptionPane.PLAIN_MESSAGE);
         });
+        // Show story
+        taskStoryShowButton.addActionListener((event) -> {
+            showStoryDialog();
+        });
+        // Close story
+        taskStoryOkButton.addActionListener((event) -> {
+            taskStoryDialog.setVisible(false);
+        });
     }
 
     public void setTaskInstructions(String longDescription) {
@@ -441,6 +521,18 @@ public class TaskSolvingView extends BaseView {
         }
         sortFileList();
         fileList.setSelectedIndex(0);
+    }
+
+    private boolean storyPresent() {
+        return taskStoryPane.getText().length() > 0;
+    }
+
+    public void showStoryDialog() {
+        if (storyPresent()) {
+            taskStoryDialog.setLocationRelativeTo(this);
+            taskStoryDialog.requestFocus();
+            taskStoryDialog.setVisible(true);
+        }
     }
 
     private void sortFileList() {

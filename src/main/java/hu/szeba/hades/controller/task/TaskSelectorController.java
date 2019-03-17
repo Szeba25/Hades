@@ -104,6 +104,7 @@ public class TaskSelectorController {
         parentView.hideView();
         TaskSolvingView taskSolvingView = new TaskSolvingView(parentView, task);
         taskSolvingView.showViewMaximized();
+        taskSolvingView.showStoryDialog();
     }
 
     public void continueTask(TaskElement selectedTask, BaseView parentView)
@@ -113,6 +114,7 @@ public class TaskSelectorController {
         parentView.hideView();
         TaskSolvingView taskSolvingView = new TaskSolvingView(parentView, task);
         taskSolvingView.showViewMaximized();
+        taskSolvingView.showStoryDialog();
     }
 
     public void setTaskCollectionInfo(StatefulElement selectedTaskCollection, JTextField statusField,
