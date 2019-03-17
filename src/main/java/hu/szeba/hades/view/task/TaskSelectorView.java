@@ -191,7 +191,7 @@ public class TaskSelectorView extends BaseView {
 
         gs.add(filtersButton, 0, 4, GridBagConstraints.BOTH,
                 1, 1, 1.0, 0,
-                new Insets(0, 0, 0, 0));
+                new Insets(5, 0, 0, 0));
 
         /* RIGHT PART */
 
@@ -213,7 +213,8 @@ public class TaskSelectorView extends BaseView {
         descriptionArea.setAlignmentX(Component.CENTER_ALIGNMENT);
         descriptionArea.setContentType("text/html");
         descriptionArea.setEditable(false);
-        descriptionArea.setBorder(BorderFactory.createEtchedBorder());
+        JScrollPane descriptionScroll = new JScrollPane(descriptionArea);
+        descriptionScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         JLabel taskCollectionDetailsLabel = new JLabel("Task collection details:");
 
@@ -346,7 +347,7 @@ public class TaskSelectorView extends BaseView {
                 1, 1, 0, 0,
                 new Insets(0, 0, 5, 0));
 
-        gs.add(descriptionArea, 0, 1, GridBagConstraints.BOTH,
+        gs.add(descriptionScroll, 0, 1, GridBagConstraints.BOTH,
                 1, 6, 1.0, 1.0,
                 new Insets(0, 0, 0, 5));
 
