@@ -35,7 +35,10 @@ public class DescriptionXMLFile {
         String shortInstructions = documentElement.getElementsByTagName("ShortInstructions").item(0).getTextContent();
         String shortStory = "";
         if (!ignoreStory) {
-            shortStory = documentElement.getElementsByTagName("ShortStory").item(0).getTextContent() + "<br><hr>";
+            shortStory = documentElement.getElementsByTagName("ShortStory").item(0).getTextContent();
+            if (shortStory.length() > 0) {
+                shortStory += "<br><hr>";
+            }
         }
 
         String shortDescription = shortStory + shortInstructions + "<br><hr>";

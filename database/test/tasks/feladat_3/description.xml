@@ -23,11 +23,7 @@
 		<img src="file:resources/sorting.gif"></img>
 	]]>
 	</Instructions>
-	<ShortStory><![CDATA[
-		<h3>A rövid történet (feladat_3):</h3>
-		<p>Itt a történet szövege.</p>
-	]]>
-	</ShortStory>
+	<ShortStory></ShortStory>
 	<Story><![CDATA[
 		<h2>A történet (feladat_3):</h2>
 		<p>Itt a történet szövege.</p>
