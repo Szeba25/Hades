@@ -1,6 +1,7 @@
 package hu.szeba.hades.form.task;
 
 import hu.szeba.hades.model.course.TaskCollection;
+import hu.szeba.hades.util.GridBagSetter;
 import hu.szeba.hades.util.SpringUtilities;
 import hu.szeba.hades.view.elements.AbstractState;
 import hu.szeba.hades.view.elements.TaskElement;
@@ -104,56 +105,56 @@ public class TaskFilterForm extends JDialog {
         tagScroll.getVerticalScrollBar().setUnitIncrement(10);
         tagScroll.setViewportView(tagPanel);
 
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
+
         selectAll = new JButton("All");
         selectAll.setFocusPainted(false);
         selectAll.setAlignmentX(Component.CENTER_ALIGNMENT);
+        selectAll.setMaximumSize(new Dimension(70, 20));
         clearAll = new JButton("Clear");
         clearAll.setFocusPainted(false);
         clearAll.setAlignmentX(Component.CENTER_ALIGNMENT);
+        clearAll.setMaximumSize(new Dimension(70, 20));
 
-        GridBagConstraints c0 = new GridBagConstraints();
+        buttonsPanel.add(selectAll);
+        buttonsPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        buttonsPanel.add(clearAll);
 
-        c0.gridx = 0;
-        c0.gridy = 0;
-        c0.fill = GridBagConstraints.BOTH;
-        c0.gridwidth = 1;
-        c0.gridheight = 2;
-        c0.weightx = 0.0;
-        c0.weighty = 0.0;
-        c0.insets = new Insets(0, 5, 0, 5);
-        centerPanel.add(tagLabel, c0);
+        GridBagSetter gs = new GridBagSetter();
 
-        c0.gridx = 1;
-        c0.gridy = 0;
-        c0.fill = GridBagConstraints.BOTH;
-        c0.gridwidth = 1;
-        c0.gridheight = 2;
-        c0.weightx = 1.0;
-        c0.weighty = 1.0;
-        c0.insets = new Insets(0, 0, 0, 5);
-        centerPanel.add(tagScroll, c0);
+        gs.setComponent(centerPanel);
 
-        c0.gridx = 2;
-        c0.gridy = 0;
-        c0.fill = GridBagConstraints.HORIZONTAL;
-        c0.gridwidth = 1;
-        c0.gridheight = 1;
-        c0.weightx = 1.0;
-        c0.weighty = 0.9;
-        c0.insets = new Insets(0, 0, 0, 5);
-        c0.anchor = GridBagConstraints.SOUTH;
-        centerPanel.add(selectAll, c0);
+        gs.add(tagLabel,
+                0,
+                0,
+                GridBagConstraints.BOTH,
+                1,
+                2,
+                0,
+                0,
+                new Insets(0, 5, 0, 5));
 
-        c0.gridx = 2;
-        c0.gridy = 1;
-        c0.fill = GridBagConstraints.HORIZONTAL;
-        c0.gridwidth = 1;
-        c0.gridheight = 1;
-        c0.weightx = 1.0;
-        c0.weighty = 0.1;
-        c0.insets = new Insets(0, 0, 5, 5);
-        c0.anchor = GridBagConstraints.SOUTH;
-        centerPanel.add(clearAll, c0);
+        gs.add(tagScroll,
+                1,
+                0,
+                GridBagConstraints.BOTH,
+                1,
+
+                2,
+                1,
+                1,
+                new Insets(0, 0, 0, 5));
+
+        gs.add(buttonsPanel,
+                2,
+                0,
+                GridBagConstraints.HORIZONTAL,
+                1,
+                2,
+                1,
+                0,
+                new Insets(0, 0, 5, 5));
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new FlowLayout());
