@@ -52,16 +52,16 @@ public class TaskSelectorView extends BaseView {
 
     private JEditorPane descriptionArea;
 
-    private JTextField infoFieldTaskCollectionStatus;
-    private JTextField infoFieldTaskCollectionPercentNeeded;
-    private JTextField infoFieldTaskCollectionProgress;
-    private JTextField infoFieldTaskCollectionTaskCount;
-    private JList<String> infoFieldTaskCollectionPrerequisites;
+    private JTextField taskCollectionStatus;
+    private JTextField taskCollectionPercentNeeded;
+    private JTextField taskCollectionProgress;
+    private JTextField taskCollectionTaskCount;
+    private JList<String> taskCollectionPrerequisites;
 
-    private JTextField infoFieldTaskStatus;
-    private JTextField infoFieldTaskDifficulty;
-    private JTextField infoFieldTaskLength;
-    private JList<String> infoFieldTaskPrerequisites;
+    private JTextField taskStatus;
+    private JTextField taskDifficulty;
+    private JTextField taskLength;
+    private JList<String> taskPrerequisites;
 
     public TaskSelectorView(CourseDatabase courseDatabase) throws IOException, SAXException, ParserConfigurationException {
         super();
@@ -221,22 +221,22 @@ public class TaskSelectorView extends BaseView {
         taskCollectionDetails.setLayout(new GridBagLayout());
         taskCollectionDetails.setBorder(BorderFactory.createEtchedBorder());
 
-        infoFieldTaskCollectionStatus = new JTextField();
-        infoFieldTaskCollectionStatus.setEditable(false);
+        taskCollectionStatus = new JTextField();
+        taskCollectionStatus.setEditable(false);
 
-        infoFieldTaskCollectionPercentNeeded = new JTextField();
-        infoFieldTaskCollectionPercentNeeded.setEditable(false);
+        taskCollectionPercentNeeded = new JTextField();
+        taskCollectionPercentNeeded.setEditable(false);
 
-        infoFieldTaskCollectionProgress = new JTextField();
-        infoFieldTaskCollectionProgress.setEditable(false);
+        taskCollectionProgress = new JTextField();
+        taskCollectionProgress.setEditable(false);
 
-        infoFieldTaskCollectionTaskCount = new JTextField();
-        infoFieldTaskCollectionTaskCount.setEditable(false);
+        taskCollectionTaskCount = new JTextField();
+        taskCollectionTaskCount.setEditable(false);
 
-        infoFieldTaskCollectionPrerequisites = new JList<>();
-        infoFieldTaskCollectionPrerequisites.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        infoFieldTaskCollectionPrerequisites.setModel(new DefaultListModel<>());
-        JScrollPane taskCollectionPrerequisitesScroll = new JScrollPane(infoFieldTaskCollectionPrerequisites);
+        taskCollectionPrerequisites = new JList<>();
+        taskCollectionPrerequisites.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        taskCollectionPrerequisites.setModel(new DefaultListModel<>());
+        JScrollPane taskCollectionPrerequisitesScroll = new JScrollPane(taskCollectionPrerequisites);
         taskCollectionPrerequisitesScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         taskCollectionPrerequisitesScroll.setPreferredSize(new Dimension(250, 80));
 
@@ -258,19 +258,19 @@ public class TaskSelectorView extends BaseView {
                 1, 1, 0, 0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(infoFieldTaskCollectionStatus, 1, 0, GridBagConstraints.HORIZONTAL,
+        gs.add(taskCollectionStatus, 1, 0, GridBagConstraints.HORIZONTAL,
                 1, 1, 1.0, 0,
                 new Insets(5, 0, 5, 5));
 
-        gs.add(infoFieldTaskCollectionPercentNeeded, 1, 1, GridBagConstraints.HORIZONTAL,
+        gs.add(taskCollectionPercentNeeded, 1, 1, GridBagConstraints.HORIZONTAL,
                 1, 1, 1.0, 0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(infoFieldTaskCollectionProgress, 1, 2, GridBagConstraints.HORIZONTAL,
+        gs.add(taskCollectionProgress, 1, 2, GridBagConstraints.HORIZONTAL,
                 1, 1, 1.0, 0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(infoFieldTaskCollectionTaskCount, 1, 3, GridBagConstraints.HORIZONTAL,
+        gs.add(taskCollectionTaskCount, 1, 3, GridBagConstraints.HORIZONTAL,
                 1, 1, 1.0, 0,
                 new Insets(0, 0, 5, 5));
 
@@ -289,19 +289,19 @@ public class TaskSelectorView extends BaseView {
         taskDetails.setPreferredSize(new Dimension(250, 50));
         taskDetails.setBorder(BorderFactory.createEtchedBorder());
 
-        infoFieldTaskStatus = new JTextField();
-        infoFieldTaskStatus.setEditable(false);
+        taskStatus = new JTextField();
+        taskStatus.setEditable(false);
 
-        infoFieldTaskDifficulty = new JTextField();
-        infoFieldTaskDifficulty.setEditable(false);
+        taskDifficulty = new JTextField();
+        taskDifficulty.setEditable(false);
 
-        infoFieldTaskLength = new JTextField();
-        infoFieldTaskLength.setEditable(false);
+        taskLength = new JTextField();
+        taskLength.setEditable(false);
 
-        infoFieldTaskPrerequisites = new JList<>();
-        infoFieldTaskPrerequisites.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        infoFieldTaskPrerequisites.setModel(new DefaultListModel<>());
-        JScrollPane taskPrerequisitesScroll = new JScrollPane(infoFieldTaskPrerequisites);
+        taskPrerequisites = new JList<>();
+        taskPrerequisites.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        taskPrerequisites.setModel(new DefaultListModel<>());
+        JScrollPane taskPrerequisitesScroll = new JScrollPane(taskPrerequisites);
         taskPrerequisitesScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         gs.setComponent(taskDetails);
@@ -318,15 +318,15 @@ public class TaskSelectorView extends BaseView {
                 1, 1, 0, 0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(infoFieldTaskStatus, 1, 0, GridBagConstraints.HORIZONTAL,
+        gs.add(taskStatus, 1, 0, GridBagConstraints.HORIZONTAL,
                 1, 1, 1.0, 0,
                 new Insets(5, 0, 5, 5));
 
-        gs.add(infoFieldTaskDifficulty, 1, 1, GridBagConstraints.HORIZONTAL,
+        gs.add(taskDifficulty, 1, 1, GridBagConstraints.HORIZONTAL,
                 1, 1, 1.0, 0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(infoFieldTaskLength, 1, 2, GridBagConstraints.HORIZONTAL,
+        gs.add(taskLength, 1, 2, GridBagConstraints.HORIZONTAL,
                 1, 1, 1.0, 0,
                 new Insets(0, 0, 5, 5));
 
@@ -569,9 +569,9 @@ public class TaskSelectorView extends BaseView {
     }
 
     private void updateTaskCollectionInfo(StatefulElement selectedTaskCollection) {
-        controller.setTaskCollectionInfo(selectedTaskCollection, infoFieldTaskCollectionStatus,
-                infoFieldTaskCollectionPercentNeeded, infoFieldTaskCollectionProgress,
-                infoFieldTaskCollectionTaskCount, infoFieldTaskCollectionPrerequisites);
+        controller.setTaskCollectionInfo(selectedTaskCollection, taskCollectionStatus,
+                taskCollectionPercentNeeded, taskCollectionProgress,
+                taskCollectionTaskCount, taskCollectionPrerequisites);
     }
 
     private void updateTaskSelection(TaskElement selectedTask) {
@@ -588,9 +588,9 @@ public class TaskSelectorView extends BaseView {
                 }
             }
             descriptionArea.setText(selectedTask.getDescription().getShortDescription());
-            controller.setTaskInfo(selectedTask, infoFieldTaskStatus,
-                    infoFieldTaskDifficulty, infoFieldTaskLength,
-                    infoFieldTaskPrerequisites);
+            controller.setTaskInfo(selectedTask, taskStatus,
+                    taskDifficulty, taskLength,
+                    taskPrerequisites);
         } else {
             clearTaskSelection();
         }
@@ -598,10 +598,10 @@ public class TaskSelectorView extends BaseView {
 
     private void clearTaskSelection() {
         descriptionArea.setText(HTMLUtilities.getEmptyTaskDescription());
-        infoFieldTaskStatus.setText("");
-        infoFieldTaskDifficulty.setText("");
-        infoFieldTaskLength.setText("");
-        ((DefaultListModel<String>)infoFieldTaskPrerequisites.getModel()).removeAllElements();
+        taskStatus.setText("");
+        taskDifficulty.setText("");
+        taskLength.setText("");
+        ((DefaultListModel<String>) taskPrerequisites.getModel()).removeAllElements();
         startButton.setEnabled(false);
         continueButton.setEnabled(false);
     }
