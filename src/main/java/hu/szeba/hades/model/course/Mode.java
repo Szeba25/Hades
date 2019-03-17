@@ -104,6 +104,7 @@ public class Mode {
             TaskCollection collection = taskCollections.get(element.getId());
             if (collection != null) {
                 collection.setCollectionUnavailable(element.getState() == AbstractState.UNAVAILABLE);
+                collection.generateCachedData();
             }
         }
     }

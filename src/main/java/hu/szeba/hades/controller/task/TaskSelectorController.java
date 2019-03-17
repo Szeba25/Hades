@@ -148,7 +148,6 @@ public class TaskSelectorController {
 
     public void generateCachedData() {
         mode.generateCachedData();
-        taskCollection.generateCachedData();
     }
 
     public void showTaskFilterView(JList<TaskElement> taskList, BaseView parentView) {
