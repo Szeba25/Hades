@@ -8,7 +8,10 @@ import hu.szeba.hades.util.GridBagSetter;
 import hu.szeba.hades.util.HTMLUtilities;
 import hu.szeba.hades.view.BaseView;
 import hu.szeba.hades.view.JButtonGuarded;
+import hu.szeba.hades.view.elements.AbstractState;
 import hu.szeba.hades.view.elements.MappedElement;
+import hu.szeba.hades.view.elements.StatefulElement;
+import hu.szeba.hades.view.elements.TaskElement;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
@@ -36,8 +39,8 @@ public class TaskSelectorView extends BaseView {
     /* LEFT PART */
 
     private JPanel leftPanel;
-    private JList<MappedElement> taskCollectionList;
-    private JList<MappedElement> taskList;
+    private JList<StatefulElement> taskCollectionList;
+    private JList<TaskElement> taskList;
     private JButton filtersButton;
 
     /* RIGHT PART */
@@ -70,9 +73,7 @@ public class TaskSelectorView extends BaseView {
         controller.updateCourse(modeList, (MappedElement) courseList.getSelectedItem());
         controller.updateMode(taskCollectionList, (MappedElement) modeList.getSelectedItem());
         controller.updateTaskCollection(taskList, taskCollectionList.getSelectedValue());
-        controller.setTaskCollectionInfo(taskCollectionList.getSelectedValue(), infoFieldTaskCollectionStatus,
-                infoFieldTaskCollectionPercentNeeded, infoFieldTaskCollectionProgress,
-                infoFieldTaskCollectionTaskCount, infoFieldTaskCollectionPrerequisites);
+        updateTaskCollectionInfo(taskCollectionList.getSelectedValue());
 
         setupListEvents();
 
@@ -407,10 +408,10 @@ public class TaskSelectorView extends BaseView {
             if (!listSelectionModel.isSelectionEmpty()) {
                 int idx = listSelectionModel.getMinSelectionIndex();
                 if (listSelectionModel.isSelectedIndex(idx)) {
-                    MappedElement value = (MappedElement) listModel.getElementAt(idx);
+                    StatefulElement element = (StatefulElement) listModel.getElementAt(idx);
                     try {
-                        controller.updateTaskCollection(taskList, value);
-                        updateTaskCollectionInfo(value);
+                        controller.updateTaskCollection(taskList, element);
+                        updateTaskCollectionInfo(element);
                         clearTaskSelection();
                     } catch (ParserConfigurationException | SAXException | IOException e) {
                         e.printStackTrace();
@@ -425,7 +426,7 @@ public class TaskSelectorView extends BaseView {
             if (!listSelectionModel.isSelectionEmpty()) {
                 int idx = listSelectionModel.getMinSelectionIndex();
                 if (listSelectionModel.isSelectedIndex(idx)) {
-                    MappedElement value = (MappedElement) listModel.getElementAt(idx);
+                    TaskElement value = (TaskElement) listModel.getElementAt(idx);
                     updateTaskSelection(value);
                 }
             }
@@ -442,10 +443,11 @@ public class TaskSelectorView extends BaseView {
             startButton.getActionGuard().guard();
 
             try {
-                if (getSelectedTask() != null) {
+                TaskElement selectedTask = taskList.getSelectedValue();
+                if (selectedTask != null) {
                     boolean newTrigger = false;
                     // If progress exists, prompt if overwrite it!
-                    if (controller.isTaskStarted(getSelectedTask())) {
+                    if (selectedTask.getState() == AbstractState.COMPLETED || selectedTask.getState() == AbstractState.IN_PROGRESS) {
                         int option = JOptionPane.showConfirmDialog(new JFrame(),
                                 "This will delete all previous progress for this task. Continue?",
                                 "Start task from scratch...",
@@ -461,7 +463,7 @@ public class TaskSelectorView extends BaseView {
                     }
                     // Finally, if we should create a new task, do it.
                     if (newTrigger) {
-                        controller.loadNewTask(getSelectedTask(), this);
+                        controller.loadNewTask(selectedTask, this);
                     }
                 }
             } catch (InvalidLanguageException | IOException | MissingResultFileException e) {
@@ -477,8 +479,8 @@ public class TaskSelectorView extends BaseView {
             continueButton.getActionGuard().guard();
 
             try {
-                if (getSelectedTask() != null) {
-                    controller.continueTask(getSelectedTask(), this);
+                if (taskList.getSelectedValue() != null) {
+                    controller.continueTask(taskList.getSelectedValue(), this);
                 }
             } catch (InvalidLanguageException | IOException | MissingResultFileException e) {
                 e.printStackTrace();
@@ -490,19 +492,23 @@ public class TaskSelectorView extends BaseView {
             public Component getListCellRendererComponent(JList list, Object value, int index,
                                                           boolean isSelected, boolean cellHasFocus) {
                 Component component = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if (value instanceof MappedElement) {
-                    MappedElement element = (MappedElement)value;
-                    setText(element.toString());
+                if (value instanceof StatefulElement) {
+                    StatefulElement element = (StatefulElement)value;
+                    setText(element.getTitle());
                     setBackground(Color.WHITE);
                     if (isSelected) {
                         setBackground(selectedColor);
                     }
-                    if (controller.isTaskCollectionCompleted(element)) {
-                        setForeground(completedColor);
-                    } else if (controller.isTaskCollectionUnavailable(element)) {
-                        setForeground(unavailableColor);
-                    } else {
-                        setForeground(availableColor);
+                    switch(element.getState()) {
+                        case COMPLETED:
+                            setForeground(completedColor);
+                            break;
+                        case UNAVAILABLE:
+                            setForeground(unavailableColor);
+                            break;
+                        default:
+                            setForeground(availableColor);
+                            break;
                     }
                 }
                 return component;
@@ -514,14 +520,14 @@ public class TaskSelectorView extends BaseView {
             public Component getListCellRendererComponent(JList list, Object value, int index,
                                                           boolean isSelected, boolean cellHasFocus) {
                 Component component = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if (value instanceof MappedElement) {
-                    MappedElement element = (MappedElement)value;
+                if (value instanceof TaskElement) {
+                    TaskElement element = (TaskElement)value;
                     setText(element.toString());
                     setBackground(Color.WHITE);
                     if (isSelected) {
                         setBackground(selectedColor);
                     }
-                    switch(controller.getTaskEffectiveStatus(element)) {
+                    switch(element.getState()) {
                         case COMPLETED:
                             setForeground(completedColor);
                             break;
@@ -554,35 +560,34 @@ public class TaskSelectorView extends BaseView {
         controller.generateCachedData();
 
         // Refresh buttons and info panels
-        updateTaskSelection(getSelectedTask());
-        updateTaskCollectionInfo(getSelectedTaskCollection());
+        updateTaskSelection(taskList.getSelectedValue());
+        updateTaskCollectionInfo(taskCollectionList.getSelectedValue());
 
         // Remove button guards
         startButton.getActionGuard().reset();
         continueButton.getActionGuard().reset();
     }
 
-    private void updateTaskCollectionInfo(MappedElement selectedTaskCollection) {
+    private void updateTaskCollectionInfo(StatefulElement selectedTaskCollection) {
         controller.setTaskCollectionInfo(selectedTaskCollection, infoFieldTaskCollectionStatus,
                 infoFieldTaskCollectionPercentNeeded, infoFieldTaskCollectionProgress,
                 infoFieldTaskCollectionTaskCount, infoFieldTaskCollectionPrerequisites);
     }
 
-    private void updateTaskSelection(MappedElement selectedTask) {
+    private void updateTaskSelection(TaskElement selectedTask) {
         if (selectedTask != null) {
-            boolean available = controller.isTaskUnavailable(selectedTask);
-            if (available) {
+            if (selectedTask.getState() == AbstractState.UNAVAILABLE) {
                 startButton.setEnabled(false);
                 continueButton.setEnabled(false);
             } else {
                 startButton.setEnabled(true);
-                if (controller.isTaskStarted(selectedTask)) {
+                if (selectedTask.getState() == AbstractState.COMPLETED || selectedTask.getState() == AbstractState.IN_PROGRESS) {
                     continueButton.setEnabled(true);
                 } else {
                     continueButton.setEnabled(false);
                 }
             }
-            controller.setTaskShortDescription(selectedTask, descriptionArea);
+            descriptionArea.setText(selectedTask.getDescription().getShortDescription());
             controller.setTaskInfo(selectedTask, infoFieldTaskStatus,
                     infoFieldTaskDifficulty, infoFieldTaskLength,
                     infoFieldTaskPrerequisites);
@@ -599,14 +604,6 @@ public class TaskSelectorView extends BaseView {
         ((DefaultListModel<String>)infoFieldTaskPrerequisites.getModel()).removeAllElements();
         startButton.setEnabled(false);
         continueButton.setEnabled(false);
-    }
-
-    private MappedElement getSelectedTask() {
-        return taskList.getSelectedValue();
-    }
-
-    private MappedElement getSelectedTaskCollection() {
-        return taskCollectionList.getSelectedValue();
     }
 
 }

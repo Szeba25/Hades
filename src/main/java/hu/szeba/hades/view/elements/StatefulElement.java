@@ -3,38 +3,31 @@ package hu.szeba.hades.view.elements;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StatefulElement {
+public class StatefulElement extends MappedElement {
 
-    private String id;
-    private String title;
     private AbstractState state;
-    private List<String> parentTitles;
+    private List<String> prerequisites;
 
     public StatefulElement(String id, String title) {
-        this.id = id;
-        this.title = title;
+        super(id, title);
         this.state = AbstractState.AVAILABLE;
-        this.parentTitles = new ArrayList<>();
+        this.prerequisites = new ArrayList<>();
     }
 
     public void setState(AbstractState state) {
         this.state = state;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
+    public void setPrerequisites(List<String> prerequisites) {
+        this.prerequisites = prerequisites;
     }
 
     public AbstractState getState() {
         return state;
     }
 
-    public List<String> getParentTitles() {
-        return parentTitles;
+    public List<String> getPrerequisites() {
+        return prerequisites;
     }
 
 }

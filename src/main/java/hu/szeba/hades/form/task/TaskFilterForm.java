@@ -1,10 +1,9 @@
 package hu.szeba.hades.form.task;
 
-import hu.szeba.hades.model.task.TaskCollection;
-import hu.szeba.hades.model.task.TaskStatus;
-import hu.szeba.hades.model.task.data.TaskDescription;
+import hu.szeba.hades.model.course.TaskCollection;
 import hu.szeba.hades.util.SpringUtilities;
-import hu.szeba.hades.view.elements.MappedElement;
+import hu.szeba.hades.view.elements.AbstractState;
+import hu.szeba.hades.view.elements.TaskElement;
 import hu.szeba.hades.view.task.TaskFilterData;
 
 import javax.swing.*;
@@ -23,7 +22,7 @@ public class TaskFilterForm extends JDialog {
     private JTextField titleField;
     private JComboBox<String> difficultyList;
     private JComboBox<String> lengthSpinner;
-    private JComboBox<TaskStatus> statusList;
+    private JComboBox<AbstractState> stateList;
     private JPanel tagPanel;
     private Map<String, JCheckBox> tags;
 
@@ -73,12 +72,12 @@ public class TaskFilterForm extends JDialog {
         lengthSpinner.addItem("Medium");
         lengthSpinner.addItem("Long");
 
-        statusList = new JComboBox<>();
-        statusList.addItem(TaskStatus.ALL);
-        statusList.addItem(TaskStatus.AVAILABLE);
-        statusList.addItem(TaskStatus.COMPLETED);
-        statusList.addItem(TaskStatus.IN_PROGRESS);
-        statusList.addItem(TaskStatus.UNAVAILABLE);
+        stateList = new JComboBox<>();
+        stateList.addItem(AbstractState.ALL);
+        stateList.addItem(AbstractState.AVAILABLE);
+        stateList.addItem(AbstractState.COMPLETED);
+        stateList.addItem(AbstractState.IN_PROGRESS);
+        stateList.addItem(AbstractState.UNAVAILABLE);
 
         topPanel.add(titleLabel);
         topPanel.add(titleField);
@@ -87,7 +86,7 @@ public class TaskFilterForm extends JDialog {
         topPanel.add(lengthLabel);
         topPanel.add(lengthSpinner);
         topPanel.add(statusLabel);
-        topPanel.add(statusList);
+        topPanel.add(stateList);
         SpringUtilities.makeCompactGrid(topPanel, 4, 2, 5, 5, 5, 5);
 
         JPanel centerPanel = new JPanel();
@@ -174,7 +173,7 @@ public class TaskFilterForm extends JDialog {
         titleField.setText(data.getTitleFilter());
         difficultyList.setSelectedItem(data.getDifficultyFilter());
         lengthSpinner.setSelectedItem(data.getLengthFilter());
-        statusList.setSelectedItem(data.getStatusFilter());
+        stateList.setSelectedItem(data.getStateFilter());
         for (String tag : data.getTagFilters().keySet()) {
             tags.get(tag).setSelected(data.getTagFilters().get(tag));
         }
@@ -184,12 +183,12 @@ public class TaskFilterForm extends JDialog {
         String titleFilter = titleField.getText();
         String difficultyFilter = (String) difficultyList.getSelectedItem();
         String lengthFilter = (String) lengthSpinner.getSelectedItem();
-        TaskStatus statusFilter = (TaskStatus) statusList.getSelectedItem();
+        AbstractState stateFilter = (AbstractState) stateList.getSelectedItem();
         Map<String, Boolean> tagFilter = new HashMap<>();
         for (String tag : tags.keySet()) {
             tagFilter.put(tag, tags.get(tag).isSelected());
         }
-        data.set(titleFilter, difficultyFilter, lengthFilter, statusFilter, tagFilter);
+        data.set(titleFilter, difficultyFilter, lengthFilter, stateFilter, tagFilter);
     }
 
     private void setupEvents() {
@@ -227,13 +226,12 @@ public class TaskFilterForm extends JDialog {
         titleField.setText("");
         difficultyList.setSelectedIndex(0);
         lengthSpinner.setSelectedIndex(0);
-        statusList.setSelectedIndex(0);
+        stateList.setSelectedIndex(0);
         removeAllTags();
 
         // Add new tags
-        for (MappedElement element : taskCollection.getPossibleTasks()) {
-            TaskDescription description = taskCollection.getTaskDescription(element.getId());
-            for (String tag : description.getTags()) {
+        for (TaskElement element : taskCollection.getPossibleTasks()) {
+            for (String tag : element.getDescription().getTags()) {
                 this.addTag(tag);
             }
         }

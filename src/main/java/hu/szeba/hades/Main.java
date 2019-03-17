@@ -2,9 +2,7 @@ package hu.szeba.hades;
 
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.meta.User;
-import hu.szeba.hades.model.course.Course;
 import hu.szeba.hades.model.course.CourseDatabase;
-import hu.szeba.hades.model.task.TaskCollection;
 import hu.szeba.hades.view.task.TaskSelectorView;
 import org.xml.sax.SAXException;
 

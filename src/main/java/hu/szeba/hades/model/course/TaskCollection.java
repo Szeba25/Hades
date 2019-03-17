@@ -1,4 +1,4 @@
-package hu.szeba.hades.model.task;
+package hu.szeba.hades.model.course;
 
 import hu.szeba.hades.io.ConfigFile;
 import hu.szeba.hades.io.DescriptionXMLFile;
@@ -7,18 +7,23 @@ import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.meta.TaskCollectionInfo;
 import hu.szeba.hades.meta.User;
 import hu.szeba.hades.model.course.ModeData;
+import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.data.TaskDescription;
 import hu.szeba.hades.model.task.graph.AdjacencyMatrix;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.model.task.taskfactory.TaskFactoryDecider;
-import hu.szeba.hades.view.elements.MappedElement;
+import hu.szeba.hades.view.elements.AbstractState;
+import hu.szeba.hades.view.elements.TaskElement;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TaskCollection {
 
@@ -30,19 +35,16 @@ public class TaskCollection {
     private File taskCollectionDirectory;
     private File tasksDirectory;
     private AdjacencyMatrix taskMatrix;
-    private List<MappedElement> possibleTasks;
-    private Map<String, TaskDescription> taskDescriptions;
-
-    private Set<String> unavailableTaskIds;
-    private Map<String, List<String>> cachedTaskPrerequisites;
+    private List<TaskElement> possibleTasks;
+    private Map<String, String> idToTitleMap;
 
     private final String language;
     private final TaskCollectionInfo info;
 
-    private boolean unavailable;
+    private boolean collectionUnavailable;
 
     public TaskCollection(User user, String courseId, String modeId, String taskCollectionId, ModeData modeData,
-                          String language, boolean unavailable)
+                          String language, boolean collectionUnavailable)
             throws IOException, ParserConfigurationException, SAXException {
 
         this.user = user;
@@ -53,18 +55,14 @@ public class TaskCollection {
         this.taskCollectionDirectory = new File(Options.getDatabasePath(), courseId + "/task_collections/" + taskCollectionId);
         this.tasksDirectory = new File(Options.getDatabasePath(), courseId + "/tasks");
         this.language = language;
+        this.collectionUnavailable = collectionUnavailable;
 
         loadTaskIds();
         loadTaskDescriptions();
-
-        unavailableTaskIds = new HashSet<>();
-        cachedTaskPrerequisites = new HashMap<>();
         generateCachedData();
 
         ConfigFile file = new ConfigFile(new File(taskCollectionDirectory, "meta.conf"));
         info = new TaskCollectionInfo(possibleTasks.size(), Double.parseDouble(file.getData(0, 1)));
-
-        this.unavailable = unavailable;
     }
 
     private void loadTaskIds() throws IOException {
@@ -75,55 +73,63 @@ public class TaskCollection {
     private void loadTaskDescriptions() throws IOException, SAXException, ParserConfigurationException {
         // Create list of possible tasks
         possibleTasks = new ArrayList<>();
-        // Create associative map for descriptions
-        taskDescriptions = new HashMap<>();
+        idToTitleMap = new HashMap<>();
         // Load all task descriptions
         for (String taskId : taskMatrix.getNodeNames()) {
             DescriptionXMLFile descriptionFile = new DescriptionXMLFile(new File(tasksDirectory, taskId + "/description.xml"));
             TaskDescription description = descriptionFile.parse(modeData.isIgnoreStory());
-            possibleTasks.add(new MappedElement(taskId, description.getTaskTitle()));
-            taskDescriptions.put(taskId, description);
+            possibleTasks.add(new TaskElement(taskId, description.getTaskTitle(), description));
+            idToTitleMap.put(taskId, description.getTaskTitle());
         }
     }
 
-    public void updateUnavailability(boolean value) {
-        unavailable = value;
+    public void setCollectionUnavailable(boolean collectionUnavailable) {
+        this.collectionUnavailable = collectionUnavailable;
     }
 
     public void generateCachedData() {
         // Only generate, if we don't ignore dependencies
-        unavailableTaskIds.clear();
-        cachedTaskPrerequisites.clear();
-
         if (!modeData.isIgnoreDependency()) {
-            for (String taskId : taskMatrix.getNodeNames()) {
-                boolean taskAvailable = true;
-                List<String> parentList = taskMatrix.getParentNodes(taskId);
-                List<String> reqList = new ArrayList<>();
-                cachedTaskPrerequisites.put(taskId, reqList);
+            for (TaskElement element : possibleTasks) {
+                // If the task is completed, set COMPLETED status!
+                String taskFullId = courseId + "/" + modeId + "/" + taskCollectionId + "/" + element.getId();
+                if (user.isTaskCompleted(taskFullId)) {
+                    element.setState(AbstractState.COMPLETED);
+                } else if (user.isTaskStarted(taskFullId)) {
+                    element.setState(AbstractState.IN_PROGRESS);
+                } else if (collectionUnavailable) {
+                    element.setState(AbstractState.UNAVAILABLE);
+                } else {
+                    // Assume that the task is available
+                    boolean available = true;
 
-                for (String parentId : parentList) {
-                    boolean parentCompleted = user.isTaskCompleted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + parentId);
-                    if (!parentCompleted) {
-                        TaskDescription parentDescription = taskDescriptions.get(parentId);
-                        reqList.add(parentDescription.getTaskTitle());
+                    // Get the parent node names, and create an empty list for prerequisites
+                    List<String> parentList = taskMatrix.getParentNodes(element.getId());
+                    List<String> prerequisites = new ArrayList<>();
+
+                    // Loop in the parent list
+                    for (String parentId : parentList) {
+                        // If the parent is not completed, add its title to the prerequisites
+                        boolean parentCompleted = user.isTaskCompleted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + parentId);
+                        if (!parentCompleted) {
+                            prerequisites.add(idToTitleMap.get(parentId));
+                        }
+                        available = available && parentCompleted;
                     }
-                    taskAvailable = taskAvailable && parentCompleted;
-                }
 
-                // The task is unavailable, if any of its parents is not completed...
-                if (!taskAvailable) {
-                    unavailableTaskIds.add(taskId);
+                    // Set the calculated values
+                    if (available) {
+                        element.setState(AbstractState.AVAILABLE);
+                    } else {
+                        element.setState(AbstractState.UNAVAILABLE);
+                    }
+                    element.setPrerequisites(prerequisites);
                 }
-            }
-        } else {
-            for (String taskId : taskMatrix.getNodeNames()) {
-                cachedTaskPrerequisites.put(taskId, new ArrayList<>());
             }
         }
     }
 
-    public Task createTask(String taskId, boolean continueTask)
+    public Task createTask(TaskElement element, boolean continueTask)
             throws InvalidLanguageException, IOException, MissingResultFileException {
 
         // Set task collection info!
@@ -132,45 +138,20 @@ public class TaskCollection {
         // Set the current task collection full id, and task full id!
         String taskCollectionFullId = courseId + "/" + modeId + "/" + taskCollectionId;
         user.setCurrentTaskCollection(taskCollectionFullId);
-        user.setCurrentTask(taskCollectionFullId + "/" + taskId);
+        user.setCurrentTask(taskCollectionFullId + "/" + element.getId());
 
-        return TaskFactoryDecider.decideFactory(language).getTask(user, courseId, modeId, taskCollectionId, taskId,
-                taskDescriptions.get(taskId), continueTask);
+        return TaskFactoryDecider.decideFactory(language).getTask(user, courseId, modeId, taskCollectionId,
+                element.getId(), element.getDescription(), continueTask);
     }
 
-    public TaskStatus getTaskEffectiveStatus(String taskId) {
-        String taskFullId = courseId + "/" + modeId + "/" + taskCollectionId + "/" + taskId;
-        if (user.isTaskCompleted(taskFullId)) {
-            return TaskStatus.COMPLETED;
-        } else if (user.isTaskStarted(taskFullId)) {
-            return TaskStatus.IN_PROGRESS;
-        } else if (unavailable || unavailableTaskIds.contains(taskId)) {
-            return TaskStatus.UNAVAILABLE;
-        } else {
-            return TaskStatus.AVAILABLE;
-        }
-    }
-
-    public boolean isTaskStarted(String taskId) {
-        return user.isTaskStarted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + taskId);
-    }
-
-    public boolean isTaskUnavailable(String taskId) {
-        return unavailable || unavailableTaskIds.contains(taskId);
-    }
-
-    public TaskDescription getTaskDescription(String taskId) {
-        return taskDescriptions.get(taskId);
-    }
-
-    public List<MappedElement> getPossibleTasks() {
+    public List<TaskElement> getPossibleTasks() {
         return possibleTasks;
     }
 
     public int getCompletedTasksCount() {
         int count = 0;
-        for (MappedElement element : possibleTasks) {
-            if (user.isTaskCompleted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + element.getId())) {
+        for (TaskElement element : possibleTasks) {
+            if (element.getState() == AbstractState.COMPLETED) {
                 count++;
             }
         }
@@ -183,10 +164,6 @@ public class TaskCollection {
 
     public double getCompletionThreshold() {
         return info.getCompletionThreshold();
-    }
-
-    public List<String> getTaskPrerequisites(String taskId) {
-        return cachedTaskPrerequisites.get(taskId);
     }
 
 }

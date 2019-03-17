@@ -1,8 +1,8 @@
 package hu.szeba.hades.view.task;
 
-import hu.szeba.hades.model.task.TaskCollection;
-import hu.szeba.hades.model.task.TaskStatus;
 import hu.szeba.hades.model.task.data.TaskDescription;
+import hu.szeba.hades.view.elements.AbstractState;
+import hu.szeba.hades.view.elements.TaskElement;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +13,7 @@ public class TaskFilterData {
     private String titleFilter;
     private String difficultyFilter;
     private String lengthFilter;
-    private TaskStatus statusFilter;
+    private AbstractState stateFilter;
     private Map<String, Boolean> tagFilters;
 
     public TaskFilterData() {
@@ -21,12 +21,12 @@ public class TaskFilterData {
         reset();
     }
 
-    public void set(String titleFilter, String difficultyFilter, String lengthFilter, TaskStatus statusFilter,
+    public void set(String titleFilter, String difficultyFilter, String lengthFilter, AbstractState stateFilter,
                     Map<String, Boolean> tagFilters) {
         this.titleFilter = titleFilter;
         this.difficultyFilter = difficultyFilter;
         this.lengthFilter = lengthFilter;
-        this.statusFilter = statusFilter;
+        this.stateFilter = stateFilter;
         this.tagFilters = tagFilters;
     }
 
@@ -34,7 +34,7 @@ public class TaskFilterData {
         this.titleFilter = "";
         this.difficultyFilter = "All";
         this.lengthFilter = "All";
-        this.statusFilter = TaskStatus.ALL;
+        this.stateFilter = AbstractState.ALL;
         this.tagFilters.clear();
     }
 
@@ -50,16 +50,16 @@ public class TaskFilterData {
         return lengthFilter;
     }
 
-    public TaskStatus getStatusFilter() {
-        return statusFilter;
+    public AbstractState getStateFilter() {
+        return stateFilter;
     }
 
     public Map<String, Boolean> getTagFilters() {
         return tagFilters;
     }
 
-    public boolean matches(TaskCollection collection, String taskId) {
-        TaskDescription description = collection.getTaskDescription(taskId);
+    public boolean matches(TaskElement element) {
+        TaskDescription description = element.getDescription();
 
         boolean matchesTitle = description.getTaskTitle().toLowerCase().contains(titleFilter);
 
@@ -69,7 +69,7 @@ public class TaskFilterData {
         boolean matchesLength = lengthFilter.equals("All") ||
                 description.getLength().equals(lengthFilter);
 
-        boolean matchesStatus = (statusFilter == TaskStatus.ALL) || statusFilter == collection.getTaskEffectiveStatus(taskId);
+        boolean matchesStatus = (stateFilter == AbstractState.ALL) || stateFilter == element.getState();
 
         boolean matchesTags = false;
         List<String> tags = description.getTags();
