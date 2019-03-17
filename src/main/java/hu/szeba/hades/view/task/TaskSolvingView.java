@@ -26,30 +26,21 @@ public class TaskSolvingView extends BaseView {
 
     private Font monoFont;
 
-    private JPanel topPanel;
-
     private DefaultListModel<String> fileListModel;
     private JList<String> fileList;
     private JPopupMenu fileListPopup;
     private JMenuItem deleteFilePopupItem;
     private JMenuItem renameFilePopupItem;
-    private JScrollPane fileListScroller;
 
     private JTabbedPane codeTab;
     private Map<String, JTextArea> codeTabByName;
 
     private JEditorPane taskInstructionsPane;
-    private JScrollPane taskInstructionsScroll;
     private JEditorPane taskStoryPane;
-    private JScrollPane taskStoryScroll;
-    private JSplitPane taskDescriptionPane;
 
     private TerminalArea terminalArea;
-    private JScrollPane terminalScroll;
 
-    private JSplitPane mainSplitPane;
     private JSplitPane taskSplitPane;
-
     private JMenuBar menuBar;
 
     private JMenu fileMenu;
@@ -99,7 +90,7 @@ public class TaskSolvingView extends BaseView {
         this.setMinimumSize(new Dimension(900, 700));
         this.setLayout(new BorderLayout());
 
-        topPanel = new JPanel();
+        JPanel topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
 
         monoFont = new Font("Monospaced", Font.PLAIN, 14);
@@ -115,7 +106,7 @@ public class TaskSolvingView extends BaseView {
         fileListPopup.add(deleteFilePopupItem);
         fileListPopup.add(renameFilePopupItem);
 
-        fileListScroller = new JScrollPane(fileList);
+        JScrollPane fileListScroller = new JScrollPane(fileList);
         fileListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         codeTab = new JTabbedPane();
@@ -124,17 +115,17 @@ public class TaskSolvingView extends BaseView {
         taskInstructionsPane = new JEditorPane();
         taskInstructionsPane.setContentType("text/html");
         taskInstructionsPane.setEditable(false);
-        taskInstructionsScroll = new JScrollPane(taskInstructionsPane);
+        JScrollPane taskInstructionsScroll = new JScrollPane(taskInstructionsPane);
         taskInstructionsScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         taskStoryPane = new JEditorPane();
         taskStoryPane.setContentType("text/html");
         taskStoryPane.setEditable(false);
-        taskStoryScroll = new JScrollPane(taskStoryPane);
+        JScrollPane taskStoryScroll = new JScrollPane(taskStoryPane);
         taskStoryScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         taskStoryScroll.setMinimumSize(new Dimension(250, 300));
 
-        taskDescriptionPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, taskInstructionsScroll, taskStoryScroll);
+        JSplitPane taskDescriptionPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, taskInstructionsScroll, taskStoryScroll);
         taskDescriptionPane.setOneTouchExpandable(true);
         taskDescriptionPane.setResizeWeight(1.0);
         taskDescriptionPane.setMinimumSize(new Dimension(250, 700));
@@ -147,11 +138,11 @@ public class TaskSolvingView extends BaseView {
         JPanel noWrapPanel = new JPanel(new BorderLayout());
         noWrapPanel.add(terminalPane);
         terminalArea = new TerminalArea(terminalPane);
-        terminalScroll = new JScrollPane(noWrapPanel);
+        JScrollPane terminalScroll = new JScrollPane(noWrapPanel);
         terminalScroll.getVerticalScrollBar().setUnitIncrement(14);
         terminalScroll.setMinimumSize(new Dimension(300, 200));
 
-        mainSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, topPanel, terminalScroll);
+        JSplitPane mainSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, topPanel, terminalScroll);
         mainSplitPane.setOneTouchExpandable(true);
         mainSplitPane.setResizeWeight(0.6);
 
