@@ -1,0 +1,20 @@
+<Task>
+	<Title>Hello world!</Title>
+	<ShortDescription><![CDATA[
+		<p>Hello world!</p>
+	]]>
+	</ShortDescription>
+	<Instructions><![CDATA[
+		<h2>Hello world!</h2>
+		<p>Írassa ki a standard outputra a "Hello world!" mondatot!</p>
+		<p><i>Segítség:</i></p>
+		<pre>printf</pre>
+	]]>
+	</Instructions>
+	<Story></Story>
+	<Difficulty>Novice</Difficulty>
+	<Length>Short</Length>
+	<Tags>
+		<Tag>Basics</Tag>
+	</Tags>
+</Task>

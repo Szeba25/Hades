@@ -1,0 +1,20 @@
+<Task>
+	<Title>Csere!</Title>
+	<ShortDescription><![CDATA[
+		<p>Változók cserélése</p>
+	]]>
+	</ShortDescription>
+	<Instructions><![CDATA[
+		<h2>Csere!</h2>
+		<p>A user.c fileban található egy //START HERE 'a' és //START HERE 'b' rész. Ezek alatt kell két változó (elsőben a, másodikban b értékét) beolvasni, és a //SWAP HERE alatt a két változó értékét megcserélni!</p>
+	]]>
+	</Instructions>
+	<Story></Story>
+	<Difficulty>Novice</Difficulty>
+	<Length>Short</Length>
+	<Tags>
+		<Tag>Basics</Tag>
+		<Tag>Variables</Tag>
+		<Tag>Input reading</Tag>
+	</Tags>
+</Task>
