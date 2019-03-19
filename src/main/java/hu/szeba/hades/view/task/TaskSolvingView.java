@@ -5,7 +5,7 @@ import hu.szeba.hades.meta.UltimateHelper;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.util.GridBagSetter;
-import hu.szeba.hades.view.BaseView;
+import hu.szeba.hades.view.Viewable;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
@@ -19,9 +19,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.*;
 
-public class TaskSolvingView extends BaseView {
+public class TaskSolvingView extends JFrame implements Viewable {
 
-    private BaseView parentView;
+    private Viewable parentView;
 
     private TaskSolvingController controller;
 
@@ -67,8 +67,16 @@ public class TaskSolvingView extends BaseView {
     private UltimateHelper ultimateHelper;
     private LockedMenusWrapper lockedMenusWrapper;
 
-    public TaskSolvingView(BaseView parentView, Task task) {
-        super();
+    public TaskSolvingView(Viewable parentView, Task task) {
+        // JFrame init
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setResizable(true);
+        this.setLayout(new BorderLayout());
+        this.setMinimumSize(new Dimension(900, 700));
+
+        // Initialize components, and setup events
+        initializeComponents();
+        setupEvents();
 
         this.parentView = parentView;
         this.controller = new TaskSolvingController(task);
@@ -95,12 +103,7 @@ public class TaskSolvingView extends BaseView {
         this.pack();
     }
 
-    @Override
-    public void initializeComponents() {
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.setMinimumSize(new Dimension(900, 700));
-        this.setLayout(new BorderLayout());
-
+    private void initializeComponents() {
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
 
@@ -278,8 +281,7 @@ public class TaskSolvingView extends BaseView {
         menuBar.add(helpMenu);
     }
 
-    @Override
-    public void setupEvents() {
+    private void setupEvents() {
         // Close the window
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -584,6 +586,25 @@ public class TaskSolvingView extends BaseView {
         codeTab.setTabComponentAt(codeTab.getTabCount()-1, new ClosableTabComponent(codeTab, controller));
 
         codeTabByName.put(name, codeTabArea);
+    }
+
+    @Override
+    public void showView() {
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
+        this.requestFocus();
+    }
+
+    @Override
+    public void showViewMaximized() {
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setVisible(true);
+        this.requestFocus();
+    }
+
+    @Override
+    public void hideView() {
+        this.setVisible(false);
     }
 
 }

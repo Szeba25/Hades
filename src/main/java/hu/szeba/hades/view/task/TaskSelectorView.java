@@ -6,8 +6,8 @@ import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.util.GridBagSetter;
 import hu.szeba.hades.util.HTMLUtilities;
-import hu.szeba.hades.view.BaseView;
 import hu.szeba.hades.view.JButtonGuarded;
+import hu.szeba.hades.view.Viewable;
 import hu.szeba.hades.view.elements.AbstractState;
 import hu.szeba.hades.view.elements.MappedElement;
 import hu.szeba.hades.view.elements.StatefulElement;
@@ -20,7 +20,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.io.IOException;
 
-public class TaskSelectorView extends BaseView {
+public class TaskSelectorView extends JFrame implements Viewable {
 
     private TaskSelectorController controller;
 
@@ -64,7 +64,16 @@ public class TaskSelectorView extends BaseView {
     private JList<String> taskPrerequisites;
 
     public TaskSelectorView(CourseDatabase courseDatabase) throws IOException, SAXException, ParserConfigurationException {
-        super();
+        // JFrame init
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(true);
+        this.setLayout(new BorderLayout());
+        this.setMinimumSize(new Dimension(900, 680));
+        this.setTitle("Please select a task");
+
+        // Initialize components, and setup events
+        initializeComponents();
+        setupEvents();
 
         // Create the controller
         controller = new TaskSelectorController(courseDatabase);
@@ -84,14 +93,7 @@ public class TaskSelectorView extends BaseView {
         this.pack();
     }
 
-    @Override
-    public void initializeComponents() {
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(true);
-        this.setLayout(new BorderLayout());
-        this.setMinimumSize(new Dimension(900, 680));
-        this.setTitle("Please select a task");
-
+    private void initializeComponents() {
         selectedColor = new Color(160, 160, 255, 120);
         inProgressColor = new Color(50, 50, 210);
         completedColor = new Color(20, 140, 20);
@@ -434,8 +436,7 @@ public class TaskSelectorView extends BaseView {
         });
     }
 
-    @Override
-    public void setupEvents() {
+    private void setupEvents() {
         startButton.addActionListener((event) -> {
             // Protect from multiple actions spawned
             if (startButton.getActionGuard().isGuarded()) {
@@ -555,7 +556,20 @@ public class TaskSelectorView extends BaseView {
 
     @Override
     public void showView() {
-        super.showView();
+        this.setLocationRelativeTo(null);
+        basicShow();
+    }
+
+    @Override
+    public void showViewMaximized() {
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        basicShow();
+    }
+
+    private void basicShow() {
+        // JFrame stuff
+        setVisible(true);
+        requestFocus();
 
         // Refresh unavailable task collections, tasks, and dependency lists
         controller.generateCachedData();
@@ -567,6 +581,11 @@ public class TaskSelectorView extends BaseView {
         // Remove button guards
         startButton.getActionGuard().reset();
         continueButton.getActionGuard().reset();
+    }
+
+    @Override
+    public void hideView() {
+        this.setVisible(false);
     }
 
     private void updateTaskCollectionInfo(StatefulElement selectedTaskCollection) {

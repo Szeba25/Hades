@@ -4,11 +4,11 @@ import hu.szeba.hades.form.task.TaskFilterForm;
 import hu.szeba.hades.model.course.Course;
 import hu.szeba.hades.model.course.CourseDatabase;
 import hu.szeba.hades.model.course.Mode;
-import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.course.TaskCollection;
+import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
-import hu.szeba.hades.view.BaseView;
+import hu.szeba.hades.view.Viewable;
 import hu.szeba.hades.view.elements.AbstractState;
 import hu.szeba.hades.view.elements.MappedElement;
 import hu.szeba.hades.view.elements.StatefulElement;
@@ -97,22 +97,22 @@ public class TaskSelectorController {
         }
     }
 
-    public void loadNewTask(TaskElement selectedTask, BaseView parentView)
+    public void loadNewTask(TaskElement selectedTask, Viewable viewable)
             throws InvalidLanguageException, IOException, MissingResultFileException {
 
         Task task = taskCollection.createTask(selectedTask, false);
-        parentView.hideView();
-        TaskSolvingView taskSolvingView = new TaskSolvingView(parentView, task);
+        viewable.hideView();
+        TaskSolvingView taskSolvingView = new TaskSolvingView(viewable, task);
         taskSolvingView.showViewMaximized();
         taskSolvingView.showStoryDialog();
     }
 
-    public void continueTask(TaskElement selectedTask, BaseView parentView)
+    public void continueTask(TaskElement selectedTask, Viewable viewable)
             throws InvalidLanguageException, IOException, MissingResultFileException {
 
         Task task = taskCollection.createTask(selectedTask, true);
-        parentView.hideView();
-        TaskSolvingView taskSolvingView = new TaskSolvingView(parentView, task);
+        viewable.hideView();
+        TaskSolvingView taskSolvingView = new TaskSolvingView(viewable, task);
         taskSolvingView.showViewMaximized();
         taskSolvingView.showStoryDialog();
     }
@@ -152,7 +152,7 @@ public class TaskSelectorController {
         mode.generateCachedData();
     }
 
-    public void showTaskFilterView(JList<TaskElement> taskList, BaseView parentView) {
+    public void showTaskFilterView(JList<TaskElement> taskList, JFrame parentView) {
         taskFilterForm.setLocationRelativeTo(parentView);
         taskFilterForm.setVisible(true);
         // Blocks until closed
