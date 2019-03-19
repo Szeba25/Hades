@@ -136,7 +136,7 @@ public class MainView extends JFrame implements ViewableFrame {
         signInButton.addActionListener((event) -> {
             try {
                 User user = new User((String) userBox.getSelectedItem());
-                TaskSelectorView taskSelectorView = new TaskSelectorView(new CourseDatabase(user), this);
+                TaskSelectorView taskSelectorView = new TaskSelectorView(this, new CourseDatabase(user));
                 this.hideView();
                 taskSelectorView.showView();
             } catch (IOException | SAXException | ParserConfigurationException e) {

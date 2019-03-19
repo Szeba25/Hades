@@ -70,7 +70,12 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
     private JTextField taskLength;
     private JList<String> taskPrerequisites;
 
-    public TaskSelectorView(CourseDatabase courseDatabase, ViewableFrame parentView) throws IOException, SAXException, ParserConfigurationException {
+    public TaskSelectorView(ViewableFrame parentView, CourseDatabase courseDatabase)
+            throws IOException, SAXException, ParserConfigurationException {
+
+        // Register parent view
+        this.parentView = parentView;
+
         // JFrame init
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setResizable(true);
@@ -92,8 +97,6 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
         updateTaskCollectionInfo(taskCollectionList.getSelectedValue());
 
         setupListEvents();
-
-        this.parentView = parentView;
 
         // Put everything together and pack
         this.getContentPane().add(topPanel, BorderLayout.NORTH);

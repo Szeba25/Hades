@@ -68,6 +68,10 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
     private LockedMenusWrapper lockedMenusWrapper;
 
     public TaskSolvingView(ViewableFrame parentView, Task task) {
+
+        // Register parent view
+        this.parentView = parentView;
+
         // JFrame init
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setResizable(true);
@@ -78,7 +82,6 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         initializeComponents();
         setupEvents();
 
-        this.parentView = parentView;
         this.controller = new TaskSolvingController(task);
 
         // Set contents
