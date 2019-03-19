@@ -9,32 +9,30 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class ModeEditorForm extends JDialog {
+public class TaskCollectionEditorForm extends JDialog {
 
     private JPanel topPanel;
 
     private JTextField titleField;
-    private JCheckBox ignoreDependency;
-    private JCheckBox ignoreStory;
-    private JCheckBox ironMan;
+    private JSpinner thresholdSpinner;
 
     private JPanel centerPanel;
 
-    private JList<DescriptiveElement> taskCollections;
-    private PlusMinusPanel taskCollectionsAdder;
+    private JList<DescriptiveElement> tasks;
+    private PlusMinusPanel tasksAdder;
     private JTextArea graphEditor;
 
-    private MultiSelectorForm taskCollectionSelectorForm;
+    private MultiSelectorForm taskSelectorForm;
 
-    public ModeEditorForm() {
+    public TaskCollectionEditorForm() {
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.setTitle("Wizard: Mode editor");
+        this.setTitle("Wizard: Task collection editor");
         this.setLayout(new BorderLayout());
         this.setMinimumSize(new Dimension(600, 600));
         this.setResizable(false);
         this.setModal(true);
 
-        taskCollectionSelectorForm = new MultiSelectorForm("Wizard: Select task collections");
+        taskSelectorForm = new MultiSelectorForm("Wizard: Select tasks");
 
         initializeComponents();
         setupEvents();
@@ -52,20 +50,10 @@ public class ModeEditorForm extends JDialog {
         titleField = new JTextField();
         titleLabel.setLabelFor(titleField);
 
-        JLabel ignoreDependencyLabel = new JLabel("Ignore dependency:");
-        ignoreDependency = new JCheckBox();
-        ignoreDependency.setSelected(false);
-        ignoreDependencyLabel.setLabelFor(ignoreDependency);
-
-        JLabel ignoreStoryLabel = new JLabel("Ignore story:");
-        ignoreStory = new JCheckBox();
-        ignoreStory.setSelected(false);
-        ignoreStoryLabel.setLabelFor(ignoreStory);
-
-        JLabel ironManLabel = new JLabel("Iron man:");
-        ironMan = new JCheckBox();
-        ironMan.setSelected(false);
-        ironManLabel.setLabelFor(ironMan);
+        JLabel thresholdLabel = new JLabel("Task threshold (%):");
+        thresholdSpinner = new JSpinner();
+        thresholdSpinner.setModel(new SpinnerNumberModel(75, 0, 100, 1));
+        thresholdLabel.setLabelFor(thresholdSpinner);
 
         GridBagSetter gs = new GridBagSetter();
         gs.setComponent(topPanel);
@@ -90,7 +78,7 @@ public class ModeEditorForm extends JDialog {
                 0,
                 new Insets(5, 5, 0, 5));
 
-        gs.add(ignoreDependencyLabel,
+        gs.add(thresholdLabel,
                 0,
                 1,
                 GridBagConstraints.BOTH,
@@ -100,65 +88,25 @@ public class ModeEditorForm extends JDialog {
                 0,
                 new Insets(5, 5, 0, 5));
 
-        gs.add(ignoreDependency,
+        gs.add(thresholdSpinner,
                 1,
                 1,
-                GridBagConstraints.NONE,
-                1,
-                1,
-                0,
-                0,
-                new Insets(5, 5, 0, 5));
-
-        gs.add(ignoreStoryLabel,
-                0,
+                GridBagConstraints.HORIZONTAL,
                 2,
-                GridBagConstraints.BOTH,
                 1,
                 1,
-                0,
-                0,
-                new Insets(5, 5, 0, 5));
-
-        gs.add(ignoreStory,
-                1,
-                2,
-                GridBagConstraints.NONE,
-                1,
-                1,
-                0,
-                0,
-                new Insets(5, 5, 0, 5));
-
-        gs.add(ironManLabel,
-                0,
-                3,
-                GridBagConstraints.BOTH,
-                1,
-                1,
-                0,
-                0,
-                new Insets(5, 5, 0, 5));
-
-        gs.add(ironMan,
-                1,
-                3,
-                GridBagConstraints.NONE,
-                1,
-                1,
-                0,
                 0,
                 new Insets(5, 5, 0, 5));
 
         centerPanel = new JPanel();
         centerPanel.setLayout(new GridBagLayout());
 
-        taskCollections = new JList<>();
-        taskCollections.setFixedCellWidth(200);
-        taskCollections.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        JScrollPane taskCollectionsScroll = new JScrollPane(taskCollections);
-        taskCollectionsScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        taskCollectionsAdder = new PlusMinusPanel();
+        tasks = new JList<>();
+        tasks.setFixedCellWidth(200);
+        tasks.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        JScrollPane tasksScroll = new JScrollPane(tasks);
+        tasksScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        tasksAdder = new PlusMinusPanel();
 
         graphEditor = new JTextArea();
         JScrollPane graphEditorScroll = new JScrollPane(graphEditor);
@@ -166,7 +114,7 @@ public class ModeEditorForm extends JDialog {
 
         gs.setComponent(centerPanel);
 
-        gs.add(new JLabel("Task collections (in this mode):"),
+        gs.add(new JLabel("Tasks (in this collection):"),
                 0,
                 0,
                 GridBagConstraints.BOTH,
@@ -176,7 +124,7 @@ public class ModeEditorForm extends JDialog {
                 0,
                 new Insets(5, 5, 5, 5));
 
-        gs.add(taskCollectionsScroll,
+        gs.add(tasksScroll,
                 0,
                 1,
                 GridBagConstraints.VERTICAL,
@@ -186,7 +134,7 @@ public class ModeEditorForm extends JDialog {
                 1,
                 new Insets(5, 5, 5, 5));
 
-        gs.add(taskCollectionsAdder,
+        gs.add(tasksAdder,
                 1,
                 1,
                 GridBagConstraints.NONE,
@@ -224,13 +172,13 @@ public class ModeEditorForm extends JDialog {
                 super.windowClosing(e);
                 // TODO: Save here!
                 // ...
-                ModeEditorForm.this.dispose();
+                TaskCollectionEditorForm.this.dispose();
             }
         });
 
-        taskCollectionsAdder.getPlus().addActionListener((e) -> {
-            taskCollectionSelectorForm.setLocationRelativeTo(this);
-            taskCollectionSelectorForm.setVisible(true);
+        tasksAdder.getPlus().addActionListener((e) -> {
+            taskSelectorForm.setLocationRelativeTo(this);
+            taskSelectorForm.setVisible(true);
         });
     }
 

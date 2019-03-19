@@ -5,6 +5,7 @@ import hu.szeba.hades.view.ViewableFrame;
 import hu.szeba.hades.wizard.elements.AddEditDeletePanel;
 import hu.szeba.hades.wizard.elements.DescriptiveElement;
 import hu.szeba.hades.wizard.form.ModeEditorForm;
+import hu.szeba.hades.wizard.form.TaskCollectionEditorForm;
 
 import javax.swing.*;
 import java.awt.*;
@@ -231,6 +232,12 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
 
         this.modeModifier.getAdd().addActionListener((e) -> {
             ModeEditorForm form = new ModeEditorForm();
+            form.setLocationRelativeTo(this);
+            form.setVisible(true);
+        });
+
+        this.taskCollectionModifier.getAdd().addActionListener((e) -> {
+            TaskCollectionEditorForm form = new TaskCollectionEditorForm();
             form.setLocationRelativeTo(this);
             form.setVisible(true);
         });

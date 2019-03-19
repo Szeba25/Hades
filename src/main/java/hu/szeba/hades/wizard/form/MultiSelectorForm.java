@@ -6,15 +6,15 @@ import hu.szeba.hades.wizard.elements.DescriptiveElement;
 import javax.swing.*;
 import java.awt.*;
 
-public class TaskCollectionSelectorForm extends JDialog {
+public class MultiSelectorForm extends JDialog {
 
     private JPanel mainPanel;
     private JList<DescriptiveElement> taskCollectionList;
     private JButton okButton;
 
-    public TaskCollectionSelectorForm() {
+    public MultiSelectorForm(String title) {
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        this.setTitle("Wizard: Select task collections");
+        this.setTitle(title);
         this.setLayout(new BorderLayout());
         this.setMinimumSize(new Dimension(300, 500));
         this.setResizable(false);
