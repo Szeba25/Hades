@@ -223,7 +223,7 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
         HTMLEditorKit htmlEditorKit = (HTMLEditorKit) descriptionArea.getEditorKit();
         defaultDocument = (HTMLDocument) htmlEditorKit.createDefaultDocument();
         try {
-            htmlEditorKit.insertHTML(defaultDocument, 0, "<h3> FFS </h3>", 0, 0, null);
+            htmlEditorKit.insertHTML(defaultDocument, 0, "<h3>Please select a task!</h3>", 0, 0, null);
         } catch (BadLocationException | IOException e) {
             e.printStackTrace();
         }
