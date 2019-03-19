@@ -19,16 +19,20 @@ public class TaskEditorForm extends JDialog {
 
     private JPanel rightPanel;
 
-    private JPanel inputResultPanel;
-    private JPanel solutionPanel;
-    private JPanel sourcesPanel;
+    private ModifiableListPanel inputResultPanel;
+    private JButton editSources;
+    private JButton editSolutions;
+    private JButton editDescriptions;
+
     private JPanel regexPanel;
+    private JTextArea regexInclude;
+    private JTextArea regexExclude;
 
     public TaskEditorForm() {
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setTitle("Wizard: Task editor");
         this.setLayout(new BorderLayout());
-        this.setMinimumSize(new Dimension(800, 600));
+        this.setMinimumSize(new Dimension(850, 500));
         this.setResizable(false);
         this.setModal(true);
 
@@ -168,52 +172,120 @@ public class TaskEditorForm extends JDialog {
         rightPanel.setLayout(new GridBagLayout());
 
         inputResultPanel = new ModifiableListPanel("Input result pairs:");
-        solutionPanel = new ModifiableListPanel("Solution source files:");
-        sourcesPanel = new ModifiableListPanel("Starting source files:");
-        regexPanel = new ModifiableListPanel("RegEx patterns:");
+
+        regexPanel = new JPanel();
+        regexPanel.setLayout(new GridBagLayout());
+        regexPanel.setBorder(BorderFactory.createEtchedBorder());
+
+        regexInclude = new JTextArea();
+        JScrollPane regexIncludeScroll = new JScrollPane(regexInclude);
+        regexIncludeScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        regexExclude = new JTextArea();
+        JScrollPane regexExcludeScroll = new JScrollPane(regexExclude);
+        regexExcludeScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         GridBagSetter gs = new GridBagSetter();
+        gs.setComponent(regexPanel);
+
+        gs.add(new JLabel("RegEx include:"),
+                0,
+                0,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                0,
+                0,
+                new Insets(5, 5, 5, 5));
+
+        gs.add(regexIncludeScroll,
+                0,
+                1,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                1,
+                1,
+                new Insets(0, 5, 5, 5));
+
+        gs.add(new JLabel("RegEx exclude:"),
+                0,
+                2,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                0,
+                0,
+                new Insets(5, 5, 5, 5));
+
+        gs.add(regexExcludeScroll,
+                0,
+                3,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                1,
+                1,
+                new Insets(0, 5, 5, 5));
+
+        editSources = new JButton("Edit sources");
+        editSources.setFocusPainted(false);
+        editSolutions = new JButton("Edit solutions");
+        editSolutions.setFocusPainted(false);
+        editDescriptions = new JButton("Edit descriptions");
+        editDescriptions.setFocusPainted(false);
+
         gs.setComponent(rightPanel);
 
         gs.add(inputResultPanel,
                 0,
                 0,
                 GridBagConstraints.BOTH,
+                3,
                 1,
                 1,
-                0.5,
-                0.5,
+                0.3,
                 new Insets(5, 5, 5, 5));
 
-        gs.add(solutionPanel,
-                1,
-                0,
-                GridBagConstraints.BOTH,
-                1,
-                1,
-                0.5,
-                0.5,
-                new Insets(5, 0, 5, 5));
-
-        gs.add(sourcesPanel,
+        gs.add(regexPanel,
                 0,
                 1,
                 GridBagConstraints.BOTH,
+                3,
                 1,
                 1,
-                0.5,
-                0.5,
+                0.7,
                 new Insets(0, 5, 5, 5));
 
-        gs.add(regexPanel,
-                1,
-                1,
-                GridBagConstraints.BOTH,
+        gs.add(editSources,
+                0,
+                2,
+                GridBagConstraints.HORIZONTAL,
                 1,
                 1,
                 0.5,
+                0,
+                new Insets(5, 5,5, 5));
+
+        gs.add(editSolutions,
+                1,
+                2,
+                GridBagConstraints.HORIZONTAL,
+                1,
+                1,
                 0.5,
-                new Insets(0, 0, 5, 5));
+                0,
+                new Insets(5,5, 5, 5));
+
+        gs.add(editDescriptions,
+                2,
+                2,
+                GridBagConstraints.HORIZONTAL,
+                1,
+                1,
+                0.5,
+                0,
+                new Insets(5,5, 5, 5));
     }
 
 }
