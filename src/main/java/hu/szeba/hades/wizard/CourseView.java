@@ -23,6 +23,14 @@ public class CourseView extends JFrame implements ViewableFrame {
         this.setMinimumSize(new Dimension(380, 500));
         this.setResizable(false);
 
+        initializeComponents();
+        setupEvents();
+
+        this.getContentPane().add(mainPanel, BorderLayout.CENTER);
+        this.pack();
+    }
+
+    private void initializeComponents() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
 
@@ -98,9 +106,13 @@ public class CourseView extends JFrame implements ViewableFrame {
                 1,
                 1,
                 new Insets(5, 0, 5, 5));
+    }
 
-        this.getContentPane().add(mainPanel, BorderLayout.CENTER);
-        this.pack();
+    private void setupEvents() {
+        newButton.addActionListener((e) -> {
+            new CourseEditorView(this).showView();
+            this.hideView();
+        });
     }
 
     @Override

@@ -1,5 +1,6 @@
 package hu.szeba.hades;
 
+import hu.szeba.hades.form.MainForm;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.view.ViewableFrame;
 import hu.szeba.hades.wizard.CourseView;
