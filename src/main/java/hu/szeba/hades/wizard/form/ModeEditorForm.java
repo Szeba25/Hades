@@ -157,7 +157,7 @@ public class ModeEditorForm extends JDialog {
         taskCollections.setFixedCellWidth(200);
         taskCollections.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane taskCollectionsScroll = new JScrollPane(taskCollections);
-        taskCollectionsScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        taskCollectionsScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         taskCollectionsAdder = new PlusMinusPanel();
 
         graphEditor = new JTextArea();

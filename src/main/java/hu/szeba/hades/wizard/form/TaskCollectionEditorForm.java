@@ -105,7 +105,7 @@ public class TaskCollectionEditorForm extends JDialog {
         tasks.setFixedCellWidth(200);
         tasks.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane tasksScroll = new JScrollPane(tasks);
-        tasksScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        tasksScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         tasksAdder = new PlusMinusPanel();
 
         graphEditor = new JTextArea();

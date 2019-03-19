@@ -4,8 +4,10 @@ import hu.szeba.hades.util.GridBagSetter;
 import hu.szeba.hades.view.ViewableFrame;
 import hu.szeba.hades.wizard.elements.AddEditDeletePanel;
 import hu.szeba.hades.wizard.elements.DescriptiveElement;
+import hu.szeba.hades.wizard.elements.ModifiableListPanel;
 import hu.szeba.hades.wizard.form.ModeEditorForm;
 import hu.szeba.hades.wizard.form.TaskCollectionEditorForm;
+import hu.szeba.hades.wizard.form.TaskEditorForm;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,14 +23,10 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
     private JComboBox<String> languageBox;
 
     private JPanel centerPanel;
-    private JList<DescriptiveElement> modeList;
-    private AddEditDeletePanel modeModifier;
 
-    private JList<DescriptiveElement> taskCollectionList;
-    private AddEditDeletePanel taskCollectionModifier;
-
-    private JList<DescriptiveElement> taskList;
-    private AddEditDeletePanel taskModifier;
+    private ModifiableListPanel modeListPanel;
+    private ModifiableListPanel taskCollectionListPanel;
+    private ModifiableListPanel taskListPanel;
 
     public CourseEditorView(ViewableFrame parentView) {
         this.parentView = parentView;
@@ -106,118 +104,42 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
         centerPanel = new JPanel();
         centerPanel.setLayout(new GridBagLayout());
 
-        modeList = new JList<>();
-        JScrollPane modeListScroller = new JScrollPane(modeList);
-        modeList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        modeList.setFixedCellWidth(200);
-
-        modeModifier = new AddEditDeletePanel();
-
-        taskCollectionList = new JList<>();
-        JScrollPane taskCollectionScroller = new JScrollPane(taskCollectionList);
-        taskCollectionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        taskCollectionList.setFixedCellWidth(200);
-
-        taskCollectionModifier = new AddEditDeletePanel();
-
-        taskList = new JList<>();
-        JScrollPane taskListScroller = new JScrollPane(taskList);
-        taskList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        taskList.setFixedCellWidth(200);
-
-        taskModifier = new AddEditDeletePanel();
+        modeListPanel = new ModifiableListPanel("All modes:");
+        taskCollectionListPanel = new ModifiableListPanel("All task collections:");
+        taskListPanel = new ModifiableListPanel("All tasks:");
 
         gs.setComponent(centerPanel);
 
-        gs.add(new JLabel("All modes:"),
+        gs.add(modeListPanel,
                 0,
                 0,
                 GridBagConstraints.BOTH,
-                2,
-                1,
-                0,
-                0,
-                new Insets(25, 5, 0, 0));
-
-        gs.add(modeListScroller,
-                0,
-                1,
-                GridBagConstraints.VERTICAL,
                 1,
                 1,
-                0,
+                0.5,
                 1,
                 new Insets(5, 5, 5, 5));
 
-        gs.add(modeModifier,
-                1,
-                1,
-                GridBagConstraints.VERTICAL,
-                1,
+        gs.add(taskCollectionListPanel,
                 1,
                 0,
+                GridBagConstraints.BOTH,
                 1,
-                new Insets(5, 5, 5, 30));
+                1,
+                0.5,
+                1,
+                new Insets(5, 0, 5, 5));
 
-        gs.add(new JLabel("All task collections:"),
+        gs.add(taskListPanel,
                 2,
                 0,
                 GridBagConstraints.BOTH,
-                2,
                 1,
-                0,
-                0,
-                new Insets(25, 5, 0, 0));
+                1,
+                0.5,
+                1,
+                new Insets(5, 0, 5, 5));
 
-        gs.add(taskCollectionScroller,
-                2,
-                1,
-                GridBagConstraints.VERTICAL,
-                1,
-                1,
-                0,
-                1,
-                new Insets(5, 5, 5, 5));
-
-        gs.add(taskCollectionModifier,
-                3,
-                1,
-                GridBagConstraints.VERTICAL,
-                1,
-                1,
-                0,
-                1,
-                new Insets(5, 5, 5, 30));
-
-        gs.add(new JLabel("All tasks:"),
-                4,
-                0,
-                GridBagConstraints.BOTH,
-                2,
-                1,
-                0,
-                0,
-                new Insets(25, 5, 0, 0));
-
-        gs.add(taskListScroller,
-                4,
-                1,
-                GridBagConstraints.VERTICAL,
-                1,
-                1,
-                0,
-                1,
-                new Insets(5, 5, 5, 5));
-
-        gs.add(taskModifier,
-                5,
-                1,
-                GridBagConstraints.VERTICAL,
-                1,
-                1,
-                0,
-                1,
-                new Insets(5, 5, 5, 30));
     }
 
     private void setupEvents() {
@@ -230,14 +152,20 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
             }
         });
 
-        this.modeModifier.getAdd().addActionListener((e) -> {
+        this.modeListPanel.getModifier().getAdd().addActionListener((e) -> {
             ModeEditorForm form = new ModeEditorForm();
             form.setLocationRelativeTo(this);
             form.setVisible(true);
         });
 
-        this.taskCollectionModifier.getAdd().addActionListener((e) -> {
+        this.taskCollectionListPanel.getModifier().getAdd().addActionListener((e) -> {
             TaskCollectionEditorForm form = new TaskCollectionEditorForm();
+            form.setLocationRelativeTo(this);
+            form.setVisible(true);
+        });
+
+        this.taskListPanel.getModifier().getAdd().addActionListener((e) -> {
+            TaskEditorForm form = new TaskEditorForm();
             form.setLocationRelativeTo(this);
             form.setVisible(true);
         });
