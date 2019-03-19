@@ -22,11 +22,11 @@ public class Main {
         try {
             Options.initialize();
 
-            //mainForm = new MainForm();
-            //mainForm.showView();
+            mainForm = new MainForm();
+            mainForm.showView();
 
-            courseView = new CourseView();
-            courseView.showView();
+            //courseView = new CourseView();
+            //courseView.showView();
 
         } catch (IOException e) {
             e.printStackTrace();
