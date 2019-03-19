@@ -5,7 +5,7 @@ import hu.szeba.hades.meta.UltimateHelper;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.SourceFile;
 import hu.szeba.hades.util.GridBagSetter;
-import hu.szeba.hades.view.Viewable;
+import hu.szeba.hades.view.ViewableFrame;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
@@ -19,9 +19,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.*;
 
-public class TaskSolvingView extends JFrame implements Viewable {
+public class TaskSolvingView extends JFrame implements ViewableFrame {
 
-    private Viewable parentView;
+    private ViewableFrame parentView;
 
     private TaskSolvingController controller;
 
@@ -67,7 +67,7 @@ public class TaskSolvingView extends JFrame implements Viewable {
     private UltimateHelper ultimateHelper;
     private LockedMenusWrapper lockedMenusWrapper;
 
-    public TaskSolvingView(Viewable parentView, Task task) {
+    public TaskSolvingView(ViewableFrame parentView, Task task) {
         // JFrame init
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setResizable(true);

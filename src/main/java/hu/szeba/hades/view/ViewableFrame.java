@@ -1,6 +1,6 @@
 package hu.szeba.hades.view;
 
-public interface Viewable {
+public interface ViewableFrame {
 
     void showView();
     void showViewMaximized();

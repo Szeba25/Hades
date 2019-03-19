@@ -7,7 +7,7 @@ import hu.szeba.hades.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.util.GridBagSetter;
 import hu.szeba.hades.util.HTMLUtilities;
 import hu.szeba.hades.view.JButtonGuarded;
-import hu.szeba.hades.view.Viewable;
+import hu.szeba.hades.view.ViewableFrame;
 import hu.szeba.hades.view.elements.AbstractState;
 import hu.szeba.hades.view.elements.MappedElement;
 import hu.szeba.hades.view.elements.StatefulElement;
@@ -20,7 +20,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.io.IOException;
 
-public class TaskSelectorView extends JFrame implements Viewable {
+public class TaskSelectorView extends JFrame implements ViewableFrame {
 
     private TaskSelectorController controller;
 
