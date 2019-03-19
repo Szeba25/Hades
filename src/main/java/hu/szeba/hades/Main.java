@@ -1,7 +1,7 @@
 package hu.szeba.hades;
 
-import hu.szeba.hades.main.meta.Options;
-import hu.szeba.hades.main.view.entry.MainView;
+import hu.szeba.hades.meta.Options;
+import hu.szeba.hades.view.entry.MainView;
 
 import javax.swing.*;
 import java.io.IOException;
