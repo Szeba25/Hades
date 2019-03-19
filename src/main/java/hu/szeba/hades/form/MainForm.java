@@ -133,6 +133,11 @@ public class MainForm extends JFrame implements ViewableFrame {
 
         signInButton.addActionListener((event) -> {
             try {
+                if (signInButton.getActionGuard().isGuarded()) {
+                    return;
+                }
+                signInButton.getActionGuard().guard();
+
                 User user = new User((String) userBox.getSelectedItem());
                 TaskSelectorView taskSelectorView = new TaskSelectorView(this, new CourseDatabase(user));
                 this.hideView();
@@ -151,6 +156,7 @@ public class MainForm extends JFrame implements ViewableFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.requestFocus();
+        signInButton.getActionGuard().reset();
     }
 
     @Override

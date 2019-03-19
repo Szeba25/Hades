@@ -1,7 +1,8 @@
-package hu.szeba.hades.wizard;
+package hu.szeba.hades.wizard.view;
 
 import hu.szeba.hades.util.GridBagSetter;
 import hu.szeba.hades.view.ViewableFrame;
+import hu.szeba.hades.wizard.elements.DescriptiveElement;
 
 import javax.swing.*;
 import java.awt.*;

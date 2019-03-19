@@ -1,9 +1,8 @@
 package hu.szeba.hades;
 
-import hu.szeba.hades.form.MainForm;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.view.ViewableFrame;
-import hu.szeba.hades.wizard.CourseView;
+import hu.szeba.hades.wizard.view.CourseView;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -22,11 +21,11 @@ public class Main {
         try {
             Options.initialize();
 
-            mainForm = new MainForm();
-            mainForm.showView();
+            //mainForm = new MainForm();
+            //mainForm.showView();
 
-            //courseView = new CourseView();
-            //courseView.showView();
+            courseView = new CourseView();
+            courseView.showView();
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,4 +1,4 @@
-package hu.szeba.hades.wizard;
+package hu.szeba.hades.wizard.elements;
 
 public class DescriptiveElement {
 
