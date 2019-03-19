@@ -2,9 +2,7 @@ package hu.szeba.hades.wizard.view;
 
 import hu.szeba.hades.util.GridBagSetter;
 import hu.szeba.hades.view.ViewableFrame;
-import hu.szeba.hades.wizard.elements.AddEditDeletePanel;
-import hu.szeba.hades.wizard.elements.DescriptiveElement;
-import hu.szeba.hades.wizard.elements.ModifiableListPanel;
+import hu.szeba.hades.wizard.components.ModifiableListPanel;
 import hu.szeba.hades.wizard.form.ModeEditorForm;
 import hu.szeba.hades.wizard.form.TaskCollectionEditorForm;
 import hu.szeba.hades.wizard.form.TaskEditorForm;

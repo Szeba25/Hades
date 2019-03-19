@@ -1,6 +1,7 @@
-package hu.szeba.hades.wizard.elements;
+package hu.szeba.hades.wizard.components;
 
 import hu.szeba.hades.util.GridBagSetter;
+import hu.szeba.hades.wizard.elements.DescriptiveElement;
 
 import javax.swing.*;
 import java.awt.*;
