@@ -1,4 +1,4 @@
-package hu.szeba.hades.view.entry;
+package hu.szeba.hades.form;
 
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.meta.User;
@@ -14,14 +14,14 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.io.IOException;
 
-public class MainView extends JFrame implements ViewableFrame {
+public class MainForm extends JFrame implements ViewableFrame {
 
     private JPanel mainPanel;
     private JComboBox<String> userBox;
     private JPasswordField passwordField;
     private JButtonGuarded signInButton;
 
-    public MainView() {
+    public MainForm() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setMinimumSize(new Dimension(520, 300));
         this.setTitle("Welcome!");
