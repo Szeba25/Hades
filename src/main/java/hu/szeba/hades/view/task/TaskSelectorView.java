@@ -5,7 +5,6 @@ import hu.szeba.hades.model.course.CourseDatabase;
 import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.util.GridBagSetter;
-import hu.szeba.hades.util.HTMLUtilities;
 import hu.szeba.hades.view.JButtonGuarded;
 import hu.szeba.hades.view.ViewableFrame;
 import hu.szeba.hades.view.elements.AbstractState;
@@ -16,6 +15,10 @@ import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.io.IOException;
@@ -51,6 +54,7 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
     private JButtonGuarded continueButton;
 
     private JEditorPane descriptionArea;
+    private HTMLDocument defaultDocument;
 
     private JTextField taskCollectionStatus;
     private JTextField taskCollectionPercentNeeded;
@@ -215,6 +219,17 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
         descriptionArea.setAlignmentX(Component.CENTER_ALIGNMENT);
         descriptionArea.setContentType("text/html");
         descriptionArea.setEditable(false);
+
+        HTMLEditorKit htmlEditorKit = (HTMLEditorKit) descriptionArea.getEditorKit();
+        defaultDocument = (HTMLDocument) htmlEditorKit.createDefaultDocument();
+        try {
+            htmlEditorKit.insertHTML(defaultDocument, 0, "<h3> FFS </h3>", 0, 0, null);
+        } catch (BadLocationException | IOException e) {
+            e.printStackTrace();
+        }
+
+        descriptionArea.setDocument(defaultDocument);
+
         JScrollPane descriptionScroll = new JScrollPane(descriptionArea);
         descriptionScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
@@ -607,7 +622,8 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
                     continueButton.setEnabled(false);
                 }
             }
-            descriptionArea.setText(selectedTask.getDescription().getShortDescription());
+            Document doc = selectedTask.getDescription().getShortDocument((HTMLEditorKit) descriptionArea.getEditorKit());
+            descriptionArea.setDocument(doc);
             controller.setTaskInfo(selectedTask, taskStatus,
                     taskDifficulty, taskLength,
                     taskPrerequisites);
@@ -617,7 +633,7 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
     }
 
     private void clearTaskSelection() {
-        descriptionArea.setText(HTMLUtilities.getEmptyTaskDescription());
+        descriptionArea.setDocument(defaultDocument);
         taskStatus.setText("");
         taskDifficulty.setText("");
         taskLength.setText("");

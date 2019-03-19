@@ -1,7 +1,11 @@
 package hu.szeba.hades.model.task.data;
 
-import hu.szeba.hades.util.HTMLUtilities;
-
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.EditorKit;
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
+import java.io.IOException;
 import java.util.List;
 
 public class TaskDescription {
@@ -13,6 +17,8 @@ public class TaskDescription {
     private final String difficulty;
     private final String length;
     private final List<String> tags;
+
+    private HTMLDocument shortDocument;
 
     public TaskDescription(String taskTitle, String shortDescription, String instructions, String story,
                            String difficulty, String length, List<String> tags) {
@@ -26,6 +32,7 @@ public class TaskDescription {
         this.difficulty = difficulty;
         this.length = length;
         this.tags = tags;
+        this.shortDocument = null;
     }
 
     public String getTaskTitle() {
@@ -54,6 +61,18 @@ public class TaskDescription {
 
     public List<String> getTags() {
         return tags;
+    }
+
+    public Document getShortDocument(HTMLEditorKit kit) {
+        if (shortDocument == null) {
+            shortDocument = (HTMLDocument) kit.createDefaultDocument();
+            try {
+                kit.insertHTML(shortDocument, 0, shortDescription, 0, 0, null);
+            } catch (BadLocationException | IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return shortDocument;
     }
 
 }
