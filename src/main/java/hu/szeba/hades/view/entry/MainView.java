@@ -7,13 +7,11 @@ import hu.szeba.hades.util.GridBagSetter;
 import hu.szeba.hades.view.JButtonGuarded;
 import hu.szeba.hades.view.ViewableFrame;
 import hu.szeba.hades.view.task.TaskSelectorView;
-import org.apache.commons.io.FileUtils;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 
 public class MainView extends JFrame implements ViewableFrame {
