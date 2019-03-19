@@ -21,11 +21,14 @@ import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 public class TaskSelectorView extends JFrame implements ViewableFrame {
 
     private TaskSelectorController controller;
+    private ViewableFrame parentView;
 
     private Color selectedColor;
     private Color inProgressColor;
@@ -67,9 +70,9 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
     private JTextField taskLength;
     private JList<String> taskPrerequisites;
 
-    public TaskSelectorView(CourseDatabase courseDatabase) throws IOException, SAXException, ParserConfigurationException {
+    public TaskSelectorView(CourseDatabase courseDatabase, ViewableFrame parentView) throws IOException, SAXException, ParserConfigurationException {
         // JFrame init
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setResizable(true);
         this.setLayout(new BorderLayout());
         this.setMinimumSize(new Dimension(900, 680));
@@ -89,6 +92,8 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
         updateTaskCollectionInfo(taskCollectionList.getSelectedValue());
 
         setupListEvents();
+
+        this.parentView = parentView;
 
         // Put everything together and pack
         this.getContentPane().add(topPanel, BorderLayout.NORTH);
@@ -566,6 +571,15 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
         filtersButton.addActionListener((e) -> {
             controller.showTaskFilterView(taskList, this);
             clearTaskSelection();
+        });
+
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                TaskSelectorView.this.dispose();
+                parentView.showView();
+            }
         });
     }
 

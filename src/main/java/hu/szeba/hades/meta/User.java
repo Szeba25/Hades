@@ -12,7 +12,6 @@ import java.util.Set;
 public class User implements TaskSolverAgent {
 
     private String id;
-    private String name;
 
     private Set<String> completedTaskCollections;
     private Set<String> completedTasks;
@@ -23,9 +22,8 @@ public class User implements TaskSolverAgent {
     private String currentTaskCollectionFullId;
     private String currentTaskFullId;
 
-    public User(String id, String name) throws IOException {
+    public User(String id) throws IOException {
         this.id = id;
-        this.name = name;
 
         completedTaskCollections = new HashSet<>();
         completedTasks = new HashSet<>();
@@ -72,10 +70,6 @@ public class User implements TaskSolverAgent {
 
     public String getId() {
         return id;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public boolean isTaskCollectionCompleted(String taskCollectionFullId) {
