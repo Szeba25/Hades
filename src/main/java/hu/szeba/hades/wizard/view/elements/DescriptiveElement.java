@@ -1,4 +1,4 @@
-package hu.szeba.hades.wizard.elements;
+package hu.szeba.hades.wizard.view.elements;
 
 import hu.szeba.hades.main.view.elements.MappedElement;
 

@@ -1,4 +1,4 @@
-package hu.szeba.hades.wizard.components;
+package hu.szeba.hades.wizard.view.components;
 
 import hu.szeba.hades.main.util.GridBagSetter;
 

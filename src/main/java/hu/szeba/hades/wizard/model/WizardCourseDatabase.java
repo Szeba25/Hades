@@ -3,7 +3,7 @@ package hu.szeba.hades.wizard.model;
 import hu.szeba.hades.main.io.TabbedFile;
 import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.view.elements.MappedElement;
-import hu.szeba.hades.wizard.elements.DescriptiveElement;
+import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
 
 import java.io.File;
 import java.io.IOException;

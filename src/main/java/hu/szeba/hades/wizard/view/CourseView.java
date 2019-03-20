@@ -1,7 +1,7 @@
 package hu.szeba.hades.wizard.view;
 
 import hu.szeba.hades.main.view.components.ViewableFrame;
-import hu.szeba.hades.wizard.components.ModifiableListPanel;
+import hu.szeba.hades.wizard.view.components.ModifiableListPanel;
 
 import javax.swing.*;
 import java.awt.*;

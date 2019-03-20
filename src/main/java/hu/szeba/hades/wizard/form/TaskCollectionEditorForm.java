@@ -1,7 +1,7 @@
 package hu.szeba.hades.wizard.form;
 
 import hu.szeba.hades.main.util.GridBagSetter;
-import hu.szeba.hades.wizard.components.GraphEditorPanel;
+import hu.szeba.hades.wizard.view.components.GraphEditorPanel;
 
 import javax.swing.*;
 import java.awt.*;

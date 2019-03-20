@@ -1,7 +1,7 @@
-package hu.szeba.hades.wizard.components;
+package hu.szeba.hades.wizard.view.components;
 
 import hu.szeba.hades.main.view.elements.MappedElement;
-import hu.szeba.hades.wizard.elements.GraphNode;
+import hu.szeba.hades.wizard.view.elements.GraphNode;
 
 import javax.swing.*;
 import java.awt.*;
