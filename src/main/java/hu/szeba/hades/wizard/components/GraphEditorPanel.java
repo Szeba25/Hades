@@ -29,7 +29,7 @@ public class GraphEditorPanel extends JPanel {
         model.addElement("Test 5");
         model.addElement("Test 6");
 
-        canvas = new GraphCanvas();
+        canvas = new GraphCanvas(possibleNodes);
 
         setupEvents();
 

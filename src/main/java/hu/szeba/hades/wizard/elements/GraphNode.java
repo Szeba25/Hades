@@ -2,17 +2,18 @@ package hu.szeba.hades.wizard.elements;
 
 import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 public class GraphNode {
 
     private String name;
+    private int radius;
     private Point location;
     private Map<String, GraphNode> connections;
     private Color color;
 
     public GraphNode(String name, Point location) {
         this.name = name;
+        this.radius = 15;
         this.location = location;
         this.connections = new HashMap<>();
 
@@ -45,58 +46,77 @@ public class GraphNode {
     }
 
     public boolean isMouseInside(int x, int y) {
-        return Math.abs(x - location.x) < 20 && Math.abs(y - location.y) < 20;
+        return Math.abs(x - location.x) < radius * 2 && Math.abs(y - location.y) < radius * 2;
     }
 
-    public void paintNode(Graphics2D g2) {
+    public void paintNode(Graphics2D g2, boolean current) {
+        if (current) {
+            g2.setColor(Color.BLUE);
+            g2.drawRect(location.x - radius - 4, location.y - radius - 4, radius *2 + 8, radius *2 + 8);
+        }
         g2.setColor(Color.BLACK);
-        g2.drawString(name, location.x, location.y - 10);
+        g2.drawString(name, location.x, location.y - radius - 5);
         g2.setColor(color);
-        g2.fillOval(location.x - 10, location.y - 10, 20, 20);
+        g2.fillOval(location.x - radius, location.y - radius, radius *2, radius *2);
     }
 
     public void paintConnections(Graphics2D g2) {
-        for (GraphNode n : connections.values()) {
+        for (GraphNode connNode : connections.values()) {
 
-            g2.setColor(Color.RED);
+            // Set initial locations
             int x1 = location.x;
             int y1 = location.y;
-            int x2 = n.location.x;
-            int y2 = n.location.y;
+            int x2 = connNode.location.x;
+            int y2 = connNode.location.y;
 
-            double dx_s = x2 - x1;
-            double dy_s = y2 - y1;
-            double length = Math.sqrt(dx_s * dx_s + dy_s * dy_s);
+
+            // Put the line to (0, 0)
+            double nx = x2 - x1;
+            double ny = y2 - y1;
+
+            // Get the vectors length
+            double length = Math.sqrt(nx * nx + ny * ny);
+
+            // Normalize the vector
             if (length > 0)
             {
-                dx_s /= length;
-                dy_s /= length;
+                nx /= length;
+                ny /= length;
             }
-            dx_s *= length - 10; // radius
-            dy_s *= length - 10; // radius
-            x2 = (int)(x1 + dx_s); // x3
-            y2 = (int)(y1 + dy_s); // y3
 
+            // Shorten the vector by 10
+            nx *= length - connNode.radius;
+            ny *= length - connNode.radius;
+
+            // Set the new destination coordinates
+            x2 = (int)(x1 + nx); // x3
+            y2 = (int)(y1 + ny); // y3
+
+            // Get arrow head positions (math magic)
             int d = 5;
             int h = 5;
-
             int dx = x2 - x1, dy = y2 - y1;
+
             double D = Math.sqrt(dx*dx + dy*dy);
             double xm = D - d, xn = xm, ym = h, yn = -h, x;
             double sin = dy / D, cos = dx / D;
 
-            x = xm*cos - ym*sin + x1;
-            ym = xm*sin + ym*cos + y1;
+            x = xm * cos - ym * sin + x1;
+            ym = xm * sin + ym * cos + y1;
             xm = x;
 
-            x = xn*cos - yn*sin + x1;
-            yn = xn*sin + yn*cos + y1;
+            x = xn * cos - yn * sin + x1;
+            yn = xn * sin + yn * cos + y1;
             xn = x;
 
             int[] xpoints = {x2, (int) xm, (int) xn};
             int[] ypoints = {y2, (int) ym, (int) yn};
 
+            // Final line
+            g2.setColor(Color.RED);
             g2.drawLine(x1, y1, x2, y2);
+
+            // Arrow head
             g2.setColor(Color.MAGENTA);
             g2.fillPolygon(xpoints, ypoints, 3);
         }
