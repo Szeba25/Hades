@@ -15,17 +15,13 @@ public class CourseDatabase {
     private List<MappedElement> possibleCourses;
     private Map<String, Course> courses;
 
-    public CourseDatabase(User user) {
+    public CourseDatabase(User user) throws IOException {
         this.user = user;
 
         possibleCourses = new ArrayList<>();
         for (String id : Options.getDatabasePath().list()) {
-            try {
-                TabbedFile metaFile = new TabbedFile(new File(Options.getDatabasePath(), id + "/title.dat"));
-                possibleCourses.add(new MappedElement(id, metaFile.getData(0, 0)));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            TabbedFile metaFile = new TabbedFile(new File(Options.getDatabasePath(), id + "/title.dat"));
+            possibleCourses.add(new MappedElement(id, metaFile.getData(0, 0)));
         }
 
         courses = new HashMap<>();

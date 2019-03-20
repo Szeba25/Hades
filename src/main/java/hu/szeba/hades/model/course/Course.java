@@ -28,7 +28,7 @@ public class Course {
         this.courseId = courseId;
 
         possibleModes = new ArrayList<>();
-        File pathFile = new File(Options.getDatabasePath().getAbsolutePath(), courseId + "/modes");
+        File pathFile = new File(Options.getDatabasePath(), courseId + "/modes");
         for (String id : pathFile.list()) {
             TabbedFile metaFile = new TabbedFile(new File(pathFile, id + "/title.dat"));
             possibleModes.add(new MappedElement(id, metaFile.getData(0, 0)));
