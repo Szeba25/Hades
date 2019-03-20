@@ -5,6 +5,8 @@ import hu.szeba.hades.io.DescriptionXMLFile;
 import hu.szeba.hades.io.GraphFile;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.meta.User;
+import hu.szeba.hades.model.helper.ModeData;
+import hu.szeba.hades.model.helper.TaskCollectionInfo;
 import hu.szeba.hades.model.task.Task;
 import hu.szeba.hades.model.task.data.MissingResultFileException;
 import hu.szeba.hades.model.task.data.TaskDescription;

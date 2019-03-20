@@ -5,6 +5,7 @@ import hu.szeba.hades.io.GraphFile;
 import hu.szeba.hades.io.TabbedFile;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.meta.User;
+import hu.szeba.hades.model.helper.ModeData;
 import hu.szeba.hades.model.task.graph.AdjacencyMatrix;
 import hu.szeba.hades.view.elements.AbstractState;
 import hu.szeba.hades.view.elements.StatefulElement;

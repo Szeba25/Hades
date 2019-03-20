@@ -1,4 +1,4 @@
 package hu.szeba.hades.wizard.model;
 
-public class DatabaseTaskCollection {
+public class WizardTaskCollection {
 }

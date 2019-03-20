@@ -10,24 +10,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WizardDatabase {
+public class WizardCourseDatabase {
 
-    public List<MappedElement> possibleCourses;
+    public List<MappedElement> courses;
 
-    public WizardDatabase() {
-        possibleCourses = new ArrayList<>();
+    public WizardCourseDatabase() {
+        courses = new ArrayList<>();
         for (String id : Options.getDatabasePath().list()) {
             try {
                 TabbedFile metaFile = new TabbedFile(new File(Options.getDatabasePath(), id + "/title.dat"));
-                possibleCourses.add(new DescriptiveElement(id, metaFile.getData(0, 0)));
+                courses.add(new DescriptiveElement(id, metaFile.getData(0, 0)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public List<MappedElement> getPossibleCourses() {
-        return possibleCourses;
+    public List<MappedElement> getCourses() {
+        return courses;
     }
 
 }
