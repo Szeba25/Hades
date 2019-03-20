@@ -7,6 +7,7 @@ import hu.szeba.hades.main.model.task.data.SourceFile;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.components.ClosableTabComponent;
 import hu.szeba.hades.main.view.components.LockedMenusWrapper;
+import hu.szeba.hades.main.view.components.TerminalArea;
 import hu.szeba.hades.main.view.components.ViewableFrame;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;

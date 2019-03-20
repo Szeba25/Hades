@@ -1,4 +1,4 @@
-package hu.szeba.hades.main.view;
+package hu.szeba.hades.main.view.components;
 
 import javax.swing.*;
 import javax.swing.text.*;

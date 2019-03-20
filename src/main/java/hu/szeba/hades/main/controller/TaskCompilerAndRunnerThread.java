@@ -6,7 +6,7 @@ import hu.szeba.hades.main.model.compiler.ProgramCompiler;
 import hu.szeba.hades.main.model.task.CompilerOutputRegister;
 import hu.szeba.hades.main.model.task.data.InputResultPair;
 import hu.szeba.hades.main.view.components.LockedMenusWrapper;
-import hu.szeba.hades.main.view.TerminalArea;
+import hu.szeba.hades.main.view.components.TerminalArea;
 
 import javax.swing.*;
 import java.io.File;

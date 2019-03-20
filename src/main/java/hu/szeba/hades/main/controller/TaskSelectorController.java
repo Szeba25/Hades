@@ -13,7 +13,7 @@ import hu.szeba.hades.main.view.elements.AbstractState;
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.main.view.elements.StatefulElement;
 import hu.szeba.hades.main.view.elements.TaskElement;
-import hu.szeba.hades.main.view.TaskFilterData;
+import hu.szeba.hades.main.view.elements.TaskFilterData;
 import hu.szeba.hades.main.view.TaskSolvingView;
 import org.xml.sax.SAXException;
 

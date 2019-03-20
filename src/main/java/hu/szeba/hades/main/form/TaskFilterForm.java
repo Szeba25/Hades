@@ -5,7 +5,7 @@ import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.util.SpringUtilities;
 import hu.szeba.hades.main.view.elements.AbstractState;
 import hu.szeba.hades.main.view.elements.TaskElement;
-import hu.szeba.hades.main.view.TaskFilterData;
+import hu.szeba.hades.main.view.elements.TaskFilterData;
 
 import javax.swing.*;
 import java.awt.*;
