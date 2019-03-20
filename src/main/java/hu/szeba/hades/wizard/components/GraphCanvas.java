@@ -155,8 +155,8 @@ public class GraphCanvas extends JPanel {
 
     }
 
-    public void setSelectedNode(DescriptiveElement currentNodeName) {
-        this.currentNodeDescription = currentNodeName;
+    public void setSelectedNode(DescriptiveElement currentNodeDescription) {
+        this.currentNodeDescription = currentNodeDescription;
         repaint();
     }
 
