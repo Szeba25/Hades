@@ -2,6 +2,7 @@ package hu.szeba.hades.wizard.components;
 
 import hu.szeba.hades.model.task.graph.Tuple;
 import hu.szeba.hades.util.GridBagSetter;
+import hu.szeba.hades.view.elements.MappedElement;
 import hu.szeba.hades.wizard.elements.DescriptiveElement;
 import hu.szeba.hades.wizard.elements.GraphNode;
 
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class GraphEditorPanel extends JPanel {
 
-    private JList<DescriptiveElement> possibleNodes;
+    private JList<MappedElement> possibleNodes;
     private PlusMinusPanel possibleNodesAdder;
     private GraphCanvas canvas;
 
@@ -34,7 +35,7 @@ public class GraphEditorPanel extends JPanel {
         possibleNodesAdder = new PlusMinusPanel();
 
         // Testing
-        DefaultListModel<DescriptiveElement> model = (DefaultListModel<DescriptiveElement>) possibleNodes.getModel();
+        DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) possibleNodes.getModel();
         model.addElement(new DescriptiveElement("0001", "Task 1"));
         model.addElement(new DescriptiveElement("0002", "Task 2"));
         model.addElement(new DescriptiveElement("0003", "Task 3"));
@@ -143,7 +144,7 @@ public class GraphEditorPanel extends JPanel {
             if (!listSelectionModel.isSelectionEmpty()) {
                 int idx = listSelectionModel.getMinSelectionIndex();
                 if (listSelectionModel.isSelectedIndex(idx)) {
-                    DescriptiveElement element = (DescriptiveElement) listModel.getElementAt(idx);
+                    MappedElement element = (MappedElement) listModel.getElementAt(idx);
                     canvas.setSelectedNode(element);
                 }
             }
@@ -152,7 +153,7 @@ public class GraphEditorPanel extends JPanel {
         possibleNodesAdder.getMinus().addActionListener((event) -> {
             if (!possibleNodes.isSelectionEmpty()) {
                 canvas.deleteCurrentNode();
-                DefaultListModel<DescriptiveElement> model = (DefaultListModel<DescriptiveElement>) possibleNodes.getModel();
+                DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) possibleNodes.getModel();
                 model.remove(possibleNodes.getSelectedIndex());
             }
         });

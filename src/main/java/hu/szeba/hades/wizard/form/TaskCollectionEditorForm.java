@@ -2,8 +2,6 @@ package hu.szeba.hades.wizard.form;
 
 import hu.szeba.hades.util.GridBagSetter;
 import hu.szeba.hades.wizard.components.GraphEditorPanel;
-import hu.szeba.hades.wizard.elements.DescriptiveElement;
-import hu.szeba.hades.wizard.components.PlusMinusPanel;
 
 import javax.swing.*;
 import java.awt.*;

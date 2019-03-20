@@ -1,14 +1,14 @@
 package hu.szeba.hades.wizard.components;
 
 import hu.szeba.hades.util.GridBagSetter;
-import hu.szeba.hades.wizard.elements.DescriptiveElement;
+import hu.szeba.hades.view.elements.MappedElement;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class ModifiableListPanel extends JPanel {
 
-    private JList<DescriptiveElement> list;
+    private JList<MappedElement> list;
     private AddEditDeletePanel modifier;
 
     public ModifiableListPanel(String title) {
@@ -58,7 +58,7 @@ public class ModifiableListPanel extends JPanel {
                 new Insets(0, 5, 5, 5));
     }
 
-    public JList<DescriptiveElement> getList() {
+    public JList<MappedElement> getList() {
         return list;
     }
 

@@ -1,25 +1,27 @@
 package hu.szeba.hades.wizard.components;
 
-import hu.szeba.hades.wizard.elements.DescriptiveElement;
+import hu.szeba.hades.view.elements.MappedElement;
 import hu.szeba.hades.wizard.elements.GraphNode;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
 
 public class GraphCanvas extends JPanel {
 
-    private JList<DescriptiveElement> possibleNodes;
+    private JList<MappedElement> possibleNodes;
 
     private Map<String, GraphNode> nodes;
-    private DescriptiveElement currentNodeDescription;
+    private MappedElement currentNodeDescription;
 
     private long delayTime;
     private long dragDelayedUntil;
 
-    public GraphCanvas(JList<DescriptiveElement> possibleNodes) {
+    public GraphCanvas(JList<MappedElement> possibleNodes) {
         this.setBorder(BorderFactory.createEtchedBorder());
         this.setBackground(Color.WHITE);
 
@@ -97,7 +99,7 @@ public class GraphCanvas extends JPanel {
         return false;
     }
 
-    private void relocateOrPutNode(DescriptiveElement nodeDescription, int x, int y) {
+    private void relocateOrPutNode(MappedElement nodeDescription, int x, int y) {
         if (nodeDescription != null) {
             if (nodes.containsKey(nodeDescription.getId())) {
                 GraphNode node = nodes.get(nodeDescription.getId());
@@ -108,7 +110,7 @@ public class GraphCanvas extends JPanel {
         }
     }
 
-    private void addConnectionFromNode(DescriptiveElement nodeDescription, int x, int y) {
+    private void addConnectionFromNode(MappedElement nodeDescription, int x, int y) {
         if (nodeDescription != null && nodes.containsKey(nodeDescription.getId())) {
             GraphNode sourceNode = nodes.get(nodeDescription.getId());
             for (GraphNode destNode : nodes.values()) {
@@ -151,7 +153,7 @@ public class GraphCanvas extends JPanel {
 
     }
 
-    public void setSelectedNode(DescriptiveElement currentNodeDescription) {
+    public void setSelectedNode(MappedElement currentNodeDescription) {
         this.currentNodeDescription = currentNodeDescription;
         repaint();
     }

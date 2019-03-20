@@ -1,17 +1,19 @@
 package hu.szeba.hades.wizard.elements;
 
+import hu.szeba.hades.view.elements.MappedElement;
+
 import java.awt.*;
 import java.util.*;
 
 public class GraphNode {
 
-    private DescriptiveElement description;
+    private MappedElement description;
     private int radius;
     private Point location;
     private Map<String, GraphNode> connections;
     private Color color;
 
-    public GraphNode(DescriptiveElement description, Point location) {
+    public GraphNode(MappedElement description, Point location) {
         this.description = description;
         this.radius = 12;
         this.location = location;
@@ -21,7 +23,7 @@ public class GraphNode {
         this.color = new Color(random.nextInt(160), random.nextInt(160), random.nextInt(160));
     }
 
-    public DescriptiveElement getDescription() {
+    public MappedElement getDescription() {
         return description;
     }
 

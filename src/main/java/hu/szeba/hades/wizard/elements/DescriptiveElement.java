@@ -1,22 +1,19 @@
 package hu.szeba.hades.wizard.elements;
 
-public class DescriptiveElement {
+import hu.szeba.hades.view.elements.MappedElement;
 
-    private String id;
-    private String title;
+public class DescriptiveElement extends MappedElement {
+
     private String display;
 
     public DescriptiveElement(String id, String title) {
-        this.id = id;
-        this.title = title;
+        super(id, title);
         this.display = "(" + id + ") -> " + title;
     }
 
+    @Override
     public String toString() {
         return display;
     }
 
-    public String getId() {
-        return id;
-    }
 }

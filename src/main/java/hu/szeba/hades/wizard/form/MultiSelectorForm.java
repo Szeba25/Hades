@@ -1,7 +1,7 @@
 package hu.szeba.hades.wizard.form;
 
 import hu.szeba.hades.util.GridBagSetter;
-import hu.szeba.hades.wizard.elements.DescriptiveElement;
+import hu.szeba.hades.view.elements.MappedElement;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.awt.*;
 public class MultiSelectorForm extends JDialog {
 
     private JPanel mainPanel;
-    private JList<DescriptiveElement> taskCollectionList;
+    private JList<MappedElement> taskCollectionList;
     private JButton okButton;
 
     public MultiSelectorForm(String title) {
