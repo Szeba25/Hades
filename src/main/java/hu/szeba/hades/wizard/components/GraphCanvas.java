@@ -156,4 +156,8 @@ public class GraphCanvas extends JPanel {
         repaint();
     }
 
+    public Map<String, GraphNode> getNodes() {
+        return nodes;
+    }
+
 }

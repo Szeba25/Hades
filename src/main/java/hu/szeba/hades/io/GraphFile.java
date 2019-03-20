@@ -32,12 +32,6 @@ public class GraphFile {
         }
     }
 
-    public void printContents() {
-        for (Tuple tuple : tuples) {
-            tuple.print();
-        }
-    }
-
     public List<Tuple> getTuples() {
         return tuples;
     }

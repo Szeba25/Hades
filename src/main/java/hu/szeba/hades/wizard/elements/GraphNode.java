@@ -122,4 +122,8 @@ public class GraphNode {
         }
     }
 
+    public Map<String, GraphNode> getConnections() {
+        return connections;
+    }
+
 }

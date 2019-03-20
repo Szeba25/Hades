@@ -5,6 +5,11 @@ public class Tuple {
     private String element1;
     private String element2;
 
+    public Tuple(String element1, String element2) {
+        this.element1 = element1;
+        this.element2 = element2;
+    }
+
     public Tuple(String tuple) {
         String[] splitted = tuple.split(",");
         switch (splitted.length) {
@@ -29,7 +34,13 @@ public class Tuple {
         return element2;
     }
 
-    public void print() {
-        System.out.println(element1 + " / " + element2);
+    @Override
+    public String toString() {
+        if (element2.equals("NULL")) {
+            return "(" + element1 + ")";
+        } else {
+            return "(" + element1 + "," + element2 + ")";
+        }
     }
+
 }
