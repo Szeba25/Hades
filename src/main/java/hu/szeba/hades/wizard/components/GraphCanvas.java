@@ -82,6 +82,7 @@ public class GraphCanvas extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 deleteCurrentNode();
+                possibleNodes.clearSelection();
             }
         });
     }
