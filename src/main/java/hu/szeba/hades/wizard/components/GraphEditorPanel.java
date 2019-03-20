@@ -11,7 +11,7 @@ public class GraphEditorPanel extends JPanel {
     private PlusMinusPanel possibleNodesAdder;
     private GraphCanvas canvas;
 
-    public GraphEditorPanel(String title) {
+    public GraphEditorPanel(String title, int width, int height) {
         this.setLayout(new GridBagLayout());
 
         possibleNodes = new JList<>();
@@ -33,6 +33,13 @@ public class GraphEditorPanel extends JPanel {
         model.addElement("Test 6");
 
         canvas = new GraphCanvas(possibleNodes);
+        canvas.setPreferredSize(new Dimension(width, height));
+        JScrollPane canvasScroller = new JScrollPane(canvas);
+        canvasScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        canvasScroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        canvasScroller.setPreferredSize(new Dimension(0, 0));
+        canvasScroller.getVerticalScrollBar().setUnitIncrement(10);
+        canvasScroller.getHorizontalScrollBar().setUnitIncrement(10);
 
         setupEvents();
 
@@ -80,7 +87,7 @@ public class GraphEditorPanel extends JPanel {
                 0,
                 new Insets(5, 5, 0, 5));
 
-        gs.add(canvas,
+        gs.add(canvasScroller,
                 2,
                 1,
                 GridBagConstraints.BOTH,

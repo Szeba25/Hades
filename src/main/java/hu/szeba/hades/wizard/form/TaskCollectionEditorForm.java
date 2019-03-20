@@ -1,6 +1,7 @@
 package hu.szeba.hades.wizard.form;
 
 import hu.szeba.hades.util.GridBagSetter;
+import hu.szeba.hades.wizard.components.GraphEditorPanel;
 import hu.szeba.hades.wizard.elements.DescriptiveElement;
 import hu.szeba.hades.wizard.components.PlusMinusPanel;
 
@@ -16,11 +17,7 @@ public class TaskCollectionEditorForm extends JDialog {
     private JTextField titleField;
     private JSpinner thresholdSpinner;
 
-    private JPanel centerPanel;
-
-    private JList<DescriptiveElement> tasks;
-    private PlusMinusPanel tasksAdder;
-    private JTextArea graphEditor;
+    private GraphEditorPanel dependenciesPanel;
 
     private MultiSelectorForm taskSelectorForm;
 
@@ -28,7 +25,7 @@ public class TaskCollectionEditorForm extends JDialog {
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setTitle("Wizard: Task collection editor");
         this.setLayout(new BorderLayout());
-        this.setMinimumSize(new Dimension(600, 600));
+        this.setMinimumSize(new Dimension(1000, 680));
         this.setResizable(false);
         this.setModal(true);
 
@@ -38,7 +35,7 @@ public class TaskCollectionEditorForm extends JDialog {
         setupEvents();
 
         this.getContentPane().add(topPanel, BorderLayout.NORTH);
-        this.getContentPane().add(centerPanel, BorderLayout.CENTER);
+        this.getContentPane().add(dependenciesPanel, BorderLayout.CENTER);
         this.pack();
     }
 
@@ -98,71 +95,8 @@ public class TaskCollectionEditorForm extends JDialog {
                 0,
                 new Insets(5, 5, 0, 5));
 
-        centerPanel = new JPanel();
-        centerPanel.setLayout(new GridBagLayout());
+        dependenciesPanel = new GraphEditorPanel("Tasks (in this collection):", 1024, 1536);
 
-        tasks = new JList<>();
-        tasks.setFixedCellWidth(200);
-        tasks.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        JScrollPane tasksScroll = new JScrollPane(tasks);
-        tasksScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        tasksAdder = new PlusMinusPanel();
-
-        graphEditor = new JTextArea();
-        JScrollPane graphEditorScroll = new JScrollPane(graphEditor);
-        graphEditorScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-
-        gs.setComponent(centerPanel);
-
-        gs.add(new JLabel("Tasks (in this collection):"),
-                0,
-                0,
-                GridBagConstraints.BOTH,
-                1,
-                1,
-                0,
-                0,
-                new Insets(5, 5, 5, 5));
-
-        gs.add(tasksScroll,
-                0,
-                1,
-                GridBagConstraints.VERTICAL,
-                1,
-                1,
-                0,
-                1,
-                new Insets(5, 5, 5, 5));
-
-        gs.add(tasksAdder,
-                1,
-                1,
-                GridBagConstraints.NONE,
-                1,
-                1,
-                0,
-                0,
-                new Insets(5, 0, 5, 25));
-
-        gs.add(new JLabel("Dependencies:"),
-                2,
-                0,
-                GridBagConstraints.BOTH,
-                1,
-                1,
-                0,
-                0,
-                new Insets(5, 5, 5, 5));
-
-        gs.add(graphEditorScroll,
-                2,
-                1,
-                GridBagConstraints.BOTH,
-                1,
-                1,
-                1.0,
-                1.0,
-                new Insets(5, 5, 5, 5));
     }
 
     private void setupEvents() {
@@ -176,7 +110,7 @@ public class TaskCollectionEditorForm extends JDialog {
             }
         });
 
-        tasksAdder.getPlus().addActionListener((e) -> {
+        dependenciesPanel.getAddNodeButton().addActionListener((e) -> {
             taskSelectorForm.setLocationRelativeTo(this);
             taskSelectorForm.setVisible(true);
         });
