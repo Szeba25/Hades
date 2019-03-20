@@ -1,5 +1,6 @@
 package hu.szeba.hades;
 
+import hu.szeba.hades.form.MainForm;
 import hu.szeba.hades.meta.Options;
 import hu.szeba.hades.view.ViewableFrame;
 import hu.szeba.hades.wizard.view.CourseView;
@@ -20,13 +21,13 @@ public class Main {
     private void start() {
         try {
             Options.initialize();
-
-            //mainForm = new MainForm();
-            //mainForm.showView();
-
-            courseView = new CourseView();
-            courseView.showView();
-
+            if (args.length > 0 && args[0].equals("wizard")) {
+                mainForm = new MainForm();
+                mainForm.showView();
+            } else {
+                courseView = new CourseView();
+                courseView.showView();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
