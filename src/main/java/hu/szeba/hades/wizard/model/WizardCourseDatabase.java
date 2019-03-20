@@ -14,15 +14,11 @@ public class WizardCourseDatabase {
 
     public List<MappedElement> courses;
 
-    public WizardCourseDatabase() {
+    public WizardCourseDatabase() throws IOException {
         courses = new ArrayList<>();
         for (String id : Options.getDatabasePath().list()) {
-            try {
-                TabbedFile metaFile = new TabbedFile(new File(Options.getDatabasePath(), id + "/title.dat"));
-                courses.add(new DescriptiveElement(id, metaFile.getData(0, 0)));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            TabbedFile metaFile = new TabbedFile(new File(Options.getDatabasePath(), id + "/title.dat"));
+            courses.add(new DescriptiveElement(id, metaFile.getData(0, 0)));
         }
     }
 
