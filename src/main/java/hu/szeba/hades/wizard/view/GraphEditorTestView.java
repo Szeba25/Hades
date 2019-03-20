@@ -17,7 +17,7 @@ public class GraphEditorTestView extends JFrame implements ViewableFrame {
         this.setMinimumSize(new Dimension(800, 600));
         this.setResizable(false);
 
-        graphEditor = new GraphEditorPanel();
+        graphEditor = new GraphEditorPanel("All tasks:");
 
         this.getContentPane().add(graphEditor, BorderLayout.CENTER);
 

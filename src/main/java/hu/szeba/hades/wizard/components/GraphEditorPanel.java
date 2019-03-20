@@ -11,7 +11,7 @@ public class GraphEditorPanel extends JPanel {
     private PlusMinusPanel possibleNodesAdder;
     private GraphCanvas canvas;
 
-    public GraphEditorPanel() {
+    public GraphEditorPanel(String title) {
         this.setLayout(new GridBagLayout());
 
         possibleNodes = new JList<>();
@@ -39,9 +39,19 @@ public class GraphEditorPanel extends JPanel {
         GridBagSetter gs = new GridBagSetter();
         gs.setComponent(this);
 
+        gs.add(new JLabel(title),
+                0,
+                0,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                0,
+                0,
+                new Insets(5, 5, 0, 5));
+
         gs.add(possibleNodesScroll,
                 0,
-                0,
+                1,
                 GridBagConstraints.BOTH,
                 1,
                 1,
@@ -51,7 +61,7 @@ public class GraphEditorPanel extends JPanel {
 
         gs.add(possibleNodesAdder,
                 1,
-                0,
+                1,
                 GridBagConstraints.NONE,
                 1,
                 1,
@@ -60,9 +70,19 @@ public class GraphEditorPanel extends JPanel {
                 new Insets(5, 0, 5, 5),
                 GridBagConstraints.NORTH);
 
-        gs.add(canvas,
+        gs.add(new JLabel("Dependencies:"),
                 2,
                 0,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                0,
+                0,
+                new Insets(5, 5, 0, 5));
+
+        gs.add(canvas,
+                2,
+                1,
                 GridBagConstraints.BOTH,
                 1,
                 1,
