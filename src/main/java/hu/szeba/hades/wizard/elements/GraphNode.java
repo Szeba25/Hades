@@ -5,15 +5,15 @@ import java.util.*;
 
 public class GraphNode {
 
-    private String name;
+    private DescriptiveElement description;
     private int radius;
     private Point location;
     private Map<String, GraphNode> connections;
     private Color color;
 
-    public GraphNode(String name, Point location) {
-        this.name = name;
-        this.radius = 15;
+    public GraphNode(DescriptiveElement description, Point location) {
+        this.description = description;
+        this.radius = 12;
         this.location = location;
         this.connections = new HashMap<>();
 
@@ -21,8 +21,8 @@ public class GraphNode {
         this.color = new Color(random.nextInt(160), random.nextInt(160), random.nextInt(160));
     }
 
-    public String getName() {
-        return name;
+    public DescriptiveElement getDescription() {
+        return description;
     }
 
     public Point getLocation() {
@@ -30,19 +30,19 @@ public class GraphNode {
     }
 
     public void addConnection(GraphNode node) {
-        if (!connections.containsKey(node.getName()) && !node.hasConnectionTo(this) && node != this) {
-            connections.put(node.getName(), node);
+        if (!connections.containsKey(node.getDescription().getId()) && !node.hasConnectionTo(this) && node != this) {
+            connections.put(node.getDescription().getId(), node);
         }
     }
 
     public void removeConnection(GraphNode node) {
-        if (connections.containsKey(node.getName()) && this.hasConnectionTo(node) && node != this) {
-            connections.remove(node.getName());
+        if (connections.containsKey(node.getDescription().getId()) && this.hasConnectionTo(node) && node != this) {
+            connections.remove(node.getDescription().getId());
         }
     }
 
     public boolean hasConnectionTo(GraphNode node) {
-        return (connections.containsKey(node.getName()));
+        return (connections.containsKey(node.getDescription().getId()));
     }
 
     public boolean isMouseInside(int x, int y) {
@@ -55,7 +55,7 @@ public class GraphNode {
             g2.drawRect(location.x - radius - 4, location.y - radius - 4, radius *2 + 8, radius *2 + 8);
         }
         g2.setColor(Color.BLACK);
-        g2.drawString(name, location.x, location.y - radius - 5);
+        g2.drawString(description.toString(), location.x, location.y - radius - 5);
         g2.setColor(color);
         g2.fillOval(location.x - radius, location.y - radius, radius *2, radius *2);
     }

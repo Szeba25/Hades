@@ -16,4 +16,7 @@ public class DescriptiveElement {
         return display;
     }
 
+    public String getId() {
+        return id;
+    }
 }

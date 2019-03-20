@@ -1,13 +1,14 @@
 package hu.szeba.hades.wizard.components;
 
 import hu.szeba.hades.util.GridBagSetter;
+import hu.szeba.hades.wizard.elements.DescriptiveElement;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class GraphEditorPanel extends JPanel {
 
-    private JList<String> possibleNodes;
+    private JList<DescriptiveElement> possibleNodes;
     private PlusMinusPanel possibleNodesAdder;
     private GraphCanvas canvas;
 
@@ -24,13 +25,13 @@ public class GraphEditorPanel extends JPanel {
         possibleNodesAdder = new PlusMinusPanel();
 
         // Testing
-        DefaultListModel<String> model = (DefaultListModel<String>) possibleNodes.getModel();
-        model.addElement("Test 1");
-        model.addElement("Test 2");
-        model.addElement("Test 3");
-        model.addElement("Test 4");
-        model.addElement("Test 5");
-        model.addElement("Test 6");
+        DefaultListModel<DescriptiveElement> model = (DefaultListModel<DescriptiveElement>) possibleNodes.getModel();
+        model.addElement(new DescriptiveElement("0001", "Task 1"));
+        model.addElement(new DescriptiveElement("0002", "Task 2"));
+        model.addElement(new DescriptiveElement("0003", "Task 3"));
+        model.addElement(new DescriptiveElement("0004", "Task 4"));
+        model.addElement(new DescriptiveElement("0005", "Task 5"));
+        model.addElement(new DescriptiveElement("0006", "Task 6"));
 
         canvas = new GraphCanvas(possibleNodes);
         canvas.setPreferredSize(new Dimension(width, height));
@@ -105,7 +106,7 @@ public class GraphEditorPanel extends JPanel {
             if (!listSelectionModel.isSelectionEmpty()) {
                 int idx = listSelectionModel.getMinSelectionIndex();
                 if (listSelectionModel.isSelectedIndex(idx)) {
-                    String element = (String) listModel.getElementAt(idx);
+                    DescriptiveElement element = (DescriptiveElement) listModel.getElementAt(idx);
                     canvas.setSelectedNode(element);
                 }
             }
@@ -114,7 +115,7 @@ public class GraphEditorPanel extends JPanel {
         possibleNodesAdder.getMinus().addActionListener((event) -> {
             if (!possibleNodes.isSelectionEmpty()) {
                 canvas.deleteCurrentNode();
-                DefaultListModel<String> model = (DefaultListModel<String>) possibleNodes.getModel();
+                DefaultListModel<DescriptiveElement> model = (DefaultListModel<DescriptiveElement>) possibleNodes.getModel();
                 model.remove(possibleNodes.getSelectedIndex());
             }
         });
