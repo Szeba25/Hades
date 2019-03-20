@@ -4,8 +4,7 @@ import hu.szeba.hades.wizard.elements.GraphNode;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +30,7 @@ public class GraphCanvas extends JPanel {
         dragDelayedUntil = 0;
 
         this.setupMouseEvents();
+        this.setupKeyBindings();
     }
 
     private void setupMouseEvents() {
@@ -76,6 +76,16 @@ public class GraphCanvas extends JPanel {
 
     }
 
+    private void setupKeyBindings() {
+        this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DELETE"), "delete node");
+        this.getActionMap().put("delete node", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deleteCurrentNode();
+            }
+        });
+    }
+
     private boolean changeSelection(int x, int y) {
         for (GraphNode n : nodes.values()) {
             if (!n.getName().equals(currentNodeName) && n.isMouseInside(x, y)) {
@@ -114,6 +124,17 @@ public class GraphCanvas extends JPanel {
                     }
                 }
             }
+        }
+    }
+
+    public void deleteCurrentNode() {
+        if (currentNodeName != null) {
+            GraphNode removedNode = nodes.remove(currentNodeName);
+            for (GraphNode n : nodes.values()) {
+                n.removeConnection(removedNode);
+            }
+            currentNodeName = null;
+            repaint();
         }
     }
 

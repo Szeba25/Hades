@@ -93,8 +93,8 @@ public class GraphNode {
             y2 = (int)(y1 + ny); // y3
 
             // Get arrow head positions (math magic)
-            int d = 5;
-            int h = 5;
+            int d = 6;
+            int h = 6;
             int dx = x2 - x1, dy = y2 - y1;
 
             double D = Math.sqrt(dx*dx + dy*dy);
