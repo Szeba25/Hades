@@ -1,4 +1,4 @@
-package hu.szeba.hades.main.view.task;
+package hu.szeba.hades.main.view.components;
 
 import hu.szeba.hades.main.controller.SourceUpdaterForClosableTabs;
 

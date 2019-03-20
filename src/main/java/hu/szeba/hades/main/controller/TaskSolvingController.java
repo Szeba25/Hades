@@ -3,9 +3,9 @@ package hu.szeba.hades.main.controller;
 import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.model.task.Task;
 import hu.szeba.hades.main.model.task.data.SourceFile;
-import hu.szeba.hades.main.view.task.LockedMenusWrapper;
-import hu.szeba.hades.main.view.task.TaskSolvingView;
-import hu.szeba.hades.main.view.task.TerminalArea;
+import hu.szeba.hades.main.view.components.LockedMenusWrapper;
+import hu.szeba.hades.main.view.TaskSolvingView;
+import hu.szeba.hades.main.view.TerminalArea;
 
 import javax.swing.*;
 import java.io.IOException;

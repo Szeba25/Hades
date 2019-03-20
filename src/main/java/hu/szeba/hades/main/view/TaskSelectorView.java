@@ -1,4 +1,4 @@
-package hu.szeba.hades.main.view.task;
+package hu.szeba.hades.main.view;
 
 import hu.szeba.hades.main.controller.TaskSelectorController;
 import hu.szeba.hades.main.model.course.CourseDatabase;

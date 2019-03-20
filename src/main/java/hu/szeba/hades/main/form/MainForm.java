@@ -6,7 +6,7 @@ import hu.szeba.hades.main.model.course.CourseDatabase;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.components.JButtonGuarded;
 import hu.szeba.hades.main.view.components.ViewableFrame;
-import hu.szeba.hades.main.view.task.TaskSelectorView;
+import hu.szeba.hades.main.view.TaskSelectorView;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;

@@ -20,6 +20,10 @@ public class WizardCourse {
     private String courseTitle;
     private String language;
 
+    private File modesPath;
+    private File taskCollectionsPath;
+    private File tasksPath;
+
     private List<MappedElement> modes;
     private List<MappedElement> taskCollections;
     private List<MappedElement> tasks;
@@ -37,18 +41,21 @@ public class WizardCourse {
         taskCollections = new ArrayList<>();
         tasks = new ArrayList<>();
 
-        for (String modeId : new File(Options.getDatabasePath(), courseId + "/modes").list()) {
-            TabbedFile metaFile = new TabbedFile(new File(Options.getDatabasePath(), "/modes/" + modeId + "/title.dat"));
+        modesPath = new File(Options.getDatabasePath(), courseId + "/modes");
+        for (String modeId : modesPath.list()) {
+            TabbedFile metaFile = new TabbedFile(new File(modesPath, modeId + "/title.dat"));
             modes.add(new MappedElement(modeId, metaFile.getData(0, 0)));
         }
 
-        for (String taskCollectionId : new File(Options.getDatabasePath(), courseId + "/task_collections").list()) {
-            TabbedFile metaFile = new TabbedFile(new File(Options.getDatabasePath(), "/modes/" + taskCollectionId + "/title.dat"));
+        taskCollectionsPath = new File(Options.getDatabasePath(), courseId + "/task_collections");
+        for (String taskCollectionId : taskCollectionsPath.list()) {
+            TabbedFile metaFile = new TabbedFile(new File(taskCollectionsPath, taskCollectionId + "/title.dat"));
             modes.add(new MappedElement(taskCollectionId, metaFile.getData(0, 0)));
         }
 
-        for (String taskId : new File(Options.getDatabasePath(), courseId + "/tasks").list()) {
-            DescriptionXMLFile descriptionFile = new DescriptionXMLFile(new File(Options.getDatabasePath(), "/tasks/" + taskId + "/descriptions.xml"));
+        tasksPath = new File(Options.getDatabasePath(), courseId + "/tasks");
+        for (String taskId : tasksPath.list()) {
+            DescriptionXMLFile descriptionFile = new DescriptionXMLFile(new File(tasksPath, taskId + "/descriptions.xml"));
             TaskDescription taskDescription = descriptionFile.parse(false);
             modes.add(new MappedElement(taskId, taskDescription.getTaskTitle()));
         }

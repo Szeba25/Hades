@@ -1,4 +1,4 @@
-package hu.szeba.hades.main.view.task;
+package hu.szeba.hades.main.view;
 
 import javax.swing.*;
 import javax.swing.text.*;

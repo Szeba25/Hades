@@ -1,4 +1,4 @@
-package hu.szeba.hades.main.view.task;
+package hu.szeba.hades.main.view;
 
 import hu.szeba.hades.main.model.task.data.TaskDescription;
 import hu.szeba.hades.main.view.elements.AbstractState;
