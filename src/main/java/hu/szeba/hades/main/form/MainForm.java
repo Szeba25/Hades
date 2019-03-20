@@ -35,10 +35,6 @@ public class MainForm extends JFrame implements ViewableFrame {
 
         userBox = new JComboBox<>();
         userBox.setEditable(true);
-        for (String userFolder : Options.getWorkingDirectoryPath().list()) {
-            userBox.addItem(userFolder);
-        }
-        userBox.setSelectedIndex(0);
 
         passwordField = new JPasswordField();
         passwordField.setEnabled(false);
@@ -151,8 +147,21 @@ public class MainForm extends JFrame implements ViewableFrame {
         this.pack();
     }
 
+    private void refreshUserBox() {
+        userBox.removeAllItems();
+        for (String userFolder : Options.getWorkingDirectoryPath().list()) {
+            if (!userFolder.equals("DEFAULT")) {
+                userBox.addItem(userFolder);
+            }
+        }
+        userBox.addItem("DEFAULT");
+        userBox.setSelectedIndex(0);
+    }
+
     @Override
     public void showView() {
+        refreshUserBox();
+
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.requestFocus();
