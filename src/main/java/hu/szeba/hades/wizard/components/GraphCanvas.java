@@ -133,7 +133,6 @@ public class GraphCanvas extends JPanel {
             for (GraphNode n : nodes.values()) {
                 n.removeConnection(removedNode);
             }
-            possibleNodes.clearSelection();
             currentNodeName = null;
             repaint();
         }

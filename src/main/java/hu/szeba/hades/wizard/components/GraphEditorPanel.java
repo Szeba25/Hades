@@ -8,6 +8,7 @@ import java.awt.*;
 public class GraphEditorPanel extends JPanel {
 
     private JList<String> possibleNodes;
+    private PlusMinusPanel possibleNodesAdder;
     private GraphCanvas canvas;
 
     public GraphEditorPanel() {
@@ -19,6 +20,8 @@ public class GraphEditorPanel extends JPanel {
         possibleNodes.setModel(new DefaultListModel<>());
         JScrollPane possibleNodesScroll = new JScrollPane(possibleNodes);
         possibleNodesScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        possibleNodesAdder = new PlusMinusPanel();
 
         // Testing
         DefaultListModel<String> model = (DefaultListModel<String>) possibleNodes.getModel();
@@ -46,8 +49,19 @@ public class GraphEditorPanel extends JPanel {
                 1,
                 new Insets(5, 5, 5, 5));
 
-        gs.add(canvas,
+        gs.add(possibleNodesAdder,
                 1,
+                0,
+                GridBagConstraints.NONE,
+                1,
+                1,
+                0,
+                1,
+                new Insets(5, 0, 5, 5),
+                GridBagConstraints.NORTH);
+
+        gs.add(canvas,
+                2,
                 0,
                 GridBagConstraints.BOTH,
                 1,
@@ -69,6 +83,16 @@ public class GraphEditorPanel extends JPanel {
                 }
             }
         });
+
+        possibleNodesAdder.getMinus().addActionListener((event) -> {
+            canvas.deleteCurrentNode();
+            DefaultListModel<String> model = (DefaultListModel<String>) possibleNodes.getModel();
+            model.remove(possibleNodes.getSelectedIndex());
+        });
+    }
+
+    public JButton getAddNodeButton() {
+        return possibleNodesAdder.getPlus();
     }
 
 }
