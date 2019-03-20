@@ -105,9 +105,11 @@ public class GraphEditorPanel extends JPanel {
         });
 
         possibleNodesAdder.getMinus().addActionListener((event) -> {
-            canvas.deleteCurrentNode();
-            DefaultListModel<String> model = (DefaultListModel<String>) possibleNodes.getModel();
-            model.remove(possibleNodes.getSelectedIndex());
+            if (!possibleNodes.isSelectionEmpty()) {
+                canvas.deleteCurrentNode();
+                DefaultListModel<String> model = (DefaultListModel<String>) possibleNodes.getModel();
+                model.remove(possibleNodes.getSelectedIndex());
+            }
         });
     }
 
