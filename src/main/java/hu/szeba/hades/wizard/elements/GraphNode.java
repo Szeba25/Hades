@@ -1,6 +1,6 @@
 package hu.szeba.hades.wizard.elements;
 
-import hu.szeba.hades.view.elements.MappedElement;
+import hu.szeba.hades.main.view.elements.MappedElement;
 
 import java.awt.*;
 import java.util.*;

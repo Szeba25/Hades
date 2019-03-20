@@ -1,6 +1,6 @@
 package hu.szeba.hades.wizard.form;
 
-import hu.szeba.hades.util.GridBagSetter;
+import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.wizard.components.ModifiableListPanel;
 
 import javax.swing.*;

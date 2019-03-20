@@ -1,8 +1,8 @@
 package hu.szeba.hades.wizard.components;
 
-import hu.szeba.hades.model.task.graph.Tuple;
-import hu.szeba.hades.util.GridBagSetter;
-import hu.szeba.hades.view.elements.MappedElement;
+import hu.szeba.hades.main.model.task.graph.Tuple;
+import hu.szeba.hades.main.util.GridBagSetter;
+import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.elements.DescriptiveElement;
 import hu.szeba.hades.wizard.elements.GraphNode;
 

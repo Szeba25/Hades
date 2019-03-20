@@ -1,8 +1,8 @@
 package hu.szeba.hades.wizard.model;
 
-import hu.szeba.hades.io.TabbedFile;
-import hu.szeba.hades.meta.Options;
-import hu.szeba.hades.view.elements.MappedElement;
+import hu.szeba.hades.main.io.TabbedFile;
+import hu.szeba.hades.main.meta.Options;
+import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.elements.DescriptiveElement;
 
 import java.io.File;

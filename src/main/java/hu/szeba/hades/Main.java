@@ -1,8 +1,8 @@
 package hu.szeba.hades;
 
-import hu.szeba.hades.form.MainForm;
-import hu.szeba.hades.meta.Options;
-import hu.szeba.hades.view.ViewableFrame;
+import hu.szeba.hades.main.form.MainForm;
+import hu.szeba.hades.main.meta.Options;
+import hu.szeba.hades.main.view.components.ViewableFrame;
 import hu.szeba.hades.wizard.view.CourseView;
 
 import javax.swing.*;
