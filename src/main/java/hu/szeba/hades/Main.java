@@ -22,11 +22,11 @@ public class Main {
         try {
             Options.initialize();
             if (args.length > 0 && args[0].equals("wizard")) {
-                mainForm = new MainForm();
-                mainForm.showView();
-            } else {
                 courseView = new CourseView();
                 courseView.showView();
+            } else {
+                mainForm = new MainForm();
+                mainForm.showView();
             }
         } catch (IOException e) {
             e.printStackTrace();
