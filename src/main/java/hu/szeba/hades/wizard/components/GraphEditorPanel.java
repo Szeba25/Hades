@@ -4,8 +4,6 @@ import hu.szeba.hades.util.GridBagSetter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class GraphEditorPanel extends JPanel {
 
