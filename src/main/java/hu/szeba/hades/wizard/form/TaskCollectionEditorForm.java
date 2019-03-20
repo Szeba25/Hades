@@ -26,7 +26,7 @@ public class TaskCollectionEditorForm extends JDialog {
         this.setTitle("Wizard: Task collection editor");
         this.setLayout(new BorderLayout());
         this.setMinimumSize(new Dimension(1000, 680));
-        this.setResizable(false);
+        this.setResizable(true);
         this.setModal(true);
 
         taskSelectorForm = new MultiSelectorForm("Wizard: Select tasks");

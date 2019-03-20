@@ -26,7 +26,7 @@ public class ModeEditorForm extends JDialog {
         this.setTitle("Wizard: Mode editor");
         this.setLayout(new BorderLayout());
         this.setMinimumSize(new Dimension(1000, 680));
-        this.setResizable(false);
+        this.setResizable(true);
         this.setModal(true);
 
         taskCollectionSelectorForm = new MultiSelectorForm("Wizard: Select task collections");
