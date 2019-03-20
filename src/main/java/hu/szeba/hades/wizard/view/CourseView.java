@@ -1,11 +1,14 @@
 package hu.szeba.hades.wizard.view;
 
 import hu.szeba.hades.main.view.components.ViewableFrame;
+import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.controller.CourseController;
 import hu.szeba.hades.wizard.model.WizardCourseDatabase;
 import hu.szeba.hades.wizard.view.components.ModifiableListPanel;
+import org.xml.sax.SAXException;
 
 import javax.swing.*;
+import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.io.IOException;
 
@@ -29,6 +32,8 @@ public class CourseView extends JFrame implements ViewableFrame {
 
         controller = new CourseController(database);
 
+        controller.setCourseListContent(courseListPanel.getList());
+
         this.getContentPane().add(mainPanel, BorderLayout.CENTER);
         this.pack();
     }
@@ -43,9 +48,16 @@ public class CourseView extends JFrame implements ViewableFrame {
     }
 
     private void setupEvents() {
-        courseListPanel.getModifier().getAdd().addActionListener((e) -> {
-            new CourseEditorView(this).showView();
-            this.hideView();
+        courseListPanel.getModifier().getAdd().addActionListener((event) -> {
+            try {
+                MappedElement selectedCourse = courseListPanel.getList().getSelectedValue();
+                if (selectedCourse != null) {
+                    new CourseEditorView(this, selectedCourse.getId()).showView();
+                    this.hideView();
+                }
+            } catch (ParserConfigurationException | SAXException | IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 

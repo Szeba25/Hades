@@ -19,6 +19,7 @@ public class ModifiableListPanel extends JPanel {
 
         list = new JList<>();
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list.setModel(new DefaultListModel<>());
         JScrollPane listScroll = new JScrollPane(list);
         listScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 

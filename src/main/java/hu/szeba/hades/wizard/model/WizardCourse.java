@@ -28,11 +28,13 @@ public class WizardCourse {
     private List<MappedElement> taskCollections;
     private List<MappedElement> tasks;
 
-    public WizardCourse(String courseId, String courseTitle)
+    public WizardCourse(String courseId)
             throws IOException, ParserConfigurationException, SAXException {
 
         this.courseId = courseId;
-        this.courseTitle = courseTitle;
+
+        TabbedFile titleFile = new TabbedFile(new File(Options.getDatabasePath(), courseId + "/title.dat"));
+        this.courseTitle = titleFile.getData(0, 0);
 
         ConfigFile courseMetaFile = new ConfigFile(new File(Options.getDatabasePath(), courseId  + "/meta.conf"));
         this.language = courseMetaFile.getData(0, 1);
@@ -50,16 +52,28 @@ public class WizardCourse {
         taskCollectionsPath = new File(Options.getDatabasePath(), courseId + "/task_collections");
         for (String taskCollectionId : taskCollectionsPath.list()) {
             TabbedFile metaFile = new TabbedFile(new File(taskCollectionsPath, taskCollectionId + "/title.dat"));
-            modes.add(new MappedElement(taskCollectionId, metaFile.getData(0, 0)));
+            taskCollections.add(new MappedElement(taskCollectionId, metaFile.getData(0, 0)));
         }
 
         tasksPath = new File(Options.getDatabasePath(), courseId + "/tasks");
         for (String taskId : tasksPath.list()) {
-            DescriptionXMLFile descriptionFile = new DescriptionXMLFile(new File(tasksPath, taskId + "/descriptions.xml"));
+            DescriptionXMLFile descriptionFile = new DescriptionXMLFile(new File(tasksPath, taskId + "/description.xml"));
             TaskDescription taskDescription = descriptionFile.parse(false);
-            modes.add(new MappedElement(taskId, taskDescription.getTaskTitle()));
+            tasks.add(new MappedElement(taskId, taskDescription.getTaskTitle()));
         }
 
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public String getCourseTitle() {
+        return courseTitle;
+    }
+
+    public String getLanguage() {
+        return language;
     }
 
     public List<MappedElement> getModes() {

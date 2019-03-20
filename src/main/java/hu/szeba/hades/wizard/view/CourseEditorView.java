@@ -2,19 +2,26 @@ package hu.szeba.hades.wizard.view;
 
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.components.ViewableFrame;
+import hu.szeba.hades.wizard.controller.CourseEditorController;
+import hu.szeba.hades.wizard.model.WizardCourse;
 import hu.szeba.hades.wizard.view.components.ModifiableListPanel;
 import hu.szeba.hades.wizard.form.ModeEditorForm;
 import hu.szeba.hades.wizard.form.TaskCollectionEditorForm;
 import hu.szeba.hades.wizard.form.TaskEditorForm;
+import org.xml.sax.SAXException;
 
 import javax.swing.*;
+import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 public class CourseEditorView extends JFrame implements ViewableFrame {
 
     private ViewableFrame parentView;
+
+    private CourseEditorController controller;
 
     private JPanel topPanel;
     private JTextField titleField;
@@ -26,17 +33,29 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
     private ModifiableListPanel taskCollectionListPanel;
     private ModifiableListPanel taskListPanel;
 
-    public CourseEditorView(ViewableFrame parentView) {
+    public CourseEditorView(ViewableFrame parentView, String courseId)
+            throws ParserConfigurationException, SAXException, IOException {
+
         this.parentView = parentView;
 
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setTitle("Wizard: Course editor");
         this.setLayout(new BorderLayout());
-        this.setMinimumSize(new Dimension(1000, 650));
-        this.setResizable(false);
+        this.setMinimumSize(new Dimension(1000, 680));
+        this.setResizable(true);
 
         initializeComponents();
         setupEvents();
+
+        WizardCourse course = new WizardCourse(courseId);
+        controller = new CourseEditorController(course);
+
+        titleField.setText(course.getCourseTitle());
+        languageBox.getEditor().setItem(course.getLanguage());
+
+        controller.setModeListContents(modeListPanel.getList());
+        controller.setTaskCollectionListContents(taskCollectionListPanel.getList());
+        controller.setTaskListContents(taskListPanel.getList());
 
         this.getContentPane().add(topPanel, BorderLayout.NORTH);
         this.getContentPane().add(centerPanel, BorderLayout.CENTER);
