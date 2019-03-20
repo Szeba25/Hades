@@ -52,6 +52,7 @@ public class GraphEditorPanel extends JPanel {
         canvasScroller.getHorizontalScrollBar().setUnitIncrement(10);
 
         dataPreviewButton = new JButton("Preview graph data");
+        dataPreviewButton.setFocusPainted(false);
 
         dataPreview = new JDialog();
         dataPreview.setMinimumSize(new Dimension(400, 400));
