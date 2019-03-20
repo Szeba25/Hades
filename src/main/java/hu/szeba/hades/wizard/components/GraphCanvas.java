@@ -44,9 +44,7 @@ public class GraphCanvas extends JPanel {
 
                     dragDelayedUntil = System.currentTimeMillis() + delayTime;
 
-                    boolean selectionChange = changeSelection(e.getX(), e.getY());
-
-                    if (!selectionChange) {
+                    if (!changeSelection(e.getX(), e.getY())) {
                         relocateOrPutNode(currentNodeDescription, e.getX(), e.getY());
                     }
 
@@ -89,10 +87,10 @@ public class GraphCanvas extends JPanel {
     }
 
     private boolean changeSelection(int x, int y) {
-        for (GraphNode n : nodes.values()) {
-            if (n.getDescription() != currentNodeDescription && n.isMouseInside(x, y)) {
-                possibleNodes.setSelectedValue(n.getDescription(), true);
-                currentNodeDescription = n.getDescription();
+        for (GraphNode node : nodes.values()) {
+            if (node.getDescription() != currentNodeDescription && node.isMouseInside(x, y)) {
+                possibleNodes.setSelectedValue(node.getDescription(), true);
+                currentNodeDescription = node.getDescription();
                 return true;
             }
         }
@@ -111,18 +109,16 @@ public class GraphCanvas extends JPanel {
     }
 
     private void addConnectionFromNode(DescriptiveElement nodeDescription, int x, int y) {
-        if (nodeDescription != null) {
-            if (nodes.containsKey(nodeDescription.getId())) {
-                for (GraphNode n : nodes.values()) {
-                    if (n.isMouseInside(x, y)) {
-                        GraphNode node = nodes.get(nodeDescription.getId());
-                        if (node.hasConnectionTo(n)) {
-                            nodes.get(nodeDescription.getId()).removeConnection(n);
-                        } else {
-                            nodes.get(nodeDescription.getId()).addConnection(n);
-                        }
-                        break;
+        if (nodeDescription != null && nodes.containsKey(nodeDescription.getId())) {
+            GraphNode sourceNode = nodes.get(nodeDescription.getId());
+            for (GraphNode destNode : nodes.values()) {
+                if (destNode.isMouseInside(x, y)) {
+                    if (sourceNode.hasConnectionTo(destNode)) {
+                        nodes.get(nodeDescription.getId()).removeConnection(destNode);
+                    } else {
+                        nodes.get(nodeDescription.getId()).addConnection(destNode);
                     }
+                    break;
                 }
             }
         }
