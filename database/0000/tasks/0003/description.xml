@@ -1,0 +1,39 @@
+<Task>
+	<Title>Rendezés</Title>
+	<ShortInstructions><![CDATA[
+		<p>A feladat számok rendezése. (fix méretű tömb)</p>
+	]]>
+	</ShortInstructions>
+	<Instructions><![CDATA[
+		<h2>A feladata a következő:</h2>
+		<ul>
+			<li>bekérni 6 számot</li>
+			<li>a számokat rendezetten kiírni</li>
+		</ul>
+		<p>Ügyeljen arra hogy minden szám új sorba kerüljön. Jó munkát!</p>
+		<p>A kimenet a következő formában kell legyen, ha a bemenet pl 1, 15, 3, 9, 25, 45 volt:</p>
+		<br>
+		1<br>
+		3<br>
+		9<br>
+		15<br>
+		25<br>
+		45<br>
+		<br>
+		<img src="file:resources/sorting.gif"></img>
+	]]>
+	</Instructions>
+	<ShortStory></ShortStory>
+	<Story><![CDATA[
+		<h2>A történet (feladat_3):</h2>
+		<p>Itt a történet szövege.</p>
+		<p>És itt egy másik sor!</p>
+	]]>
+	</Story>
+	<Difficulty>Hard</Difficulty>
+	<Length>Medium</Length>
+	<Tags>
+		<Tag>Variables</Tag>
+		<Tag>Sorting</Tag>
+	</Tags>
+</Task>
