@@ -13,13 +13,13 @@ public class PlusMinusListPanel extends JPanel {
 
     public PlusMinusListPanel(String title) {
         this.setLayout(new GridBagLayout());
-        this.setBorder(BorderFactory.createEtchedBorder());
 
         JLabel label = new JLabel(title);
 
         list = new JList<>();
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setModel(new DefaultListModel<>());
+        list.setFixedCellWidth(200);
         JScrollPane listScroll = new JScrollPane(list);
         listScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 

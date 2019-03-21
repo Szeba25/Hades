@@ -14,8 +14,7 @@ import java.util.List;
 
 public class GraphEditorPanel extends JPanel {
 
-    private JList<MappedElement> possibleNodes;
-    private PlusMinusPanel possibleNodesAdder;
+    private PlusMinusListPanel possibleNodesPanel;
     private GraphCanvas canvas;
 
     private JButton dataPreviewButton;
@@ -25,17 +24,10 @@ public class GraphEditorPanel extends JPanel {
     public GraphEditorPanel(String title, int width, int height) {
         this.setLayout(new GridBagLayout());
 
-        possibleNodes = new JList<>();
-        possibleNodes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        possibleNodes.setFixedCellWidth(200);
-        possibleNodes.setModel(new DefaultListModel<>());
-        JScrollPane possibleNodesScroll = new JScrollPane(possibleNodes);
-        possibleNodesScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-
-        possibleNodesAdder = new PlusMinusPanel();
+        possibleNodesPanel = new PlusMinusListPanel(title);
 
         // Testing
-        DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) possibleNodes.getModel();
+        DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) possibleNodesPanel.getList().getModel();
         model.addElement(new DescriptiveElement("0001", "Task 1"));
         model.addElement(new DescriptiveElement("0002", "Task 2"));
         model.addElement(new DescriptiveElement("0003", "Task 3"));
@@ -43,7 +35,7 @@ public class GraphEditorPanel extends JPanel {
         model.addElement(new DescriptiveElement("0005", "Task 5"));
         model.addElement(new DescriptiveElement("0006", "Task 6"));
 
-        canvas = new GraphCanvas(possibleNodes);
+        canvas = new GraphCanvas(possibleNodesPanel.getList());
         canvas.setPreferredSize(new Dimension(width, height));
         JScrollPane canvasScroller = new JScrollPane(canvas);
         canvasScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -74,39 +66,18 @@ public class GraphEditorPanel extends JPanel {
         GridBagSetter gs = new GridBagSetter();
         gs.setComponent(this);
 
-        gs.add(new JLabel(title),
+        gs.add(possibleNodesPanel,
                 0,
                 0,
                 GridBagConstraints.BOTH,
                 1,
-                1,
-                0,
-                0,
-                new Insets(5, 5, 0, 5));
-
-        gs.add(possibleNodesScroll,
+                3,
                 0,
                 1,
-                GridBagConstraints.BOTH,
-                1,
-                2,
-                0,
-                1,
-                new Insets(5, 5, 5, 5));
-
-        gs.add(possibleNodesAdder,
-                1,
-                1,
-                GridBagConstraints.NONE,
-                1,
-                1,
-                0,
-                1,
-                new Insets(5, 0, 5, 5),
-                GridBagConstraints.NORTH);
+                new Insets(0, 0, 0, 10));
 
         gs.add(new JLabel("Dependencies:"),
-                2,
+                1,
                 0,
                 GridBagConstraints.BOTH,
                 1,
@@ -116,7 +87,7 @@ public class GraphEditorPanel extends JPanel {
                 new Insets(5, 5, 0, 5));
 
         gs.add(canvasScroller,
-                2,
+                1,
                 1,
                 GridBagConstraints.BOTH,
                 1,
@@ -126,7 +97,7 @@ public class GraphEditorPanel extends JPanel {
                 new Insets(5, 0, 5, 5));
 
         gs.add(dataPreviewButton,
-                2,
+                1,
                 2,
                 GridBagConstraints.NONE,
                 1,
@@ -138,9 +109,9 @@ public class GraphEditorPanel extends JPanel {
     }
 
     private void setupEvents() {
-        possibleNodes.getSelectionModel().addListSelectionListener((event) -> {
+        possibleNodesPanel.getList().getSelectionModel().addListSelectionListener((event) -> {
             ListSelectionModel listSelectionModel = (ListSelectionModel) event.getSource();
-            ListModel listModel = possibleNodes.getModel();
+            ListModel listModel = possibleNodesPanel.getList().getModel();
             if (!listSelectionModel.isSelectionEmpty()) {
                 int idx = listSelectionModel.getMinSelectionIndex();
                 if (listSelectionModel.isSelectedIndex(idx)) {
@@ -150,11 +121,11 @@ public class GraphEditorPanel extends JPanel {
             }
         });
 
-        possibleNodesAdder.getMinus().addActionListener((event) -> {
-            if (!possibleNodes.isSelectionEmpty()) {
+        possibleNodesPanel.getModifier().getMinus().addActionListener((event) -> {
+            if (!possibleNodesPanel.getList().isSelectionEmpty()) {
                 canvas.deleteCurrentNode();
-                DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) possibleNodes.getModel();
-                model.remove(possibleNodes.getSelectedIndex());
+                DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) possibleNodesPanel.getList().getModel();
+                model.remove(possibleNodesPanel.getList().getSelectedIndex());
             }
         });
 
@@ -166,7 +137,7 @@ public class GraphEditorPanel extends JPanel {
     }
 
     public JButton getAddNodeButton() {
-        return possibleNodesAdder.getPlus();
+        return possibleNodesPanel.getModifier().getPlus();
     }
 
     public String getGraphStructureAsString() {
