@@ -94,7 +94,7 @@ public class GraphEditorPanel extends JPanel {
                 1,
                 1,
                 1,
-                new Insets(5, 0, 5, 5));
+                new Insets(5, 5, 5, 5));
 
         gs.add(dataPreviewButton,
                 1,

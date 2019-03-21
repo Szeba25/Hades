@@ -132,17 +132,17 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
         taskList = new PlusMinusListPanel("All tasks:");
 
         modesTab = new JPanel();
-        modesTab.setLayout(new BorderLayout());
+        modesTab.setLayout(new BorderLayout(5, 0));
         modesTab.add(modeList, BorderLayout.WEST);
         modesTab.add(new ModeEditorPanel(), BorderLayout.CENTER);
 
         taskCollectionsTab = new JPanel();
-        taskCollectionsTab.setLayout(new BorderLayout());
+        taskCollectionsTab.setLayout(new BorderLayout(5, 0));
         taskCollectionsTab.add(taskCollectionList, BorderLayout.WEST);
         taskCollectionsTab.add(new TaskCollectionEditorPanel(), BorderLayout.CENTER);
 
         tasksTab = new JPanel();
-        tasksTab.setLayout(new BorderLayout());
+        tasksTab.setLayout(new BorderLayout(5, 0));
         tasksTab.add(taskList, BorderLayout.WEST);
         tasksTab.add(new TaskEditorPanel(), BorderLayout.CENTER);
 
