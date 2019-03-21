@@ -24,7 +24,7 @@ public class GraphEditorPanel extends JPanel {
     public GraphEditorPanel(String title, int width, int height) {
         this.setLayout(new GridBagLayout());
 
-        possibleNodesPanel = new PlusMinusListPanel(title);
+        possibleNodesPanel = new PlusMinusListPanel(title, 200);
 
         // Testing
         DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) possibleNodesPanel.getList().getModel();

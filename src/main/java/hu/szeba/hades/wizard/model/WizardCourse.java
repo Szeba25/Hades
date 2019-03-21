@@ -6,6 +6,7 @@ import hu.szeba.hades.main.io.TabbedFile;
 import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.model.task.data.TaskDescription;
 import hu.szeba.hades.main.view.elements.MappedElement;
+import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -46,20 +47,20 @@ public class WizardCourse {
         modesPath = new File(Options.getDatabasePath(), courseId + "/modes");
         for (String modeId : modesPath.list()) {
             TabbedFile metaFile = new TabbedFile(new File(modesPath, modeId + "/title.dat"));
-            modes.add(new MappedElement(modeId, metaFile.getData(0, 0)));
+            modes.add(new DescriptiveElement(modeId, metaFile.getData(0, 0)));
         }
 
         taskCollectionsPath = new File(Options.getDatabasePath(), courseId + "/task_collections");
         for (String taskCollectionId : taskCollectionsPath.list()) {
             TabbedFile metaFile = new TabbedFile(new File(taskCollectionsPath, taskCollectionId + "/title.dat"));
-            taskCollections.add(new MappedElement(taskCollectionId, metaFile.getData(0, 0)));
+            taskCollections.add(new DescriptiveElement(taskCollectionId, metaFile.getData(0, 0)));
         }
 
         tasksPath = new File(Options.getDatabasePath(), courseId + "/tasks");
         for (String taskId : tasksPath.list()) {
             DescriptionXMLFile descriptionFile = new DescriptionXMLFile(new File(tasksPath, taskId + "/description.xml"));
             TaskDescription taskDescription = descriptionFile.parse(false);
-            tasks.add(new MappedElement(taskId, taskDescription.getTaskTitle()));
+            tasks.add(new DescriptiveElement(taskId, taskDescription.getTaskTitle()));
         }
 
     }

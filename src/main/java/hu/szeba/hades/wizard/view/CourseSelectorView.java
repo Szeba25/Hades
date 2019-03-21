@@ -42,7 +42,7 @@ public class CourseSelectorView extends JFrame implements ViewableFrame {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
 
-        courseListPanel = new ModifiableListPanel("All courses:");
+        courseListPanel = new ModifiableListPanel("All courses:", 300);
 
         mainPanel.add(courseListPanel, BorderLayout.CENTER);
     }

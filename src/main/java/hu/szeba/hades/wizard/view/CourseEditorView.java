@@ -48,7 +48,7 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setTitle("Wizard: Course editor");
         this.setLayout(new BorderLayout(0, 10));
-        this.setMinimumSize(new Dimension(1000, 680));
+        this.setMinimumSize(new Dimension(1100, 680));
         this.setResizable(true);
 
         initializeComponents();
@@ -127,9 +127,9 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
 
         tabbedPane = new JTabbedPane();
 
-        modeList = new PlusMinusListPanel("All modes:");
-        taskCollectionList = new PlusMinusListPanel("All task collections:");
-        taskList = new PlusMinusListPanel("All tasks:");
+        modeList = new PlusMinusListPanel("All modes:", 300);
+        taskCollectionList = new PlusMinusListPanel("All task collections:", 300);
+        taskList = new PlusMinusListPanel("All tasks:", 300);
 
         modesTab = new JPanel();
         modesTab.setLayout(new BorderLayout(5, 0));

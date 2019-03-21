@@ -52,7 +52,7 @@ public class TaskEditorPanel extends JPanel {
         leftPanel = new JPanel();
         leftPanel.setLayout(new GridBagLayout());
 
-        leftPanel.setPreferredSize(new Dimension(300, 600));
+        leftPanel.setPreferredSize(new Dimension(250, 0));
 
         titleField = new JTextField();
         JLabel titleLabel = new JLabel("Title:");
@@ -158,7 +158,7 @@ public class TaskEditorPanel extends JPanel {
         rightPanel = new JPanel();
         rightPanel.setLayout(new GridBagLayout());
 
-        inputResultPanel = new ModifiableListPanel("Input result pairs:");
+        inputResultPanel = new ModifiableListPanel("Input result pairs:", 200);
 
         regexPanel = new JPanel();
         regexPanel.setLayout(new GridBagLayout());

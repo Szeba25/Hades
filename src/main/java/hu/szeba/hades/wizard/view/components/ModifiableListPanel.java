@@ -11,7 +11,7 @@ public class ModifiableListPanel extends JPanel {
     private JList<MappedElement> list;
     private AddEditDeletePanel modifier;
 
-    public ModifiableListPanel(String title) {
+    public ModifiableListPanel(String title, int width) {
         this.setLayout(new GridBagLayout());
 
         JLabel label = new JLabel(title);
@@ -19,7 +19,7 @@ public class ModifiableListPanel extends JPanel {
         list = new JList<>();
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setModel(new DefaultListModel<>());
-        list.setFixedCellWidth(200);
+        list.setFixedCellWidth(width);
         JScrollPane listScroll = new JScrollPane(list);
         listScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
