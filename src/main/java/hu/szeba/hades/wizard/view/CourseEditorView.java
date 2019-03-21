@@ -4,7 +4,7 @@ import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.components.ViewableFrame;
 import hu.szeba.hades.wizard.controller.CourseEditorController;
 import hu.szeba.hades.wizard.model.WizardCourse;
-import hu.szeba.hades.wizard.view.components.PlusMinusListPanel;
+import hu.szeba.hades.wizard.view.components.DynamicButtonListPanel;
 import hu.szeba.hades.wizard.view.panels.ModeEditorPanel;
 import hu.szeba.hades.wizard.view.panels.TaskCollectionEditorPanel;
 import hu.szeba.hades.wizard.view.panels.TaskEditorPanel;
@@ -29,9 +29,9 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
 
     private JTabbedPane tabbedPane;
 
-    private PlusMinusListPanel modeList;
-    private PlusMinusListPanel taskCollectionList;
-    private PlusMinusListPanel taskList;
+    private DynamicButtonListPanel modeList;
+    private DynamicButtonListPanel taskCollectionList;
+    private DynamicButtonListPanel taskList;
 
     private ModeEditorPanel modeEditor;
     private TaskCollectionEditorPanel taskCollectionEditor;
@@ -132,9 +132,9 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
 
         tabbedPane = new JTabbedPane();
 
-        modeList = new PlusMinusListPanel("All modes:", 300);
-        taskCollectionList = new PlusMinusListPanel("All task collections:", 300);
-        taskList = new PlusMinusListPanel("All tasks:", 300);
+        modeList = new DynamicButtonListPanel("All modes:", 300, "+", "-", "reset");
+        taskCollectionList = new DynamicButtonListPanel("All task collections:", 300, "+", "-", "reset");
+        taskList = new DynamicButtonListPanel("All tasks:", 300, "+", "-", "reset");
 
         modesTab = new JPanel();
         modesTab.setLayout(new BorderLayout(5, 0));

@@ -14,7 +14,7 @@ import java.util.List;
 
 public class GraphEditorPanel extends JPanel {
 
-    private PlusMinusListPanel possibleNodesPanel;
+    private DynamicButtonListPanel possibleNodesPanel;
     private GraphCanvas canvas;
 
     private JButton dataPreviewButton;
@@ -24,7 +24,7 @@ public class GraphEditorPanel extends JPanel {
     public GraphEditorPanel(String title, int width, int height) {
         this.setLayout(new GridBagLayout());
 
-        possibleNodesPanel = new PlusMinusListPanel(title, 200);
+        possibleNodesPanel = new DynamicButtonListPanel(title, 200, "+", "-");
 
         // Testing
         DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) possibleNodesPanel.getList().getModel();
@@ -121,7 +121,7 @@ public class GraphEditorPanel extends JPanel {
             }
         });
 
-        possibleNodesPanel.getModifier().getMinus().addActionListener((event) -> {
+        possibleNodesPanel.getModifier().getButton(1).addActionListener((event) -> {
             if (!possibleNodesPanel.getList().isSelectionEmpty()) {
                 canvas.deleteCurrentNode();
                 DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) possibleNodesPanel.getList().getModel();
@@ -137,7 +137,7 @@ public class GraphEditorPanel extends JPanel {
     }
 
     public JButton getAddNodeButton() {
-        return possibleNodesPanel.getModifier().getPlus();
+        return possibleNodesPanel.getModifier().getButton(0);
     }
 
     public String getGraphStructureAsString() {

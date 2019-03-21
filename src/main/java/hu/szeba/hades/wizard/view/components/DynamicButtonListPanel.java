@@ -6,12 +6,12 @@ import hu.szeba.hades.main.view.elements.MappedElement;
 import javax.swing.*;
 import java.awt.*;
 
-public class PlusMinusListPanel extends JPanel {
+public class DynamicButtonListPanel extends JPanel {
 
     private JList<MappedElement> list;
-    private PlusMinusPanel modifier;
+    private DynamicButtonPanel modifier;
 
-    public PlusMinusListPanel(String title, int width) {
+    public DynamicButtonListPanel(String title, int width, String... buttonTitles) {
         this.setLayout(new GridBagLayout());
 
         JLabel label = new JLabel(title);
@@ -23,7 +23,7 @@ public class PlusMinusListPanel extends JPanel {
         JScrollPane listScroll = new JScrollPane(list);
         listScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-        modifier = new PlusMinusPanel();
+        modifier = new DynamicButtonPanel(buttonTitles);
 
         GridBagSetter gs = new GridBagSetter();
         gs.setComponent(this);
@@ -64,7 +64,7 @@ public class PlusMinusListPanel extends JPanel {
         return list;
     }
 
-    public PlusMinusPanel getModifier() {
+    public DynamicButtonPanel getModifier() {
         return modifier;
     }
 
