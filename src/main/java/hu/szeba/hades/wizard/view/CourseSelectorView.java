@@ -52,7 +52,7 @@ public class CourseSelectorView extends JFrame implements ViewableFrame {
             try {
                 MappedElement selectedCourse = courseListPanel.getList().getSelectedValue();
                 if (selectedCourse != null) {
-                    new CourseEditorView(this, selectedCourse.getId()).showViewMaximized();
+                    new CourseEditorView(this, selectedCourse.getId()).showView();
                     this.hideView();
                 }
             } catch (ParserConfigurationException | SAXException | IOException e) {

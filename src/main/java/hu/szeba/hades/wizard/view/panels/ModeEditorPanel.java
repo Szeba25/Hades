@@ -71,7 +71,7 @@ public class ModeEditorPanel extends JPanel {
         gs.add(titleField,
                 1,
                 0,
-                GridBagConstraints.HORIZONTAL,
+                GridBagConstraints.BOTH,
                 2,
                 1,
                 1,
@@ -138,7 +138,17 @@ public class ModeEditorPanel extends JPanel {
                 0,
                 new Insets(5, 5, 0, 5));
 
-        dependenciesPanel = new GraphEditorPanel("Task collections (in this mode):", 1024, 1536);
+        gs.add(new JSeparator(JSeparator.HORIZONTAL),
+                0,
+                4,
+                GridBagConstraints.HORIZONTAL,
+                3,
+                1,
+                0,
+                0,
+                new Insets(5, 0, 5, 0));
+
+        dependenciesPanel = new GraphEditorPanel("Task collections (in this mode):", 1536, 1536);
 
     }
 

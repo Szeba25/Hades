@@ -60,7 +60,7 @@ public class TaskCollectionEditorPanel extends JPanel {
                 1,
                 0,
                 GridBagConstraints.HORIZONTAL,
-                2,
+                1,
                 1,
                 1,
                 0,
@@ -80,13 +80,23 @@ public class TaskCollectionEditorPanel extends JPanel {
                 1,
                 1,
                 GridBagConstraints.HORIZONTAL,
-                2,
+                1,
                 1,
                 1,
                 0,
                 new Insets(5, 5, 0, 5));
 
-        dependenciesPanel = new GraphEditorPanel("Tasks (in this collection):", 1024, 1536);
+        gs.add(new JSeparator(JSeparator.HORIZONTAL),
+                0,
+                2,
+                GridBagConstraints.HORIZONTAL,
+                2,
+                1,
+                0,
+                0,
+                new Insets(5, 0, 5, 0));
+
+        dependenciesPanel = new GraphEditorPanel("Tasks (in this collection):", 1536, 1536);
 
     }
 
