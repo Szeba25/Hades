@@ -48,7 +48,7 @@ public class CourseSelectorView extends JFrame implements ViewableFrame {
     }
 
     private void setupEvents() {
-        courseListPanel.getModifier().getAdd().addActionListener((event) -> {
+        courseListPanel.getModifier().getEdit().addActionListener((event) -> {
             try {
                 MappedElement selectedCourse = courseListPanel.getList().getSelectedValue();
                 if (selectedCourse != null) {
