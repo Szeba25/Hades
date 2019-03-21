@@ -20,6 +20,7 @@ public class TaskCollectionEditorPanel extends JPanel {
 
     public TaskCollectionEditorPanel() {
         this.setLayout(new BorderLayout());
+        this.setBorder(BorderFactory.createEtchedBorder());
 
         taskSelectorForm = new MultiSelectorForm("Wizard: Select tasks");
 

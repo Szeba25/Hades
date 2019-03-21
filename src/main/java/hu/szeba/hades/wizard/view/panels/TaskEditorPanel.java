@@ -30,6 +30,7 @@ public class TaskEditorPanel extends JPanel {
 
     public TaskEditorPanel() {
         this.setLayout(new BorderLayout());
+        this.setBorder(BorderFactory.createEtchedBorder());
 
         initializeComponents();
         setupEvents();

@@ -22,6 +22,7 @@ public class ModeEditorPanel extends JPanel {
 
     public ModeEditorPanel() {
         this.setLayout(new BorderLayout());
+        this.setBorder(BorderFactory.createEtchedBorder());
 
         taskCollectionSelectorForm = new MultiSelectorForm("Wizard: Select task collections");
 

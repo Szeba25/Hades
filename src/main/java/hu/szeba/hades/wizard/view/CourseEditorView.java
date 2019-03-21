@@ -57,6 +57,10 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
         WizardCourse course = new WizardCourse(courseId);
         controller = new CourseEditorController(course);
 
+        controller.setModeListContents(modeList.getList());
+        controller.setTaskCollectionListContents(taskCollectionList.getList());
+        controller.setTaskListContents(taskList.getList());
+
         titleField.setText(course.getCourseTitle());
         languageBox.getEditor().setItem(course.getLanguage());
 
