@@ -1,6 +1,7 @@
 package hu.szeba.hades.wizard.model;
 
 import hu.szeba.hades.main.io.ConfigFile;
+import hu.szeba.hades.main.io.GraphFile;
 import hu.szeba.hades.main.io.GraphViewFile;
 import hu.szeba.hades.main.io.TabbedFile;
 import hu.szeba.hades.main.model.helper.ModeData;
@@ -17,6 +18,7 @@ public class WizardMode {
 
     private ModeData modeData;
     private GraphViewFile graphView;
+    private GraphFile graph;
 
     public WizardMode(File modesPath, String modeId) throws IOException {
         this.modeId = modeId;
@@ -32,8 +34,7 @@ public class WizardMode {
                 Boolean.parseBoolean(file.getData(2, 1)));
 
         graphView = new GraphViewFile(new File(modePath, "task_collections.graph.view"));
+        graph = new GraphFile(new File(modePath, "task_collections.graph"));
     }
-
-
 
 }
