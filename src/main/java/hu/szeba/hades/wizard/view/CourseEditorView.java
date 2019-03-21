@@ -4,10 +4,6 @@ import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.components.ViewableFrame;
 import hu.szeba.hades.wizard.controller.CourseEditorController;
 import hu.szeba.hades.wizard.model.WizardCourse;
-import hu.szeba.hades.wizard.view.components.ModifiableListPanel;
-import hu.szeba.hades.wizard.form.ModeEditorForm;
-import hu.szeba.hades.wizard.form.TaskCollectionEditorForm;
-import hu.szeba.hades.wizard.form.TaskEditorForm;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
@@ -29,10 +25,6 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
 
     private JPanel centerPanel;
 
-    private ModifiableListPanel modeListPanel;
-    private ModifiableListPanel taskCollectionListPanel;
-    private ModifiableListPanel taskListPanel;
-
     public CourseEditorView(ViewableFrame parentView, String courseId)
             throws ParserConfigurationException, SAXException, IOException {
 
@@ -52,10 +44,6 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
 
         titleField.setText(course.getCourseTitle());
         languageBox.getEditor().setItem(course.getLanguage());
-
-        controller.setModeListContents(modeListPanel.getList());
-        controller.setTaskCollectionListContents(taskCollectionListPanel.getList());
-        controller.setTaskListContents(taskListPanel.getList());
 
         this.getContentPane().add(topPanel, BorderLayout.NORTH);
         this.getContentPane().add(centerPanel, BorderLayout.CENTER);
@@ -121,42 +109,7 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
         centerPanel = new JPanel();
         centerPanel.setLayout(new GridBagLayout());
 
-        modeListPanel = new ModifiableListPanel("All modes:");
-        taskCollectionListPanel = new ModifiableListPanel("All task collections:");
-        taskListPanel = new ModifiableListPanel("All tasks:");
-
         gs.setComponent(centerPanel);
-
-        gs.add(modeListPanel,
-                0,
-                0,
-                GridBagConstraints.BOTH,
-                1,
-                1,
-                0.5,
-                1,
-                new Insets(5, 5, 5, 5));
-
-        gs.add(taskCollectionListPanel,
-                1,
-                0,
-                GridBagConstraints.BOTH,
-                1,
-                1,
-                0.5,
-                1,
-                new Insets(5, 0, 5, 5));
-
-        gs.add(taskListPanel,
-                2,
-                0,
-                GridBagConstraints.BOTH,
-                1,
-                1,
-                0.5,
-                1,
-                new Insets(5, 0, 5, 5));
-
     }
 
     private void setupEvents() {
@@ -167,24 +120,6 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
                 CourseEditorView.this.dispose();
                 parentView.showView();
             }
-        });
-
-        this.modeListPanel.getModifier().getAdd().addActionListener((e) -> {
-            ModeEditorForm form = new ModeEditorForm();
-            form.setLocationRelativeTo(this);
-            form.setVisible(true);
-        });
-
-        this.taskCollectionListPanel.getModifier().getAdd().addActionListener((e) -> {
-            TaskCollectionEditorForm form = new TaskCollectionEditorForm();
-            form.setLocationRelativeTo(this);
-            form.setVisible(true);
-        });
-
-        this.taskListPanel.getModifier().getAdd().addActionListener((e) -> {
-            TaskEditorForm form = new TaskEditorForm();
-            form.setLocationRelativeTo(this);
-            form.setVisible(true);
         });
     }
 
@@ -197,7 +132,9 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
 
     @Override
     public void showViewMaximized() {
-        this.showView();
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setVisible(true);
+        this.requestFocus();
     }
 
     @Override

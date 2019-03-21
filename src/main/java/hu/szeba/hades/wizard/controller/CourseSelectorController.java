@@ -5,11 +5,11 @@ import hu.szeba.hades.wizard.model.WizardCourseDatabase;
 
 import javax.swing.*;
 
-public class CourseController {
+public class CourseSelectorController {
 
     private WizardCourseDatabase database;
 
-    public CourseController(WizardCourseDatabase database) {
+    public CourseSelectorController(WizardCourseDatabase database) {
         this.database = database;
     }
 

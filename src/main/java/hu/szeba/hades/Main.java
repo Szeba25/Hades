@@ -4,7 +4,7 @@ import hu.szeba.hades.main.form.MainForm;
 import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.view.components.ViewableFrame;
 import hu.szeba.hades.wizard.model.WizardCourseDatabase;
-import hu.szeba.hades.wizard.view.CourseView;
+import hu.szeba.hades.wizard.view.CourseSelectorView;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -23,7 +23,7 @@ public class Main {
         try {
             Options.initialize();
             if (args.length > 0 && args[0].equals("wizard")) {
-                courseView = new CourseView(new WizardCourseDatabase());
+                courseView = new CourseSelectorView(new WizardCourseDatabase());
                 courseView.showView();
             } else {
                 mainForm = new MainForm();
