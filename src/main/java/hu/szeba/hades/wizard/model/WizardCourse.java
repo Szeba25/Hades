@@ -13,7 +13,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class WizardCourse {
 
@@ -25,9 +27,14 @@ public class WizardCourse {
     private File taskCollectionsPath;
     private File tasksPath;
 
-    private List<MappedElement> modes;
-    private List<MappedElement> taskCollections;
-    private List<MappedElement> tasks;
+    private List<MappedElement> possibleModes;
+    private Map<String, WizardMode> modes;
+
+    private List<MappedElement> possibleTaskCollections;
+    private Map<String, WizardTaskCollection> taskCollections;
+
+    private List<MappedElement> possibleTasks;
+    private Map<String, WizardTask> tasks;
 
     public WizardCourse(String courseId)
             throws IOException, ParserConfigurationException, SAXException {
@@ -40,27 +47,34 @@ public class WizardCourse {
         ConfigFile courseMetaFile = new ConfigFile(new File(Options.getDatabasePath(), courseId  + "/meta.conf"));
         this.language = courseMetaFile.getData(0, 1);
 
-        modes = new ArrayList<>();
-        taskCollections = new ArrayList<>();
-        tasks = new ArrayList<>();
+        possibleModes = new ArrayList<>();
+        possibleTaskCollections = new ArrayList<>();
+        possibleTasks = new ArrayList<>();
+
+        modes = new HashMap<>();
+        taskCollections = new HashMap<>();
+        tasks = new HashMap<>();
 
         modesPath = new File(Options.getDatabasePath(), courseId + "/modes");
         for (String modeId : modesPath.list()) {
             TabbedFile metaFile = new TabbedFile(new File(modesPath, modeId + "/title.dat"));
-            modes.add(new DescriptiveElement(modeId, metaFile.getData(0, 0)));
+            possibleModes.add(new DescriptiveElement(modeId, metaFile.getData(0, 0)));
+            modes.put(modeId, new WizardMode());
         }
 
         taskCollectionsPath = new File(Options.getDatabasePath(), courseId + "/task_collections");
         for (String taskCollectionId : taskCollectionsPath.list()) {
             TabbedFile metaFile = new TabbedFile(new File(taskCollectionsPath, taskCollectionId + "/title.dat"));
-            taskCollections.add(new DescriptiveElement(taskCollectionId, metaFile.getData(0, 0)));
+            possibleTaskCollections.add(new DescriptiveElement(taskCollectionId, metaFile.getData(0, 0)));
+            taskCollections.put(taskCollectionId, new WizardTaskCollection());
         }
 
         tasksPath = new File(Options.getDatabasePath(), courseId + "/tasks");
         for (String taskId : tasksPath.list()) {
             DescriptionXMLFile descriptionFile = new DescriptionXMLFile(new File(tasksPath, taskId + "/description.xml"));
             TaskDescription taskDescription = descriptionFile.parse(false);
-            tasks.add(new DescriptiveElement(taskId, taskDescription.getTaskTitle()));
+            possibleTasks.add(new DescriptiveElement(taskId, taskDescription.getTaskTitle()));
+            tasks.put(taskId, new WizardTask());
         }
 
     }
@@ -77,16 +91,27 @@ public class WizardCourse {
         return language;
     }
 
-    public List<MappedElement> getModes() {
+    public List<MappedElement> getPossibleModes() {
+        return possibleModes;
+    }
+
+    public List<MappedElement> getPossibleTaskCollections() {
+        return possibleTaskCollections;
+    }
+
+    public List<MappedElement> getPossibleTasks() {
+        return possibleTasks;
+    }
+
+    public Map<String, WizardMode> getModes() {
         return modes;
     }
 
-    public List<MappedElement> getTaskCollections() {
+    public Map<String, WizardTaskCollection> getTaskCollections() {
         return taskCollections;
     }
 
-    public List<MappedElement> getTasks() {
+    public Map<String, WizardTask> getTasks() {
         return tasks;
     }
-
 }

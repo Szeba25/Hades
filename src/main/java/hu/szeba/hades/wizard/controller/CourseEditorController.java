@@ -17,7 +17,7 @@ public class CourseEditorController {
         DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) modeList.getModel();
         model.removeAllElements();
 
-        for (MappedElement element : course.getModes()) {
+        for (MappedElement element : course.getPossibleModes()) {
             model.addElement(element);
         }
     }
@@ -26,7 +26,7 @@ public class CourseEditorController {
         DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) taskCollectionList.getModel();
         model.removeAllElements();
 
-        for (MappedElement element : course.getTaskCollections()) {
+        for (MappedElement element : course.getPossibleTaskCollections()) {
             model.addElement(element);
         }
     }
@@ -35,7 +35,7 @@ public class CourseEditorController {
         DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) taskList.getModel();
         model.removeAllElements();
 
-        for (MappedElement element : course.getTasks()) {
+        for (MappedElement element : course.getPossibleTasks()) {
             model.addElement(element);
         }
     }
