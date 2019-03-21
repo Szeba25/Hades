@@ -1,14 +1,13 @@
-package hu.szeba.hades.wizard.form;
+package hu.szeba.hades.wizard.view.panels;
 
 import hu.szeba.hades.main.util.GridBagSetter;
+import hu.szeba.hades.wizard.form.MultiSelectorForm;
 import hu.szeba.hades.wizard.view.components.GraphEditorPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
-public class ModeEditorForm extends JDialog {
+public class ModeEditorPanel extends JPanel {
 
     private JPanel topPanel;
 
@@ -21,22 +20,16 @@ public class ModeEditorForm extends JDialog {
 
     private MultiSelectorForm taskCollectionSelectorForm;
 
-    public ModeEditorForm() {
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.setTitle("Wizard: Mode editor");
+    public ModeEditorPanel() {
         this.setLayout(new BorderLayout());
-        this.setMinimumSize(new Dimension(1000, 680));
-        this.setResizable(true);
-        this.setModal(true);
 
         taskCollectionSelectorForm = new MultiSelectorForm("Wizard: Select task collections");
 
         initializeComponents();
         setupEvents();
 
-        this.getContentPane().add(topPanel, BorderLayout.NORTH);
-        this.getContentPane().add(dependenciesPanel, BorderLayout.CENTER);
-        this.pack();
+        this.add(topPanel, BorderLayout.NORTH);
+        this.add(dependenciesPanel, BorderLayout.CENTER);
     }
 
     private void initializeComponents() {
@@ -150,18 +143,8 @@ public class ModeEditorForm extends JDialog {
     }
 
     private void setupEvents() {
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                super.windowClosing(e);
-                // TODO: Save here!
-                // ...
-                ModeEditorForm.this.dispose();
-            }
-        });
-
         dependenciesPanel.getAddNodeButton().addActionListener((e) -> {
-            taskCollectionSelectorForm.setLocationRelativeTo(this);
+            taskCollectionSelectorForm.setLocationRelativeTo(null);
             taskCollectionSelectorForm.setVisible(true);
         });
     }

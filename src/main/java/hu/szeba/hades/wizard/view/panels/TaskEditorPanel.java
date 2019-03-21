@@ -1,4 +1,4 @@
-package hu.szeba.hades.wizard.form;
+package hu.szeba.hades.wizard.view.panels;
 
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.wizard.view.components.ModifiableListPanel;
@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class TaskEditorForm extends JDialog {
+public class TaskEditorPanel extends JPanel {
 
     private JPanel leftPanel;
 
@@ -28,20 +28,14 @@ public class TaskEditorForm extends JDialog {
     private JTextArea regexInclude;
     private JTextArea regexExclude;
 
-    public TaskEditorForm() {
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.setTitle("Wizard: Task editor");
+    public TaskEditorPanel() {
         this.setLayout(new BorderLayout());
-        this.setMinimumSize(new Dimension(850, 500));
-        this.setResizable(false);
-        this.setModal(true);
 
         initializeComponents();
         setupEvents();
 
-        this.getContentPane().add(leftPanel, BorderLayout.WEST);
-        this.getContentPane().add(rightPanel, BorderLayout.CENTER);
-        this.pack();
+        this.add(leftPanel, BorderLayout.WEST);
+        this.add(rightPanel, BorderLayout.CENTER);
     }
 
     private void initializeComponents() {
@@ -50,22 +44,14 @@ public class TaskEditorForm extends JDialog {
     }
 
     private void setupEvents() {
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                super.windowClosing(e);
-                // TODO: Save here!
-                // ...
-                TaskEditorForm.this.dispose();
-            }
-        });
+
     }
 
     private void initializeLeftPanel() {
         leftPanel = new JPanel();
         leftPanel.setLayout(new GridBagLayout());
 
-        leftPanel.setPreferredSize(new Dimension(200, 600));
+        leftPanel.setPreferredSize(new Dimension(300, 600));
 
         titleField = new JTextField();
         JLabel titleLabel = new JLabel("Title:");

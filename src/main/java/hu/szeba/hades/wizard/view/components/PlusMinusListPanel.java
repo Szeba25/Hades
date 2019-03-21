@@ -6,12 +6,12 @@ import hu.szeba.hades.main.view.elements.MappedElement;
 import javax.swing.*;
 import java.awt.*;
 
-public class ModifiableListPanel extends JPanel {
+public class PlusMinusListPanel extends JPanel {
 
     private JList<MappedElement> list;
-    private AddEditDeletePanel modifier;
+    private PlusMinusPanel modifier;
 
-    public ModifiableListPanel(String title) {
+    public PlusMinusListPanel(String title) {
         this.setLayout(new GridBagLayout());
         this.setBorder(BorderFactory.createEtchedBorder());
 
@@ -23,7 +23,7 @@ public class ModifiableListPanel extends JPanel {
         JScrollPane listScroll = new JScrollPane(list);
         listScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-        modifier = new AddEditDeletePanel();
+        modifier = new PlusMinusPanel();
 
         GridBagSetter gs = new GridBagSetter();
         gs.setComponent(this);
@@ -38,23 +38,24 @@ public class ModifiableListPanel extends JPanel {
                 0,
                 new Insets(5, 5, 5, 5));
 
-        gs.add(listScroll,
+        gs.add(modifier,
                 0,
                 1,
-                GridBagConstraints.BOTH,
+                GridBagConstraints.NONE,
                 1,
                 1,
-                0.8,
                 1,
-                new Insets(0, 5, 5, 5));
+                0,
+                new Insets(0, 5, 5, 5),
+                GridBagConstraints.WEST);
 
-        gs.add(modifier,
-                1,
-                1,
+        gs.add(listScroll,
+                0,
+                2,
                 GridBagConstraints.BOTH,
                 1,
                 1,
-                0.15,
+                1,
                 1,
                 new Insets(0, 5, 5, 5));
     }
@@ -63,7 +64,7 @@ public class ModifiableListPanel extends JPanel {
         return list;
     }
 
-    public AddEditDeletePanel getModifier() {
+    public PlusMinusPanel getModifier() {
         return modifier;
     }
 

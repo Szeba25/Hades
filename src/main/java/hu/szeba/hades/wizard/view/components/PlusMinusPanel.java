@@ -29,11 +29,11 @@ public class PlusMinusPanel extends JPanel {
                 1,
                 1,
                 0,
-                new Insets(0, 0, 5, 0));
+                new Insets(0, 0, 0, 5));
 
         gs.add(minus,
-                0,
                 1,
+                0,
                 GridBagConstraints.HORIZONTAL,
                 1,
                 1,

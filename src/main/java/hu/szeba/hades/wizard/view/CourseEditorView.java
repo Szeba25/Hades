@@ -4,6 +4,13 @@ import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.components.ViewableFrame;
 import hu.szeba.hades.wizard.controller.CourseEditorController;
 import hu.szeba.hades.wizard.model.WizardCourse;
+import hu.szeba.hades.wizard.view.components.AddEditDeletePanel;
+import hu.szeba.hades.wizard.view.components.ModifiableListPanel;
+import hu.szeba.hades.wizard.view.components.PlusMinusListPanel;
+import hu.szeba.hades.wizard.view.components.PlusMinusPanel;
+import hu.szeba.hades.wizard.view.panels.ModeEditorPanel;
+import hu.szeba.hades.wizard.view.panels.TaskCollectionEditorPanel;
+import hu.szeba.hades.wizard.view.panels.TaskEditorPanel;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
@@ -23,7 +30,15 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
     private JTextField titleField;
     private JComboBox<String> languageBox;
 
-    private JPanel centerPanel;
+    private JTabbedPane tabbedPane;
+
+    private PlusMinusListPanel modeList;
+    private PlusMinusListPanel taskCollectionList;
+    private PlusMinusListPanel taskList;
+
+    private JPanel modesTab;
+    private JPanel taskCollectionsTab;
+    private JPanel tasksTab;
 
     public CourseEditorView(ViewableFrame parentView, String courseId)
             throws ParserConfigurationException, SAXException, IOException {
@@ -32,7 +47,7 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
 
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setTitle("Wizard: Course editor");
-        this.setLayout(new BorderLayout());
+        this.setLayout(new BorderLayout(0, 10));
         this.setMinimumSize(new Dimension(1000, 680));
         this.setResizable(true);
 
@@ -46,7 +61,7 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
         languageBox.getEditor().setItem(course.getLanguage());
 
         this.getContentPane().add(topPanel, BorderLayout.NORTH);
-        this.getContentPane().add(centerPanel, BorderLayout.CENTER);
+        this.getContentPane().add(tabbedPane, BorderLayout.CENTER);
         this.pack();
     }
 
@@ -106,10 +121,30 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
                 0,
                 new Insets(5, 5, 0, 5));
 
-        centerPanel = new JPanel();
-        centerPanel.setLayout(new GridBagLayout());
+        tabbedPane = new JTabbedPane();
 
-        gs.setComponent(centerPanel);
+        modeList = new PlusMinusListPanel("All modes:");
+        taskCollectionList = new PlusMinusListPanel("All task collections:");
+        taskList = new PlusMinusListPanel("All tasks:");
+
+        modesTab = new JPanel();
+        modesTab.setLayout(new BorderLayout());
+        modesTab.add(modeList, BorderLayout.WEST);
+        modesTab.add(new ModeEditorPanel(), BorderLayout.CENTER);
+
+        taskCollectionsTab = new JPanel();
+        taskCollectionsTab.setLayout(new BorderLayout());
+        taskCollectionsTab.add(taskCollectionList, BorderLayout.WEST);
+        taskCollectionsTab.add(new TaskCollectionEditorPanel(), BorderLayout.CENTER);
+
+        tasksTab = new JPanel();
+        tasksTab.setLayout(new BorderLayout());
+        tasksTab.add(taskList, BorderLayout.WEST);
+        tasksTab.add(new TaskEditorPanel(), BorderLayout.CENTER);
+
+        tabbedPane.addTab("Modes", modesTab);
+        tabbedPane.addTab("Task collections", taskCollectionsTab);
+        tabbedPane.addTab("Tasks", tasksTab);
     }
 
     private void setupEvents() {
