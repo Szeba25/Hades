@@ -59,7 +59,7 @@ public class WizardCourse {
         for (String modeId : modesPath.list()) {
             TabbedFile metaFile = new TabbedFile(new File(modesPath, modeId + "/title.dat"));
             possibleModes.add(new DescriptiveElement(modeId, metaFile.getData(0, 0)));
-            modes.put(modeId, new WizardMode());
+            modes.put(modeId, new WizardMode(modesPath, modeId));
         }
 
         taskCollectionsPath = new File(Options.getDatabasePath(), courseId + "/task_collections");

@@ -24,4 +24,15 @@ public class ModeData {
         return ironMan;
     }
 
+    public void setIgnoreDependency(boolean ignoreDependency) {
+        this.ignoreDependency = ignoreDependency;
+    }
+
+    public void setIgnoreStory(boolean ignoreStory) {
+        this.ignoreStory = ignoreStory;
+    }
+
+    public void setIronMan(boolean ironMan) {
+        this.ironMan = ironMan;
+    }
 }

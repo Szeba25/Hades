@@ -2,10 +2,8 @@ package hu.szeba.hades.main.io;
 
 import hu.szeba.hades.main.model.task.graph.Tuple;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,14 +16,18 @@ public class GraphFile {
 
         ArrayList<String> strings = new ArrayList<>();
 
-        FileReader fReader = new FileReader(file);
-        BufferedReader reader = new BufferedReader(fReader);
+        FileInputStream fis = new FileInputStream(file);
+        InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
+        BufferedReader reader = new BufferedReader(isr);
+
         String line;
         while ((line = reader.readLine()) != null) {
             strings.add(line);
         }
-        fReader.close();
+
         reader.close();
+        isr.close();
+        fis.close();
 
         for (String tuple : strings) {
             tuples.add(new Tuple(tuple));
