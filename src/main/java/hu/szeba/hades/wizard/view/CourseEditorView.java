@@ -4,10 +4,7 @@ import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.components.ViewableFrame;
 import hu.szeba.hades.wizard.controller.CourseEditorController;
 import hu.szeba.hades.wizard.model.WizardCourse;
-import hu.szeba.hades.wizard.view.components.AddEditDeletePanel;
-import hu.szeba.hades.wizard.view.components.ModifiableListPanel;
 import hu.szeba.hades.wizard.view.components.PlusMinusListPanel;
-import hu.szeba.hades.wizard.view.components.PlusMinusPanel;
 import hu.szeba.hades.wizard.view.panels.ModeEditorPanel;
 import hu.szeba.hades.wizard.view.panels.TaskCollectionEditorPanel;
 import hu.szeba.hades.wizard.view.panels.TaskEditorPanel;
@@ -64,6 +61,10 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
         controller.setModeListContents(modeList.getList());
         controller.setTaskCollectionListContents(taskCollectionList.getList());
         controller.setTaskListContents(taskList.getList());
+
+        //modeEditor.setVisible(false);
+        //taskCollectionEditor.setVisible(false);
+        //taskEditor.setVisible(false);
 
         titleField.setText(course.getCourseTitle());
         languageBox.getEditor().setItem(course.getLanguage());
