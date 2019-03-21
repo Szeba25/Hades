@@ -24,7 +24,7 @@ public class CourseSelectorView extends JFrame implements ViewableFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Wizard: Courses");
         this.setLayout(new BorderLayout());
-        this.setMinimumSize(new Dimension(380, 500));
+        this.setMinimumSize(new Dimension(480, 500));
         this.setResizable(false);
 
         initializeComponents();

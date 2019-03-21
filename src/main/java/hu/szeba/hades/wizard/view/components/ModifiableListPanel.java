@@ -56,7 +56,7 @@ public class ModifiableListPanel extends JPanel {
                 1,
                 0.15,
                 1,
-                new Insets(0, 5, 5, 5));
+                new Insets(0, 0, 5, 5));
     }
 
     public JList<MappedElement> getList() {
