@@ -159,6 +159,7 @@ public class TaskEditorPanel extends JPanel {
         rightPanel.setLayout(new GridBagLayout());
 
         inputResultPanel = new ModifiableListPanel("Input result pairs:", 200);
+        inputResultPanel.setBorder(BorderFactory.createEtchedBorder());
 
         regexPanel = new JPanel();
         regexPanel.setLayout(new GridBagLayout());
