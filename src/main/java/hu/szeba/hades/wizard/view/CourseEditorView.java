@@ -2,9 +2,11 @@ package hu.szeba.hades.wizard.view;
 
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.components.ViewableFrame;
+import hu.szeba.hades.main.view.elements.StatefulElement;
 import hu.szeba.hades.wizard.controller.CourseEditorController;
 import hu.szeba.hades.wizard.model.WizardCourse;
 import hu.szeba.hades.wizard.view.components.DynamicButtonListPanel;
+import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
 import hu.szeba.hades.wizard.view.panels.ModeEditorPanel;
 import hu.szeba.hades.wizard.view.panels.TaskCollectionEditorPanel;
 import hu.szeba.hades.wizard.view.panels.TaskEditorPanel;
@@ -169,6 +171,18 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
                 super.windowClosing(e);
                 CourseEditorView.this.dispose();
                 parentView.showView();
+            }
+        });
+
+        modeList.getList().getSelectionModel().addListSelectionListener((event) -> {
+            ListSelectionModel listSelectionModel = (ListSelectionModel) event.getSource();
+            ListModel listModel = modeList.getList().getModel();
+            if (!listSelectionModel.isSelectionEmpty()) {
+                int idx = listSelectionModel.getMinSelectionIndex();
+                if (listSelectionModel.isSelectedIndex(idx)) {
+                    DescriptiveElement element = (DescriptiveElement) listModel.getElementAt(idx);
+                    // TODO...
+                }
             }
         });
     }
