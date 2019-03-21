@@ -71,7 +71,7 @@ public class ModeEditorPanel extends JPanel {
         gs.add(titleField,
                 1,
                 0,
-                GridBagConstraints.BOTH,
+                GridBagConstraints.HORIZONTAL,
                 2,
                 1,
                 1,
