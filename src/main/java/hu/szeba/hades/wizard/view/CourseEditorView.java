@@ -36,6 +36,10 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
     private PlusMinusListPanel taskCollectionList;
     private PlusMinusListPanel taskList;
 
+    private ModeEditorPanel modeEditor;
+    private TaskCollectionEditorPanel taskCollectionEditor;
+    private TaskEditorPanel taskEditor;
+
     private JPanel modesTab;
     private JPanel taskCollectionsTab;
     private JPanel tasksTab;
@@ -134,17 +138,23 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
         modesTab = new JPanel();
         modesTab.setLayout(new BorderLayout(5, 0));
         modesTab.add(modeList, BorderLayout.WEST);
-        modesTab.add(new ModeEditorPanel(), BorderLayout.CENTER);
+
+        modeEditor = new ModeEditorPanel();
+        modesTab.add(modeEditor, BorderLayout.CENTER);
 
         taskCollectionsTab = new JPanel();
         taskCollectionsTab.setLayout(new BorderLayout(5, 0));
         taskCollectionsTab.add(taskCollectionList, BorderLayout.WEST);
-        taskCollectionsTab.add(new TaskCollectionEditorPanel(), BorderLayout.CENTER);
+
+        taskCollectionEditor = new TaskCollectionEditorPanel();
+        taskCollectionsTab.add(taskCollectionEditor, BorderLayout.CENTER);
 
         tasksTab = new JPanel();
         tasksTab.setLayout(new BorderLayout(5, 0));
         tasksTab.add(taskList, BorderLayout.WEST);
-        tasksTab.add(new TaskEditorPanel(), BorderLayout.CENTER);
+
+        taskEditor = new TaskEditorPanel();
+        tasksTab.add(taskEditor, BorderLayout.CENTER);
 
         tabbedPane.addTab("Modes", modesTab);
         tabbedPane.addTab("Task collections", taskCollectionsTab);
