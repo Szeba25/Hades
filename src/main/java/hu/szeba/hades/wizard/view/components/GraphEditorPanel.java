@@ -148,17 +148,7 @@ public class GraphEditorPanel extends JPanel {
     }
 
     public String getGraphStructureAsString() {
-        List<Tuple> tuples = new ArrayList<>();
-        for (GraphNode node : canvas.getNodes().values()) {
-            if (node.getConnections().size() > 0) {
-                for (GraphNode connection : node.getConnections().values()) {
-                    tuples.add(new Tuple(node.getDescription().getId(), connection.getDescription().getId()));
-                }
-            } else {
-                tuples.add(new Tuple(node.getDescription().getId(), "NULL"));
-            }
-        }
-        tuples.sort(Comparator.comparing(Tuple::toString));
+        List<Tuple> tuples = getTuples();
 
         StringBuilder builder = new StringBuilder();
         for (Tuple t : tuples) {
@@ -167,6 +157,38 @@ public class GraphEditorPanel extends JPanel {
         }
 
         return builder.toString();
+    }
+
+    public List<Tuple> getTuples() {
+        List<Tuple> tuples = new ArrayList<>();
+        Set<String> nodeNames = new HashSet<>();
+
+        // Add by graph connections
+        for (GraphNode node : canvas.getNodes().values()) {
+            if (node.getConnections().size() > 0) {
+                for (GraphNode connection : node.getConnections().values()) {
+                    tuples.add(new Tuple(node.getDescription().getId(), connection.getDescription().getId()));
+                    nodeNames.add(node.getDescription().getId());
+                    nodeNames.add(connection.getDescription().getId());
+                }
+            } else {
+                tuples.add(new Tuple(node.getDescription().getId(), "NULL"));
+                nodeNames.add(node.getDescription().getId());
+            }
+        }
+
+        // Add remaining nodes
+        DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) possibleNodesPanel.getList().getModel();
+        for (int i = 0; i < model.getSize(); i++) {
+            MappedElement element = model.getElementAt(i);
+            if (!nodeNames.contains(element.getId())) {
+                tuples.add(new Tuple(element.getId(), "NULL"));
+            }
+        }
+
+        tuples.sort(Comparator.comparing(Tuple::toString));
+
+        return tuples;
     }
 
     public void setGraphData(Map<String, GraphViewData> graphViewData, AdjacencyMatrix adjacencyMatrix, Map<String, String> idToTitleMapping) {
