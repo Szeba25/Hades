@@ -9,9 +9,11 @@ import java.util.List;
 
 public class GraphFile {
 
+    private File file;
     private List<Tuple> tuples;
 
     public GraphFile(File file) throws IOException {
+        this.file = file;
         this.tuples = new ArrayList<>();
 
         ArrayList<String> strings = new ArrayList<>();
@@ -37,4 +39,24 @@ public class GraphFile {
     public List<Tuple> getTuples() {
         return tuples;
     }
+
+    public void setTuples(List<Tuple> tuples) {
+        this.tuples = tuples;
+    }
+
+    public void save() throws IOException {
+        FileOutputStream fos = new FileOutputStream(file);
+        OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
+        BufferedWriter writer = new BufferedWriter(osw);
+
+        for (Tuple tuple : tuples) {
+            writer.write(tuples.toString());
+            writer.newLine();
+        }
+
+        writer.close();
+        osw.close();
+        fos.close();
+    }
+
 }

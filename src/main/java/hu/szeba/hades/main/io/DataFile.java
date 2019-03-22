@@ -66,6 +66,14 @@ public class DataFile {
         }
     }
 
+    public void setData(int lineNumber, int position, String data) {
+        if (!(lineNumber < 0 || lineNumber >= content.size() ||
+                position < 0 || position >= content.get(lineNumber).length)) {
+            String[] line = content.get(lineNumber);
+            line[position] = data;
+        }
+    }
+
     public void addData(String... data) {
         content.add(data);
     }

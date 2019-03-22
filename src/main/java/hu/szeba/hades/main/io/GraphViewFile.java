@@ -1,5 +1,8 @@
 package hu.szeba.hades.main.io;
 
+import hu.szeba.hades.main.model.task.graph.GraphViewData;
+import hu.szeba.hades.main.model.task.graph.Tuple;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -7,9 +10,11 @@ import java.util.Map;
 
 public class GraphViewFile {
 
+    private File file;
     private Map<String, GraphViewData> data;
 
     public GraphViewFile(File file) throws IOException {
+        this.file = file;
         this.data = new HashMap<>();
 
         FileInputStream fis = new FileInputStream(file);
@@ -31,24 +36,23 @@ public class GraphViewFile {
         return data;
     }
 
-    private class GraphViewData {
+    public void setData(Map<String, GraphViewData> data) {
+        this.data = data;
+    }
 
-        private String name;
-        private int r;
-        private int g;
-        private int b;
-        private int x;
-        private int y;
+    public void save() throws IOException {
+        FileOutputStream fos = new FileOutputStream(file);
+        OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
+        BufferedWriter writer = new BufferedWriter(osw);
 
-        public GraphViewData(String[] data) {
-            name = data[0];
-            r = Integer.parseInt(data[1]);
-            g = Integer.parseInt(data[2]);
-            b = Integer.parseInt(data[3]);
-            x = Integer.parseInt(data[4]);
-            y = Integer.parseInt(data[5]);
+        for (GraphViewData d : data.values()) {
+            writer.write(d.toString());
+            writer.newLine();
         }
 
+        writer.close();
+        osw.close();
+        fos.close();
     }
 
 }
