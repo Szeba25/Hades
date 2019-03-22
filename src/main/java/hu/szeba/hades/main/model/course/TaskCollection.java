@@ -76,7 +76,7 @@ public class TaskCollection {
         possibleTasks = new ArrayList<>();
         idToTitleMap = new HashMap<>();
         // Load all task descriptions
-        for (String taskId : taskGraph.getNodeNames()) {
+        for (String taskId : taskGraph.getNodes()) {
             DescriptionXMLFile descriptionFile = new DescriptionXMLFile(new File(tasksDirectory, taskId + "/description.xml"));
             TaskDescription description = descriptionFile.parse(modeData.isIgnoreStory());
             possibleTasks.add(new TaskElement(taskId, description.getTaskTitle(), description));

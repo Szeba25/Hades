@@ -45,7 +45,7 @@ public class Mode {
 
         possibleTaskCollections = new ArrayList<>();
         idToTitleMap = new HashMap<>();
-        for (String id : taskCollectionGraph.getNodeNames()) {
+        for (String id : taskCollectionGraph.getNodes()) {
             TabbedFile titleFile = new TabbedFile(new File(Options.getDatabasePath(), courseId + "/task_collections/" + id + "/title.dat"));
             possibleTaskCollections.add(new StatefulElement(id, titleFile.getData(0, 0)));
             idToTitleMap.put(id, titleFile.getData(0, 0));

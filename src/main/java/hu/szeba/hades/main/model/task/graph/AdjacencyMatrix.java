@@ -78,7 +78,7 @@ public class AdjacencyMatrix implements Graph {
     }
 
     @Override
-    public List<String> getNodeNames() {
+    public List<String> getNodes() {
         // Return a list of node names EXCLUDING the NULL node.
         List<String> nodeNames = new ArrayList<>();
         for (String str : nodesByIndex) {

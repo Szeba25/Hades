@@ -199,7 +199,7 @@ public class GraphEditorPanel extends JPanel {
         possibleNodesModel.removeAllElements();
 
         // Create the descriptive elements by ID, and add them to the view list
-        for (String node : graph.getNodeNames()) {
+        for (String node : graph.getNodes()) {
             DescriptiveElement desc = new DescriptiveElement(node, idToTitleMapping.get(node));
             possibleNodesModel.addElement(desc);
         }
