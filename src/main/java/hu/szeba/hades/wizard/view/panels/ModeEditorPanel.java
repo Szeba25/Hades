@@ -40,6 +40,8 @@ public class ModeEditorPanel extends JPanel {
 
         this.add(topPanel, BorderLayout.NORTH);
         this.add(dependenciesPanel, BorderLayout.CENTER);
+
+        setVisible(false);
     }
 
     private void initializeComponents() {
@@ -180,6 +182,8 @@ public class ModeEditorPanel extends JPanel {
 
             this.currentMode.setGraphData(dependenciesPanel.buildTuples());
             this.currentMode.setGraphViewData(dependenciesPanel.shallowCopyNodes());
+        } else {
+            setVisible(true);
         }
 
         // Load new mode
