@@ -1,6 +1,5 @@
 package hu.szeba.hades.wizard.view.components;
 
-import hu.szeba.hades.main.model.task.graph.GraphViewData;
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.view.elements.GraphNode;
 
@@ -91,7 +90,7 @@ public class GraphCanvas extends JPanel {
 
     private boolean changeSelection(int x, int y) {
         for (GraphNode node : nodes.values()) {
-            if (node.getDescription() != currentNodeDescription && node.isMouseInside(x, y)) {
+            if ((currentNodeDescription == null || !node.getDescription().getId().equals(currentNodeDescription.getId())) && node.isMouseInside(x, y)) {
                 possibleNodes.setSelectedValue(node.getDescription(), true);
                 currentNodeDescription = node.getDescription();
                 return true;
@@ -145,7 +144,7 @@ public class GraphCanvas extends JPanel {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         for (GraphNode n : nodes.values()) {
-            n.paintNode(g2, n.getDescription() == currentNodeDescription);
+            n.paintNode(g2, currentNodeDescription != null && n.getDescription().getId().equals(currentNodeDescription.getId()));
         }
 
         for (GraphNode n : nodes.values()) {
@@ -161,15 +160,6 @@ public class GraphCanvas extends JPanel {
 
     public Map<String, GraphNode> getNodes() {
         return nodes;
-    }
-
-    public Map<String, GraphViewData> buildGraphViewData() {
-        Map<String, GraphViewData> data = new HashMap<>();
-        for (String key : nodes.keySet()) {
-            GraphNode node = nodes.get(key);
-            data.put(key, new GraphViewData(node));
-        }
-        return data;
     }
 
 }

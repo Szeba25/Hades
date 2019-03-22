@@ -1,10 +1,11 @@
 package hu.szeba.hades.wizard.view.elements;
 
-import hu.szeba.hades.main.model.task.graph.GraphViewData;
 import hu.szeba.hades.main.view.elements.MappedElement;
 
 import java.awt.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 public class GraphNode {
 
@@ -13,6 +14,16 @@ public class GraphNode {
     private Point location;
     private Map<String, GraphNode> connections;
     private Color color;
+
+    public GraphNode(String[] data) {
+        this(
+            new DescriptiveElement(data[0], data[1]),
+            Integer.parseInt(data[2]),
+            Integer.parseInt(data[3]),
+            Integer.parseInt(data[4]),
+            new Point(Integer.parseInt(data[5]), Integer.parseInt(data[6]))
+        );
+    }
 
     public GraphNode(MappedElement description, Point location) {
         this(description, -1, -1, -1, location);
@@ -36,6 +47,13 @@ public class GraphNode {
         }
 
         this.color = new Color(r, g, b);
+    }
+
+    @Override
+    public String toString() {
+        return description.getId() + "|" + description.getTitle() + "|" +
+                color.getRed() + "|" + color.getGreen() + "|" + color.getBlue() + "|" +
+                location.x + "|" + location.y;
     }
 
     public MappedElement getDescription() {

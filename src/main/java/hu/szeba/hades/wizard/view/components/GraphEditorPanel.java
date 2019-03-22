@@ -1,7 +1,6 @@
 package hu.szeba.hades.wizard.view.components;
 
 import hu.szeba.hades.main.model.task.graph.AdjacencyMatrix;
-import hu.szeba.hades.main.model.task.graph.GraphViewData;
 import hu.szeba.hades.main.model.task.graph.Tuple;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.elements.MappedElement;
@@ -10,8 +9,8 @@ import hu.szeba.hades.wizard.view.elements.GraphNode;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class GraphEditorPanel extends JPanel {
 
@@ -190,40 +189,24 @@ public class GraphEditorPanel extends JPanel {
         return tuples;
     }
 
-    public Map<String, GraphViewData> buildGraphViewData() {
-        return canvas.buildGraphViewData();
+    public Map<String, GraphNode> copyNodes() {
+        return new HashMap<>(canvas.getNodes());
     }
 
-    public void setGraphData(Map<String, GraphViewData> graphViewData, AdjacencyMatrix adjacencyMatrix, Map<String, String> idToTitleMapping) {
+    public void setAllGraphData(Map<String, GraphNode> graphViewData, AdjacencyMatrix adjacencyMatrix, Map<String, String> idToTitleMapping) {
         // Clear the possible nodes list
         DefaultListModel<MappedElement> possibleNodesModel = (DefaultListModel<MappedElement>) possibleNodesPanel.getList().getModel();
         possibleNodesModel.removeAllElements();
 
         // Create the descriptive elements by ID, and add them to the view list
-        Map<String, MappedElement> elementMap = new HashMap<>();
         for (String node : adjacencyMatrix.getNodeNames()) {
             DescriptiveElement desc = new DescriptiveElement(node, idToTitleMapping.get(node));
             possibleNodesModel.addElement(desc);
-            elementMap.put(node, desc);
         }
 
-        // Clear the graph nodes
-        Map<String, GraphNode> graphNodes = canvas.getNodes();
-        graphNodes.clear();
-
-        // Add graph nodes
-        for (String graphViewKey : graphViewData.keySet()) {
-            GraphViewData data = graphViewData.get(graphViewKey);
-            GraphNode node = new GraphNode(elementMap.get(graphViewKey), data.getR(), data.getG(), data.getB(), new Point(data.getX(), data.getY()));
-            graphNodes.put(data.getName(), node);
-        }
-
-        // Add connections
-        for (String node : adjacencyMatrix.getNodeNames()) {
-            for (String conn : adjacencyMatrix.getChildNodes(node)) {
-                graphNodes.get(node).addConnection(graphNodes.get(conn));
-            }
-        }
+        // Clear the graph nodes from the canvas, and put new data!
+        canvas.getNodes().clear();
+        canvas.getNodes().putAll(graphViewData);
 
         // Reset current node
         canvas.setSelectedNode(null);

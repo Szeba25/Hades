@@ -1,5 +1,7 @@
 package hu.szeba.hades.main.model.task.graph;
 
+import hu.szeba.hades.wizard.view.elements.GraphNode;
+
 import java.util.*;
 
 public class AdjacencyMatrix {
@@ -81,6 +83,14 @@ public class AdjacencyMatrix {
             }
         }
         return nodeNames;
+    }
+
+    public void setupGraphNodesConnectionData(Map<String, GraphNode> nodes) {
+        for (String node : getNodeNames()) {
+            for (String child : getChildNodes(node)) {
+                nodes.get(node).addConnection(nodes.get(child));
+            }
+        }
     }
 
 }
