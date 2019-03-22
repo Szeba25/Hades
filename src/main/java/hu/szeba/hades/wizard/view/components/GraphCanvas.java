@@ -1,7 +1,7 @@
 package hu.szeba.hades.wizard.view.components;
 
 import hu.szeba.hades.main.view.elements.MappedElement;
-import hu.szeba.hades.wizard.view.elements.GraphNode;
+import hu.szeba.hades.wizard.view.elements.GraphViewNode;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +15,7 @@ public class GraphCanvas extends JPanel {
 
     private JList<MappedElement> possibleNodes;
 
-    private Map<String, GraphNode> nodes;
+    private Map<String, GraphViewNode> viewNodes;
     private MappedElement currentNodeDescription;
 
     private long delayTime;
@@ -27,7 +27,7 @@ public class GraphCanvas extends JPanel {
 
         this.possibleNodes = possibleNodes;
 
-        nodes = new HashMap<>();
+        viewNodes = new HashMap<>();
         currentNodeDescription = null;
         delayTime = 100;
         dragDelayedUntil = 0;
@@ -89,10 +89,10 @@ public class GraphCanvas extends JPanel {
     }
 
     private boolean changeSelection(int x, int y) {
-        for (GraphNode node : nodes.values()) {
-            if ((currentNodeDescription == null || !node.getDescription().getId().equals(currentNodeDescription.getId())) && node.isMouseInside(x, y)) {
-                possibleNodes.setSelectedValue(node.getDescription(), true);
-                currentNodeDescription = node.getDescription();
+        for (GraphViewNode viewNode : viewNodes.values()) {
+            if ((currentNodeDescription == null || !viewNode.getDescription().getId().equals(currentNodeDescription.getId())) && viewNode.isMouseInside(x, y)) {
+                possibleNodes.setSelectedValue(viewNode.getDescription(), true);
+                currentNodeDescription = viewNode.getDescription();
                 return true;
             }
         }
@@ -101,24 +101,24 @@ public class GraphCanvas extends JPanel {
 
     private void relocateOrPutNode(MappedElement nodeDescription, int x, int y) {
         if (nodeDescription != null) {
-            if (nodes.containsKey(nodeDescription.getId())) {
-                GraphNode node = nodes.get(nodeDescription.getId());
-                node.getLocation().setLocation(x, y);
+            if (viewNodes.containsKey(nodeDescription.getId())) {
+                GraphViewNode viewNode = viewNodes.get(nodeDescription.getId());
+                viewNode.getLocation().setLocation(x, y);
             } else {
-                nodes.put(nodeDescription.getId(), new GraphNode(nodeDescription, new Point(x, y)));
+                viewNodes.put(nodeDescription.getId(), new GraphViewNode(nodeDescription, new Point(x, y)));
             }
         }
     }
 
     private void addConnectionFromNode(MappedElement nodeDescription, int x, int y) {
-        if (nodeDescription != null && nodes.containsKey(nodeDescription.getId())) {
-            GraphNode sourceNode = nodes.get(nodeDescription.getId());
-            for (GraphNode destNode : nodes.values()) {
+        if (nodeDescription != null && viewNodes.containsKey(nodeDescription.getId())) {
+            GraphViewNode sourceNode = viewNodes.get(nodeDescription.getId());
+            for (GraphViewNode destNode : viewNodes.values()) {
                 if (destNode.isMouseInside(x, y)) {
                     if (sourceNode.hasConnectionTo(destNode)) {
-                        nodes.get(nodeDescription.getId()).removeConnection(destNode);
+                        viewNodes.get(nodeDescription.getId()).removeConnection(destNode);
                     } else {
-                        nodes.get(nodeDescription.getId()).addConnection(destNode);
+                        viewNodes.get(nodeDescription.getId()).addConnection(destNode);
                     }
                     break;
                 }
@@ -127,10 +127,10 @@ public class GraphCanvas extends JPanel {
     }
 
     public void deleteCurrentNode() {
-        if (currentNodeDescription != null && nodes.containsKey(currentNodeDescription.getId())) {
-            GraphNode removedNode = nodes.remove(currentNodeDescription.getId());
-            for (GraphNode n : nodes.values()) {
-                n.removeConnection(removedNode);
+        if (currentNodeDescription != null && viewNodes.containsKey(currentNodeDescription.getId())) {
+            GraphViewNode removedNode = viewNodes.remove(currentNodeDescription.getId());
+            for (GraphViewNode viewNode : viewNodes.values()) {
+                viewNode.removeConnection(removedNode);
             }
             currentNodeDescription = null;
             repaint();
@@ -143,12 +143,12 @@ public class GraphCanvas extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        for (GraphNode n : nodes.values()) {
-            n.paintNode(g2, currentNodeDescription != null && n.getDescription().getId().equals(currentNodeDescription.getId()));
+        for (GraphViewNode viewNode : viewNodes.values()) {
+            viewNode.paintNode(g2, currentNodeDescription != null && viewNode.getDescription().getId().equals(currentNodeDescription.getId()));
         }
 
-        for (GraphNode n : nodes.values()) {
-            n.paintConnections(g2);
+        for (GraphViewNode viewNode : viewNodes.values()) {
+            viewNode.paintConnections(g2);
         }
 
     }
@@ -158,8 +158,8 @@ public class GraphCanvas extends JPanel {
         repaint();
     }
 
-    public Map<String, GraphNode> getNodes() {
-        return nodes;
+    public Map<String, GraphViewNode> getViewNodes() {
+        return viewNodes;
     }
 
 }

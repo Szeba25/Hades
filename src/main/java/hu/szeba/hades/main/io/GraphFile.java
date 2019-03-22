@@ -1,7 +1,7 @@
 package hu.szeba.hades.main.io;
 
 import hu.szeba.hades.main.model.task.graph.Tuple;
-import hu.szeba.hades.wizard.view.elements.GraphNode;
+import hu.szeba.hades.wizard.view.elements.GraphViewNode;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -16,16 +16,16 @@ public class GraphFile {
     private File file;
     private File viewFile;
     private List<Tuple> tuples;
-    private Map<String, GraphNode> viewData;
+    private Map<String, GraphViewNode> viewNodes;
 
     public GraphFile(File file) throws IOException {
         this.file = file;
         this.viewFile = new File(file.getAbsolutePath() + ".view");
         this.tuples = new ArrayList<>();
-        this.viewData = new HashMap<>();
+        this.viewNodes = new HashMap<>();
 
         loadTuples();
-        loadViewData();
+        loadViewNodes();
     }
 
     private void loadTuples() throws IOException {
@@ -43,7 +43,7 @@ public class GraphFile {
         fis.close();
     }
 
-    private void loadViewData() throws IOException {
+    private void loadViewNodes() throws IOException {
         FileInputStream fis = new FileInputStream(viewFile);
         InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
         BufferedReader reader = new BufferedReader(isr);
@@ -51,18 +51,18 @@ public class GraphFile {
         String line;
         while ((line = reader.readLine()) != null) {
             String[] gvd = line.split(Pattern.quote("|"));
-            viewData.put(gvd[0], new GraphNode(gvd));
+            viewNodes.put(gvd[0], new GraphViewNode(gvd));
         }
 
         reader.close();
         isr.close();
         fis.close();
 
-        // Connect the view data!
+        // Connect the view nodes!
         for (Tuple tuple : tuples) {
-            if (viewData.containsKey(tuple.getElement1())) {
-                if (viewData.containsKey(tuple.getElement2())) {
-                    viewData.get(tuple.getElement1()).addConnection(viewData.get(tuple.getElement2()));
+            if (viewNodes.containsKey(tuple.getElement1())) {
+                if (viewNodes.containsKey(tuple.getElement2())) {
+                    viewNodes.get(tuple.getElement1()).addConnection(viewNodes.get(tuple.getElement2()));
                 }
             }
         }
@@ -76,17 +76,17 @@ public class GraphFile {
         this.tuples = tuples;
     }
 
-    public Map<String, GraphNode> getViewData() {
-        return viewData;
+    public Map<String, GraphViewNode> getViewNodes() {
+        return viewNodes;
     }
 
-    public void setViewData(Map<String, GraphNode> viewData) {
-        this.viewData = viewData;
+    public void setViewNodes(Map<String, GraphViewNode> viewNodes) {
+        this.viewNodes = viewNodes;
     }
 
     public void save() throws IOException {
         saveTuples();
-        saveViewData();
+        saveViewNodes();
     }
 
     private void saveTuples() throws IOException {
@@ -104,12 +104,12 @@ public class GraphFile {
         fos.close();
     }
 
-    private void saveViewData() throws IOException {
+    private void saveViewNodes() throws IOException {
         FileOutputStream fos = new FileOutputStream(viewFile);
         OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
         BufferedWriter writer = new BufferedWriter(osw);
 
-        for (GraphNode gn : viewData.values()) {
+        for (GraphViewNode gn : viewNodes.values()) {
             writer.write(gn.toString());
             writer.newLine();
         }

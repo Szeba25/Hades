@@ -7,15 +7,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class GraphNode {
+public class GraphViewNode {
 
     private MappedElement description;
     private int radius;
     private Point location;
-    private Map<String, GraphNode> connections;
+    private Map<String, GraphViewNode> connections;
     private Color color;
 
-    public GraphNode(String[] data) {
+    public GraphViewNode(String[] data) {
         this(
             new DescriptiveElement(data[0], data[1]),
             Integer.parseInt(data[2]),
@@ -25,11 +25,11 @@ public class GraphNode {
         );
     }
 
-    public GraphNode(MappedElement description, Point location) {
+    public GraphViewNode(MappedElement description, Point location) {
         this(description, -1, -1, -1, location);
     }
 
-    public GraphNode(MappedElement description, int r, int g, int b, Point location) {
+    public GraphViewNode(MappedElement description, int r, int g, int b, Point location) {
         this.description = description;
         this.radius = 12;
         this.location = location;
@@ -68,20 +68,20 @@ public class GraphNode {
         return color;
     }
 
-    public void addConnection(GraphNode node) {
-        if (!connections.containsKey(node.getDescription().getId()) && !node.hasConnectionTo(this) && node != this) {
-            connections.put(node.getDescription().getId(), node);
+    public void addConnection(GraphViewNode viewNode) {
+        if (!connections.containsKey(viewNode.getDescription().getId()) && !viewNode.hasConnectionTo(this) && viewNode != this) {
+            connections.put(viewNode.getDescription().getId(), viewNode);
         }
     }
 
-    public void removeConnection(GraphNode node) {
-        if (connections.containsKey(node.getDescription().getId()) && this.hasConnectionTo(node) && node != this) {
-            connections.remove(node.getDescription().getId());
+    public void removeConnection(GraphViewNode viewNode) {
+        if (connections.containsKey(viewNode.getDescription().getId()) && this.hasConnectionTo(viewNode) && viewNode != this) {
+            connections.remove(viewNode.getDescription().getId());
         }
     }
 
-    public boolean hasConnectionTo(GraphNode node) {
-        return (connections.containsKey(node.getDescription().getId()));
+    public boolean hasConnectionTo(GraphViewNode viewNode) {
+        return (connections.containsKey(viewNode.getDescription().getId()));
     }
 
     public boolean isMouseInside(int x, int y) {
@@ -100,7 +100,7 @@ public class GraphNode {
     }
 
     public void paintConnections(Graphics2D g2) {
-        for (GraphNode connNode : connections.values()) {
+        for (GraphViewNode connNode : connections.values()) {
 
             // Set initial locations
             int x1 = location.x;
@@ -161,7 +161,7 @@ public class GraphNode {
         }
     }
 
-    public Map<String, GraphNode> getConnections() {
+    public Map<String, GraphViewNode> getConnections() {
         return connections;
     }
 

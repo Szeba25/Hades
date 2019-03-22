@@ -5,7 +5,7 @@ import hu.szeba.hades.main.model.task.graph.Tuple;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
-import hu.szeba.hades.wizard.view.elements.GraphNode;
+import hu.szeba.hades.wizard.view.elements.GraphViewNode;
 
 import javax.swing.*;
 import java.awt.*;
@@ -162,16 +162,16 @@ public class GraphEditorPanel extends JPanel {
         Set<String> nodeNames = new HashSet<>();
 
         // Add by graph connections
-        for (GraphNode node : canvas.getNodes().values()) {
-            if (node.getConnections().size() > 0) {
-                for (GraphNode connection : node.getConnections().values()) {
-                    tuples.add(new Tuple(node.getDescription().getId(), connection.getDescription().getId()));
-                    nodeNames.add(node.getDescription().getId());
+        for (GraphViewNode viewNode : canvas.getViewNodes().values()) {
+            if (viewNode.getConnections().size() > 0) {
+                for (GraphViewNode connection : viewNode.getConnections().values()) {
+                    tuples.add(new Tuple(viewNode.getDescription().getId(), connection.getDescription().getId()));
+                    nodeNames.add(viewNode.getDescription().getId());
                     nodeNames.add(connection.getDescription().getId());
                 }
             } else {
-                tuples.add(new Tuple(node.getDescription().getId(), "NULL"));
-                nodeNames.add(node.getDescription().getId());
+                tuples.add(new Tuple(viewNode.getDescription().getId(), "NULL"));
+                nodeNames.add(viewNode.getDescription().getId());
             }
         }
 
@@ -189,11 +189,11 @@ public class GraphEditorPanel extends JPanel {
         return tuples;
     }
 
-    public Map<String, GraphNode> shallowCopyNodes() {
-        return new HashMap<>(canvas.getNodes());
+    public Map<String, GraphViewNode> shallowCopyViewNodes() {
+        return new HashMap<>(canvas.getViewNodes());
     }
 
-    public void setAllGraphData(Map<String, GraphNode> graphViewData, Graph graph, Map<String, String> idToTitleMapping) {
+    public void setAllGraphData(Map<String, GraphViewNode> viewNodes, Graph graph, Map<String, String> idToTitleMapping) {
         // Clear the possible nodes list
         DefaultListModel<MappedElement> possibleNodesModel = (DefaultListModel<MappedElement>) possibleNodesPanel.getList().getModel();
         possibleNodesModel.removeAllElements();
@@ -205,8 +205,8 @@ public class GraphEditorPanel extends JPanel {
         }
 
         // Clear the graph nodes from the canvas, and put new data!
-        canvas.getNodes().clear();
-        canvas.getNodes().putAll(graphViewData);
+        canvas.getViewNodes().clear();
+        canvas.getViewNodes().putAll(viewNodes);
 
         // Reset current node
         canvas.setSelectedNode(null);

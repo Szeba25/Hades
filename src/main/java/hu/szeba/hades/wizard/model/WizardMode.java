@@ -6,7 +6,7 @@ import hu.szeba.hades.main.io.TabbedFile;
 import hu.szeba.hades.main.model.task.graph.AdjacencyMatrix;
 import hu.szeba.hades.main.model.task.graph.Graph;
 import hu.szeba.hades.main.model.task.graph.Tuple;
-import hu.szeba.hades.wizard.view.elements.GraphNode;
+import hu.szeba.hades.wizard.view.elements.GraphViewNode;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,8 +58,8 @@ public class WizardMode {
         return Boolean.parseBoolean(metaFile.getData(2, 1));
     }
 
-    public Map<String, GraphNode> getGraphViewData() {
-        return graphFile.getViewData();
+    public Map<String, GraphViewNode> getGraphViewNodes() {
+        return graphFile.getViewNodes();
     }
 
     public Graph getGraph() {
@@ -82,9 +82,9 @@ public class WizardMode {
         metaFile.setData(2, 1, Boolean.toString(value));
     }
 
-    public void setAllGraphData(List<Tuple> tuples, Map<String, GraphNode> viewData) {
+    public void setAllGraphData(List<Tuple> tuples, Map<String, GraphViewNode> viewNodes) {
         graphFile.setTuples(tuples);
-        graphFile.setViewData(viewData);
+        graphFile.setViewNodes(viewNodes);
         graph = new AdjacencyMatrix(graphFile.getTuples());
     }
 

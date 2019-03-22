@@ -179,7 +179,7 @@ public class ModeEditorPanel extends JPanel {
             this.currentMode.setIgnoreDependency(ignoreDependency.isSelected());
             this.currentMode.setIgnoreStory(ignoreStory.isSelected());
             this.currentMode.setIronMan(ironMan.isSelected());
-            this.currentMode.setAllGraphData(dependenciesPanel.buildTuples(), dependenciesPanel.shallowCopyNodes());
+            this.currentMode.setAllGraphData(dependenciesPanel.buildTuples(), dependenciesPanel.shallowCopyViewNodes());
         } else {
             setVisible(true);
         }
@@ -189,7 +189,7 @@ public class ModeEditorPanel extends JPanel {
         ignoreDependency.setSelected(newMode.isIgnoreDependency());
         ignoreStory.setSelected(newMode.isIgnoreStory());
         ironMan.setSelected(newMode.isIronMan());
-        dependenciesPanel.setAllGraphData(newMode.getGraphViewData(), newMode.getGraph(), idToTitleMapping);
+        dependenciesPanel.setAllGraphData(newMode.getGraphViewNodes(), newMode.getGraph(), idToTitleMapping);
 
         // Update current mode
         this.currentMode = newMode;
