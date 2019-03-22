@@ -28,6 +28,20 @@ public class GraphEditorPanel extends JPanel {
 
         possibleNodesPanel = new DynamicButtonListPanel(title, 200, "+", "-");
 
+        // TEST
+        DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) possibleNodesPanel.getList().getModel();
+        model.addElement(new DescriptiveElement("0000", "Title 0"));
+        model.addElement(new DescriptiveElement("0001", "Title 1"));
+        model.addElement(new DescriptiveElement("0002", "Title 2"));
+        model.addElement(new DescriptiveElement("0003", "Title 3"));
+        model.addElement(new DescriptiveElement("0004", "Title 4"));
+        model.addElement(new DescriptiveElement("0005", "Title 5"));
+        model.addElement(new DescriptiveElement("0006", "Title 6"));
+        model.addElement(new DescriptiveElement("0007", "Title 7"));
+        model.addElement(new DescriptiveElement("0008", "Title 8"));
+        model.addElement(new DescriptiveElement("0009", "Title 9"));
+        // TEST
+
         canvas = new GraphCanvas(possibleNodesPanel.getList());
         canvas.setPreferredSize(new Dimension(width, height));
         JScrollPane canvasScroller = new JScrollPane(canvas);
