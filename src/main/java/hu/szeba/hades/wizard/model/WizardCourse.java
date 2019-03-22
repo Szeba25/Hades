@@ -20,8 +20,9 @@ import java.util.Map;
 public class WizardCourse {
 
     private String courseId;
-    private String courseTitle;
-    private String language;
+
+    private TabbedFile titleFile;
+    private ConfigFile metaFile;
 
     private File modesPath;
     private File taskCollectionsPath;
@@ -41,11 +42,8 @@ public class WizardCourse {
 
         this.courseId = courseId;
 
-        TabbedFile titleFile = new TabbedFile(new File(Options.getDatabasePath(), courseId + "/title.dat"));
-        this.courseTitle = titleFile.getData(0, 0);
-
-        ConfigFile courseMetaFile = new ConfigFile(new File(Options.getDatabasePath(), courseId  + "/meta.conf"));
-        this.language = courseMetaFile.getData(0, 1);
+        titleFile = new TabbedFile(new File(Options.getDatabasePath(), courseId + "/title.dat"));
+        metaFile = new ConfigFile(new File(Options.getDatabasePath(), courseId  + "/meta.conf"));
 
         possibleModes = new ArrayList<>();
         possibleTaskCollections = new ArrayList<>();
@@ -79,16 +77,21 @@ public class WizardCourse {
 
     }
 
+    public void save() throws IOException {
+        titleFile.save();
+        metaFile.save();
+    }
+
     public String getCourseId() {
         return courseId;
     }
 
     public String getCourseTitle() {
-        return courseTitle;
+        return titleFile.getData(0, 0);
     }
 
     public String getLanguage() {
-        return language;
+        return metaFile.getData(0, 1);
     }
 
     public List<MappedElement> getPossibleModes() {
