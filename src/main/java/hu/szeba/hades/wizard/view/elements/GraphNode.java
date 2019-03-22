@@ -14,13 +14,27 @@ public class GraphNode {
     private Color color;
 
     public GraphNode(MappedElement description, Point location) {
+        this(description, -1, -1, -1, location);
+    }
+
+    public GraphNode(MappedElement description, int r, int g, int b, Point location) {
         this.description = description;
         this.radius = 12;
         this.location = location;
         this.connections = new HashMap<>();
 
         Random random = new Random();
-        this.color = new Color(random.nextInt(160), random.nextInt(160), random.nextInt(160));
+        if (r == -1) {
+            r = random.nextInt(160);
+        }
+        if (g == -1) {
+            g = random.nextInt(160);
+        }
+        if (b == -1) {
+            b = random.nextInt(160);
+        }
+
+        this.color = new Color(r, g, b);
     }
 
     public MappedElement getDescription() {

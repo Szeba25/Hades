@@ -51,7 +51,22 @@ public class AdjacencyMatrix {
         int i = indexByNodes.get(node);
         for (int j = 0; j < getSize(); j++) {
             if (edges[j][i]) {
-                list.add(nodesByIndex[j]);
+                if (!nodesByIndex[j].equals("NULL")) {
+                    list.add(nodesByIndex[j]);
+                }
+            }
+        }
+        return list;
+    }
+
+    public List<String> getChildNodes(String node) {
+        List<String> list = new ArrayList<>();
+        int i = indexByNodes.get(node);
+        for (int j = 0; j < getSize(); j++) {
+            if (edges[i][j]) {
+                if (!nodesByIndex[j].equals("NULL")) {
+                    list.add(nodesByIndex[j]);
+                }
             }
         }
         return list;

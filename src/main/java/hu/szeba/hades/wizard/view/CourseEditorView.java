@@ -181,7 +181,7 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
                 int idx = listSelectionModel.getMinSelectionIndex();
                 if (listSelectionModel.isSelectedIndex(idx)) {
                     DescriptiveElement element = (DescriptiveElement) listModel.getElementAt(idx);
-                    // TODO...
+                    controller.setCurrentMode(modeEditor, element);
                 }
             }
         });

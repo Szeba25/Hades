@@ -2,6 +2,8 @@ package hu.szeba.hades.wizard.controller;
 
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.model.WizardCourse;
+import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
+import hu.szeba.hades.wizard.view.panels.ModeEditorPanel;
 
 import javax.swing.*;
 
@@ -40,4 +42,7 @@ public class CourseEditorController {
         }
     }
 
+    public void setCurrentMode(ModeEditorPanel modeEditor, DescriptiveElement element) {
+        modeEditor.setCurrentMode(course.getModes().get(element.getId()), course.getTaskCollectionIdToTitle());
+    }
 }

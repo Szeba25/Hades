@@ -1,15 +1,17 @@
 package hu.szeba.hades.wizard.view.components;
 
+import hu.szeba.hades.main.model.task.graph.AdjacencyMatrix;
+import hu.szeba.hades.main.model.task.graph.GraphViewData;
 import hu.szeba.hades.main.model.task.graph.Tuple;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.elements.MappedElement;
+import hu.szeba.hades.wizard.model.WizardTaskCollection;
 import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
 import hu.szeba.hades.wizard.view.elements.GraphNode;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.*;
 import java.util.List;
 
 public class GraphEditorPanel extends JPanel {
@@ -25,15 +27,6 @@ public class GraphEditorPanel extends JPanel {
         this.setLayout(new GridBagLayout());
 
         possibleNodesPanel = new DynamicButtonListPanel(title, 200, "+", "-");
-
-        // Testing
-        DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) possibleNodesPanel.getList().getModel();
-        model.addElement(new DescriptiveElement("0001", "Task 1"));
-        model.addElement(new DescriptiveElement("0002", "Task 2"));
-        model.addElement(new DescriptiveElement("0003", "Task 3"));
-        model.addElement(new DescriptiveElement("0004", "Task 4"));
-        model.addElement(new DescriptiveElement("0005", "Task 5"));
-        model.addElement(new DescriptiveElement("0006", "Task 6"));
 
         canvas = new GraphCanvas(possibleNodesPanel.getList());
         canvas.setPreferredSize(new Dimension(width, height));
@@ -160,6 +153,41 @@ public class GraphEditorPanel extends JPanel {
         }
 
         return builder.toString();
+    }
+
+    public void setGraphData(Map<String, GraphViewData> graphViewData, AdjacencyMatrix adjacencyMatrix, Map<String, String> idToTitleMapping) {
+        // Clear the possible nodes list
+        DefaultListModel<MappedElement> possibleNodesModel = (DefaultListModel<MappedElement>) possibleNodesPanel.getList().getModel();
+        possibleNodesModel.removeAllElements();
+
+        // Create the descriptive elements by ID, and add them to the view list
+        Map<String, MappedElement> elementMap = new HashMap<>();
+        for (String node : adjacencyMatrix.getNodeNames()) {
+            DescriptiveElement desc = new DescriptiveElement(node, idToTitleMapping.get(node));
+            possibleNodesModel.addElement(desc);
+            elementMap.put(node, desc);
+        }
+
+        // Clear the graph nodes
+        Map<String, GraphNode> graphNodes = canvas.getNodes();
+        graphNodes.clear();
+
+        // Add graph nodes
+        for (String graphViewKey : graphViewData.keySet()) {
+            GraphViewData data = graphViewData.get(graphViewKey);
+            GraphNode node = new GraphNode(elementMap.get(graphViewKey), data.getR(), data.getG(), data.getB(), new Point(data.getX(), data.getY()));
+            graphNodes.put(data.getName(), node);
+        }
+
+        // Add connections
+        for (String node : adjacencyMatrix.getNodeNames()) {
+            for (String conn : adjacencyMatrix.getChildNodes(node)) {
+                graphNodes.get(node).addConnection(graphNodes.get(conn));
+            }
+        }
+
+        // Repaint the canvas
+        canvas.repaint();
     }
 
 }

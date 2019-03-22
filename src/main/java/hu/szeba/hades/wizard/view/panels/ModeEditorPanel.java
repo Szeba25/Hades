@@ -2,12 +2,17 @@ package hu.szeba.hades.wizard.view.panels;
 
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.wizard.form.MultiSelectorForm;
+import hu.szeba.hades.wizard.model.WizardMode;
+import hu.szeba.hades.wizard.model.WizardTaskCollection;
 import hu.szeba.hades.wizard.view.components.GraphEditorPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Map;
 
 public class ModeEditorPanel extends JPanel {
+
+    private WizardMode currentMode;
 
     private JPanel topPanel;
 
@@ -23,6 +28,8 @@ public class ModeEditorPanel extends JPanel {
     public ModeEditorPanel() {
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEtchedBorder());
+
+        currentMode = null;
 
         taskCollectionSelectorForm = new MultiSelectorForm("Wizard: Select task collections");
 
@@ -158,6 +165,17 @@ public class ModeEditorPanel extends JPanel {
             taskCollectionSelectorForm.setLocationRelativeTo(null);
             taskCollectionSelectorForm.setVisible(true);
         });
+    }
+
+    public void setCurrentMode(WizardMode currentMode, Map<String, String> idToTitleMapping) {
+        this.currentMode = currentMode;
+
+        titleField.setText(currentMode.getTitle());
+        ignoreDependency.setSelected(currentMode.isIgnoreDependency());
+        ignoreStory.setSelected(currentMode.isIgnoreStory());
+        ironMan.setSelected(currentMode.isIronMan());
+
+        dependenciesPanel.setGraphData(currentMode.getGraphViewData(), currentMode.getAdjacencyMatrix(), idToTitleMapping);
     }
 
 }

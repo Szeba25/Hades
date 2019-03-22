@@ -26,11 +26,11 @@ public class Tuple {
         }
     }
 
-    String getElement1() {
+    public String getElement1() {
         return element1;
     }
 
-    String getElement2() {
+    public String getElement2() {
         return element2;
     }
 
