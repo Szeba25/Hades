@@ -1,7 +1,6 @@
 package hu.szeba.hades.main.io;
 
 import hu.szeba.hades.main.model.task.graph.GraphViewData;
-import hu.szeba.hades.main.model.task.graph.Tuple;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

@@ -1,5 +1,7 @@
 package hu.szeba.hades.main.model.task.graph;
 
+import hu.szeba.hades.wizard.view.elements.GraphNode;
+
 public class GraphViewData {
 
     private String name;
@@ -8,6 +10,15 @@ public class GraphViewData {
     private int b;
     private int x;
     private int y;
+
+    public GraphViewData(GraphNode node) {
+        name = node.getDescription().getId();
+        r = node.getColor().getRed();
+        g = node.getColor().getGreen();
+        b = node.getColor().getBlue();
+        x = node.getLocation().x;
+        y = node.getLocation().y;
+    }
 
     public GraphViewData(String[] data) {
         name = data[0];

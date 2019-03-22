@@ -5,7 +5,6 @@ import hu.szeba.hades.main.model.task.graph.GraphViewData;
 import hu.szeba.hades.main.model.task.graph.Tuple;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.elements.MappedElement;
-import hu.szeba.hades.wizard.model.WizardTaskCollection;
 import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
 import hu.szeba.hades.wizard.view.elements.GraphNode;
 
@@ -137,7 +136,7 @@ public class GraphEditorPanel extends JPanel {
         });
 
         dataPreviewButton.addActionListener((event) -> {
-            dataArea.setText(getGraphStructureAsString());
+            dataArea.setText(buildGraphStructureString());
             dataPreview.setLocationRelativeTo(null);
             dataPreview.setVisible(true);
         });
@@ -147,8 +146,8 @@ public class GraphEditorPanel extends JPanel {
         return possibleNodesPanel.getModifier().getButton(0);
     }
 
-    public String getGraphStructureAsString() {
-        List<Tuple> tuples = getTuples();
+    public String buildGraphStructureString() {
+        List<Tuple> tuples = buildTuples();
 
         StringBuilder builder = new StringBuilder();
         for (Tuple t : tuples) {
@@ -159,7 +158,7 @@ public class GraphEditorPanel extends JPanel {
         return builder.toString();
     }
 
-    public List<Tuple> getTuples() {
+    public List<Tuple> buildTuples() {
         List<Tuple> tuples = new ArrayList<>();
         Set<String> nodeNames = new HashSet<>();
 
@@ -189,6 +188,10 @@ public class GraphEditorPanel extends JPanel {
         tuples.sort(Comparator.comparing(Tuple::toString));
 
         return tuples;
+    }
+
+    public Map<String, GraphViewData> buildGraphViewData() {
+        return canvas.buildGraphViewData();
     }
 
     public void setGraphData(Map<String, GraphViewData> graphViewData, AdjacencyMatrix adjacencyMatrix, Map<String, String> idToTitleMapping) {

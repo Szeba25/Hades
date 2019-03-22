@@ -1,5 +1,6 @@
 package hu.szeba.hades.wizard.view.elements;
 
+import hu.szeba.hades.main.model.task.graph.GraphViewData;
 import hu.szeba.hades.main.view.elements.MappedElement;
 
 import java.awt.*;
@@ -43,6 +44,10 @@ public class GraphNode {
 
     public Point getLocation() {
         return location;
+    }
+
+    public Color getColor() {
+        return color;
     }
 
     public void addConnection(GraphNode node) {

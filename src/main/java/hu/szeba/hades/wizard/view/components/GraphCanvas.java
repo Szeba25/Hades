@@ -1,5 +1,6 @@
 package hu.szeba.hades.wizard.view.components;
 
+import hu.szeba.hades.main.model.task.graph.GraphViewData;
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.view.elements.GraphNode;
 
@@ -160,6 +161,15 @@ public class GraphCanvas extends JPanel {
 
     public Map<String, GraphNode> getNodes() {
         return nodes;
+    }
+
+    public Map<String, GraphViewData> buildGraphViewData() {
+        Map<String, GraphViewData> data = new HashMap<>();
+        for (String key : nodes.keySet()) {
+            GraphNode node = nodes.get(key);
+            data.put(key, new GraphViewData(node));
+        }
+        return data;
     }
 
 }

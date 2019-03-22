@@ -3,7 +3,6 @@ package hu.szeba.hades.wizard.view.panels;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.wizard.form.MultiSelectorForm;
 import hu.szeba.hades.wizard.model.WizardMode;
-import hu.szeba.hades.wizard.model.WizardTaskCollection;
 import hu.szeba.hades.wizard.view.components.GraphEditorPanel;
 import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
 
@@ -179,7 +178,8 @@ public class ModeEditorPanel extends JPanel {
             this.currentMode.setIgnoreStory(ignoreStory.isSelected());
             this.currentMode.setIronMan(ironMan.isSelected());
 
-
+            this.currentMode.setGraphData(dependenciesPanel.buildTuples());
+            this.currentMode.setGraphViewData(dependenciesPanel.buildGraphViewData());
         }
 
         // Load new mode

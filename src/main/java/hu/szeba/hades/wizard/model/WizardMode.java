@@ -89,4 +89,12 @@ public class WizardMode {
         metaFile.setData(2, 1, Boolean.toString(value));
     }
 
+    public void setGraphData(List<Tuple> tuples) {
+        this.graph.setTuples(tuples);
+    }
+
+    public void setGraphViewData(Map<String, GraphViewData> data) {
+        this.graphView.setData(data);
+    }
+
 }
