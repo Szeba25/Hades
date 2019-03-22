@@ -65,10 +65,6 @@ public class WizardMode {
         return graphView.getData();
     }
 
-    public List<Tuple> getGraphData() {
-        return graph.getTuples();
-    }
-
     public AdjacencyMatrix getAdjacencyMatrix() {
         return adjacencyMatrix;
     }
@@ -91,6 +87,7 @@ public class WizardMode {
 
     public void setGraphData(List<Tuple> tuples) {
         this.graph.setTuples(tuples);
+        this.adjacencyMatrix = new AdjacencyMatrix(tuples);
     }
 
     public void setGraphViewData(Map<String, GraphViewData> data) {
