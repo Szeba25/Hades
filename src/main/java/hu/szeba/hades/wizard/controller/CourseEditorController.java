@@ -6,6 +6,7 @@ import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
 import hu.szeba.hades.wizard.view.panels.ModeEditorPanel;
 
 import javax.swing.*;
+import java.io.IOException;
 
 public class CourseEditorController {
 
@@ -44,5 +45,9 @@ public class CourseEditorController {
 
     public void setCurrentMode(ModeEditorPanel modeEditor, DescriptiveElement element) {
         modeEditor.setCurrentMode(course.getModes().get(element.getId()), element, course.getTaskCollectionIdToTitle());
+    }
+
+    public void save() throws IOException {
+        course.save();
     }
 }

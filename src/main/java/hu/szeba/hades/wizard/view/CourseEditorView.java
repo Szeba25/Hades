@@ -169,6 +169,11 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e);
+                try {
+                    controller.save();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
                 CourseEditorView.this.dispose();
                 parentView.showView();
             }

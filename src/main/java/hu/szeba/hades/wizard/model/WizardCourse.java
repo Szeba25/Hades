@@ -89,6 +89,10 @@ public class WizardCourse {
     public void save() throws IOException {
         titleFile.save();
         metaFile.save();
+
+        for (WizardMode mode : modes.values()) {
+            mode.save();
+        }
     }
 
     public String getCourseId() {
