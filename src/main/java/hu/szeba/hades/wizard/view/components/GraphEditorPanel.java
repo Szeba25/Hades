@@ -189,7 +189,7 @@ public class GraphEditorPanel extends JPanel {
         return tuples;
     }
 
-    public Map<String, GraphNode> copyNodes() {
+    public Map<String, GraphNode> shallowCopyNodes() {
         return new HashMap<>(canvas.getNodes());
     }
 

@@ -179,7 +179,7 @@ public class ModeEditorPanel extends JPanel {
             this.currentMode.setIronMan(ironMan.isSelected());
 
             this.currentMode.setGraphData(dependenciesPanel.buildTuples());
-            this.currentMode.setGraphViewData(dependenciesPanel.copyNodes());
+            this.currentMode.setGraphViewData(dependenciesPanel.shallowCopyNodes());
         }
 
         // Load new mode
