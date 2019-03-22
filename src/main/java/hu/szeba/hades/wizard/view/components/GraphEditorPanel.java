@@ -162,8 +162,4 @@ public class GraphEditorPanel extends JPanel {
         return builder.toString();
     }
 
-    public void save() {
-
-    }
-
 }

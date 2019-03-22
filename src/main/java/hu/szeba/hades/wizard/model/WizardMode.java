@@ -37,4 +37,8 @@ public class WizardMode {
         graph = new GraphFile(new File(modePath, "task_collections.graph"));
     }
 
+    public void save() {
+
+    }
+
 }
