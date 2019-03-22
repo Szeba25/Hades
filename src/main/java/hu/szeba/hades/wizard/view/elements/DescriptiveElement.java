@@ -16,4 +16,8 @@ public class DescriptiveElement extends MappedElement {
         return display;
     }
 
+    public void setTitle(String title) {
+        super.setTitle(title);
+        this.display = "(" + getId() + ") -> " + title;
+    }
 }

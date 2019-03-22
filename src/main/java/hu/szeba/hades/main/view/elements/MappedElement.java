@@ -2,8 +2,8 @@ package hu.szeba.hades.main.view.elements;
 
 public class MappedElement {
 
-    private final String id;
-    private final String title;
+    private String id;
+    private String title;
 
     public MappedElement(String id, String title) {
         this.id = id;
@@ -16,6 +16,14 @@ public class MappedElement {
 
     public String getTitle() {
         return title;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @Override

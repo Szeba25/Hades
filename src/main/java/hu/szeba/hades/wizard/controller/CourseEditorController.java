@@ -43,6 +43,6 @@ public class CourseEditorController {
     }
 
     public void setCurrentMode(ModeEditorPanel modeEditor, DescriptiveElement element) {
-        modeEditor.setCurrentMode(course.getModes().get(element.getId()), course.getTaskCollectionIdToTitle());
+        modeEditor.setCurrentMode(course.getModes().get(element.getId()), element, course.getTaskCollectionIdToTitle());
     }
 }

@@ -5,6 +5,7 @@ import hu.szeba.hades.wizard.form.MultiSelectorForm;
 import hu.szeba.hades.wizard.model.WizardMode;
 import hu.szeba.hades.wizard.model.WizardTaskCollection;
 import hu.szeba.hades.wizard.view.components.GraphEditorPanel;
+import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +13,7 @@ import java.util.Map;
 
 public class ModeEditorPanel extends JPanel {
 
+    private DescriptiveElement currentElementRef;
     private WizardMode currentMode;
 
     private JPanel topPanel;
@@ -29,6 +31,7 @@ public class ModeEditorPanel extends JPanel {
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEtchedBorder());
 
+        currentElementRef = null;
         currentMode = null;
 
         taskCollectionSelectorForm = new MultiSelectorForm("Wizard: Select task collections");
@@ -167,15 +170,29 @@ public class ModeEditorPanel extends JPanel {
         });
     }
 
-    public void setCurrentMode(WizardMode currentMode, Map<String, String> idToTitleMapping) {
-        this.currentMode = currentMode;
+    public void setCurrentMode(WizardMode newMode, DescriptiveElement currentElementRef, Map<String, String> idToTitleMapping) {
+        // Save old mode
+        if (this.currentMode != null) {
+            this.currentElementRef.setTitle(titleField.getText());
+            this.currentMode.setTitle(titleField.getText());
+            this.currentMode.setIgnoreDependency(ignoreDependency.isSelected());
+            this.currentMode.setIgnoreStory(ignoreStory.isSelected());
+            this.currentMode.setIronMan(ironMan.isSelected());
 
-        titleField.setText(currentMode.getTitle());
-        ignoreDependency.setSelected(currentMode.isIgnoreDependency());
-        ignoreStory.setSelected(currentMode.isIgnoreStory());
-        ironMan.setSelected(currentMode.isIronMan());
 
-        dependenciesPanel.setGraphData(currentMode.getGraphViewData(), currentMode.getAdjacencyMatrix(), idToTitleMapping);
+        }
+
+        // Load new mode
+        titleField.setText(newMode.getTitle());
+        ignoreDependency.setSelected(newMode.isIgnoreDependency());
+        ignoreStory.setSelected(newMode.isIgnoreStory());
+        ironMan.setSelected(newMode.isIronMan());
+
+        dependenciesPanel.setGraphData(newMode.getGraphViewData(), newMode.getAdjacencyMatrix(), idToTitleMapping);
+
+        // Update current mode
+        this.currentMode = newMode;
+        this.currentElementRef = currentElementRef;
     }
 
 }

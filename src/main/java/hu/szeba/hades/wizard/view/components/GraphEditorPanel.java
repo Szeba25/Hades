@@ -200,8 +200,8 @@ public class GraphEditorPanel extends JPanel {
             }
         }
 
-        // Repaint the canvas
-        canvas.repaint();
+        // Reset current node
+        canvas.setSelectedNode(null);
     }
 
 }

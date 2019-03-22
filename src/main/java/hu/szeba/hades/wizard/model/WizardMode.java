@@ -73,6 +73,10 @@ public class WizardMode {
         return adjacencyMatrix;
     }
 
+    public void setTitle(String title) {
+        titleFile.setData(0, 0, title);
+    }
+
     public void setIgnoreDependency(boolean value) {
         metaFile.setData(0, 1, Boolean.toString(value));
     }
