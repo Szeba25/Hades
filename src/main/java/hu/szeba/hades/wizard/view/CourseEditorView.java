@@ -170,6 +170,10 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e);
                 try {
+                    // Trigger update on current list element
+                    controller.setCurrentMode(modeEditor, (DescriptiveElement) modeList.getList().getSelectedValue());
+
+                    // Save the course!
                     controller.save();
                 } catch (IOException e1) {
                     e1.printStackTrace();
