@@ -82,13 +82,10 @@ public class WizardMode {
         metaFile.setData(2, 1, Boolean.toString(value));
     }
 
-    public void setGraphData(List<Tuple> tuples) {
+    public void setAllGraphData(List<Tuple> tuples, Map<String, GraphNode> viewData) {
         graphFile.setTuples(tuples);
+        graphFile.setViewData(viewData);
         graph = new AdjacencyMatrix(graphFile.getTuples());
-    }
-
-    public void setGraphViewData(Map<String, GraphNode> data) {
-        this.graphFile.setViewData(data);
     }
 
 }
