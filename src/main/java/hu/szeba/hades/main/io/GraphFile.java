@@ -50,7 +50,7 @@ public class GraphFile {
         BufferedWriter writer = new BufferedWriter(osw);
 
         for (Tuple tuple : tuples) {
-            writer.write(tuples.toString());
+            writer.write(tuple.toString());
             writer.newLine();
         }
 
