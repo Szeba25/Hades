@@ -1,6 +1,6 @@
 package hu.szeba.hades.wizard.view.components;
 
-import hu.szeba.hades.main.model.task.graph.AdjacencyMatrix;
+import hu.szeba.hades.main.model.task.graph.Graph;
 import hu.szeba.hades.main.model.task.graph.Tuple;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.elements.MappedElement;
@@ -193,13 +193,13 @@ public class GraphEditorPanel extends JPanel {
         return new HashMap<>(canvas.getNodes());
     }
 
-    public void setAllGraphData(Map<String, GraphNode> graphViewData, AdjacencyMatrix adjacencyMatrix, Map<String, String> idToTitleMapping) {
+    public void setAllGraphData(Map<String, GraphNode> graphViewData, Graph graph, Map<String, String> idToTitleMapping) {
         // Clear the possible nodes list
         DefaultListModel<MappedElement> possibleNodesModel = (DefaultListModel<MappedElement>) possibleNodesPanel.getList().getModel();
         possibleNodesModel.removeAllElements();
 
         // Create the descriptive elements by ID, and add them to the view list
-        for (String node : adjacencyMatrix.getNodeNames()) {
+        for (String node : graph.getNodeNames()) {
             DescriptiveElement desc = new DescriptiveElement(node, idToTitleMapping.get(node));
             possibleNodesModel.addElement(desc);
         }

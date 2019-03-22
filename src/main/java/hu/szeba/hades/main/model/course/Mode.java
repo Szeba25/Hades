@@ -7,6 +7,7 @@ import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.meta.User;
 import hu.szeba.hades.main.model.helper.ModeData;
 import hu.szeba.hades.main.model.task.graph.AdjacencyMatrix;
+import hu.szeba.hades.main.model.task.graph.Graph;
 import hu.szeba.hades.main.view.elements.AbstractState;
 import hu.szeba.hades.main.view.elements.StatefulElement;
 import org.xml.sax.SAXException;
@@ -24,7 +25,7 @@ public class Mode {
     private User user;
     private String courseId;
     private String modeId;
-    private AdjacencyMatrix taskCollectionMatrix;
+    private Graph taskCollectionGraph;
     private List<StatefulElement> possibleTaskCollections;
     private Map<String, String> idToTitleMap;
 
@@ -40,11 +41,11 @@ public class Mode {
 
         File modeDirectory = new File(Options.getDatabasePath(), courseId + "/modes/" + modeId);
         GraphFile graphFile = new GraphFile(new File(modeDirectory, "task_collections.graph"));
-        this.taskCollectionMatrix = new AdjacencyMatrix(graphFile.getTuples());
+        this.taskCollectionGraph = new AdjacencyMatrix(graphFile.getTuples());
 
         possibleTaskCollections = new ArrayList<>();
         idToTitleMap = new HashMap<>();
-        for (String id : taskCollectionMatrix.getNodeNames()) {
+        for (String id : taskCollectionGraph.getNodeNames()) {
             TabbedFile titleFile = new TabbedFile(new File(Options.getDatabasePath(), courseId + "/task_collections/" + id + "/title.dat"));
             possibleTaskCollections.add(new StatefulElement(id, titleFile.getData(0, 0)));
             idToTitleMap.put(id, titleFile.getData(0, 0));
@@ -74,7 +75,7 @@ public class Mode {
                 boolean available = true;
 
                 // Get the parent node names, and create an empty list for the prerequisites
-                List<String> parentList = taskCollectionMatrix.getParentNodes(element.getId());
+                List<String> parentList = taskCollectionGraph.getParentNodes(element.getId());
                 List<String> prerequisites = new ArrayList<>();
 
                 // Loop in the parent list

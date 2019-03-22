@@ -192,7 +192,7 @@ public class ModeEditorPanel extends JPanel {
         ignoreStory.setSelected(newMode.isIgnoreStory());
         ironMan.setSelected(newMode.isIronMan());
 
-        dependenciesPanel.setAllGraphData(newMode.getGraphViewData(), newMode.getAdjacencyMatrix(), idToTitleMapping);
+        dependenciesPanel.setAllGraphData(newMode.getGraphViewData(), newMode.getGraph(), idToTitleMapping);
 
         // Update current mode
         this.currentMode = newMode;

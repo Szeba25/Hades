@@ -11,6 +11,7 @@ import hu.szeba.hades.main.model.task.Task;
 import hu.szeba.hades.main.model.task.data.MissingResultFileException;
 import hu.szeba.hades.main.model.task.data.TaskDescription;
 import hu.szeba.hades.main.model.task.graph.AdjacencyMatrix;
+import hu.szeba.hades.main.model.task.graph.Graph;
 import hu.szeba.hades.main.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.main.model.task.taskfactory.TaskFactoryDecider;
 import hu.szeba.hades.main.view.elements.AbstractState;
@@ -34,7 +35,7 @@ public class TaskCollection {
     private ModeData modeData;
     private File taskCollectionDirectory;
     private File tasksDirectory;
-    private AdjacencyMatrix taskMatrix;
+    private Graph taskGraph;
     private List<TaskElement> possibleTasks;
     private Map<String, String> idToTitleMap;
 
@@ -67,7 +68,7 @@ public class TaskCollection {
 
     private void loadTaskIds() throws IOException {
         GraphFile graphFile = new GraphFile(new File(taskCollectionDirectory, "tasks.graph"));
-        taskMatrix = new AdjacencyMatrix(graphFile.getTuples());
+        taskGraph = new AdjacencyMatrix(graphFile.getTuples());
     }
 
     private void loadTaskDescriptions() throws IOException, SAXException, ParserConfigurationException {
@@ -75,7 +76,7 @@ public class TaskCollection {
         possibleTasks = new ArrayList<>();
         idToTitleMap = new HashMap<>();
         // Load all task descriptions
-        for (String taskId : taskMatrix.getNodeNames()) {
+        for (String taskId : taskGraph.getNodeNames()) {
             DescriptionXMLFile descriptionFile = new DescriptionXMLFile(new File(tasksDirectory, taskId + "/description.xml"));
             TaskDescription description = descriptionFile.parse(modeData.isIgnoreStory());
             possibleTasks.add(new TaskElement(taskId, description.getTaskTitle(), description));
@@ -104,7 +105,7 @@ public class TaskCollection {
                     boolean available = true;
 
                     // Get the parent node names, and create an empty list for prerequisites
-                    List<String> parentList = taskMatrix.getParentNodes(element.getId());
+                    List<String> parentList = taskGraph.getParentNodes(element.getId());
                     List<String> prerequisites = new ArrayList<>();
 
                     // Loop in the parent list

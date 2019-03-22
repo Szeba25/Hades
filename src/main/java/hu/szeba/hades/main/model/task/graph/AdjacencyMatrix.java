@@ -1,13 +1,11 @@
 package hu.szeba.hades.main.model.task.graph;
 
-import hu.szeba.hades.main.io.GraphFile;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AdjacencyMatrix {
+public class AdjacencyMatrix implements Graph {
 
     private Map<String, Integer> indexByNodes;
     private String[] nodesByIndex;
@@ -51,6 +49,7 @@ public class AdjacencyMatrix {
         return indexByNodes.size();
     }
 
+    @Override
     public List<String> getParentNodes(String node) {
         List<String> list = new ArrayList<>();
         int i = indexByNodes.get(node);
@@ -64,6 +63,7 @@ public class AdjacencyMatrix {
         return list;
     }
 
+    @Override
     public List<String> getChildNodes(String node) {
         List<String> list = new ArrayList<>();
         int i = indexByNodes.get(node);
@@ -77,6 +77,7 @@ public class AdjacencyMatrix {
         return list;
     }
 
+    @Override
     public List<String> getNodeNames() {
         // Return a list of node names EXCLUDING the NULL node.
         List<String> nodeNames = new ArrayList<>();

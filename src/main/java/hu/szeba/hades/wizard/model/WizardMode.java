@@ -4,6 +4,7 @@ import hu.szeba.hades.main.io.ConfigFile;
 import hu.szeba.hades.main.io.GraphFile;
 import hu.szeba.hades.main.io.TabbedFile;
 import hu.szeba.hades.main.model.task.graph.AdjacencyMatrix;
+import hu.szeba.hades.main.model.task.graph.Graph;
 import hu.szeba.hades.main.model.task.graph.Tuple;
 import hu.szeba.hades.wizard.view.elements.GraphNode;
 
@@ -20,9 +21,9 @@ public class WizardMode {
 
     private TabbedFile titleFile;
     private ConfigFile metaFile;
-    private GraphFile graph;
+    private GraphFile graphFile;
 
-    private AdjacencyMatrix adjacencyMatrix;
+    private Graph graph;
 
     public WizardMode(File modesPath, String modeId) throws IOException {
         this.modeId = modeId;
@@ -30,15 +31,15 @@ public class WizardMode {
 
         titleFile = new TabbedFile(new File(modePath, "title.dat"));
         metaFile = new ConfigFile(new File(modePath, "meta.conf"));
-        graph = new GraphFile(new File(modePath, "task_collections.graph"));
+        graphFile = new GraphFile(new File(modePath, "task_collections.graph"));
 
-        adjacencyMatrix = new AdjacencyMatrix(this.graph.getTuples());
+        graph = new AdjacencyMatrix(graphFile.getTuples());
     }
 
     public void save() throws IOException {
         titleFile.save();
         metaFile.save();
-        graph.save();
+        graphFile.save();
     }
 
     public String getTitle() {
@@ -58,11 +59,11 @@ public class WizardMode {
     }
 
     public Map<String, GraphNode> getGraphViewData() {
-        return graph.getViewData();
+        return graphFile.getViewData();
     }
 
-    public AdjacencyMatrix getAdjacencyMatrix() {
-        return adjacencyMatrix;
+    public Graph getGraph() {
+        return graph;
     }
 
     public void setTitle(String title) {
@@ -82,12 +83,12 @@ public class WizardMode {
     }
 
     public void setGraphData(List<Tuple> tuples) {
-        this.graph.setTuples(tuples);
-        this.adjacencyMatrix = new AdjacencyMatrix(this.graph.getTuples());
+        graphFile.setTuples(tuples);
+        graph = new AdjacencyMatrix(graphFile.getTuples());
     }
 
     public void setGraphViewData(Map<String, GraphNode> data) {
-        this.graph.setViewData(data);
+        this.graphFile.setViewData(data);
     }
 
 }
