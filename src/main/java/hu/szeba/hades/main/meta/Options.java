@@ -37,6 +37,10 @@ public class Options {
         return Integer.parseInt(config.get(configDataIdentifier));
     }
 
+    public static boolean getConfigBooleanData(String configDataIdentifier) {
+        return Boolean.parseBoolean(config.get(configDataIdentifier));
+    }
+
     public static File getPathTo(String location) {
         return paths.get(location);
     }

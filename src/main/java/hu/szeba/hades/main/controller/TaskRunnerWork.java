@@ -1,5 +1,7 @@
 package hu.szeba.hades.main.controller;
 
+import hu.szeba.hades.main.meta.AudioPlayer;
+import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.meta.TaskSolverAgent;
 import hu.szeba.hades.main.model.task.data.InputResultPair;
 import hu.szeba.hades.main.model.task.program.Program;
@@ -7,6 +9,7 @@ import hu.szeba.hades.main.model.task.result.Result;
 import hu.szeba.hades.main.model.task.result.ResultDifference;
 import hu.szeba.hades.main.model.task.result.ResultMatcher;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -77,6 +80,9 @@ public class TaskRunnerWork implements Work {
             publisher.customPublish("#> Task was already completed... (" + matcher.getAllDifferencesCount() +
                     " differences, and " + matcher.getAllNoResponsesCount() + " no responses)\n\n");
         } else if (matcher.getAllDifferencesCount() == 0 && matcher.getAllNoResponsesCount() == 0) {
+            if (Options.getConfigBooleanData("wow")) {
+                new AudioPlayer(new File("resources/wow.wav")).play();
+            }
             agent.markCurrentTaskAsCompleted();
             publisher.customPublish("#> Task successfully COMPLETED! (no errors)\n\n");
         } else {
