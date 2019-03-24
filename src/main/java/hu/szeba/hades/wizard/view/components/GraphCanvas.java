@@ -1,7 +1,7 @@
 package hu.szeba.hades.wizard.view.components;
 
 import hu.szeba.hades.main.io.ViewNode;
-import hu.szeba.hades.main.model.task.graph.AbstractGraph;
+import hu.szeba.hades.main.model.task.graph.Graph;
 import hu.szeba.hades.main.view.elements.MappedElement;
 
 import javax.swing.*;
@@ -15,7 +15,7 @@ public class GraphCanvas extends JPanel {
 
     private JList<MappedElement> possibleNodes;
 
-    private AbstractGraph graph;
+    private Graph graph;
     private Map<String, String> idToTitleMap;
     private String currentNode;
 
@@ -276,7 +276,7 @@ public class GraphCanvas extends JPanel {
         repaint();
     }
 
-    public void setGraph(AbstractGraph graph, Map<String, String> idToTitleMap) {
+    public void setGraph(Graph graph, Map<String, String> idToTitleMap) {
         this.graph = graph;
         this.idToTitleMap = idToTitleMap;
     }

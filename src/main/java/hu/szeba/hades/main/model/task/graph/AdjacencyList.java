@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class AdjacencyList implements AbstractGraph {
+public class AdjacencyList implements Graph {
 
     private File dataFilePath;
     private Set<String> nodes;

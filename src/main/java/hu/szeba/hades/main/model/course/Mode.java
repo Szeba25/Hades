@@ -5,7 +5,7 @@ import hu.szeba.hades.main.io.TabbedFile;
 import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.meta.User;
 import hu.szeba.hades.main.model.helper.ModeData;
-import hu.szeba.hades.main.model.task.graph.AbstractGraph;
+import hu.szeba.hades.main.model.task.graph.Graph;
 import hu.szeba.hades.main.model.task.graph.AdjacencyList;
 import hu.szeba.hades.main.view.elements.AbstractState;
 import hu.szeba.hades.main.view.elements.StatefulElement;
@@ -21,7 +21,7 @@ public class Mode {
     private User user;
     private String courseId;
     private String modeId;
-    private AbstractGraph taskCollectionGraph;
+    private Graph taskCollectionGraph;
     private List<StatefulElement> possibleTaskCollections;
     private Map<String, String> idToTitleMap;
 

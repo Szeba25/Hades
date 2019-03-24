@@ -1,6 +1,6 @@
 package hu.szeba.hades.wizard.view.components;
 
-import hu.szeba.hades.main.model.task.graph.AbstractGraph;
+import hu.szeba.hades.main.model.task.graph.Graph;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
@@ -12,7 +12,7 @@ import java.util.Map;
 public class GraphEditorPanel extends JPanel {
 
     private DynamicButtonListPanel possibleNodesPanel;
-    private AbstractGraph graph;
+    private Graph graph;
     private GraphCanvas canvas;
 
     private JButton dataPreviewButton;
@@ -142,7 +142,7 @@ public class GraphEditorPanel extends JPanel {
         return builder.toString();
     }
 
-    public void setGraphData(AbstractGraph graph, Map<String, String> idToTitleMap) {
+    public void setGraphData(Graph graph, Map<String, String> idToTitleMap) {
         // Set graph
         this.graph = graph;
 

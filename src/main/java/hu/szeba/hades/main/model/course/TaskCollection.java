@@ -9,7 +9,7 @@ import hu.szeba.hades.main.model.helper.TaskCollectionInfo;
 import hu.szeba.hades.main.model.task.Task;
 import hu.szeba.hades.main.model.task.data.MissingResultFileException;
 import hu.szeba.hades.main.model.task.data.TaskDescription;
-import hu.szeba.hades.main.model.task.graph.AbstractGraph;
+import hu.szeba.hades.main.model.task.graph.Graph;
 import hu.szeba.hades.main.model.task.graph.AdjacencyList;
 import hu.szeba.hades.main.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.main.model.task.taskfactory.TaskFactoryDecider;
@@ -31,7 +31,7 @@ public class TaskCollection {
     private ModeData modeData;
     private File taskCollectionDirectory;
     private File tasksDirectory;
-    private AbstractGraph taskGraph;
+    private Graph taskGraph;
     private List<TaskElement> possibleTasks;
     private Map<String, String> idToTitleMap;
 

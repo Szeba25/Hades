@@ -2,7 +2,7 @@ package hu.szeba.hades.wizard.model;
 
 import hu.szeba.hades.main.io.ConfigFile;
 import hu.szeba.hades.main.io.TabbedFile;
-import hu.szeba.hades.main.model.task.graph.AbstractGraph;
+import hu.szeba.hades.main.model.task.graph.Graph;
 import hu.szeba.hades.main.model.task.graph.AdjacencyList;
 
 import java.io.File;
@@ -16,7 +16,7 @@ public class WizardMode {
 
     private TabbedFile titleFile;
     private ConfigFile metaFile;
-    private AbstractGraph graph;
+    private Graph graph;
 
     public WizardMode(File modesPath, String modeId) throws IOException {
         this.modeId = modeId;
@@ -49,7 +49,7 @@ public class WizardMode {
         return Boolean.parseBoolean(metaFile.getData(2, 1));
     }
 
-    public AbstractGraph getGraph() {
+    public Graph getGraph() {
         return graph;
     }
 

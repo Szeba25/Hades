@@ -5,7 +5,7 @@ import hu.szeba.hades.main.io.ViewNode;
 import java.io.IOException;
 import java.util.Set;
 
-public interface AbstractGraph {
+public interface Graph {
 
     void save() throws IOException;
 
