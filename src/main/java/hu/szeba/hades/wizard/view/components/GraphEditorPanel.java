@@ -7,6 +7,9 @@ import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 
 public class GraphEditorPanel extends JPanel {
@@ -150,9 +153,13 @@ public class GraphEditorPanel extends JPanel {
         DefaultListModel<MappedElement> possibleNodesModel = (DefaultListModel<MappedElement>) possibleNodesPanel.getList().getModel();
         possibleNodesModel.removeAllElements();
 
-        // Create the descriptive elements by ID, and add them to the view list
+        // Create the descriptive elements by ID, and add them to the view list. Sort them by id first!
+        List<DescriptiveElement> possibleNodes = new ArrayList<>();
         for (String node : graph.getNodes()) {
-            DescriptiveElement desc = new DescriptiveElement(node, idToTitleMap.get(node));
+            possibleNodes.add(new DescriptiveElement(node, idToTitleMap.get(node)));
+        }
+        possibleNodes.sort(Comparator.comparing(DescriptiveElement::getId));
+        for (DescriptiveElement desc : possibleNodes) {
             possibleNodesModel.addElement(desc);
         }
 
