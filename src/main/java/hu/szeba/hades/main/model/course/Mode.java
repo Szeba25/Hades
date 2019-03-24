@@ -8,6 +8,7 @@ import hu.szeba.hades.main.model.helper.ModeData;
 import hu.szeba.hades.main.model.task.graph.Graph;
 import hu.szeba.hades.main.model.task.graph.AdjacencyList;
 import hu.szeba.hades.main.view.elements.AbstractState;
+import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.main.view.elements.StatefulElement;
 import org.xml.sax.SAXException;
 
@@ -45,6 +46,7 @@ public class Mode {
             possibleTaskCollections.add(new StatefulElement(id, titleFile.getData(0, 0)));
             idToTitleMap.put(id, titleFile.getData(0, 0));
         }
+        possibleTaskCollections.sort(Comparator.comparing(MappedElement::getId));
 
         taskCollections = new HashMap<>();
 

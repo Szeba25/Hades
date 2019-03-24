@@ -14,6 +14,7 @@ import hu.szeba.hades.main.model.task.graph.AdjacencyList;
 import hu.szeba.hades.main.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.main.model.task.taskfactory.TaskFactoryDecider;
 import hu.szeba.hades.main.view.elements.AbstractState;
+import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.main.view.elements.TaskElement;
 import org.xml.sax.SAXException;
 
@@ -77,6 +78,7 @@ public class TaskCollection {
             possibleTasks.add(new TaskElement(taskId, description.getTaskTitle(), description));
             idToTitleMap.put(taskId, description.getTaskTitle());
         }
+        possibleTasks.sort(Comparator.comparing(MappedElement::getId));
     }
 
     public void setCollectionUnavailable(boolean collectionUnavailable) {
