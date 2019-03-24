@@ -1,20 +1,18 @@
 package hu.szeba.hades.wizard.view.components;
 
-import hu.szeba.hades.main.model.task.graph.Graph;
-import hu.szeba.hades.main.model.task.graph.Tuple;
+import hu.szeba.hades.main.model.task.graph.AbstractGraph;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
-import hu.szeba.hades.wizard.view.elements.GraphViewNode;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
-import java.util.*;
+import java.util.Map;
 
 public class GraphEditorPanel extends JPanel {
 
     private DynamicButtonListPanel possibleNodesPanel;
+    private AbstractGraph graph;
     private GraphCanvas canvas;
 
     private JButton dataPreviewButton;
@@ -25,20 +23,6 @@ public class GraphEditorPanel extends JPanel {
         this.setLayout(new GridBagLayout());
 
         possibleNodesPanel = new DynamicButtonListPanel(title, 200, "+", "-");
-
-        // TEST
-        DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) possibleNodesPanel.getList().getModel();
-        model.addElement(new DescriptiveElement("0000", "Title 0"));
-        model.addElement(new DescriptiveElement("0001", "Title 1"));
-        model.addElement(new DescriptiveElement("0002", "Title 2"));
-        model.addElement(new DescriptiveElement("0003", "Title 3"));
-        model.addElement(new DescriptiveElement("0004", "Title 4"));
-        model.addElement(new DescriptiveElement("0005", "Title 5"));
-        model.addElement(new DescriptiveElement("0006", "Title 6"));
-        model.addElement(new DescriptiveElement("0007", "Title 7"));
-        model.addElement(new DescriptiveElement("0008", "Title 8"));
-        model.addElement(new DescriptiveElement("0009", "Title 9"));
-        // TEST
 
         canvas = new GraphCanvas(possibleNodesPanel.getList());
         canvas.setPreferredSize(new Dimension(width, height));
@@ -121,7 +105,7 @@ public class GraphEditorPanel extends JPanel {
                 int idx = listSelectionModel.getMinSelectionIndex();
                 if (listSelectionModel.isSelectedIndex(idx)) {
                     MappedElement element = (MappedElement) listModel.getElementAt(idx);
-                    canvas.setSelectedNode(element);
+                    canvas.setSelectedNode(element.getId());
                 }
             }
         });
@@ -146,67 +130,34 @@ public class GraphEditorPanel extends JPanel {
     }
 
     public String buildGraphStructureString() {
-        List<Tuple> tuples = buildTuples();
-
         StringBuilder builder = new StringBuilder();
-        for (Tuple t : tuples) {
-            builder.append(t.toString());
+        for (String node : graph.getNodes()) {
+            builder.append(node);
+            for (String child : graph.getChildNodes(node)) {
+                builder.append("|");
+                builder.append(child);
+            }
             builder.append("\n");
         }
-
         return builder.toString();
     }
 
-    public List<Tuple> buildTuples() {
-        List<Tuple> tuples = new ArrayList<>();
-        Set<String> nodeNames = new HashSet<>();
+    public void setGraphData(AbstractGraph graph, Map<String, String> idToTitleMap) {
+        // Set graph
+        this.graph = graph;
 
-        // Add by graph connections
-        for (GraphViewNode viewNode : canvas.getViewNodes().values()) {
-            if (viewNode.getConnections().size() > 0) {
-                for (GraphViewNode connection : viewNode.getConnections().values()) {
-                    tuples.add(new Tuple(viewNode.getDescription().getId(), connection.getDescription().getId()));
-                    nodeNames.add(viewNode.getDescription().getId());
-                    nodeNames.add(connection.getDescription().getId());
-                }
-            } else {
-                tuples.add(new Tuple(viewNode.getDescription().getId(), "NULL"));
-                nodeNames.add(viewNode.getDescription().getId());
-            }
-        }
-
-        // Add remaining nodes
-        DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) possibleNodesPanel.getList().getModel();
-        for (int i = 0; i < model.getSize(); i++) {
-            MappedElement element = model.getElementAt(i);
-            if (!nodeNames.contains(element.getId())) {
-                tuples.add(new Tuple(element.getId(), "NULL"));
-            }
-        }
-
-        tuples.sort(Comparator.comparing(Tuple::toString));
-
-        return tuples;
-    }
-
-    public Map<String, GraphViewNode> shallowCopyViewNodes() {
-        return new HashMap<>(canvas.getViewNodes());
-    }
-
-    public void setAllGraphData(Map<String, GraphViewNode> viewNodes, Graph graph, Map<String, String> idToTitleMapping) {
         // Clear the possible nodes list
         DefaultListModel<MappedElement> possibleNodesModel = (DefaultListModel<MappedElement>) possibleNodesPanel.getList().getModel();
         possibleNodesModel.removeAllElements();
 
         // Create the descriptive elements by ID, and add them to the view list
         for (String node : graph.getNodes()) {
-            DescriptiveElement desc = new DescriptiveElement(node, idToTitleMapping.get(node));
+            DescriptiveElement desc = new DescriptiveElement(node, idToTitleMap.get(node));
             possibleNodesModel.addElement(desc);
         }
 
-        // Clear the graph nodes from the canvas, and put new data!
-        canvas.getViewNodes().clear();
-        canvas.getViewNodes().putAll(viewNodes);
+        // Set canvas graph
+        canvas.setGraph(graph, idToTitleMap);
 
         // Reset current node
         canvas.setSelectedNode(null);

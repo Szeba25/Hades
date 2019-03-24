@@ -66,6 +66,10 @@ public class DataFile {
         }
     }
 
+    public String[] getLine(int lineNumber) {
+        return content.get(lineNumber);
+    }
+
     public void setData(int lineNumber, int position, String data) {
         if (!(lineNumber < 0 || lineNumber >= content.size() ||
                 position < 0 || position >= content.get(lineNumber).length)) {
@@ -102,7 +106,16 @@ public class DataFile {
         return content.size();
     }
 
+    public int getDataCount(int lineNumber) {
+        return content.get(lineNumber).length;
+    }
+
     public String getName() {
         return name;
     }
+
+    public void clear() {
+        content.clear();
+    }
+
 }

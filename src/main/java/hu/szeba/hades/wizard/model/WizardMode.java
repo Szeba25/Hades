@@ -1,17 +1,12 @@
 package hu.szeba.hades.wizard.model;
 
 import hu.szeba.hades.main.io.ConfigFile;
-import hu.szeba.hades.main.io.GraphFile;
 import hu.szeba.hades.main.io.TabbedFile;
-import hu.szeba.hades.main.model.task.graph.AdjacencyMatrix;
-import hu.szeba.hades.main.model.task.graph.Graph;
-import hu.szeba.hades.main.model.task.graph.Tuple;
-import hu.szeba.hades.wizard.view.elements.GraphViewNode;
+import hu.szeba.hades.main.model.task.graph.AbstractGraph;
+import hu.szeba.hades.main.model.task.graph.AdjacencyList;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 public class WizardMode {
 
@@ -21,9 +16,7 @@ public class WizardMode {
 
     private TabbedFile titleFile;
     private ConfigFile metaFile;
-    private GraphFile graphFile;
-
-    private Graph graph;
+    private AbstractGraph graph;
 
     public WizardMode(File modesPath, String modeId) throws IOException {
         this.modeId = modeId;
@@ -31,15 +24,13 @@ public class WizardMode {
 
         titleFile = new TabbedFile(new File(modePath, "title.dat"));
         metaFile = new ConfigFile(new File(modePath, "meta.conf"));
-        graphFile = new GraphFile(new File(modePath, "task_collections.graph"));
-
-        graph = new AdjacencyMatrix(graphFile.getTuples());
+        graph = new AdjacencyList(new File(modePath, "task_collections.graph"));
     }
 
     public void save() throws IOException {
         titleFile.save();
         metaFile.save();
-        graphFile.save();
+        graph.save();
     }
 
     public String getTitle() {
@@ -58,11 +49,7 @@ public class WizardMode {
         return Boolean.parseBoolean(metaFile.getData(2, 1));
     }
 
-    public Map<String, GraphViewNode> getGraphViewNodes() {
-        return graphFile.getViewNodes();
-    }
-
-    public Graph getGraph() {
+    public AbstractGraph getGraph() {
         return graph;
     }
 
@@ -80,12 +67,6 @@ public class WizardMode {
 
     public void setIronMan(boolean value) {
         metaFile.setData(2, 1, Boolean.toString(value));
-    }
-
-    public void setAllGraphData(List<Tuple> tuples, Map<String, GraphViewNode> viewNodes) {
-        graphFile.setTuples(tuples);
-        graphFile.setViewNodes(viewNodes);
-        graph = new AdjacencyMatrix(graphFile.getTuples());
     }
 
 }

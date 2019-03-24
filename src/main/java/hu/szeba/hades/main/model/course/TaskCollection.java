@@ -2,7 +2,6 @@ package hu.szeba.hades.main.model.course;
 
 import hu.szeba.hades.main.io.ConfigFile;
 import hu.szeba.hades.main.io.DescriptionXMLFile;
-import hu.szeba.hades.main.io.GraphFile;
 import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.meta.User;
 import hu.szeba.hades.main.model.helper.ModeData;
@@ -10,8 +9,8 @@ import hu.szeba.hades.main.model.helper.TaskCollectionInfo;
 import hu.szeba.hades.main.model.task.Task;
 import hu.szeba.hades.main.model.task.data.MissingResultFileException;
 import hu.szeba.hades.main.model.task.data.TaskDescription;
-import hu.szeba.hades.main.model.task.graph.AdjacencyMatrix;
-import hu.szeba.hades.main.model.task.graph.Graph;
+import hu.szeba.hades.main.model.task.graph.AbstractGraph;
+import hu.szeba.hades.main.model.task.graph.AdjacencyList;
 import hu.szeba.hades.main.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.main.model.task.taskfactory.TaskFactoryDecider;
 import hu.szeba.hades.main.view.elements.AbstractState;
@@ -21,10 +20,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TaskCollection {
 
@@ -35,7 +31,7 @@ public class TaskCollection {
     private ModeData modeData;
     private File taskCollectionDirectory;
     private File tasksDirectory;
-    private Graph taskGraph;
+    private AbstractGraph taskGraph;
     private List<TaskElement> possibleTasks;
     private Map<String, String> idToTitleMap;
 
@@ -67,8 +63,7 @@ public class TaskCollection {
     }
 
     private void loadTaskIds() throws IOException {
-        GraphFile graphFile = new GraphFile(new File(taskCollectionDirectory, "tasks.graph"));
-        taskGraph = new AdjacencyMatrix(graphFile.getTuples());
+        taskGraph = new AdjacencyList(new File(taskCollectionDirectory, "tasks.graph"));
     }
 
     private void loadTaskDescriptions() throws IOException, SAXException, ParserConfigurationException {
@@ -105,11 +100,11 @@ public class TaskCollection {
                     boolean available = true;
 
                     // Get the parent node names, and create an empty list for prerequisites
-                    List<String> parentList = taskGraph.getParentNodes(element.getId());
+                    Set<String> parentSet = taskGraph.getParentNodes(element.getId());
                     List<String> prerequisites = new ArrayList<>();
 
                     // Loop in the parent list
-                    for (String parentId : parentList) {
+                    for (String parentId : parentSet) {
                         // If the parent is not completed, add its title to the prerequisites
                         boolean parentCompleted = user.isTaskCompleted(courseId + "/" + modeId + "/" + taskCollectionId + "/" + parentId);
                         if (!parentCompleted) {

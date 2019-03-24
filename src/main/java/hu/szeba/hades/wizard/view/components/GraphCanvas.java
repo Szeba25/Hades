@@ -1,22 +1,23 @@
 package hu.szeba.hades.wizard.view.components;
 
+import hu.szeba.hades.main.io.ViewNode;
+import hu.szeba.hades.main.model.task.graph.AbstractGraph;
 import hu.szeba.hades.main.view.elements.MappedElement;
-import hu.szeba.hades.wizard.view.elements.GraphViewNode;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
 import java.util.Map;
 
 public class GraphCanvas extends JPanel {
 
     private JList<MappedElement> possibleNodes;
 
-    private Map<String, GraphViewNode> viewNodes;
-    private MappedElement currentNodeDescription;
+    private AbstractGraph graph;
+    private Map<String, String> idToTitleMap;
+    private String currentNode;
 
     private long delayTime;
     private long dragDelayedUntil;
@@ -27,8 +28,10 @@ public class GraphCanvas extends JPanel {
 
         this.possibleNodes = possibleNodes;
 
-        viewNodes = new HashMap<>();
-        currentNodeDescription = null;
+        idToTitleMap = null;
+        graph = null;
+        currentNode = null;
+
         delayTime = 100;
         dragDelayedUntil = 0;
 
@@ -42,20 +45,22 @@ public class GraphCanvas extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
-                if (SwingUtilities.isLeftMouseButton(e)) {
+                if (graph != null) {
+                    if (SwingUtilities.isLeftMouseButton(e)) {
 
-                    dragDelayedUntil = System.currentTimeMillis() + delayTime;
+                        dragDelayedUntil = System.currentTimeMillis() + delayTime;
 
-                    if (!changeSelection(e.getX(), e.getY())) {
-                        relocateOrPutNode(currentNodeDescription, e.getX(), e.getY());
+                        if (!changeSelection(e.getX(), e.getY())) {
+                            relocateOrPutNode(currentNode, e.getX(), e.getY());
+                        }
+
+                    } else if (SwingUtilities.isRightMouseButton(e)) {
+                        addConnectionFromNode(currentNode, e.getX(), e.getY());
                     }
 
-                } else if (SwingUtilities.isRightMouseButton(e)) {
-                    addConnectionFromNode(currentNodeDescription, e.getX(), e.getY());
+                    // Finally repaint
+                    repaint();
                 }
-
-                // Finally repaint
-                repaint();
             }
         });
 
@@ -63,15 +68,16 @@ public class GraphCanvas extends JPanel {
             @Override
             public void mouseDragged(MouseEvent e) {
                 super.mouseDragged(e);
-
-                if (System.currentTimeMillis() > dragDelayedUntil) {
-                    if (SwingUtilities.isLeftMouseButton(e)) {
-                        relocateOrPutNode(currentNodeDescription, e.getX(), e.getY());
+                if (graph != null) {
+                    if (System.currentTimeMillis() > dragDelayedUntil) {
+                        if (SwingUtilities.isLeftMouseButton(e)) {
+                            relocateOrPutNode(currentNode, e.getX(), e.getY());
+                        }
                     }
-                }
 
-                // Finally repaint
-                repaint();
+                    // Finally repaint
+                    repaint();
+                }
             }
         });
 
@@ -82,57 +88,74 @@ public class GraphCanvas extends JPanel {
         this.getActionMap().put("delete node", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                deleteCurrentNode();
-                possibleNodes.clearSelection();
+                if (graph != null) {
+                    deleteCurrentNode();
+                    possibleNodes.clearSelection();
+                }
             }
         });
     }
 
     private boolean changeSelection(int x, int y) {
-        for (GraphViewNode viewNode : viewNodes.values()) {
-            if ((currentNodeDescription == null || !viewNode.getDescription().getId().equals(currentNodeDescription.getId())) && viewNode.isMouseInside(x, y)) {
-                possibleNodes.setSelectedValue(viewNode.getDescription(), true);
-                currentNodeDescription = viewNode.getDescription();
-                return true;
+        for (String node : graph.getNodes()) {
+            ViewNode viewNode = graph.getViewNode(node);
+            if (viewNode != null) {
+                if (!viewNode.getId().equals(currentNode) && viewNode.isInside(x, y)) {
+                    // Select this node in the list
+                    DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) possibleNodes.getModel();
+                    for (int i = 0; i < model.getSize(); i++) {
+                        if (model.get(i).getId().equals(viewNode.getId())) {
+                            possibleNodes.setSelectedIndex(i);
+                            break;
+                        }
+                    }
+                    currentNode = viewNode.getId();
+                    return true;
+                }
             }
         }
         return false;
     }
 
-    private void relocateOrPutNode(MappedElement nodeDescription, int x, int y) {
-        if (nodeDescription != null) {
-            if (viewNodes.containsKey(nodeDescription.getId())) {
-                GraphViewNode viewNode = viewNodes.get(nodeDescription.getId());
-                viewNode.getLocation().setLocation(x, y);
+    private void relocateOrPutNode(String node, int x, int y) {
+        if (node != null) {
+            ViewNode viewNode = graph.getViewNode(node);
+            if (viewNode != null) {
+                viewNode.setLocation(x, y);
             } else {
-                viewNodes.put(nodeDescription.getId(), new GraphViewNode(nodeDescription, new Point(x, y)));
+                graph.addViewNode(new ViewNode(node, new Point(x, y)));
             }
         }
     }
 
-    private void addConnectionFromNode(MappedElement nodeDescription, int x, int y) {
-        if (nodeDescription != null && viewNodes.containsKey(nodeDescription.getId())) {
-            GraphViewNode sourceNode = viewNodes.get(nodeDescription.getId());
-            for (GraphViewNode destNode : viewNodes.values()) {
-                if (destNode.isMouseInside(x, y)) {
-                    if (sourceNode.hasConnectionTo(destNode)) {
-                        viewNodes.get(nodeDescription.getId()).removeConnection(destNode);
-                    } else {
-                        viewNodes.get(nodeDescription.getId()).addConnection(destNode);
+    private void addConnectionFromNode(String node, int x, int y) {
+        ViewNode viewNode = graph.getViewNode(node);
+        if (node != null && viewNode != null) {
+            for (String destNode : graph.getNodes()) {
+                ViewNode destViewNode = graph.getViewNode(destNode);
+                if (destViewNode != null) {
+                    if (destViewNode.isInside(x, y)) {
+                        if (graph.getChildNodes(node).contains(destNode)) {
+                            graph.removeConnection(node, destNode);
+                        } else {
+                            if (!node.equals(destNode) && !graph.getParentNodes(node).contains(destNode)) {
+                                graph.addConnection(node, destNode);
+                            }
+                        }
+                        break;
                     }
-                    break;
                 }
             }
         }
     }
 
     public void deleteCurrentNode() {
-        if (currentNodeDescription != null && viewNodes.containsKey(currentNodeDescription.getId())) {
-            GraphViewNode removedNode = viewNodes.remove(currentNodeDescription.getId());
-            for (GraphViewNode viewNode : viewNodes.values()) {
-                viewNode.removeConnection(removedNode);
-            }
-            currentNodeDescription = null;
+        ViewNode viewNode = graph.getViewNode(currentNode);
+        if (currentNode != null && viewNode != null) {
+            graph.removeViewNode(currentNode);
+            graph.removeAllConnectionFrom(currentNode);
+            graph.removeAllConnectionTo(currentNode);
+            currentNode = null;
             repaint();
         }
     }
@@ -140,26 +163,122 @@ public class GraphCanvas extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        if (graph != null) {
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        for (GraphViewNode viewNode : viewNodes.values()) {
-            viewNode.paintNode(g2, currentNodeDescription != null && viewNode.getDescription().getId().equals(currentNodeDescription.getId()));
+            for (String node : graph.getNodes()) {
+                ViewNode viewNode = graph.getViewNode(node);
+                if (viewNode != null) {
+                    paintNode(g2, node, (currentNode != null && currentNode.equals(node)));
+                }
+            }
+
+            for (String node : graph.getNodes()) {
+                ViewNode viewNode = graph.getViewNode(node);
+                if (viewNode != null) {
+                    paintConnections(g2, node);
+                }
+            }
         }
-
-        for (GraphViewNode viewNode : viewNodes.values()) {
-            viewNode.paintConnections(g2);
-        }
-
     }
 
-    public void setSelectedNode(MappedElement currentNodeDescription) {
-        this.currentNodeDescription = currentNodeDescription;
+    private void paintNode(Graphics2D g2, String node, boolean current) {
+        ViewNode viewNode = graph.getViewNode(node);
+        if (viewNode != null) {
+            Color color = viewNode.getColor();
+            Point location = viewNode.getLocation();
+            int radius = viewNode.getRadius();
+
+            if (current) {
+                g2.setColor(Color.BLUE);
+                g2.drawRect(location.x - radius - 4, location.y - radius - 4, radius *2 + 8, radius *2 + 8);
+            }
+            g2.setColor(Color.BLACK);
+            g2.drawString(node + ": " + idToTitleMap.get(node), location.x, location.y - radius - 5);
+            g2.setColor(color);
+            g2.fillOval(location.x - radius, location.y - radius, radius *2, radius *2);
+        }
+    }
+
+    private void paintConnections(Graphics2D g2, String node) {
+        ViewNode viewNode = graph.getViewNode(node);
+
+        for (String child : graph.getChildNodes(node)) {
+            ViewNode childViewNode = graph.getViewNode(child);
+
+            if (viewNode != null && childViewNode != null) {
+                // Get data
+                Point location = viewNode.getLocation();
+                Point destination = childViewNode.getLocation();
+                int destinationRadius = childViewNode.getRadius();
+
+                // Set initial locations
+                int x1 = location.x;
+                int y1 = location.y;
+                int x2 = destination.x;
+                int y2 = destination.y;
+
+                // Put the line to (0, 0)
+                double nx = x2 - x1;
+                double ny = y2 - y1;
+
+                // Get the vectors length
+                double length = Math.sqrt(nx * nx + ny * ny);
+
+                // Normalize the vector
+                if (length > 0) {
+                    nx /= length;
+                    ny /= length;
+                }
+
+                // Shorten the vector by 10
+                nx *= length - destinationRadius;
+                ny *= length - destinationRadius;
+
+                // Set the new destination coordinates
+                x2 = (int) (x1 + nx); // x3
+                y2 = (int) (y1 + ny); // y3
+
+                // Get arrow head positions (math magic)
+                int d = 6;
+                int h = 6;
+                int dx = x2 - x1, dy = y2 - y1;
+
+                double D = Math.sqrt(dx * dx + dy * dy);
+                double xm = D - d, xn = xm, ym = h, yn = -h, x;
+                double sin = dy / D, cos = dx / D;
+
+                x = xm * cos - ym * sin + x1;
+                ym = xm * sin + ym * cos + y1;
+                xm = x;
+
+                x = xn * cos - yn * sin + x1;
+                yn = xn * sin + yn * cos + y1;
+                xn = x;
+
+                int[] xpoints = {x2, (int) xm, (int) xn};
+                int[] ypoints = {y2, (int) ym, (int) yn};
+
+                // Final line
+                g2.setColor(Color.RED);
+                g2.drawLine(x1, y1, x2, y2);
+
+                // Arrow head
+                g2.setColor(Color.MAGENTA);
+                g2.fillPolygon(xpoints, ypoints, 3);
+            }
+        }
+    }
+
+    public void setSelectedNode(String currentNode) {
+        this.currentNode = currentNode;
         repaint();
     }
 
-    public Map<String, GraphViewNode> getViewNodes() {
-        return viewNodes;
+    public void setGraph(AbstractGraph graph, Map<String, String> idToTitleMap) {
+        this.graph = graph;
+        this.idToTitleMap = idToTitleMap;
     }
 
 }

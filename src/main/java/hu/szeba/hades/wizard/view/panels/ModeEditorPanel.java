@@ -171,7 +171,7 @@ public class ModeEditorPanel extends JPanel {
         });
     }
 
-    public void setCurrentMode(WizardMode newMode, DescriptiveElement currentElementRef, Map<String, String> idToTitleMapping) {
+    public void setCurrentMode(WizardMode newMode, DescriptiveElement currentElementRef, Map<String, String> idToTitleMap) {
         // Save old mode
         if (this.currentMode != null) {
             this.currentElementRef.setTitle(titleField.getText());
@@ -179,7 +179,7 @@ public class ModeEditorPanel extends JPanel {
             this.currentMode.setIgnoreDependency(ignoreDependency.isSelected());
             this.currentMode.setIgnoreStory(ignoreStory.isSelected());
             this.currentMode.setIronMan(ironMan.isSelected());
-            this.currentMode.setAllGraphData(dependenciesPanel.buildTuples(), dependenciesPanel.shallowCopyViewNodes());
+            // We work directly on graph data, no need to set it back!
         } else {
             setVisible(true);
         }
@@ -189,7 +189,7 @@ public class ModeEditorPanel extends JPanel {
         ignoreDependency.setSelected(newMode.isIgnoreDependency());
         ignoreStory.setSelected(newMode.isIgnoreStory());
         ironMan.setSelected(newMode.isIronMan());
-        dependenciesPanel.setAllGraphData(newMode.getGraphViewNodes(), newMode.getGraph(), idToTitleMapping);
+        dependenciesPanel.setGraphData(newMode.getGraph(), idToTitleMap);
 
         // Update current mode
         this.currentMode = newMode;

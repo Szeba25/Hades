@@ -1,13 +1,12 @@
 package hu.szeba.hades.main.model.course;
 
 import hu.szeba.hades.main.io.ConfigFile;
-import hu.szeba.hades.main.io.GraphFile;
 import hu.szeba.hades.main.io.TabbedFile;
 import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.meta.User;
 import hu.szeba.hades.main.model.helper.ModeData;
-import hu.szeba.hades.main.model.task.graph.AdjacencyMatrix;
-import hu.szeba.hades.main.model.task.graph.Graph;
+import hu.szeba.hades.main.model.task.graph.AbstractGraph;
+import hu.szeba.hades.main.model.task.graph.AdjacencyList;
 import hu.szeba.hades.main.view.elements.AbstractState;
 import hu.szeba.hades.main.view.elements.StatefulElement;
 import org.xml.sax.SAXException;
@@ -15,17 +14,14 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Mode {
 
     private User user;
     private String courseId;
     private String modeId;
-    private Graph taskCollectionGraph;
+    private AbstractGraph taskCollectionGraph;
     private List<StatefulElement> possibleTaskCollections;
     private Map<String, String> idToTitleMap;
 
@@ -40,8 +36,7 @@ public class Mode {
         this.modeId = modeId;
 
         File modeDirectory = new File(Options.getDatabasePath(), courseId + "/modes/" + modeId);
-        GraphFile graphFile = new GraphFile(new File(modeDirectory, "task_collections.graph"));
-        this.taskCollectionGraph = new AdjacencyMatrix(graphFile.getTuples());
+        this.taskCollectionGraph = new AdjacencyList(new File(modeDirectory, "task_collections.graph"));
 
         possibleTaskCollections = new ArrayList<>();
         idToTitleMap = new HashMap<>();
@@ -75,11 +70,11 @@ public class Mode {
                 boolean available = true;
 
                 // Get the parent node names, and create an empty list for the prerequisites
-                List<String> parentList = taskCollectionGraph.getParentNodes(element.getId());
+                Set<String> parentSet = taskCollectionGraph.getParentNodes(element.getId());
                 List<String> prerequisites = new ArrayList<>();
 
                 // Loop in the parent list
-                for (String parentId : parentList) {
+                for (String parentId : parentSet) {
                     // If the parent is not completed, add its title to the prerequisites
                     boolean parentCompleted = user.isTaskCollectionCompleted(courseId + "/" + modeId + "/" + parentId);
                     if (!parentCompleted) {

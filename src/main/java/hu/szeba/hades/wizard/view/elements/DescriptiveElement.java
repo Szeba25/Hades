@@ -8,7 +8,7 @@ public class DescriptiveElement extends MappedElement {
 
     public DescriptiveElement(String id, String title) {
         super(id, title);
-        this.display = "(" + id + ") -> " + title;
+        this.display = id + ": " + title;
     }
 
     @Override
@@ -18,6 +18,6 @@ public class DescriptiveElement extends MappedElement {
 
     public void setTitle(String title) {
         super.setTitle(title);
-        this.display = "(" + getId() + ") -> " + title;
+        this.display = getId() + ": " + title;
     }
 }
