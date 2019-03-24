@@ -2,6 +2,7 @@ package hu.szeba.hades.wizard.view.components;
 
 import hu.szeba.hades.main.model.task.graph.Graph;
 import hu.szeba.hades.main.util.GridBagSetter;
+import hu.szeba.hades.main.util.SortUtilities;
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
 
@@ -158,7 +159,7 @@ public class GraphEditorPanel extends JPanel {
         for (String node : graph.getNodes()) {
             possibleNodes.add(new DescriptiveElement(node, idToTitleMap.get(node)));
         }
-        possibleNodes.sort(Comparator.comparing(DescriptiveElement::getId));
+        possibleNodes.sort(SortUtilities::mappedElementIntegerComparator);
         for (DescriptiveElement desc : possibleNodes) {
             possibleNodesModel.addElement(desc);
         }
