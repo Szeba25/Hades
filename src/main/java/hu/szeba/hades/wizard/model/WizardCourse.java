@@ -5,6 +5,7 @@ import hu.szeba.hades.main.io.DescriptionXMLFile;
 import hu.szeba.hades.main.io.TabbedFile;
 import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.model.task.data.TaskDescription;
+import hu.szeba.hades.main.util.SortUtilities;
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
 import org.xml.sax.SAXException;
@@ -66,6 +67,7 @@ public class WizardCourse {
             modeIdToTitle.put(modeId, metaFile.getData(0, 0));
             modes.put(modeId, new WizardMode(modesPath, modeId));
         }
+        possibleModes.sort(SortUtilities::mappedElementIntegerComparator);
 
         taskCollectionsPath = new File(Options.getDatabasePath(), courseId + "/task_collections");
         for (String taskCollectionId : taskCollectionsPath.list()) {
@@ -74,6 +76,7 @@ public class WizardCourse {
             taskCollectionIdToTitle.put(taskCollectionId, metaFile.getData(0, 0));
             taskCollections.put(taskCollectionId, new WizardTaskCollection());
         }
+        possibleTaskCollections.sort(SortUtilities::mappedElementIntegerComparator);
 
         tasksPath = new File(Options.getDatabasePath(), courseId + "/tasks");
         for (String taskId : tasksPath.list()) {
@@ -83,6 +86,7 @@ public class WizardCourse {
             taskIdToTitle.put(taskId, taskDescription.getTaskTitle());
             tasks.put(taskId, new WizardTask());
         }
+        possibleTasks.sort(SortUtilities::mappedElementIntegerComparator);
 
     }
 
