@@ -174,6 +174,9 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
                     if (modeList.getList().getSelectedValue() != null) {
                         controller.setCurrentMode(modeEditor, (DescriptiveElement) modeList.getList().getSelectedValue());
                     }
+                    if (taskCollectionList.getList().getSelectedValue() != null) {
+                        controller.setCurrentTaskCollection(taskCollectionEditor, (DescriptiveElement) taskCollectionList.getList().getSelectedValue());
+                    }
                     // Save the course!
                     controller.save();
                 } catch (IOException e1) {
@@ -192,6 +195,18 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
                 if (listSelectionModel.isSelectedIndex(idx)) {
                     DescriptiveElement element = (DescriptiveElement) listModel.getElementAt(idx);
                     controller.setCurrentMode(modeEditor, element);
+                }
+            }
+        });
+
+        taskCollectionList.getList().getSelectionModel().addListSelectionListener((event) -> {
+            ListSelectionModel listSelectionModel = (ListSelectionModel) event.getSource();
+            ListModel listModel = taskCollectionList.getList().getModel();
+            if (!listSelectionModel.isSelectionEmpty()) {
+                int idx = listSelectionModel.getMinSelectionIndex();
+                if (listSelectionModel.isSelectedIndex(idx)) {
+                    DescriptiveElement element = (DescriptiveElement) listModel.getElementAt(idx);
+                    controller.setCurrentTaskCollection(taskCollectionEditor, element);
                 }
             }
         });

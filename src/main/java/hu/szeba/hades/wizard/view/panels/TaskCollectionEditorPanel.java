@@ -2,12 +2,18 @@ package hu.szeba.hades.wizard.view.panels;
 
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.wizard.form.MultiSelectorForm;
+import hu.szeba.hades.wizard.model.WizardTaskCollection;
 import hu.szeba.hades.wizard.view.components.GraphEditorPanel;
+import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Map;
 
 public class TaskCollectionEditorPanel extends JPanel {
+
+    private DescriptiveElement currentElementRef;
+    private WizardTaskCollection currentTaskCollection;
 
     private JPanel topPanel;
 
@@ -22,6 +28,9 @@ public class TaskCollectionEditorPanel extends JPanel {
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEtchedBorder());
 
+        currentElementRef = null;
+        currentTaskCollection = null;
+
         taskSelectorForm = new MultiSelectorForm("Wizard: Select tasks");
 
         initializeComponents();
@@ -29,6 +38,8 @@ public class TaskCollectionEditorPanel extends JPanel {
 
         this.add(topPanel, BorderLayout.NORTH);
         this.add(dependenciesPanel, BorderLayout.CENTER);
+
+        setVisible(false);
     }
 
     private void initializeComponents() {
@@ -98,7 +109,6 @@ public class TaskCollectionEditorPanel extends JPanel {
                 new Insets(5, 0, 5, 0));
 
         dependenciesPanel = new GraphEditorPanel("Tasks (in this collection):", 1536, 1536);
-
     }
 
     private void setupEvents() {
@@ -106,6 +116,28 @@ public class TaskCollectionEditorPanel extends JPanel {
             taskSelectorForm.setLocationRelativeTo(null);
             taskSelectorForm.setVisible(true);
         });
+    }
+
+    public void setCurrentTaskCollection(WizardTaskCollection newTaskCollection, DescriptiveElement currentElementRef,
+                                         Map<String, String> idToTitleMap) {
+        // Save old task collection
+        if (this.currentTaskCollection != null) {
+            this.currentElementRef.setTitle(titleField.getText());
+            this.currentTaskCollection.setTitle(titleField.getText());
+            this.currentTaskCollection.setCompletionThreshold((int) thresholdSpinner.getValue());
+            // We work directly on graph data, no need to set it back!
+        } else {
+            setVisible(true);
+        }
+
+        // Load new task collection
+        titleField.setText(newTaskCollection.getTitle());
+        thresholdSpinner.setValue(newTaskCollection.getCompletionThreshold());
+        dependenciesPanel.setGraphData(newTaskCollection.getGraph(), idToTitleMap);
+
+        // Update current task collection
+        this.currentTaskCollection = newTaskCollection;
+        this.currentElementRef = currentElementRef;
     }
 
 }

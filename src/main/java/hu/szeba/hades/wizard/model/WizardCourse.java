@@ -74,7 +74,7 @@ public class WizardCourse {
             TabbedFile metaFile = new TabbedFile(new File(taskCollectionsPath, taskCollectionId + "/title.dat"));
             possibleTaskCollections.add(new DescriptiveElement(taskCollectionId, metaFile.getData(0, 0)));
             taskCollectionIdToTitle.put(taskCollectionId, metaFile.getData(0, 0));
-            taskCollections.put(taskCollectionId, new WizardTaskCollection());
+            taskCollections.put(taskCollectionId, new WizardTaskCollection(taskCollectionsPath, taskCollectionId));
         }
         possibleTaskCollections.sort(SortUtilities::mappedElementIntegerComparator);
 
@@ -96,6 +96,9 @@ public class WizardCourse {
 
         for (WizardMode mode : modes.values()) {
             mode.save();
+        }
+        for (WizardTaskCollection taskCollection : taskCollections.values()) {
+            taskCollection.save();
         }
     }
 
