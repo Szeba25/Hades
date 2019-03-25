@@ -143,7 +143,8 @@ public class AdjacencyList implements Graph {
 
     @Override
     public void removeAllConnectionFrom(String node) {
-        for (String child : childNodes.get(node)) {
+        Set<String> children = new HashSet<>(childNodes.get(node));
+        for (String child : children) {
             removeConnection(node, child);
         }
     }
