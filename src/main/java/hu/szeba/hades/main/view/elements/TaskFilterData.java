@@ -61,7 +61,7 @@ public class TaskFilterData {
     public boolean matches(TaskElement element) {
         TaskDescription description = element.getDescription();
 
-        boolean matchesTitle = description.getTaskTitle().toLowerCase().contains(titleFilter);
+        boolean matchesTitle = description.getTaskTitle().toLowerCase().contains(titleFilter.toLowerCase());
 
         boolean matchesDifficulty = difficultyFilter.equals("All") ||
                 description.getDifficulty().equals(difficultyFilter);
