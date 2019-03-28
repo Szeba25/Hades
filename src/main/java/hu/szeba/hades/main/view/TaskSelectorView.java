@@ -276,11 +276,11 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
                 1, 1, 0, 0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(new JLabel("Progress:"), 0, 2, GridBagConstraints.BOTH,
+        gs.add(new JLabel("Task count for completion:"), 0, 2, GridBagConstraints.BOTH,
                 1, 1, 0, 0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(new JLabel("Task count:"), 0, 3, GridBagConstraints.BOTH,
+        gs.add(new JLabel("Total progress:"), 0, 3, GridBagConstraints.BOTH,
                 1, 1, 0, 0,
                 new Insets(0, 0, 5, 5));
 
@@ -292,11 +292,11 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
                 1, 1, 1.0, 0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(taskCollectionProgress, 1, 2, GridBagConstraints.HORIZONTAL,
+        gs.add(taskCollectionTaskCount, 1, 2, GridBagConstraints.HORIZONTAL,
                 1, 1, 1.0, 0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(taskCollectionTaskCount, 1, 3, GridBagConstraints.HORIZONTAL,
+        gs.add(taskCollectionProgress, 1, 3, GridBagConstraints.HORIZONTAL,
                 1, 1, 1.0, 0,
                 new Insets(0, 0, 5, 5));
 
@@ -622,8 +622,8 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
 
     private void updateTaskCollectionInfo(StatefulElement selectedTaskCollection) {
         controller.setTaskCollectionInfo(selectedTaskCollection, taskCollectionStatus,
-                taskCollectionPercentNeeded, taskCollectionProgress,
-                taskCollectionTaskCount, taskCollectionPrerequisites);
+                taskCollectionPercentNeeded, taskCollectionTaskCount,
+                taskCollectionProgress, taskCollectionPrerequisites);
     }
 
     private void updateTaskSelection(TaskElement selectedTask) {
