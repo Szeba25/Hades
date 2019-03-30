@@ -221,7 +221,6 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
     }
 
     private void modifyAllChanges() {
-        System.out.println("Sync of data!");
         // Trigger update on current list element
         if (modeList.getList().getSelectedValue() != null) {
             controller.setCurrentMode(modeEditor, (DescriptiveElement) modeList.getList().getSelectedValue());
