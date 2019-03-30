@@ -67,10 +67,18 @@ public class TaskEditorPanel extends JPanel {
         titleLabel.setLabelFor(titleField);
 
         difficultyBox = new JComboBox<>();
+        difficultyBox.addItem("Novice");
+        difficultyBox.addItem("Easy");
+        difficultyBox.addItem("Normal");
+        difficultyBox.addItem("Hard");
+        difficultyBox.addItem("Master");
         JLabel difficultyLabel = new JLabel("Difficulty:");
         difficultyLabel.setLabelFor(difficultyBox);
 
         lengthBox = new JComboBox<>();
+        lengthBox.addItem("Short");
+        lengthBox.addItem("Medium");
+        lengthBox.addItem("Long");
         JLabel lengthLabel = new JLabel("Length:");
         lengthLabel.setLabelFor(lengthBox);
 
@@ -298,6 +306,11 @@ public class TaskEditorPanel extends JPanel {
             // Set new names in the current list
             this.currentElementRef.setTitle(titleField.getText());
             this.currentTask.setTitle(titleField.getText());
+            this.currentTask.setDifficulty((String)difficultyBox.getSelectedItem());
+            this.currentTask.setLength((String) lengthBox.getSelectedItem());
+            this.currentTask.setTags(tags.getText());
+            this.currentTask.setRegExIncludeData(regexInclude.getText());
+            this.currentTask.setRegExExcludeData(regexExclude.getText());
 
             // Update references in task collection editor
             taskIdToTitle.put(currentElementRef.getId(), titleField.getText());
@@ -309,6 +322,11 @@ public class TaskEditorPanel extends JPanel {
 
         // Load new task
         titleField.setText(newTask.getTitle());
+        difficultyBox.setSelectedItem(newTask.getDifficulty());
+        lengthBox.setSelectedItem(newTask.getLength());
+        tags.setText(newTask.getTags());
+        regexInclude.setText(newTask.getRegExIncludeData());
+        regexExclude.setText(newTask.getRegExExcludeData());
 
         // Update current task
         this.currentTask = newTask;

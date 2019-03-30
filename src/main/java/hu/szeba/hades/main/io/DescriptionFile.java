@@ -72,8 +72,9 @@ public class DescriptionFile {
         if (shortStory.length() > 0) {
             shortStoryFinal += "<br><hr>";
         }
-        shortDescription = shortStoryFinal + shortInstructions + "<br><hr>";
-        shortDescription +=
+        shortDescription = shortStoryFinal +
+                shortInstructions +
+                "<br><hr>" +
                 "<footer>" +
                 "<p><b>Tags: </b>" + String.join(", ", tags) + "</p>" +
                 "</footer>";
@@ -203,4 +204,33 @@ public class DescriptionFile {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public void setShortInstructions(String shortInstructions) {
+        this.shortInstructions = shortInstructions;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
+    }
+
+    public void setShortStory(String shortStory) {
+        this.shortStory = shortStory;
+    }
+
+    public void setStory(String story) {
+        this.story = story;
+    }
+
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public void setLength(String length) {
+        this.length = length;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
 }
