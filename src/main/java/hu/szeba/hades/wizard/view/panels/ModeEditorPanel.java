@@ -175,7 +175,7 @@ public class ModeEditorPanel extends JPanel {
     }
 
     public void setCurrentMode(WizardMode newMode, DescriptiveElement currentElementRef,
-                               Map<String, String> idToTitleMap, List<MappedElement> possibleTaskCollections) {
+                               Map<String, String> taskCollectionIdToTitle, List<MappedElement> possibleTaskCollections) {
         // Save old mode
         if (this.currentMode != null) {
             this.currentElementRef.setTitle(titleField.getText());
@@ -193,7 +193,7 @@ public class ModeEditorPanel extends JPanel {
         ignoreDependency.setSelected(newMode.isIgnoreDependency());
         ignoreStory.setSelected(newMode.isIgnoreStory());
         ironMan.setSelected(newMode.isIronMan());
-        dependenciesPanel.setGraphData(newMode.getGraph(), idToTitleMap);
+        dependenciesPanel.setGraphData(newMode.getGraph(), taskCollectionIdToTitle);
 
         // Set up possible task collection selector list
         taskCollectionSelectorForm.setListContents(possibleTaskCollections);

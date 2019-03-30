@@ -123,8 +123,8 @@ public class TaskCollectionEditorPanel extends JPanel {
     }
 
     public void setCurrentTaskCollection(WizardTaskCollection newTaskCollection, DescriptiveElement currentElementRef,
-                                         Map<String, String> taskIdToTitleMap, List<MappedElement> possibleTasks,
-                                         Map<String, String> taskCollectionIdToTitleMap, ModeEditorPanel modeEditor) {
+                                         Map<String, String> taskIdToTitle, List<MappedElement> possibleTasks,
+                                         Map<String, String> taskCollectionIdToTitle, ModeEditorPanel modeEditor) {
         // Save old task collection
         if (this.currentTaskCollection != null) {
 
@@ -133,8 +133,8 @@ public class TaskCollectionEditorPanel extends JPanel {
             this.currentTaskCollection.setTitle(titleField.getText());
 
             // Update references in ModeEditorPanel!!!
-            taskCollectionIdToTitleMap.put(currentElementRef.getId(), titleField.getText());
-            modeEditor.updateGraphTitles(taskCollectionIdToTitleMap);
+            taskCollectionIdToTitle.put(currentElementRef.getId(), titleField.getText());
+            modeEditor.updateGraphTitles(taskCollectionIdToTitle);
 
             // If no number was entered, work with value 100
             try {
@@ -153,7 +153,7 @@ public class TaskCollectionEditorPanel extends JPanel {
         // Load new task collection
         titleField.setText(newTaskCollection.getTitle());
         thresholdField.setText(String.valueOf(newTaskCollection.getCompletionThreshold()));
-        dependenciesPanel.setGraphData(newTaskCollection.getGraph(), taskIdToTitleMap);
+        dependenciesPanel.setGraphData(newTaskCollection.getGraph(), taskIdToTitle);
 
         // Set up possible task selector list
         taskSelectorForm.setListContents(possibleTasks);
