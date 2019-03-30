@@ -126,8 +126,16 @@ public class TaskCollectionEditorPanel extends JPanel {
                                          Map<String, String> idToTitleMap, List<MappedElement> possibleTasks) {
         // Save old task collection
         if (this.currentTaskCollection != null) {
+
+            // Set new names in the current list
             this.currentElementRef.setTitle(titleField.getText());
             this.currentTaskCollection.setTitle(titleField.getText());
+
+            // Update references in ModeEditorPanel!!!
+            // TODO
+            //modeEditor.changeTitleOfTaskCollection(currentElementRef.getId(), currentElementRef.getTitle());
+            //idToTitleMap.put(currentElementRef.getId(), currentElementRef.getTitle());
+            // END
 
             // If no number was entered, work with value 100
             try {

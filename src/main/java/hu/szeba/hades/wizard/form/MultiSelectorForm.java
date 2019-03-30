@@ -76,4 +76,14 @@ public class MultiSelectorForm extends JDialog {
         return list.getSelectedValuesList();
     }
 
+    public void changeTitleById(String id, String title) {
+        DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) list.getModel();
+        for (int i = 0; i < model.size(); i++) {
+            if (model.getElementAt(i).getId().equals(id)) {
+                model.getElementAt(i).setTitle(title);
+                break;
+            }
+        }
+    }
+
 }

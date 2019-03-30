@@ -194,4 +194,5 @@ public class GraphEditorPanel extends JPanel {
 
         canvas.setSelectedNode(null);
     }
+
 }
