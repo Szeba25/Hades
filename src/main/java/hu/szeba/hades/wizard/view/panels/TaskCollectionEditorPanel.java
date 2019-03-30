@@ -125,6 +125,7 @@ public class TaskCollectionEditorPanel extends JPanel {
             this.currentElementRef.setTitle(titleField.getText());
             this.currentTaskCollection.setTitle(titleField.getText());
 
+            // If no number was entered, work with value 100
             try {
                 int thresholdValue = Integer.parseInt(thresholdField.getText());
                 this.currentTaskCollection.setCompletionThreshold(thresholdValue);
