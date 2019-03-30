@@ -207,6 +207,18 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
                 }
             }
         });
+
+        taskList.getList().getSelectionModel().addListSelectionListener((event) -> {
+            ListSelectionModel listSelectionModel = (ListSelectionModel) event.getSource();
+            ListModel listModel = taskList.getList().getModel();
+            if (!listSelectionModel.isSelectionEmpty()) {
+                int idx = listSelectionModel.getMinSelectionIndex();
+                if (listSelectionModel.isSelectedIndex(idx)) {
+                    DescriptiveElement element = (DescriptiveElement) listModel.getElementAt(idx);
+                    controller.setCurrentTask(taskEditor, element, taskCollectionEditor);
+                }
+            }
+        });
     }
 
     @Override

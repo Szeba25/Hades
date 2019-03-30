@@ -163,4 +163,7 @@ public class TaskCollectionEditorPanel extends JPanel {
         this.currentElementRef = currentElementRef;
     }
 
+    public void updateGraphTitles(Map<String, String> idToTitle) {
+        dependenciesPanel.setGraphData(currentTaskCollection.getGraph(), idToTitle);
+    }
 }

@@ -5,6 +5,7 @@ import hu.szeba.hades.wizard.model.WizardCourse;
 import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
 import hu.szeba.hades.wizard.view.panels.ModeEditorPanel;
 import hu.szeba.hades.wizard.view.panels.TaskCollectionEditorPanel;
+import hu.szeba.hades.wizard.view.panels.TaskEditorPanel;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -60,6 +61,15 @@ public class CourseEditorController {
                 course.getPossibleTasks(),
                 course.getTaskCollectionIdToTitle(),
                 modeEditor);
+    }
+
+    public void setCurrentTask(TaskEditorPanel taskEditorPanel, DescriptiveElement element, TaskCollectionEditorPanel taskCollectionEditor) {
+        taskEditorPanel.setCurrentTask(
+                course.getTasks().get(element.getId()),
+                element,
+                course.getTaskIdToTitle(),
+                taskCollectionEditor
+        );
     }
 
     public void save() throws IOException {

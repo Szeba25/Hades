@@ -1,14 +1,21 @@
 package hu.szeba.hades.wizard.view.panels;
 
 import hu.szeba.hades.main.util.GridBagSetter;
+import hu.szeba.hades.wizard.model.WizardTask;
+import hu.szeba.hades.wizard.model.WizardTaskCollection;
 import hu.szeba.hades.wizard.view.components.ModifiableListPanel;
+import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Map;
 
 public class TaskEditorPanel extends JPanel {
+
+    private DescriptiveElement currentElementRef;
+    private WizardTask currentTask;
 
     private JPanel leftPanel;
 
@@ -31,6 +38,9 @@ public class TaskEditorPanel extends JPanel {
     public TaskEditorPanel() {
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEtchedBorder());
+
+        currentElementRef = null;
+        currentTask = null;
 
         initializeComponents();
         setupEvents();
@@ -274,6 +284,27 @@ public class TaskEditorPanel extends JPanel {
                 0.5,
                 0,
                 new Insets(5,5, 5, 5));
+    }
+
+    public void setCurrentTask(WizardTask newTask, DescriptiveElement currentElementRef,
+                               Map<String, String> taskIdToTitle, TaskCollectionEditorPanel taskCollectionEditor) {
+
+        // Save old task
+        if (this.currentTask != null) {
+            this.currentElementRef.setTitle(titleField.getText());
+            this.currentTask.setTitle(titleField.getText());
+            taskIdToTitle.put(currentElementRef.getId(), titleField.getText());
+            taskCollectionEditor.updateGraphTitles(taskIdToTitle);
+        } else {
+            setVisible(true);
+        }
+
+        // Load new task
+        titleField.setText(newTask.getTitle());
+
+        // Update current task
+        this.currentTask = newTask;
+        this.currentElementRef = currentElementRef;
     }
 
 }

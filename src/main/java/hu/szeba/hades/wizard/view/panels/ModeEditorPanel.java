@@ -203,8 +203,8 @@ public class ModeEditorPanel extends JPanel {
         this.currentElementRef = currentElementRef;
     }
 
-    public void updateGraphTitles(Map<String, String> idToTitleMap) {
-        dependenciesPanel.setGraphData(currentMode.getGraph(), idToTitleMap);
+    public void updateGraphTitles(Map<String, String> idToTitle) {
+        dependenciesPanel.setGraphData(currentMode.getGraph(), idToTitle);
     }
 
 }
