@@ -9,14 +9,13 @@ import java.util.List;
 
 public class TaskDescription {
 
-    private final String taskTitle;
-    private final String shortDescription;
-    private final String instructions;
-    private final String story;
-    private final String difficulty;
-    private final String length;
-    private final List<String> tags;
-
+    private String taskTitle;
+    private String shortDescription;
+    private String instructions;
+    private String story;
+    private String difficulty;
+    private String length;
+    private List<String> tags;
     private HTMLDocument shortDocument;
 
     public TaskDescription(String taskTitle, String shortDescription, String instructions, String story,
@@ -72,6 +71,10 @@ public class TaskDescription {
             }
         }
         return shortDocument;
+    }
+
+    public void setTitle(String taskTitle) {
+        this.taskTitle = taskTitle;
     }
 
 }

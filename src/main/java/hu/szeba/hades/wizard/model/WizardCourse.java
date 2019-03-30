@@ -84,7 +84,7 @@ public class WizardCourse {
             TaskDescription taskDescription = descriptionFile.parse(false);
             possibleTasks.add(new DescriptiveElement(taskId, taskDescription.getTaskTitle()));
             taskIdToTitle.put(taskId, taskDescription.getTaskTitle());
-            tasks.put(taskId, new WizardTask());
+            tasks.put(taskId, new WizardTask(taskId, new File(tasksPath, taskId), descriptionFile));
         }
         possibleTasks.sort(SortUtilities::mappedElementIntegerComparator);
 
