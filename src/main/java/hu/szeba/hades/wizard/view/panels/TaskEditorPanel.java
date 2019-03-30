@@ -287,16 +287,20 @@ public class TaskEditorPanel extends JPanel {
     }
 
     public void setCurrentTask(WizardTask newTask, DescriptiveElement currentElementRef,
-                               Map<String, String> taskIdToTitle, TaskCollectionEditorPanel taskCollectionEditor) {
+                               Map<String, String> taskIdToTitle,
+                               TaskCollectionEditorPanel taskCollectionEditor) {
 
         // Save old task
         if (this.currentTask != null) {
+
+            // Set new names in the current list
             this.currentElementRef.setTitle(titleField.getText());
             this.currentTask.setTitle(titleField.getText());
 
-            // Update references!
+            // Update references in task collection editor
             taskIdToTitle.put(currentElementRef.getId(), titleField.getText());
             taskCollectionEditor.updateGraphTitles(taskIdToTitle);
+
         } else {
             setVisible(true);
         }

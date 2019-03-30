@@ -175,7 +175,8 @@ public class ModeEditorPanel extends JPanel {
     }
 
     public void setCurrentMode(WizardMode newMode, DescriptiveElement currentElementRef,
-                               Map<String, String> taskCollectionIdToTitle, List<MappedElement> possibleTaskCollections) {
+                               Map<String, String> taskCollectionIdToTitle,
+                               List<MappedElement> possibleTaskCollections) {
         // Save old mode
         if (this.currentMode != null) {
             this.currentElementRef.setTitle(titleField.getText());

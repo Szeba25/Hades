@@ -123,8 +123,10 @@ public class TaskCollectionEditorPanel extends JPanel {
     }
 
     public void setCurrentTaskCollection(WizardTaskCollection newTaskCollection, DescriptiveElement currentElementRef,
-                                         Map<String, String> taskIdToTitle, List<MappedElement> possibleTasks,
-                                         Map<String, String> taskCollectionIdToTitle, ModeEditorPanel modeEditor) {
+                                         Map<String, String> taskIdToTitle,
+                                         List<MappedElement> possibleTasks,
+                                         Map<String, String> taskCollectionIdToTitle,
+                                         ModeEditorPanel modeEditor) {
         // Save old task collection
         if (this.currentTaskCollection != null) {
 
