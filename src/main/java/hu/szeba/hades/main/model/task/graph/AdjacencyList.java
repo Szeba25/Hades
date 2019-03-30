@@ -121,7 +121,8 @@ public class AdjacencyList implements Graph {
     public void removeNode(String node) {
         if (nodes.contains(node)) {
             nodes.remove(node);
-            removeAllConnectionTo(node);
+            childNodes.remove(node);
+            parentNodes.remove(node);
         }
     }
 
