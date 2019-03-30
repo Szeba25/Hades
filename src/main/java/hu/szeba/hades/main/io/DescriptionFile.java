@@ -52,9 +52,6 @@ public class DescriptionFile {
         shortStory = "";
         if (!ignoreStory) {
             shortStory = documentElement.getElementsByTagName("ShortStory").item(0).getTextContent().trim();
-            if (shortStory.length() > 0) {
-                shortStory += "<br><hr>";
-            }
         }
 
         story = "";
@@ -71,7 +68,11 @@ public class DescriptionFile {
             tags.add(tagNodeList.item(i).getTextContent().trim());
         }
 
-        shortDescription = shortStory + shortInstructions + "<br><hr>";
+        String shortStoryFinal = shortStory;
+        if (shortStory.length() > 0) {
+            shortStoryFinal += "<br><hr>";
+        }
+        shortDescription = shortStoryFinal + shortInstructions + "<br><hr>";
         shortDescription +=
                 "<footer>" +
                 "<p><b>Tags: </b>" + String.join(", ", tags) + "</p>" +
