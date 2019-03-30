@@ -1,7 +1,6 @@
 package hu.szeba.hades.wizard.model;
 
-import hu.szeba.hades.main.io.DescriptionXMLFile;
-import hu.szeba.hades.main.model.task.data.TaskDescription;
+import hu.szeba.hades.main.io.DescriptionFile;
 
 import java.io.File;
 
@@ -9,15 +8,12 @@ public class WizardTask {
 
     private String taskId;
     private File taskPath;
-    private DescriptionXMLFile descriptionXMLFile;
-    private TaskDescription description;
+    private DescriptionFile description;
 
-    public WizardTask(String taskId, File taskPath, DescriptionXMLFile descriptionXMLFile) {
+    public WizardTask(String taskId, File taskPath, DescriptionFile descriptionFile) {
         this.taskId = taskId;
         this.taskPath = taskPath;
-        this.descriptionXMLFile = descriptionXMLFile;
-
-        description = descriptionXMLFile.parse(false);
+        this.description = descriptionFile;
     }
 
     public void save() {
@@ -25,7 +21,7 @@ public class WizardTask {
     }
 
     public String getTitle() {
-        return description.getTaskTitle();
+        return description.getTitle();
     }
 
     public void setTitle(String title) {

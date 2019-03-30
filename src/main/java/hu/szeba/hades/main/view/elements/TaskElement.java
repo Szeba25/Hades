@@ -1,17 +1,17 @@
 package hu.szeba.hades.main.view.elements;
 
-import hu.szeba.hades.main.model.task.data.TaskDescription;
+import hu.szeba.hades.main.io.DescriptionFile;
 
 public class TaskElement extends StatefulElement {
 
-    private TaskDescription description;
+    private DescriptionFile description;
 
-    public TaskElement(String id, String title, TaskDescription description) {
+    public TaskElement(String id, String title, DescriptionFile description) {
         super(id, title);
         this.description = description;
     }
 
-    public TaskDescription getDescription() {
+    public DescriptionFile getDescription() {
         return description;
     }
 

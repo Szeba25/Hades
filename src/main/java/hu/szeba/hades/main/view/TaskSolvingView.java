@@ -95,11 +95,11 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         this.taskStoryPane.setCaretPosition(0);
 
         // Set title, and disable some menus based on the task
-        this.setTitle("Solving task: " + task.getTaskDescription().getTaskTitle());
+        this.setTitle("Solving task: " + task.getTaskDescription().getTitle());
         this.runMenuItem.setEnabled(task.getCompilerOutputRegister().getCompilerOutput().isReady());
 
         // Set task story title
-        this.taskStoryDialog.setTitle("Story: " + task.getTaskDescription().getTaskTitle());
+        this.taskStoryDialog.setTitle("Story: " + task.getTaskDescription().getTitle());
         SwingUtilities.getRootPane(taskStoryDialog).setDefaultButton(taskStoryOkButton);
         this.taskStoryShowButton.setEnabled(storyPresent);
 

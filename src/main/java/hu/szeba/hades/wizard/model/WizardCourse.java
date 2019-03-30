@@ -1,10 +1,9 @@
 package hu.szeba.hades.wizard.model;
 
 import hu.szeba.hades.main.io.ConfigFile;
-import hu.szeba.hades.main.io.DescriptionXMLFile;
+import hu.szeba.hades.main.io.DescriptionFile;
 import hu.szeba.hades.main.io.TabbedFile;
 import hu.szeba.hades.main.meta.Options;
-import hu.szeba.hades.main.model.task.data.TaskDescription;
 import hu.szeba.hades.main.util.SortUtilities;
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
@@ -80,11 +79,10 @@ public class WizardCourse {
 
         tasksPath = new File(Options.getDatabasePath(), courseId + "/tasks");
         for (String taskId : tasksPath.list()) {
-            DescriptionXMLFile descriptionFile = new DescriptionXMLFile(new File(tasksPath, taskId + "/description.xml"));
-            TaskDescription taskDescription = descriptionFile.parse(false);
-            possibleTasks.add(new DescriptiveElement(taskId, taskDescription.getTaskTitle()));
-            taskIdToTitle.put(taskId, taskDescription.getTaskTitle());
-            tasks.put(taskId, new WizardTask(taskId, new File(tasksPath, taskId), descriptionFile));
+            DescriptionFile taskDescription = new DescriptionFile(new File(tasksPath, taskId + "/description.xml"), false);
+            possibleTasks.add(new DescriptiveElement(taskId, taskDescription.getTitle()));
+            taskIdToTitle.put(taskId, taskDescription.getTitle());
+            tasks.put(taskId, new WizardTask(taskId, new File(tasksPath, taskId), taskDescription));
         }
         possibleTasks.sort(SortUtilities::mappedElementIntegerComparator);
 

@@ -639,7 +639,7 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
                     continueButton.setEnabled(false);
                 }
             }
-            Document doc = selectedTask.getDescription().getShortDocument((HTMLEditorKit) descriptionArea.getEditorKit());
+            Document doc = selectedTask.getDescription().getCachedDocument((HTMLEditorKit) descriptionArea.getEditorKit());
             descriptionArea.setDocument(doc);
             controller.setTaskInfo(selectedTask, taskStatus,
                     taskDifficulty, taskLength,

@@ -1,21 +1,19 @@
 package hu.szeba.hades.main.model.course;
 
 import hu.szeba.hades.main.io.ConfigFile;
-import hu.szeba.hades.main.io.DescriptionXMLFile;
+import hu.szeba.hades.main.io.DescriptionFile;
 import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.meta.User;
 import hu.szeba.hades.main.model.helper.ModeData;
 import hu.szeba.hades.main.model.helper.TaskCollectionInfo;
 import hu.szeba.hades.main.model.task.Task;
 import hu.szeba.hades.main.model.task.data.MissingResultFileException;
-import hu.szeba.hades.main.model.task.data.TaskDescription;
-import hu.szeba.hades.main.model.task.graph.Graph;
 import hu.szeba.hades.main.model.task.graph.AdjacencyList;
+import hu.szeba.hades.main.model.task.graph.Graph;
 import hu.szeba.hades.main.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.main.model.task.taskfactory.TaskFactoryDecider;
 import hu.szeba.hades.main.util.SortUtilities;
 import hu.szeba.hades.main.view.elements.AbstractState;
-import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.main.view.elements.TaskElement;
 import org.xml.sax.SAXException;
 
@@ -74,10 +72,9 @@ public class TaskCollection {
         idToTitleMap = new HashMap<>();
         // Load all task descriptions
         for (String taskId : taskGraph.getNodes()) {
-            DescriptionXMLFile descriptionFile = new DescriptionXMLFile(new File(tasksDirectory, taskId + "/description.xml"));
-            TaskDescription description = descriptionFile.parse(modeData.isIgnoreStory());
-            possibleTasks.add(new TaskElement(taskId, description.getTaskTitle(), description));
-            idToTitleMap.put(taskId, description.getTaskTitle());
+            DescriptionFile description = new DescriptionFile(new File(tasksDirectory, taskId + "/description.xml"), modeData.isIgnoreStory());
+            possibleTasks.add(new TaskElement(taskId, description.getTitle(), description));
+            idToTitleMap.put(taskId, description.getTitle());
         }
         possibleTasks.sort(SortUtilities::mappedElementIntegerComparator);
     }

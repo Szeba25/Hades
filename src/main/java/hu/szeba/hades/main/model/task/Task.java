@@ -1,5 +1,6 @@
 package hu.szeba.hades.main.model.task;
 
+import hu.szeba.hades.main.io.DescriptionFile;
 import hu.szeba.hades.main.io.TabbedFile;
 import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.meta.TaskSolverAgent;
@@ -30,7 +31,7 @@ public class Task {
     private final File taskDirectory;
     private final File taskWorkingDirectory;
 
-    private final TaskDescription taskDescription;
+    private final DescriptionFile taskDescription;
 
     private List<InputResultPair> inputResultPairs;
     private Set<String> readonlySources;
@@ -46,7 +47,7 @@ public class Task {
                 String modeId,
                 String taskCollectionId,
                 String taskId,
-                TaskDescription taskDescription,
+                DescriptionFile taskDescription,
                 boolean continueTask) throws IOException, MissingResultFileException {
 
         this.agent = agent;
@@ -141,7 +142,7 @@ public class Task {
         return new File(taskWorkingDirectory.getAbsolutePath());
     }
 
-    public TaskDescription getTaskDescription() {
+    public DescriptionFile getTaskDescription() {
         return taskDescription;
     }
 

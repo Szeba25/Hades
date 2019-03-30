@@ -1,8 +1,6 @@
 package hu.szeba.hades.main.view.elements;
 
-import hu.szeba.hades.main.model.task.data.TaskDescription;
-import hu.szeba.hades.main.view.elements.AbstractState;
-import hu.szeba.hades.main.view.elements.TaskElement;
+import hu.szeba.hades.main.io.DescriptionFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -59,9 +57,9 @@ public class TaskFilterData {
     }
 
     public boolean matches(TaskElement element) {
-        TaskDescription description = element.getDescription();
+        DescriptionFile description = element.getDescription();
 
-        boolean matchesTitle = description.getTaskTitle().toLowerCase().contains(titleFilter.toLowerCase());
+        boolean matchesTitle = description.getTitle().toLowerCase().contains(titleFilter.toLowerCase());
 
         boolean matchesDifficulty = difficultyFilter.equals("All") ||
                 description.getDifficulty().equals(difficultyFilter);
