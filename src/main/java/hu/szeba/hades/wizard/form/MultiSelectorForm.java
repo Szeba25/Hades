@@ -5,11 +5,12 @@ import hu.szeba.hades.main.view.elements.MappedElement;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class MultiSelectorForm extends JDialog {
 
     private JPanel mainPanel;
-    private JList<MappedElement> taskCollectionList;
+    private JList<MappedElement> list;
     private JButton okButton;
 
     public MultiSelectorForm(String title) {
@@ -23,9 +24,9 @@ public class MultiSelectorForm extends JDialog {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
 
-        taskCollectionList = new JList<>();
-        taskCollectionList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        JScrollPane taskCollectionListScroll = new JScrollPane(taskCollectionList);
+        list = new JList<>();
+        list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        JScrollPane taskCollectionListScroll = new JScrollPane(list);
 
         okButton = new JButton("Select");
         okButton.setFocusPainted(false);
@@ -55,6 +56,15 @@ public class MultiSelectorForm extends JDialog {
                 new Insets(0, 5, 5, 5));
 
         this.getContentPane().add(mainPanel, BorderLayout.CENTER);
+    }
+
+    public void setListContents(List<MappedElement> elements) {
+        DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) list.getModel();
+        model.removeAllElements();
+
+        for (MappedElement element : elements) {
+            model.addElement(element);
+        }
     }
 
 }
