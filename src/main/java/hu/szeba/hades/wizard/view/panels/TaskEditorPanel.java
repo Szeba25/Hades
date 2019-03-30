@@ -47,6 +47,8 @@ public class TaskEditorPanel extends JPanel {
 
         this.add(leftPanel, BorderLayout.WEST);
         this.add(rightPanel, BorderLayout.CENTER);
+
+        setVisible(false);
     }
 
     private void initializeComponents() {
