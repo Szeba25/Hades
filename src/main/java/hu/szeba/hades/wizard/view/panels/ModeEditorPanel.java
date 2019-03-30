@@ -162,7 +162,7 @@ public class ModeEditorPanel extends JPanel {
                 0,
                 new Insets(5, 0, 5, 0));
 
-        dependenciesPanel = new GraphEditorPanel("Task collections (in this mode):", 1536, 1536);
+        dependenciesPanel = new GraphEditorPanel("Task collections (in this mode):", 2048, 2048);
     }
 
     private void setupEvents() {
