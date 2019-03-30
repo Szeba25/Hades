@@ -3,6 +3,7 @@ package hu.szeba.hades.wizard.model;
 import hu.szeba.hades.main.io.DescriptionFile;
 
 import java.io.File;
+import java.io.IOException;
 
 public class WizardTask {
 
@@ -10,14 +11,14 @@ public class WizardTask {
     private File taskPath;
     private DescriptionFile description;
 
-    public WizardTask(String taskId, File taskPath, DescriptionFile descriptionFile) {
+    public WizardTask(String taskId, File taskPath, DescriptionFile description) {
         this.taskId = taskId;
         this.taskPath = taskPath;
-        this.description = descriptionFile;
+        this.description = description;
     }
 
-    public void save() {
-        // TODO
+    public void save() throws IOException {
+        description.save();
     }
 
     public String getTitle() {
