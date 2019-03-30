@@ -125,13 +125,12 @@ public class TaskCollectionEditorPanel extends JPanel {
             this.currentElementRef.setTitle(titleField.getText());
             this.currentTaskCollection.setTitle(titleField.getText());
 
-            int thresholdValue = 0;
             try {
-                thresholdValue = Integer.parseInt(thresholdField.getText());
+                int thresholdValue = Integer.parseInt(thresholdField.getText());
+                this.currentTaskCollection.setCompletionThreshold(thresholdValue);
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                this.currentTaskCollection.setCompletionThreshold(100);
             }
-            this.currentTaskCollection.setCompletionThreshold(thresholdValue);
 
             // We work directly on graph data, no need to set it back!
         } else {
