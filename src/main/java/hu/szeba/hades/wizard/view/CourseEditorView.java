@@ -172,7 +172,7 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
                         controller.setCurrentMode(modeEditor, (DescriptiveElement) modeList.getList().getSelectedValue());
                     }
                     if (taskCollectionList.getList().getSelectedValue() != null) {
-                        controller.setCurrentTaskCollection(taskCollectionEditor, (DescriptiveElement) taskCollectionList.getList().getSelectedValue());
+                        controller.setCurrentTaskCollection(taskCollectionEditor, (DescriptiveElement) taskCollectionList.getList().getSelectedValue(), modeEditor);
                     }
                     // Save the course!
                     controller.save();
@@ -203,7 +203,7 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
                 int idx = listSelectionModel.getMinSelectionIndex();
                 if (listSelectionModel.isSelectedIndex(idx)) {
                     DescriptiveElement element = (DescriptiveElement) listModel.getElementAt(idx);
-                    controller.setCurrentTaskCollection(taskCollectionEditor, element);
+                    controller.setCurrentTaskCollection(taskCollectionEditor, element, modeEditor);
                 }
             }
         });

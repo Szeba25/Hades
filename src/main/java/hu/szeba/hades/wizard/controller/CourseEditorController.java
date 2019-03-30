@@ -52,12 +52,14 @@ public class CourseEditorController {
                 course.getPossibleTaskCollections());
     }
 
-    public void setCurrentTaskCollection(TaskCollectionEditorPanel taskCollectionEditor, DescriptiveElement element) {
+    public void setCurrentTaskCollection(TaskCollectionEditorPanel taskCollectionEditor, DescriptiveElement element, ModeEditorPanel modeEditor) {
         taskCollectionEditor.setCurrentTaskCollection(
                 course.getTaskCollections().get(element.getId()),
                 element,
                 course.getTaskIdToTitle(),
-                course.getPossibleTasks());
+                course.getPossibleTasks(),
+                course.getTaskCollectionIdToTitle(),
+                modeEditor);
     }
 
     public void save() throws IOException {
