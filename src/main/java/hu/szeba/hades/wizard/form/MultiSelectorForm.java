@@ -26,6 +26,7 @@ public class MultiSelectorForm extends JDialog {
 
         list = new JList<>();
         list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        list.setModel(new DefaultListModel<>());
         JScrollPane taskCollectionListScroll = new JScrollPane(list);
 
         okButton = new JButton("Select");
@@ -58,13 +59,8 @@ public class MultiSelectorForm extends JDialog {
         this.getContentPane().add(mainPanel, BorderLayout.CENTER);
     }
 
-    public void setListContents(List<MappedElement> elements) {
-        DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) list.getModel();
-        model.removeAllElements();
-
-        for (MappedElement element : elements) {
-            model.addElement(element);
-        }
+    public JList<MappedElement> getList() {
+        return list;
     }
 
 }

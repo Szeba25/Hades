@@ -1,6 +1,7 @@
 package hu.szeba.hades.wizard.view.panels;
 
 import hu.szeba.hades.main.util.GridBagSetter;
+import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.form.MultiSelectorForm;
 import hu.szeba.hades.wizard.model.WizardMode;
 import hu.szeba.hades.wizard.view.components.GraphEditorPanel;
@@ -193,6 +194,10 @@ public class ModeEditorPanel extends JPanel {
         // Update current mode
         this.currentMode = newMode;
         this.currentElementRef = currentElementRef;
+    }
+
+    public JList<MappedElement> getTaskCollectionSelectorList() {
+        return taskCollectionSelectorForm.getList();
     }
 
 }
