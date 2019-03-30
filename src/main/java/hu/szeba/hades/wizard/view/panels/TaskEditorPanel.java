@@ -293,6 +293,8 @@ public class TaskEditorPanel extends JPanel {
         if (this.currentTask != null) {
             this.currentElementRef.setTitle(titleField.getText());
             this.currentTask.setTitle(titleField.getText());
+
+            // Update references!
             taskIdToTitle.put(currentElementRef.getId(), titleField.getText());
             taskCollectionEditor.updateGraphTitles(taskIdToTitle);
         } else {
