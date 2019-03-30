@@ -54,10 +54,6 @@ public class TaskEditorPanel extends JPanel {
         initializeRightPanel();
     }
 
-    private void setupEvents() {
-
-    }
-
     private void initializeLeftPanel() {
         leftPanel = new JPanel();
         leftPanel.setLayout(new GridBagLayout());
@@ -284,6 +280,10 @@ public class TaskEditorPanel extends JPanel {
                 0.5,
                 0,
                 new Insets(5,5, 5, 5));
+    }
+
+    private void setupEvents() {
+
     }
 
     public void setCurrentTask(WizardTask newTask, DescriptiveElement currentElementRef,
