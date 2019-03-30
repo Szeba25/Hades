@@ -130,6 +130,7 @@ public class TaskCollectionEditorPanel extends JPanel {
                 int thresholdValue = Integer.parseInt(thresholdField.getText());
                 this.currentTaskCollection.setCompletionThreshold(thresholdValue);
             } catch (NumberFormatException e) {
+                System.out.println("Invalid value entered: " + thresholdField.getText());
                 this.currentTaskCollection.setCompletionThreshold(100);
             }
 
