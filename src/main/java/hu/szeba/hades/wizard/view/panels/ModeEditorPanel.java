@@ -169,6 +169,8 @@ public class ModeEditorPanel extends JPanel {
         dependenciesPanel.getAddNodeButton().addActionListener((e) -> {
             taskCollectionSelectorForm.setLocationRelativeTo(null);
             taskCollectionSelectorForm.setVisible(true);
+            List<MappedElement> selections = taskCollectionSelectorForm.getSelectedElements();
+            dependenciesPanel.addNodes(selections);
         });
     }
 

@@ -32,6 +32,10 @@ public class MultiSelectorForm extends JDialog {
         okButton = new JButton("Select");
         okButton.setFocusPainted(false);
 
+        okButton.addActionListener((e) -> {
+            setVisible(false);
+        });
+
         GridBagSetter gs = new GridBagSetter();
 
         gs.setComponent(mainPanel);
@@ -66,6 +70,10 @@ public class MultiSelectorForm extends JDialog {
         for (MappedElement element : elements) {
             model.addElement(element);
         }
+    }
+
+    public List<MappedElement> getSelectedElements() {
+        return list.getSelectedValuesList();
     }
 
 }

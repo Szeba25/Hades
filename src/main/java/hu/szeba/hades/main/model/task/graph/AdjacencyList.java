@@ -126,6 +126,11 @@ public class AdjacencyList implements Graph {
     }
 
     @Override
+    public boolean containsNode(String node) {
+        return nodes.contains(node);
+    }
+
+    @Override
     public void addConnection(String node, String connection) {
         if (nodes.contains(node) && nodes.contains(connection)) {
             childNodes.get(node).add(connection);

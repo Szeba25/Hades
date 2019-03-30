@@ -9,7 +9,6 @@ import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -117,6 +116,7 @@ public class GraphEditorPanel extends JPanel {
         possibleNodesPanel.getModifier().getButton(1).addActionListener((event) -> {
             if (!possibleNodesPanel.getList().isSelectionEmpty()) {
                 canvas.deleteCurrentNode();
+                graph.removeNode(possibleNodesPanel.getList().getSelectedValue().getId());
                 DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) possibleNodesPanel.getList().getModel();
                 model.remove(possibleNodesPanel.getList().getSelectedIndex());
             }
@@ -171,4 +171,27 @@ public class GraphEditorPanel extends JPanel {
         canvas.setSelectedNode(null);
     }
 
+    public void addNodes(List<MappedElement> selections) {
+        DefaultListModel<MappedElement> possibleNodesModel = (DefaultListModel<MappedElement>) possibleNodesPanel.getList().getModel();
+
+        List<DescriptiveElement> possibleNodes = new ArrayList<>();
+        for (int i = 0; i < possibleNodesModel.size(); i++) {
+            possibleNodes.add((DescriptiveElement) possibleNodesModel.getElementAt(i));
+        }
+
+        for (MappedElement element : selections) {
+            if (!graph.containsNode(element.getId())) {
+                graph.addNode(element.getId());
+                possibleNodes.add((DescriptiveElement) element);
+            }
+        }
+        possibleNodes.sort(SortUtilities::mappedElementIntegerComparator);
+
+        possibleNodesModel.removeAllElements();
+        for (DescriptiveElement desc : possibleNodes) {
+            possibleNodesModel.addElement(desc);
+        }
+
+        canvas.setSelectedNode(null);
+    }
 }

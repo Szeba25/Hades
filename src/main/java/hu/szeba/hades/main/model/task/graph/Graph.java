@@ -15,6 +15,7 @@ public interface Graph {
 
     void addNode(String node);
     void removeNode(String node);
+    boolean containsNode(String node);
     void addConnection(String node, String connection);
     void removeConnection(String node, String connection);
     void removeAllConnectionFrom(String node);
