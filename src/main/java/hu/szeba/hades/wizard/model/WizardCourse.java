@@ -98,6 +98,9 @@ public class WizardCourse {
         for (WizardTaskCollection taskCollection : taskCollections.values()) {
             taskCollection.save();
         }
+        for (WizardTask task : tasks.values()) {
+            task.save();
+        }
     }
 
     public String getCourseId() {

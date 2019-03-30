@@ -1,6 +1,5 @@
 package hu.szeba.hades.main.io;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -46,13 +45,13 @@ public class DescriptionFile {
     }
 
     public void load(boolean ignoreStory) {
-        title = documentElement.getElementsByTagName("Title").item(0).getTextContent();
-        shortInstructions = documentElement.getElementsByTagName("ShortInstructions").item(0).getTextContent();
-        instructions = documentElement.getElementsByTagName("Instructions").item(0).getTextContent();
+        title = documentElement.getElementsByTagName("Title").item(0).getTextContent().trim();
+        shortInstructions = documentElement.getElementsByTagName("ShortInstructions").item(0).getTextContent().trim();
+        instructions = documentElement.getElementsByTagName("Instructions").item(0).getTextContent().trim();
 
         shortStory = "";
         if (!ignoreStory) {
-            shortStory = documentElement.getElementsByTagName("ShortStory").item(0).getTextContent();
+            shortStory = documentElement.getElementsByTagName("ShortStory").item(0).getTextContent().trim();
             if (shortStory.length() > 0) {
                 shortStory += "<br><hr>";
             }
@@ -60,16 +59,16 @@ public class DescriptionFile {
 
         story = "";
         if (!ignoreStory) {
-            story = documentElement.getElementsByTagName("Story").item(0).getTextContent();
+            story = documentElement.getElementsByTagName("Story").item(0).getTextContent().trim();
         }
 
-        difficulty = documentElement.getElementsByTagName("Difficulty").item(0).getTextContent();
-        length = documentElement.getElementsByTagName("Length").item(0).getTextContent();
+        difficulty = documentElement.getElementsByTagName("Difficulty").item(0).getTextContent().trim();
+        length = documentElement.getElementsByTagName("Length").item(0).getTextContent().trim();
 
         tags = new ArrayList<>();
         NodeList tagNodeList = documentElement.getElementsByTagName("Tag");
         for (int i = 0; i < tagNodeList.getLength(); i++) {
-            tags.add(tagNodeList.item(i).getTextContent());
+            tags.add(tagNodeList.item(i).getTextContent().trim());
         }
 
         shortDescription = shortStory + shortInstructions + "<br><hr>";
@@ -87,7 +86,7 @@ public class DescriptionFile {
         BufferedWriter writer = new BufferedWriter(osw);
 
         writer.write("<Task>");
-        writer.newLine();
+        writer.newLine(); writer.newLine();
 
         writer.write("<Title>");
         writer.write(title);
@@ -95,34 +94,42 @@ public class DescriptionFile {
         writer.newLine();
 
         writer.write("<ShortInstructions>");
+        writer.newLine();
         if (shortInstructions.length() > 0) {
-            shortInstructions = "<![CDATA[" + shortInstructions + "]]>";
+            shortInstructions = "<![CDATA[\n" + shortInstructions + "\n]]>";
+            writer.write(shortInstructions);
+            writer.newLine();
         }
-        writer.write(shortInstructions);
         writer.write("</ShortInstructions>");
         writer.newLine();
 
         writer.write("<Instructions>");
+        writer.newLine();
         if (instructions.length() > 0) {
-            instructions = "<![CDATA[" + instructions + "]]>";
+            instructions = "<![CDATA[\n" + instructions + "\n]]>";
+            writer.write(instructions);
+            writer.newLine();
         }
-        writer.write(instructions);
         writer.write("</Instructions>");
         writer.newLine();
 
         writer.write("<ShortStory>");
+        writer.newLine();
         if (shortStory.length() > 0) {
-            shortStory = "<![CDATA[" + shortStory + "]]>";
+            shortStory = "<![CDATA[\n" + shortStory + "\n]]>";
+            writer.write(shortStory);
+            writer.newLine();
         }
-        writer.write(shortStory);
         writer.write("</ShortStory>");
         writer.newLine();
 
         writer.write("<Story>");
+        writer.newLine();
         if (story.length() > 0) {
-            story = "<![CDATA[" + story + "]]>";
+            story = "<![CDATA[\n" + story + "\n]]>";
+            writer.write(story);
+            writer.newLine();
         }
-        writer.write(story);
         writer.write("</Story>");
         writer.newLine();
 
@@ -137,8 +144,9 @@ public class DescriptionFile {
         writer.newLine();
 
         writer.write("<Tags>");
+        writer.newLine();
         for (String tag : tags) {
-            writer.write("<Tag>");
+            writer.write("\t<Tag>");;
             writer.write(tag);
             writer.write("</Tag>");
             writer.newLine();
@@ -146,6 +154,7 @@ public class DescriptionFile {
         writer.write("</Tags>");
         writer.newLine();
 
+        writer.newLine();
         writer.write("</Task>");
         writer.newLine();
 

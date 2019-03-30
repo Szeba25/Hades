@@ -1,42 +1,47 @@
 <Task>
-	<Title>Számok kétszerese!</Title>
-	<ShortInstructions><![CDATA[
-		<p>A feladat számokat bekérni, és azok kétszeresét kiírni.</p>
-	]]>
-	</ShortInstructions>
-	<Instructions><![CDATA[
-		<h2>A feladata a következő:</h2>
-		<ul>
-			<li>bekérni egy számot</li>
-			<li>ennyiszer bekérni további számokat, és kiírni ezek kétszeresét</li>
-		</ul>
-		<p>Ügyeljen arra hogy minden szám új sorba kerüljön. Jó munkát!</p>
-		<p>A kimenet a következő formában kell legyen, ha 3 számot kell bekérni, és ezek rendre 20, 75 és 11 voltak:</p>
-		<br>
-		40<br>
-		150<br>
-		22<br>
-		<p><i>Segítség:</i></p>
-		<pre>for (i = 0; ...</pre>
-		<br>
-		<img src="file:resources/hello.gif"></img>
-	]]>
-	</Instructions>
-	<ShortStory><![CDATA[
-		<h3>A rövid történet (feladat_1):</h3>
-		<p>Itt a történet szövege.</p>
-	]]>
-	</ShortStory>
-	<Story><![CDATA[
-		<h2>A történet (feladat_1):</h2>
-		<p>Itt a történet szövege.</p>
-		<p>És itt egy másik sor!</p>
-	]]>
-	</Story>
-	<Difficulty>Easy</Difficulty>
-	<Length>Short</Length>
-	<Tags>
-		<Tag>Variables</Tag>
-		<Tag>Control flow</Tag>
-	</Tags>
+
+<Title>Számok kétszerese!</Title>
+<ShortInstructions>
+<![CDATA[
+<p>A feladat számokat bekérni, és azok kétszeresét kiírni.</p>
+]]>
+</ShortInstructions>
+<Instructions>
+<![CDATA[
+<h2>A feladata a következő:</h2>
+<ul>
+	<li>bekérni egy számot</li>
+	<li>ennyiszer bekérni további számokat, és kiírni ezek kétszeresét</li>
+</ul>
+<p>Ügyeljen arra hogy minden szám új sorba kerüljön. Jó munkát!</p>
+<p>A kimenet a következő formában kell legyen, ha 3 számot kell bekérni, és ezek rendre 20, 75 és 11 voltak:</p>
+<br>
+40<br>
+150<br>
+22<br>
+<p><i>Segítség:</i></p>
+<pre>for (i = 0; ...</pre>
+<br>
+<img src="file:resources/hello.gif"></img>
+]]>
+</Instructions>
+<ShortStory>
+<![CDATA[
+<h3>A rövid történet (feladat_1):</h3><br><hr>
+]]>
+</ShortStory>
+<Story>
+<![CDATA[
+<h2>A történet (feladat_1):</h2>
+<p>Itt a történet szövege.</p>
+<p>És itt egy másik sor!</p>
+]]>
+</Story>
+<Difficulty>Easy</Difficulty>
+<Length>Short</Length>
+<Tags>
+	<Tag>Variables</Tag>
+	<Tag>Control flow</Tag>
+</Tags>
+
 </Task>
