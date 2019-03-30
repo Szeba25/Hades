@@ -204,7 +204,9 @@ public class ModeEditorPanel extends JPanel {
     }
 
     public void updateGraphTitles(Map<String, String> idToTitle) {
-        dependenciesPanel.setGraphData(currentMode.getGraph(), idToTitle);
+        if (currentMode != null) {
+            dependenciesPanel.setGraphData(currentMode.getGraph(), idToTitle);
+        }
     }
 
 }

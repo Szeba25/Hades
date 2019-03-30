@@ -13,6 +13,8 @@ import hu.szeba.hades.wizard.view.panels.TaskEditorPanel;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -167,13 +169,8 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e);
                 try {
-                    // Trigger update on current list element
-                    if (modeList.getList().getSelectedValue() != null) {
-                        controller.setCurrentMode(modeEditor, (DescriptiveElement) modeList.getList().getSelectedValue());
-                    }
-                    if (taskCollectionList.getList().getSelectedValue() != null) {
-                        controller.setCurrentTaskCollection(taskCollectionEditor, (DescriptiveElement) taskCollectionList.getList().getSelectedValue(), modeEditor);
-                    }
+                    // Apply changes
+                    modifyAllChanges();
                     // Save the course!
                     controller.save();
                 } catch (IOException e1) {
@@ -183,6 +180,8 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
                 parentView.showView();
             }
         });
+
+        tabbedPane.addChangeListener((e) -> modifyAllChanges());
 
         modeList.getList().getSelectionModel().addListSelectionListener((event) -> {
             ListSelectionModel listSelectionModel = (ListSelectionModel) event.getSource();
@@ -219,6 +218,20 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
                 }
             }
         });
+    }
+
+    private void modifyAllChanges() {
+        System.out.println("Sync of data!");
+        // Trigger update on current list element
+        if (modeList.getList().getSelectedValue() != null) {
+            controller.setCurrentMode(modeEditor, (DescriptiveElement) modeList.getList().getSelectedValue());
+        }
+        if (taskCollectionList.getList().getSelectedValue() != null) {
+            controller.setCurrentTaskCollection(taskCollectionEditor, (DescriptiveElement) taskCollectionList.getList().getSelectedValue(), modeEditor);
+        }
+        if (taskList.getList().getSelectedValue() != null) {
+            controller.setCurrentTask(taskEditor, (DescriptiveElement) taskList.getList().getSelectedValue(), taskCollectionEditor);
+        }
     }
 
     @Override
