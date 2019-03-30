@@ -56,21 +56,4 @@ public class CourseEditorController {
         course.save();
     }
 
-    public void setModeListSelectorContents(JList<MappedElement> taskCollectionSelectorList) {
-        DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) taskCollectionSelectorList.getModel();
-        model.removeAllElements();
-
-        for (MappedElement element : course.getPossibleTaskCollections()) {
-            model.addElement(element);
-        }
-    }
-
-    public void setTaskCollectionListSelectorContents(JList<MappedElement> taskSelectorList) {
-        DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) taskSelectorList.getModel();
-        model.removeAllElements();
-
-        for (MappedElement element : course.getPossibleTasks()) {
-            model.addElement(element);
-        }
-    }
 }

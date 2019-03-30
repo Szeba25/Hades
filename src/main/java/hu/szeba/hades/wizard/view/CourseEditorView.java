@@ -65,10 +65,6 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
         controller.setTaskCollectionListContents(taskCollectionList.getList());
         controller.setTaskListContents(taskList.getList());
 
-        // Set selector list contents
-        controller.setModeListSelectorContents(modeEditor.getTaskCollectionSelectorList());
-        controller.setTaskCollectionListSelectorContents(taskCollectionEditor.getTaskSelectorList());
-
         titleField.setText(course.getCourseTitle());
         languageBox.getEditor().setItem(course.getLanguage());
 
