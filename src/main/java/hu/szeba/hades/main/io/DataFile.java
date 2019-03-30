@@ -120,9 +120,11 @@ public class DataFile {
 
     public String getAllData() {
         StringBuilder builder = new StringBuilder();
-        for (String[] line : content) {
-            builder.append(String.join(Pattern.quote(separator), line));
-            builder.append("\n");
+        for (int i = 0; i < content.size(); i++) {
+            builder.append(String.join(Pattern.quote(separator), content.get(i)));
+            if (i < content.size()-1) {
+                builder.append("\n");
+            }
         }
         return builder.toString();
     }
