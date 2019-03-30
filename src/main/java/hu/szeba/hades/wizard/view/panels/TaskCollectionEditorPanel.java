@@ -117,6 +117,8 @@ public class TaskCollectionEditorPanel extends JPanel {
         dependenciesPanel.getAddNodeButton().addActionListener((e) -> {
             taskSelectorForm.setLocationRelativeTo(null);
             taskSelectorForm.setVisible(true);
+            List<MappedElement> selections = taskSelectorForm.getSelectedElements();
+            dependenciesPanel.addNodes(selections);
         });
     }
 
