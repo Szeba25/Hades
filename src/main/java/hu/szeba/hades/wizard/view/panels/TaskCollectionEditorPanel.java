@@ -133,8 +133,7 @@ public class TaskCollectionEditorPanel extends JPanel {
 
             // Update references in ModeEditorPanel!!!
             // TODO
-            //modeEditor.changeTitleOfTaskCollection(currentElementRef.getId(), currentElementRef.getTitle());
-            //idToTitleMap.put(currentElementRef.getId(), currentElementRef.getTitle());
+
             // END
 
             // If no number was entered, work with value 100

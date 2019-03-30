@@ -203,8 +203,4 @@ public class ModeEditorPanel extends JPanel {
         this.currentElementRef = currentElementRef;
     }
 
-    public void changeTitleOfTaskCollection(String id, String title) {
-        taskCollectionSelectorForm.changeTitleById(id, title);
-    }
-
 }
