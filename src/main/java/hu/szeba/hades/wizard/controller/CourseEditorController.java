@@ -45,11 +45,19 @@ public class CourseEditorController {
     }
 
     public void setCurrentMode(ModeEditorPanel modeEditor, DescriptiveElement element) {
-        modeEditor.setCurrentMode(course.getModes().get(element.getId()), element, course.getTaskCollectionIdToTitle());
+        modeEditor.setCurrentMode(
+                course.getModes().get(element.getId()),
+                element,
+                course.getTaskCollectionIdToTitle(),
+                course.getPossibleTaskCollections());
     }
 
     public void setCurrentTaskCollection(TaskCollectionEditorPanel taskCollectionEditor, DescriptiveElement element) {
-        taskCollectionEditor.setCurrentTaskCollection(course.getTaskCollections().get(element.getId()), element, course.getTaskIdToTitle());
+        taskCollectionEditor.setCurrentTaskCollection(
+                course.getTaskCollections().get(element.getId()),
+                element,
+                course.getTaskIdToTitle(),
+                course.getPossibleTasks());
     }
 
     public void save() throws IOException {

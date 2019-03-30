@@ -9,6 +9,7 @@ import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 import java.util.Map;
 
 public class TaskCollectionEditorPanel extends JPanel {
@@ -120,7 +121,7 @@ public class TaskCollectionEditorPanel extends JPanel {
     }
 
     public void setCurrentTaskCollection(WizardTaskCollection newTaskCollection, DescriptiveElement currentElementRef,
-                                         Map<String, String> idToTitleMap) {
+                                         Map<String, String> idToTitleMap, List<MappedElement> possibleTasks) {
         // Save old task collection
         if (this.currentTaskCollection != null) {
             this.currentElementRef.setTitle(titleField.getText());
@@ -145,12 +146,12 @@ public class TaskCollectionEditorPanel extends JPanel {
         thresholdField.setText(String.valueOf(newTaskCollection.getCompletionThreshold()));
         dependenciesPanel.setGraphData(newTaskCollection.getGraph(), idToTitleMap);
 
+        // Set up possible task selector list
+        taskSelectorForm.setListContents(possibleTasks);
+
         // Update current task collection
         this.currentTaskCollection = newTaskCollection;
         this.currentElementRef = currentElementRef;
     }
 
-    public JList<MappedElement> getTaskSelectorList() {
-        return taskSelectorForm.getList();
-    }
 }

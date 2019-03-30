@@ -59,8 +59,13 @@ public class MultiSelectorForm extends JDialog {
         this.getContentPane().add(mainPanel, BorderLayout.CENTER);
     }
 
-    public JList<MappedElement> getList() {
-        return list;
+    public void setListContents(List<MappedElement> elements) {
+        DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) list.getModel();
+        model.removeAllElements();
+
+        for (MappedElement element : elements) {
+            model.addElement(element);
+        }
     }
 
 }

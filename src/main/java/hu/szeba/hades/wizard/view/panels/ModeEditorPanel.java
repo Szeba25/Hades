@@ -9,6 +9,7 @@ import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 import java.util.Map;
 
 public class ModeEditorPanel extends JPanel {
@@ -171,7 +172,8 @@ public class ModeEditorPanel extends JPanel {
         });
     }
 
-    public void setCurrentMode(WizardMode newMode, DescriptiveElement currentElementRef, Map<String, String> idToTitleMap) {
+    public void setCurrentMode(WizardMode newMode, DescriptiveElement currentElementRef,
+                               Map<String, String> idToTitleMap, List<MappedElement> possibleTaskCollections) {
         // Save old mode
         if (this.currentMode != null) {
             this.currentElementRef.setTitle(titleField.getText());
@@ -191,13 +193,12 @@ public class ModeEditorPanel extends JPanel {
         ironMan.setSelected(newMode.isIronMan());
         dependenciesPanel.setGraphData(newMode.getGraph(), idToTitleMap);
 
+        // Set up possible task collection selector list
+        taskCollectionSelectorForm.setListContents(possibleTaskCollections);
+
         // Update current mode
         this.currentMode = newMode;
         this.currentElementRef = currentElementRef;
-    }
-
-    public JList<MappedElement> getTaskCollectionSelectorList() {
-        return taskCollectionSelectorForm.getList();
     }
 
 }
