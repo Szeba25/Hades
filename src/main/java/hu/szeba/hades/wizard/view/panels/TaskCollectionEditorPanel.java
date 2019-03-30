@@ -18,7 +18,7 @@ public class TaskCollectionEditorPanel extends JPanel {
     private JPanel topPanel;
 
     private JTextField titleField;
-    private JSpinner thresholdSpinner;
+    private JTextField thresholdField;
 
     private GraphEditorPanel dependenciesPanel;
 
@@ -51,9 +51,9 @@ public class TaskCollectionEditorPanel extends JPanel {
         titleLabel.setLabelFor(titleField);
 
         JLabel thresholdLabel = new JLabel("Task threshold (%):");
-        thresholdSpinner = new JSpinner();
-        thresholdSpinner.setModel(new SpinnerNumberModel(75, 0, 100, 1));
-        thresholdLabel.setLabelFor(thresholdSpinner);
+        thresholdField = new JTextField();
+
+        thresholdLabel.setLabelFor(thresholdField);
 
         GridBagSetter gs = new GridBagSetter();
         gs.setComponent(topPanel);
@@ -88,7 +88,7 @@ public class TaskCollectionEditorPanel extends JPanel {
                 0,
                 new Insets(5, 5, 0, 5));
 
-        gs.add(thresholdSpinner,
+        gs.add(thresholdField,
                 1,
                 1,
                 GridBagConstraints.HORIZONTAL,
@@ -124,7 +124,15 @@ public class TaskCollectionEditorPanel extends JPanel {
         if (this.currentTaskCollection != null) {
             this.currentElementRef.setTitle(titleField.getText());
             this.currentTaskCollection.setTitle(titleField.getText());
-            this.currentTaskCollection.setCompletionThreshold((int) thresholdSpinner.getValue());
+
+            int thresholdValue = 0;
+            try {
+                thresholdValue = Integer.parseInt(thresholdField.getText());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+            this.currentTaskCollection.setCompletionThreshold(thresholdValue);
+
             // We work directly on graph data, no need to set it back!
         } else {
             setVisible(true);
@@ -132,7 +140,7 @@ public class TaskCollectionEditorPanel extends JPanel {
 
         // Load new task collection
         titleField.setText(newTaskCollection.getTitle());
-        thresholdSpinner.setValue(newTaskCollection.getCompletionThreshold());
+        thresholdField.setText(String.valueOf(newTaskCollection.getCompletionThreshold()));
         dependenciesPanel.setGraphData(newTaskCollection.getGraph(), idToTitleMap);
 
         // Update current task collection
