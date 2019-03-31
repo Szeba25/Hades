@@ -3,6 +3,7 @@ package hu.szeba.hades.wizard.view.panels;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.form.CodeEditorForm;
+import hu.szeba.hades.wizard.form.HTMLDescriptionsEditorForm;
 import hu.szeba.hades.wizard.form.InputResultEditorForm;
 import hu.szeba.hades.wizard.model.WizardTask;
 import hu.szeba.hades.wizard.view.components.ModifiableListPanel;
@@ -40,6 +41,7 @@ public class TaskEditorPanel extends JPanel {
     private InputResultEditorForm inputResultEditorForm;
     private CodeEditorForm sourceEditorForm;
     private CodeEditorForm solutionEditorForm;
+    private HTMLDescriptionsEditorForm htmlDescriptionsEditorForm;
 
     public TaskEditorPanel() {
         this.setLayout(new BorderLayout());
@@ -64,6 +66,7 @@ public class TaskEditorPanel extends JPanel {
         inputResultEditorForm = new InputResultEditorForm();
         sourceEditorForm = new CodeEditorForm();
         solutionEditorForm = new CodeEditorForm();
+        htmlDescriptionsEditorForm = new HTMLDescriptionsEditorForm();
     }
 
     private void initializeLeftPanel() {
@@ -419,6 +422,22 @@ public class TaskEditorPanel extends JPanel {
 
             solutionEditorForm.setLocationRelativeTo(null);
             solutionEditorForm.setVisible(true);
+        });
+
+        editDescriptions.addActionListener((event) -> {
+            htmlDescriptionsEditorForm.setup(
+                    currentTask.getShortStory(),
+                    currentTask.getStory(),
+                    currentTask.getShortInstructions(),
+                    currentTask.getInstructions());
+
+            htmlDescriptionsEditorForm.setLocationRelativeTo(null);
+            htmlDescriptionsEditorForm.setVisible(true);
+
+            currentTask.setShortStory(htmlDescriptionsEditorForm.getShortStory());
+            currentTask.setStory(htmlDescriptionsEditorForm.getStory());
+            currentTask.setShortInstructions(htmlDescriptionsEditorForm.getShortInstructions());
+            currentTask.setInstructions(htmlDescriptionsEditorForm.getInstructions());
         });
     }
 

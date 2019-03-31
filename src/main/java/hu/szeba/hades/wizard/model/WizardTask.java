@@ -216,4 +216,35 @@ public class WizardTask {
         return taskPath;
     }
 
+    public void setShortStory(String shortStory) {
+        description.setShortStory(shortStory);
+    }
+
+    public void setStory(String story) {
+        description.setStory(story);
+    }
+
+    public void setShortInstructions(String shortInstructions) {
+        description.setShortInstructions(shortInstructions);
+    }
+
+    public void setInstructions(String instructions) {
+        description.setInstructions(instructions);
+    }
+
+    public String getShortStory() {
+        return description.getShortStory();
+    }
+
+    public String getStory() {
+        return description.getStory();
+    }
+
+    public String getShortInstructions() {
+        return description.getShortInstructions();
+    }
+
+    public String getInstructions() {
+        return description.getInstructions();
+    }
 }

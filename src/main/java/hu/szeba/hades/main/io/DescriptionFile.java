@@ -169,8 +169,16 @@ public class DescriptionFile {
         return title;
     }
 
+    public String getShortInstructions() {
+        return shortInstructions;
+    }
+
     public String getInstructions() {
         return instructions;
+    }
+
+    public String getShortStory() {
+        return shortStory;
     }
 
     public String getStory() {
