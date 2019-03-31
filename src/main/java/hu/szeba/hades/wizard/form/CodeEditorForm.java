@@ -160,7 +160,7 @@ public class CodeEditorForm extends JDialog {
             } else if (name != null) {
                 try {
                     // Test for invalid file names
-                    File testFile = new File(filesPath, name);
+                    File testFile = new File(Options.getWorkingDirectoryPath(), name);
                     testFile.createNewFile();
                     testFile.delete();
 
