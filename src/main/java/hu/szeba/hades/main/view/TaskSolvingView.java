@@ -325,8 +325,10 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
                 try {
                     controller.addNewSourceFile(name, this);
                 } catch (IOException e) {
-                    JOptionPane.showMessageDialog(new JFrame(), "Cannot create source file specified: " +
-                            e.getMessage(), "File saving error...", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(new JFrame(),
+                            "Cannot create source file specified: " + e.getMessage(),
+                            "File creation error...",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

@@ -198,4 +198,8 @@ public class WizardTask {
         return solutionFiles;
     }
 
+    public File getTaskPath() {
+        return taskPath;
+    }
+
 }

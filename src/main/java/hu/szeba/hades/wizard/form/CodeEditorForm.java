@@ -11,6 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 
 public class CodeEditorForm extends JDialog {
@@ -23,6 +25,7 @@ public class CodeEditorForm extends JDialog {
     private Map<String, SourceFile> files;
 
     private String lastSourceFile;
+    private File filesPath;
 
     public CodeEditorForm() {
         this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
@@ -33,6 +36,7 @@ public class CodeEditorForm extends JDialog {
         this.setModal(true);
 
         lastSourceFile = null;
+        filesPath = null;
 
         initializeComponents();
         setupEvents();
@@ -113,6 +117,33 @@ public class CodeEditorForm extends JDialog {
 
         filePanel.getModifier().getButton(0).addActionListener((event) -> {
             // Add
+            String name = JOptionPane.showInputDialog(new JFrame(),
+                    "New file name:",
+                    "Add new file",
+                    JOptionPane.PLAIN_MESSAGE);
+            if (files.containsKey(name)) {
+                JOptionPane.showMessageDialog(new JFrame(),
+                        "The specified file name already exists: " + name,
+                        "File exists",
+                        JOptionPane.WARNING_MESSAGE);
+            } else if (name != null && name.length() > 0) {
+                try {
+                    // Test for invalid file names
+                    File testFile = new File(filesPath, name);
+                    testFile.createNewFile();
+                    testFile.delete();
+
+                    // Proceed
+                    files.put(name, new SourceFile(testFile, false));
+                    DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) filePanel.getList().getModel();
+                    model.addElement(new MappedElement(name, name));
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(new JFrame(),
+                            "Cannot create file specified: " + e.getMessage(),
+                            "File creation error...",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
         });
 
         filePanel.getModifier().getButton(1).addActionListener((event) -> {
@@ -124,12 +155,13 @@ public class CodeEditorForm extends JDialog {
         });
     }
 
-    public void setFiles(Map<String, SourceFile> files) {
+    public void setFiles(Map<String, SourceFile> files, File taskPath) {
         lastSourceFile = null;
         codeArea.setEnabled(false);
         codeArea.setText("");
 
         this.files = files;
+        this.filesPath = new File(taskPath, "sources");
         DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) filePanel.getList().getModel();
         model.removeAllElements();
         for (SourceFile src : files.values()) {
