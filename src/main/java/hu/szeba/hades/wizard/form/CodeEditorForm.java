@@ -32,7 +32,6 @@ public class CodeEditorForm extends JDialog {
 
     private String lastSourceFile;
     private File filesPath;
-    private String readonlySourcesData;
 
     public CodeEditorForm() {
         this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
@@ -255,7 +254,6 @@ public class CodeEditorForm extends JDialog {
 
         this.files = files;
         this.filesPath = filesPath;
-        this.readonlySourcesData = readonlySourcesData;
 
         if (readonlySourcesData == null) {
             readonlySourcesEditor.setEnabled(false);
