@@ -342,7 +342,7 @@ public class TaskEditorPanel extends JPanel {
                             inputResultPanel.getList().repaint();
                         } else {
                             JOptionPane.showMessageDialog(new JFrame(),
-                                    "This input/result pair name is invalid! Other changes made were saved.",
+                                    "This input/result pair name is invalid: " + newName + ". Other changes made were saved.",
                                     "Invalid pair name",
                                     JOptionPane.ERROR_MESSAGE);
                         }
@@ -352,7 +352,7 @@ public class TaskEditorPanel extends JPanel {
                 }
             } else {
                 JOptionPane.showMessageDialog(new JFrame(),
-                        "This input/result pair name is invalid!",
+                        "This input/result pair name is invalid: " + name + ".",
                         "Invalid pair name",
                         JOptionPane.ERROR_MESSAGE);
             }
@@ -382,7 +382,7 @@ public class TaskEditorPanel extends JPanel {
                             inputResultPanel.getList().repaint();
                         } else {
                             JOptionPane.showMessageDialog(new JFrame(),
-                                    "This input/result pair name is invalid! Other changes made were saved.",
+                                    "This input/result pair name is invalid: " + newName + ". Other changes made were saved.",
                                     "Invalid pair name",
                                     JOptionPane.ERROR_MESSAGE);
                         }
