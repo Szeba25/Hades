@@ -118,21 +118,4 @@ public class DataFile {
         content.clear();
     }
 
-    public String getAllData() {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < content.size(); i++) {
-            builder.append(String.join(Pattern.quote(separator), content.get(i)));
-            if (i < content.size()-1) {
-                builder.append("\n");
-            }
-        }
-        return builder.toString();
-    }
-
-    public void setAllData(String data) {
-        clear();
-        for (String line : data.split("\n")) {
-            addData(line);
-        }
-    }
 }

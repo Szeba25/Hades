@@ -1,7 +1,7 @@
 package hu.szeba.hades.wizard.model;
 
 import hu.szeba.hades.main.io.DescriptionFile;
-import hu.szeba.hades.main.io.TabbedFile;
+import hu.szeba.hades.main.model.task.data.SourceFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,15 +12,15 @@ public class WizardTask {
     private String taskId;
     private File taskPath;
     private DescriptionFile description;
-    private TabbedFile regExIncludeFile;
-    private TabbedFile regExExcludeFile;
+    private SourceFile regExIncludeFile;
+    private SourceFile regExExcludeFile;
 
     public WizardTask(String taskId, File taskPath, DescriptionFile description) throws IOException {
         this.taskId = taskId;
         this.taskPath = taskPath;
         this.description = description;
-        this.regExIncludeFile = new TabbedFile(new File(taskPath, "regex/include.txt"));
-        this.regExExcludeFile = new TabbedFile(new File(taskPath, "regex/exclude.txt")) ;
+        this.regExIncludeFile = new SourceFile(new File(taskPath, "regex/include.txt"), false);
+        this.regExExcludeFile = new SourceFile(new File(taskPath, "regex/exclude.txt"), false) ;
     }
 
     public void save() throws IOException {
@@ -46,11 +46,11 @@ public class WizardTask {
     }
 
     public String getRegExIncludeData() {
-        return regExIncludeFile.getAllData();
+        return regExIncludeFile.getData();
     }
 
     public String getRegExExcludeData() {
-        return regExExcludeFile.getAllData();
+        return regExExcludeFile.getData();
     }
 
     public void setTitle(String title) {
@@ -72,11 +72,11 @@ public class WizardTask {
     }
 
     public void setRegExIncludeData(String data) {
-        regExIncludeFile.setAllData(data);
+        regExIncludeFile.setData(data);
     }
 
     public void setRegExExcludeData(String data) {
-        regExExcludeFile.setAllData(data);
+        regExExcludeFile.setData(data);
     }
 
 }
