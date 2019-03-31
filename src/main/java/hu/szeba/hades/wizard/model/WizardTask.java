@@ -119,6 +119,10 @@ public class WizardTask {
         }
     }
 
+    public String getTaskId() {
+        return taskId;
+    }
+
     public String getTitle() {
         return description.getTitle();
     }

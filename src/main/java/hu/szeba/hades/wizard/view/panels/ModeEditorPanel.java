@@ -174,6 +174,12 @@ public class ModeEditorPanel extends JPanel {
         });
     }
 
+    public void hideAndDisable() {
+        currentMode = null;
+        currentElementRef = null;
+        setVisible(false);
+    }
+
     public void setCurrentMode(WizardMode newMode, DescriptiveElement currentElementRef,
                                Map<String, String> taskCollectionIdToTitle,
                                List<MappedElement> possibleTaskCollections) {

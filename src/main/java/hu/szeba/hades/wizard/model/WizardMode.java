@@ -44,6 +44,10 @@ public class WizardMode {
         graph.save();
     }
 
+    public String getModeId() {
+        return modeId;
+    }
+
     public String getTitle() {
         return titleFile.getData(0, 0);
     }

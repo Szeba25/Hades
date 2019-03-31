@@ -21,30 +21,42 @@ public class CourseEditorController {
     }
 
     public void setModeListContents(JList<MappedElement> modeList) {
+        MappedElement selectedElement = modeList.getSelectedValue();
+
         DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) modeList.getModel();
         model.removeAllElements();
 
         for (MappedElement element : course.getPossibleModes()) {
             model.addElement(element);
         }
+
+        modeList.setSelectedValue(selectedElement, true);
     }
 
     public void setTaskCollectionListContents(JList<MappedElement> taskCollectionList) {
+        MappedElement selectedElement = taskCollectionList.getSelectedValue();
+
         DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) taskCollectionList.getModel();
         model.removeAllElements();
 
         for (MappedElement element : course.getPossibleTaskCollections()) {
             model.addElement(element);
         }
+
+        taskCollectionList.setSelectedValue(selectedElement, true);
     }
 
     public void setTaskListContents(JList<MappedElement> taskList) {
+        MappedElement selectedElement = taskList.getSelectedValue();
+
         DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) taskList.getModel();
         model.removeAllElements();
 
         for (MappedElement element : course.getPossibleTasks()) {
             model.addElement(element);
         }
+
+        taskList.setSelectedValue(selectedElement, true);
     }
 
     public void setCurrentMode(ModeEditorPanel modeEditor, DescriptiveElement element) {
@@ -88,5 +100,43 @@ public class CourseEditorController {
 
     public void newTask() throws IOException, ParserConfigurationException, SAXException {
         System.out.println("New task created with id: " + course.createNewTask());
+    }
+
+    public void deleteMode(JList<MappedElement> modeList, ModeEditorPanel modeEditor) {
+        MappedElement element = modeList.getSelectedValue();
+        if (element != null) {
+            int result = JOptionPane.showConfirmDialog(new JFrame(), "Delete \"" + element.toString() + "\"?", "Delete mode...", JOptionPane.YES_NO_OPTION);
+            if (result == JOptionPane.YES_OPTION) {
+                course.deleteMode(element.getId());
+                setModeListContents(modeList);
+                modeEditor.hideAndDisable();
+            }
+        }
+    }
+
+    public void deleteTaskCollection(JList<MappedElement> taskCollectionList, TaskCollectionEditorPanel taskCollectionEditor) {
+        MappedElement element = taskCollectionList.getSelectedValue();
+        if (element != null) {
+            int result = JOptionPane.showConfirmDialog(new JFrame(), "Delete \"" + element.toString() + "\"?", "Delete task collection...", JOptionPane.YES_NO_OPTION);
+            if (result == JOptionPane.YES_OPTION) {
+                if (course.deleteTaskCollection(element.getId())) {
+                    setTaskCollectionListContents(taskCollectionList);
+                    taskCollectionEditor.hideAndDisable();
+                }
+            }
+        }
+    }
+
+    public void deleteTask(JList<MappedElement> taskList, TaskEditorPanel taskEditor) {
+        MappedElement element = taskList.getSelectedValue();
+        if (element != null) {
+            int result = JOptionPane.showConfirmDialog(new JFrame(), "Delete \"" + element.toString() + "\"?", "Delete task...", JOptionPane.YES_NO_OPTION);
+            if (result == JOptionPane.YES_OPTION) {
+                if (course.deleteTask(element.getId())) {
+                    setTaskListContents(taskList);
+                    taskEditor.hideAndDisable();
+                }
+            }
+        }
     }
 }

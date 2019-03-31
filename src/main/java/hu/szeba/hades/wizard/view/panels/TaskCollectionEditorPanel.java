@@ -122,6 +122,12 @@ public class TaskCollectionEditorPanel extends JPanel {
         });
     }
 
+    public void hideAndDisable() {
+        currentTaskCollection = null;
+        currentElementRef = null;
+        setVisible(false);
+    }
+
     public void setCurrentTaskCollection(WizardTaskCollection newTaskCollection, DescriptiveElement currentElementRef,
                                          Map<String, String> taskIdToTitle,
                                          List<MappedElement> possibleTasks,

@@ -2,7 +2,6 @@ package hu.szeba.hades.wizard.view;
 
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.components.ViewableFrame;
-import hu.szeba.hades.main.view.elements.StatefulElement;
 import hu.szeba.hades.wizard.controller.CourseEditorController;
 import hu.szeba.hades.wizard.model.WizardCourse;
 import hu.szeba.hades.wizard.view.components.DynamicButtonListPanel;
@@ -13,8 +12,6 @@ import hu.szeba.hades.wizard.view.panels.TaskEditorPanel;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -209,6 +206,10 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
             controller.setModeListContents(modeList.getList());
         });
 
+        modeList.getModifier().getButton(1).addActionListener((event) -> {
+            controller.deleteMode(modeList.getList(), modeEditor);
+        });
+
         taskCollectionList.getModifier().getButton(0).addActionListener((event) -> {
             try {
                 controller.newTaskCollection();
@@ -218,6 +219,10 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
             controller.setTaskCollectionListContents(taskCollectionList.getList());
         });
 
+        taskCollectionList.getModifier().getButton(1).addActionListener((event) -> {
+            controller.deleteTaskCollection(taskCollectionList.getList(), taskCollectionEditor);
+        });
+
         taskList.getModifier().getButton(0).addActionListener((event) -> {
             try {
                 controller.newTask();
@@ -225,6 +230,10 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
                 e.printStackTrace();
             }
             controller.setTaskListContents(taskList.getList());
+        });
+
+        taskList.getModifier().getButton(1).addActionListener((event) -> {
+            controller.deleteTask(taskList.getList(), taskEditor);
         });
 
         modeList.getList().getSelectionModel().addListSelectionListener((event) -> {

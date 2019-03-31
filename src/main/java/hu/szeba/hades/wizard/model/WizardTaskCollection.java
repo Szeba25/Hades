@@ -41,6 +41,10 @@ public class WizardTaskCollection {
         graph.save();
     }
 
+    public String getTaskCollectionId() {
+        return taskCollectionId;
+    }
+
     public String getTitle() {
         return titleFile.getData(0, 0);
     }
