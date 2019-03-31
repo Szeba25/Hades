@@ -6,8 +6,10 @@ import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
 import hu.szeba.hades.wizard.view.panels.ModeEditorPanel;
 import hu.szeba.hades.wizard.view.panels.TaskCollectionEditorPanel;
 import hu.szeba.hades.wizard.view.panels.TaskEditorPanel;
+import org.xml.sax.SAXException;
 
 import javax.swing.*;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
 public class CourseEditorController {
@@ -77,14 +79,14 @@ public class CourseEditorController {
     }
 
     public void newMode() throws IOException {
-        System.out.println(course.createNewMode());
+        System.out.println("New mode created with id: " + course.createNewMode());
     }
 
     public void newTaskCollection() throws IOException {
-        System.out.println(course.createNewTaskCollection());
+        System.out.println("New task collection created with id: " + course.createNewTaskCollection());
     }
 
-    public void newTask() {
-        System.out.println(course.createNewTask());
+    public void newTask() throws IOException, ParserConfigurationException, SAXException {
+        System.out.println("New task created with id: " + course.createNewTask());
     }
 }

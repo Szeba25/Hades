@@ -1,5 +1,6 @@
 package hu.szeba.hades.main.io;
 
+import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -38,10 +39,23 @@ public class DescriptionFile {
         DocumentBuilder builder = factory.newDocumentBuilder();
 
         this.file = file;
-        this.documentElement = builder.parse(file).getDocumentElement();
-        this.documentElement.normalize();
 
-        load(ignoreStory);
+        if (file.exists()) {
+            this.documentElement = builder.parse(file).getDocumentElement();
+            this.documentElement.normalize();
+            load(ignoreStory);
+        } else {
+            title = "";
+            shortInstructions = "";
+            instructions = "";
+            shortStory = "";
+            story = "";
+            difficulty = "Novice";
+            length = "Short";
+            tags = new ArrayList<>();
+            shortDescription = "";
+            cachedDocument = null;
+        }
     }
 
     public void load(boolean ignoreStory) {
@@ -83,6 +97,8 @@ public class DescriptionFile {
     }
 
     public void save() throws IOException {
+        FileUtils.forceMkdirParent(file);
+
         FileOutputStream fos = new FileOutputStream(file);
         OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
         BufferedWriter writer = new BufferedWriter(osw);

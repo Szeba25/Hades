@@ -26,9 +26,9 @@ public class WizardTask {
     private Map<String, SourceFile> sourceFiles;
     private Map<String, SourceFile> solutionFiles;
 
-    public WizardTask(String taskId, File taskPath, DescriptionFile description) throws IOException {
+    public WizardTask(File tasksPath, String taskId, DescriptionFile description) throws IOException {
         this.taskId = taskId;
-        this.taskPath = taskPath;
+        this.taskPath = new File(tasksPath, taskId);
         this.description = description;
 
         this.readonlySources = new SourceFile(new File(taskPath, "readonly_sources.txt"), false);
@@ -40,28 +40,34 @@ public class WizardTask {
         this.resultFiles = new HashMap<>();
 
         File inputResultFolder = new File(taskPath, "input_result_pairs");
-        for (String fileName : inputResultFolder.list()) {
-            String pureFileName = FileUtilities.getFileNameWithoutExtension(fileName);
-            SourceFile finalFile = new SourceFile(new File(taskPath, "input_result_pairs/" + fileName), false);
-            if (FileUtilities.getFileNameExtension(fileName).equals("input")) {
-                inputFiles.put(pureFileName, finalFile);
-            } else {
-                resultFiles.put(pureFileName, finalFile);
+        if (inputResultFolder.exists()) {
+            for (String fileName : inputResultFolder.list()) {
+                String pureFileName = FileUtilities.getFileNameWithoutExtension(fileName);
+                SourceFile finalFile = new SourceFile(new File(taskPath, "input_result_pairs/" + fileName), false);
+                if (FileUtilities.getFileNameExtension(fileName).equals("input")) {
+                    inputFiles.put(pureFileName, finalFile);
+                } else {
+                    resultFiles.put(pureFileName, finalFile);
+                }
             }
         }
 
         // Load source files
         this.sourceFiles = new HashMap<>();
         File sourceFilesFolder = new File(taskPath, "sources");
-        for (String fileName : sourceFilesFolder.list()) {
-            sourceFiles.put(fileName, new SourceFile(new File(taskPath, "sources/" + fileName), false));
+        if (sourceFilesFolder.exists()) {
+            for (String fileName : sourceFilesFolder.list()) {
+                sourceFiles.put(fileName, new SourceFile(new File(taskPath, "sources/" + fileName), false));
+            }
         }
 
         // Load solution files
         this.solutionFiles = new HashMap<>();
         File solutionFilesFolder = new File(taskPath, "solutions");
-        for (String fileName : solutionFilesFolder.list()) {
-            solutionFiles.put(fileName, new SourceFile(new File(taskPath, "solutions/" + fileName), false));
+        if (solutionFilesFolder.exists()) {
+            for (String fileName : solutionFilesFolder.list()) {
+                solutionFiles.put(fileName, new SourceFile(new File(taskPath, "solutions/" + fileName), false));
+            }
         }
     }
 
@@ -72,18 +78,30 @@ public class WizardTask {
         regExIncludeFile.save();
         regExExcludeFile.save();
 
-        // First delete all changeable data
+        // First delete all changeable data if they exist
         File inputResultFolder = new File(taskPath, "input_result_pairs");
-        for (File file : inputResultFolder.listFiles()) {
-            file.delete();
+        if (inputResultFolder.exists()) {
+            for (File file : inputResultFolder.listFiles()) {
+                file.delete();
+            }
+        } else {
+            FileUtils.forceMkdir(inputResultFolder);
         }
         File sourceFilesFolder = new File(taskPath, "sources");
-        for (File file : sourceFilesFolder.listFiles()) {
-            file.delete();
+        if (sourceFilesFolder.exists()) {
+            for (File file : sourceFilesFolder.listFiles()) {
+                file.delete();
+            }
+        } else {
+            FileUtils.forceMkdir(sourceFilesFolder);
         }
         File solutionFilesFolder = new File(taskPath, "solutions");
-        for (File file : solutionFilesFolder.listFiles()) {
-            file.delete();
+        if (solutionFilesFolder.exists()) {
+            for (File file : solutionFilesFolder.listFiles()) {
+                file.delete();
+            }
+        } else {
+            FileUtils.forceMkdir(solutionFilesFolder);
         }
 
         // And save them all again

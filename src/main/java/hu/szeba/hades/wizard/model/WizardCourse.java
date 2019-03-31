@@ -85,7 +85,7 @@ public class WizardCourse {
             DescriptionFile taskDescription = new DescriptionFile(new File(tasksPath, taskId + "/description.xml"), false);
             possibleTasks.add(new DescriptiveElement(taskId, taskDescription.getTitle()));
             taskIdToTitle.put(taskId, taskDescription.getTitle());
-            tasks.put(taskId, new WizardTask(taskId, new File(tasksPath, taskId), taskDescription));
+            tasks.put(taskId, new WizardTask(tasksPath, taskId, taskDescription));
         }
         possibleTasks.sort(SortUtilities::mappedElementIntegerComparator);
 
@@ -184,7 +184,18 @@ public class WizardCourse {
         return id;
     }
 
-    public int createNewTask() {
-        return Integer.parseInt(indicesFile.getData(2, 1));
+    public int createNewTask() throws IOException, ParserConfigurationException, SAXException {
+        String sid = indicesFile.getData(2, 1);
+        int id = Integer.parseInt(sid);
+
+        DescriptionFile description = new DescriptionFile(new File(tasksPath, sid + "/description.xml"), false);
+        WizardTask newTask = new WizardTask(tasksPath, sid, description);
+        possibleTasks.add(new DescriptiveElement(sid, ""));
+        taskIdToTitle.put(sid, "");
+        tasks.put(sid, newTask);
+
+        indicesFile.setData(2, 1, String.valueOf(id+1));
+        indicesFile.save();
+        return id;
     }
 }

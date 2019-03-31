@@ -202,7 +202,12 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
         });
 
         taskList.getModifier().getButton(0).addActionListener((event) -> {
-            controller.newTask();
+            try {
+                controller.newTask();
+            } catch (IOException | ParserConfigurationException | SAXException e) {
+                e.printStackTrace();
+            }
+            controller.setTaskListContents(taskList.getList());
         });
 
         modeList.getList().getSelectionModel().addListSelectionListener((event) -> {

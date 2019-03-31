@@ -1,5 +1,7 @@
 package hu.szeba.hades.main.model.task.data;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -50,6 +52,8 @@ public class SourceFile {
 
     public void save() throws IOException {
         if (!readonly) {
+            FileUtils.forceMkdirParent(file);
+
             FileOutputStream fos = new FileOutputStream(file);
             OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
             BufferedWriter writer = new BufferedWriter(osw);
