@@ -148,6 +148,24 @@ public class CodeEditorForm extends JDialog {
 
         filePanel.getModifier().getButton(1).addActionListener((event) -> {
             // Delete
+            MappedElement selected = filePanel.getList().getSelectedValue();
+            if (selected == null) {
+                JOptionPane.showMessageDialog(new JFrame(), "Please select a file from the list!", "No file selected", JOptionPane.WARNING_MESSAGE);
+            } else {
+                int result = JOptionPane.showConfirmDialog(new JFrame(), "Delete source file: " + selected.getId() + "?",
+                        "Delete source file", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    files.remove(selected.getId());
+                    DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) filePanel.getList().getModel();
+                    model.removeElement(selected);
+
+                    // Reset GUI
+                    lastSourceFile = null;
+                    codeArea.setEnabled(false);
+                    codeArea.setText("");
+                    filePanel.getList().setSelectedIndex(-1);
+                }
+            }
         });
 
         filePanel.getModifier().getButton(2).addActionListener((event) -> {
