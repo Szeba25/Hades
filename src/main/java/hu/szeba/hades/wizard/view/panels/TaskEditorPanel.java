@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.Map;
 
 public class TaskEditorPanel extends JPanel {
@@ -299,21 +300,63 @@ public class TaskEditorPanel extends JPanel {
     }
 
     private void setupEvents() {
-        inputResultPanel.getModifier().getAdd().addActionListener((e) -> {
+        inputResultPanel.getModifier().getAdd().addActionListener((event) -> {
             String name = JOptionPane.showInputDialog(new JFrame(),
                     "New input/result pair name:",
                     "Add new input/result pair",
                     JOptionPane.PLAIN_MESSAGE);
             if (name != null) {
-                inputResultEditorForm.setContents(name);
-                inputResultEditorForm.setLocationRelativeTo(null);
-                inputResultEditorForm.setVisible(true);
+                if (!currentTask.isInputResultFileExists(name)) {
+                    try {
+                        // Add a new i/r pair
+                        currentTask.addInputResultFile(name);
+                        DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) inputResultPanel.getList().getModel();
+                        MappedElement newElement = new MappedElement(name, name);
+                        model.addElement(newElement);
+                        inputResultPanel.getList().setSelectedValue(newElement, true);
+
+                        // Open the editor
+                        inputResultEditorForm.setContents(name, "", "");
+                        inputResultEditorForm.setLocationRelativeTo(null);
+                        inputResultEditorForm.setVisible(true);
+
+                        // Save back content
+                        currentTask.setInputFileData(name, inputResultEditorForm.getInputFileData());
+                        currentTask.setResultFileData(name, inputResultEditorForm.getResultFileData());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(new JFrame(),
+                            "This input/result pair already exists with this name!",
+                            "Existing pair",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
-        inputResultPanel.getModifier().getEdit().addActionListener((e) -> {
-            inputResultEditorForm.setLocationRelativeTo(null);
-            inputResultEditorForm.setVisible(true);
+        inputResultPanel.getModifier().getEdit().addActionListener((event) -> {
+            MappedElement selected = inputResultPanel.getList().getSelectedValue();
+            if (selected != null) {
+
+                // Set contents, and open the editor
+                inputResultEditorForm.setContents(selected.getId(), currentTask.getInputFileData(selected.getId()), currentTask.getResultFileData(selected.getId()));
+                inputResultEditorForm.setLocationRelativeTo(null);
+                inputResultEditorForm.setVisible(true);
+
+                // Save back contents
+                currentTask.setInputFileData(selected.getId(), inputResultEditorForm.getInputFileData());
+                currentTask.setResultFileData(selected.getId(), inputResultEditorForm.getResultFileData());
+            }
+        });
+
+        inputResultPanel.getModifier().getDelete().addActionListener((event) -> {
+            MappedElement selected = inputResultPanel.getList().getSelectedValue();
+            if (selected != null) {
+                currentTask.removeInputResultFile(selected.getId());
+                DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) inputResultPanel.getList().getModel();
+                model.removeElement(selected);
+            }
         });
     }
 

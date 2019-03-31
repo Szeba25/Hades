@@ -3,6 +3,7 @@ package hu.szeba.hades.wizard.model;
 import hu.szeba.hades.main.io.DescriptionFile;
 import hu.szeba.hades.main.model.task.data.SourceFile;
 import hu.szeba.hades.main.util.FileUtilities;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,6 +47,14 @@ public class WizardTask {
         description.save();
         regExIncludeFile.save();
         regExExcludeFile.save();
+
+        // First delete all input result pairs
+        File inputResultFolder = new File(taskPath, "input_result_pairs");
+        for (File file : inputResultFolder.listFiles()) {
+            file.delete();
+        }
+
+        // And save them all again
         for (SourceFile sf : inputFiles.values()) {
             sf.save();
         }
@@ -92,6 +101,10 @@ public class WizardTask {
         return list;
     }
 
+    public boolean isInputResultFileExists(String name) {
+        return inputFiles.containsKey(name) && resultFiles.containsKey(name);
+    }
+
     public void setTitle(String title) {
         description.setTitle(title);
     }
@@ -127,8 +140,15 @@ public class WizardTask {
     }
 
     public void addInputResultFile(String name) throws IOException {
-        inputFiles.put(name, new SourceFile(new File(taskPath, "input_result_pairs/" + name + ".input"), false));
-        resultFiles.put(name, new SourceFile(new File(taskPath, "input_result_pairs/" + name + ".result"), false));
+        SourceFile inputSource = new SourceFile(new File(taskPath, "input_result_pairs/" + name + ".input"), false);
+        SourceFile resultSource = new SourceFile(new File(taskPath, "input_result_pairs/" + name + ".result"), false);
+        inputFiles.put(name, inputSource);
+        resultFiles.put(name, resultSource);
+    }
+
+    public void removeInputResultFile(String name) {
+        inputFiles.remove(name);
+        resultFiles.remove(name);
     }
 
 }
