@@ -165,7 +165,7 @@ public class CodeEditorForm extends JDialog {
                     testFile.delete();
 
                     // Proceed
-                    files.put(name, new SourceFile(testFile, false));
+                    files.put(name, new SourceFile(new File(filesPath, name), false));
                     DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) filePanel.getList().getModel();
                     model.addElement(new MappedElement(name, name));
 
