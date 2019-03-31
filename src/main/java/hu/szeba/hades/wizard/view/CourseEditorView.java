@@ -188,6 +188,7 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
                         parentView.showView();
                         break;
                     case JOptionPane.NO_OPTION:
+                        System.out.println("Course not saved...");
                         CourseEditorView.this.dispose();
                         parentView.showView();
                         break;
