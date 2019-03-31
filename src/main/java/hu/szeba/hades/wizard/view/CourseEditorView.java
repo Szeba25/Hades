@@ -168,16 +168,32 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e);
-                try {
-                    // Apply changes
-                    modifyAllChanges();
-                    // Save the course!
-                    controller.save();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
+
+                // Apply changes
+                modifyAllChanges();
+
+                // Prompt user for saving
+                Object[] options = {"Save and quit", "Just quit", "Cancel"};
+                int result = JOptionPane.showOptionDialog(new JFrame(), "Save progress?", "Leave course...", JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                switch (result) {
+                    case JOptionPane.YES_OPTION:
+                        try {
+                            // Save the course!
+                            controller.save();
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                        CourseEditorView.this.dispose();
+                        parentView.showView();
+                        break;
+                    case JOptionPane.NO_OPTION:
+                        CourseEditorView.this.dispose();
+                        parentView.showView();
+                        break;
+                    default:
+                        break;
                 }
-                CourseEditorView.this.dispose();
-                parentView.showView();
             }
         });
 

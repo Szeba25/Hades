@@ -104,6 +104,8 @@ public class WizardCourse {
         for (WizardTask task : tasks.values()) {
             task.save();
         }
+
+        System.out.println("Course " + courseId + " saved!");
     }
 
     public String getCourseId() {
