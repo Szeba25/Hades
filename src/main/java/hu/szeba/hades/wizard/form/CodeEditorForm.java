@@ -110,11 +110,9 @@ public class CodeEditorForm extends JDialog {
                     MappedElement value = (MappedElement) listModel.getElementAt(idx);
                     if (lastSourceFile != null) {
                         files.get(lastSourceFile).setData(codeArea.getText());
-                        System.out.println("Saving file: " + lastSourceFile);
                     }
                     codeArea.setEnabled(true);
                     codeArea.setText(files.get(value.getId()).getData());
-                    System.out.println("Setting file: " + value.getId());
                     codeArea.setCaretPosition(0);
                     lastSourceFile = value.getId();
                 }
