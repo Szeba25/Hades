@@ -58,13 +58,7 @@ public class DataFile {
     }
 
     public String getData(int lineNumber, int position) {
-        if (lineNumber < 0 || lineNumber >= content.size() ||
-                position < 0 || position >= content.get(lineNumber).length) {
-            System.out.println("Invalid data requested at " + lineNumber + "/" + position);
-            return "";
-        } else {
-            return content.get(lineNumber)[position];
-        }
+        return content.get(lineNumber)[position];
     }
 
     public String[] getLine(int lineNumber) {
