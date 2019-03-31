@@ -110,6 +110,18 @@ public class CodeEditorForm extends JDialog {
                 }
             }
         });
+
+        filePanel.getModifier().getButton(0).addActionListener((event) -> {
+            // Add
+        });
+
+        filePanel.getModifier().getButton(1).addActionListener((event) -> {
+            // Delete
+        });
+
+        filePanel.getModifier().getButton(2).addActionListener((event) -> {
+            // Rename
+        });
     }
 
     public void setFiles(Map<String, SourceFile> files) {
