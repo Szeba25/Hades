@@ -27,6 +27,14 @@ public class WizardTaskCollection {
         graph = new AdjacencyList(new File(taskCollectionPath, "tasks.graph"));
     }
 
+    public void fillWithDefaults() {
+        titleFile.clear();
+        titleFile.addData("");
+        metaFile.clear();
+        metaFile.addData("completion_threshold", "1.0");
+        graph.clear();
+    }
+
     public void save() throws IOException {
         titleFile.save();
         metaFile.save();

@@ -158,7 +158,7 @@ public class WizardCourse {
         String sid = indicesFile.getData(0, 1);
         int id = Integer.parseInt(sid);
 
-        WizardMode newMode = new WizardMode(modesPath, String.valueOf(indicesFile.getData(0, 1)));
+        WizardMode newMode = new WizardMode(modesPath, sid);
         newMode.fillWithDefaults();
         possibleModes.add(new DescriptiveElement(sid, ""));
         modeIdToTitle.put(sid, "");
@@ -169,8 +169,19 @@ public class WizardCourse {
         return id;
     }
 
-    public int createNewTaskCollection() {
-        return Integer.parseInt(indicesFile.getData(1, 1));
+    public int createNewTaskCollection() throws IOException {
+        String sid = indicesFile.getData(1, 1);
+        int id = Integer.parseInt(sid);
+
+        WizardTaskCollection newTaskCollection = new WizardTaskCollection(taskCollectionsPath, sid);
+        newTaskCollection.fillWithDefaults();
+        possibleTaskCollections.add(new DescriptiveElement(sid, ""));
+        taskCollectionIdToTitle.put(sid, "");
+        taskCollections.put(sid, newTaskCollection);
+
+        indicesFile.setData(1, 1, String.valueOf(id+1));
+        indicesFile.save();
+        return id;
     }
 
     public int createNewTask() {

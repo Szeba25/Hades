@@ -80,7 +80,7 @@ public class CourseEditorController {
         System.out.println(course.createNewMode());
     }
 
-    public void newTaskCollection() {
+    public void newTaskCollection() throws IOException {
         System.out.println(course.createNewTaskCollection());
     }
 

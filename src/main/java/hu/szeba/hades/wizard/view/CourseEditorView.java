@@ -193,7 +193,12 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
         });
 
         taskCollectionList.getModifier().getButton(0).addActionListener((event) -> {
-            controller.newTaskCollection();
+            try {
+                controller.newTaskCollection();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            controller.setTaskCollectionListContents(taskCollectionList.getList());
         });
 
         taskList.getModifier().getButton(0).addActionListener((event) -> {
