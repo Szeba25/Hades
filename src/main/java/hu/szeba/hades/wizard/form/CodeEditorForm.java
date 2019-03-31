@@ -1,5 +1,6 @@
 package hu.szeba.hades.wizard.form;
 
+import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.model.task.data.SourceFile;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.util.SortUtilities;
@@ -218,8 +219,8 @@ public class CodeEditorForm extends JDialog {
                             JOptionPane.WARNING_MESSAGE);
                 } else if (newName != null) {
                     try {
-                        // Test for invalid file names
-                        File testFile = new File(filesPath, newName);
+                        // Test for invalid file names, use the working directory path!
+                        File testFile = new File(Options.getWorkingDirectoryPath(), newName);
                         testFile.createNewFile();
                         testFile.delete();
 
