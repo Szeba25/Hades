@@ -2,6 +2,7 @@ package hu.szeba.hades.wizard.form;
 
 import hu.szeba.hades.main.model.task.data.SourceFile;
 import hu.szeba.hades.main.util.GridBagSetter;
+import hu.szeba.hades.main.util.SortUtilities;
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.view.components.DynamicButtonListPanel;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -13,6 +14,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 public class CodeEditorForm extends JDialog {
@@ -107,9 +110,11 @@ public class CodeEditorForm extends JDialog {
                     MappedElement value = (MappedElement) listModel.getElementAt(idx);
                     if (lastSourceFile != null) {
                         files.get(lastSourceFile).setData(codeArea.getText());
+                        System.out.println("Saving file: " + lastSourceFile);
                     }
                     codeArea.setEnabled(true);
                     codeArea.setText(files.get(value.getId()).getData());
+                    System.out.println("Setting file: " + value.getId());
                     codeArea.setCaretPosition(0);
                     lastSourceFile = value.getId();
                 }
@@ -117,7 +122,7 @@ public class CodeEditorForm extends JDialog {
         });
 
         filePanel.getModifier().getButton(0).addActionListener((event) -> {
-            // Add
+            // Add (OK)
             String name = JOptionPane.showInputDialog(new JFrame(),
                     "New file name:",
                     "Add new file",
@@ -138,6 +143,15 @@ public class CodeEditorForm extends JDialog {
                     files.put(name, new SourceFile(testFile, false));
                     DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) filePanel.getList().getModel();
                     model.addElement(new MappedElement(name, name));
+
+                    // --- experimental
+                    MappedElement oldElement = filePanel.getList().getSelectedValue();
+                    sortFileList();
+                    if (oldElement != null) {
+                        filePanel.getList().setSelectedValue(oldElement, true);
+                    }
+                    // --- experimental
+
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(new JFrame(), e.getMessage());
                 }
@@ -145,7 +159,7 @@ public class CodeEditorForm extends JDialog {
         });
 
         filePanel.getModifier().getButton(1).addActionListener((event) -> {
-            // Delete
+            // Delete (OK)
             MappedElement selected = filePanel.getList().getSelectedValue();
             if (selected == null) {
                 JOptionPane.showMessageDialog(new JFrame(), "Please select a file from the list!", "No file selected", JOptionPane.WARNING_MESSAGE);
@@ -159,9 +173,7 @@ public class CodeEditorForm extends JDialog {
 
                     // Reset GUI
                     lastSourceFile = null;
-                    codeArea.setEnabled(false);
-                    codeArea.setText("");
-                    filePanel.getList().setSelectedIndex(-1);
+                    resetListSelection();
                 }
             }
         });
@@ -193,12 +205,20 @@ public class CodeEditorForm extends JDialog {
                         src.rename(newName, false);
                         files.put(newName, src);
 
-                        // Last source is changing too!
-                        lastSourceFile = newName;
-
                         // Set in list data
                         selected.setId(newName);
                         selected.setTitle(newName);
+
+                        // Last source is changing too!
+                        lastSourceFile = newName;
+
+                        // Sort list, and select the value there
+                        // --- experimental
+                        sortFileList();
+                        filePanel.getList().setSelectedValue(selected, true);
+                        // --- experimental
+
+                        // Repaint list
                         filePanel.getList().repaint();
                     } catch (IOException e) {
                         JOptionPane.showMessageDialog(new JFrame(), e.getMessage());
@@ -210,8 +230,6 @@ public class CodeEditorForm extends JDialog {
 
     public void setFiles(Map<String, SourceFile> files, File taskPath) {
         lastSourceFile = null;
-        codeArea.setEnabled(false);
-        codeArea.setText("");
 
         this.files = files;
         this.filesPath = new File(taskPath, "sources");
@@ -219,6 +237,27 @@ public class CodeEditorForm extends JDialog {
         model.removeAllElements();
         for (SourceFile src : files.values()) {
             model.addElement(new MappedElement(src.getName(), src.getName()));
+        }
+
+        // --- experimental
+        sortFileList();
+        resetListSelection();
+        // --- experimental
+    }
+
+    private void resetListSelection() {
+        codeArea.setEnabled(false);
+        codeArea.setText("");
+        filePanel.getList().setSelectedIndex(-1);
+    }
+
+    private void sortFileList() {
+        DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) filePanel.getList().getModel();
+        List<MappedElement> list = Collections.list(model.elements());
+        list.sort(SortUtilities::mappedElementStringComparator);
+        model.clear();
+        for (MappedElement added : list) {
+            model.addElement(added);
         }
     }
 
