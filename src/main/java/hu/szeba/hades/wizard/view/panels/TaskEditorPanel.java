@@ -1,6 +1,7 @@
 package hu.szeba.hades.wizard.view.panels;
 
 import hu.szeba.hades.main.util.GridBagSetter;
+import hu.szeba.hades.wizard.form.InputResultEditorForm;
 import hu.szeba.hades.wizard.model.WizardTask;
 import hu.szeba.hades.wizard.model.WizardTaskCollection;
 import hu.szeba.hades.wizard.view.components.ModifiableListPanel;
@@ -35,6 +36,8 @@ public class TaskEditorPanel extends JPanel {
     private JTextArea regexInclude;
     private JTextArea regexExclude;
 
+    private InputResultEditorForm inputResultEditorForm;
+
     public TaskEditorPanel() {
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEtchedBorder());
@@ -54,6 +57,8 @@ public class TaskEditorPanel extends JPanel {
     private void initializeComponents() {
         initializeLeftPanel();
         initializeRightPanel();
+
+        inputResultEditorForm = new InputResultEditorForm();
     }
 
     private void initializeLeftPanel() {
@@ -293,7 +298,10 @@ public class TaskEditorPanel extends JPanel {
     }
 
     private void setupEvents() {
-
+        inputResultPanel.getModifier().getAdd().addActionListener((e) -> {
+            inputResultEditorForm.setLocationRelativeTo(null);
+            inputResultEditorForm.setVisible(true);
+        });
     }
 
     public void setCurrentTask(WizardTask newTask, DescriptiveElement currentElementRef,
