@@ -146,7 +146,7 @@ public class CodeEditorForm extends JDialog {
         });
 
         filePanel.getModifier().getButton(0).addActionListener((event) -> {
-            // Add (OK)
+            // Add
             String name = JOptionPane.showInputDialog(new JFrame(),
                     "New file name:",
                     "Add new file",
@@ -182,7 +182,7 @@ public class CodeEditorForm extends JDialog {
         });
 
         filePanel.getModifier().getButton(1).addActionListener((event) -> {
-            // Delete (OK)
+            // Delete
             MappedElement selected = filePanel.getList().getSelectedValue();
             if (selected == null) {
                 JOptionPane.showMessageDialog(new JFrame(), "Please select a file from the list!", "No file selected", JOptionPane.WARNING_MESSAGE);
