@@ -1,7 +1,7 @@
 package hu.szeba.hades.wizard.form;
 
-import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.model.task.data.SourceFile;
+import hu.szeba.hades.main.util.FileUtilities;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.util.SortUtilities;
 import hu.szeba.hades.main.view.elements.MappedElement;
@@ -159,22 +159,21 @@ public class CodeEditorForm extends JDialog {
             } else if (name != null) {
                 try {
                     // Test for invalid file names
-                    File testFile = new File(Options.getWorkingDirectoryPath(), name);
-                    testFile.createNewFile();
-                    testFile.delete();
+                    if (FileUtilities.validFileName(name)) {
+                        // Proceed
+                        files.put(name, new SourceFile(new File(filesPath, name), false));
+                        DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) filePanel.getList().getModel();
+                        model.addElement(new MappedElement(name, name));
 
-                    // Proceed
-                    files.put(name, new SourceFile(new File(filesPath, name), false));
-                    DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) filePanel.getList().getModel();
-                    model.addElement(new MappedElement(name, name));
-
-                    // Sort the list, and select the old value!
-                    MappedElement oldElement = filePanel.getList().getSelectedValue();
-                    sortFileList();
-                    if (oldElement != null) {
-                        filePanel.getList().setSelectedValue(oldElement, true);
+                        // Sort the list, and select the old value!
+                        MappedElement oldElement = filePanel.getList().getSelectedValue();
+                        sortFileList();
+                        if (oldElement != null) {
+                            filePanel.getList().setSelectedValue(oldElement, true);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(new JFrame(), "Invalid file name: " + name);
                     }
-
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(new JFrame(), e.getMessage());
                 }
@@ -218,29 +217,29 @@ public class CodeEditorForm extends JDialog {
                             JOptionPane.WARNING_MESSAGE);
                 } else if (newName != null) {
                     try {
-                        // Test for invalid file names, use the working directory path!
-                        File testFile = new File(Options.getWorkingDirectoryPath(), newName);
-                        testFile.createNewFile();
-                        testFile.delete();
+                        // Test for invalid file names!
+                        if (FileUtilities.validFileName(newName)) {
+                            // Proceed
+                            SourceFile src = files.remove(selected.getId());
+                            src.rename(newName, false);
+                            files.put(newName, src);
 
-                        // Proceed
-                        SourceFile src = files.remove(selected.getId());
-                        src.rename(newName, false);
-                        files.put(newName, src);
+                            // Set in list data
+                            selected.setId(newName);
+                            selected.setTitle(newName);
 
-                        // Set in list data
-                        selected.setId(newName);
-                        selected.setTitle(newName);
+                            // Last source is changing too!
+                            lastSourceFile = newName;
 
-                        // Last source is changing too!
-                        lastSourceFile = newName;
+                            // Sort list, and select the value there
+                            sortFileList();
+                            filePanel.getList().setSelectedValue(selected, true);
 
-                        // Sort list, and select the value there
-                        sortFileList();
-                        filePanel.getList().setSelectedValue(selected, true);
-
-                        // Repaint list
-                        filePanel.getList().repaint();
+                            // Repaint list
+                            filePanel.getList().repaint();
+                        } else {
+                            JOptionPane.showMessageDialog(new JFrame(), "Invalid file name: " + newName);
+                        }
                     } catch (IOException e) {
                         JOptionPane.showMessageDialog(new JFrame(), e.getMessage());
                     }

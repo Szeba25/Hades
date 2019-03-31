@@ -1,5 +1,6 @@
 package hu.szeba.hades.wizard.view.panels;
 
+import hu.szeba.hades.main.util.FileUtilities;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.form.CodeEditorForm;
@@ -8,6 +9,7 @@ import hu.szeba.hades.wizard.form.InputResultEditorForm;
 import hu.szeba.hades.wizard.model.WizardTask;
 import hu.szeba.hades.wizard.view.components.ModifiableListPanel;
 import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
+import org.apache.commons.io.FileUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -333,7 +335,7 @@ public class TaskEditorPanel extends JPanel {
                         // Rename if possible!
                         String newName = inputResultEditorForm.getNewName();
                         if (!name.equals(newName) && newName.length() > 0) {
-                            if (!currentTask.isInputResultFileExists(newName)) {
+                            if (!currentTask.isInputResultFileExists(newName) && FileUtilities.validFileName(newName)) {
                                 currentTask.renameInputResultFile(name, newName);
                                 newElement.setId(newName);
                                 newElement.setTitle(newName);
@@ -378,7 +380,7 @@ public class TaskEditorPanel extends JPanel {
                     // Rename if possible!
                     String newName = inputResultEditorForm.getNewName();
                     if (!selected.getId().equals(newName) && newName.length() > 0) {
-                        if (!currentTask.isInputResultFileExists(newName)) {
+                        if (!currentTask.isInputResultFileExists(newName) && FileUtilities.validFileName(newName)) {
                             currentTask.renameInputResultFile(selected.getId(), newName);
                             selected.setId(newName);
                             selected.setTitle(newName);
