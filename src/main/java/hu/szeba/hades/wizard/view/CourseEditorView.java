@@ -130,9 +130,9 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
 
         tabbedPane = new JTabbedPane();
 
-        modeList = new DynamicButtonListPanel("All modes:", 300, "+", "-", "reset");
-        taskCollectionList = new DynamicButtonListPanel("All task collections:", 300, "+", "-", "reset");
-        taskList = new DynamicButtonListPanel("All tasks:", 300, "+", "-", "reset");
+        modeList = new DynamicButtonListPanel("All modes:", 300, "+", "-");
+        taskCollectionList = new DynamicButtonListPanel("All task collections:", 300, "+", "-");
+        taskList = new DynamicButtonListPanel("All tasks:", 300, "+", "-");
 
         modesTab = new JPanel();
         modesTab.setLayout(new BorderLayout(5, 0));
