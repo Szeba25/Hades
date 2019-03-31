@@ -403,13 +403,13 @@ public class TaskEditorPanel extends JPanel {
         });
 
         editSources.addActionListener((event) -> {
-            sourceEditorForm.setData(currentTask.getSourceFiles());
+            sourceEditorForm.setFiles(currentTask.getSourceFiles());
             sourceEditorForm.setLocationRelativeTo(null);
             sourceEditorForm.setVisible(true);
         });
 
         editSolutions.addActionListener((event) -> {
-            solutionEditorForm.setData(currentTask.getSolutionFiles());
+            solutionEditorForm.setFiles(currentTask.getSolutionFiles());
             solutionEditorForm.setLocationRelativeTo(null);
             solutionEditorForm.setVisible(true);
         });

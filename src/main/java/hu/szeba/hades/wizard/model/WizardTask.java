@@ -21,8 +21,8 @@ public class WizardTask {
     private Map<String, SourceFile> inputFiles;
     private Map<String, SourceFile> resultFiles;
 
-    private Map<String, SourceFile> sourceFiles;
-    private Map<String, SourceFile> solutionFiles;
+    private List<SourceFile> sourceFiles;
+    private List<SourceFile> solutionFiles;
 
     public WizardTask(String taskId, File taskPath, DescriptionFile description) throws IOException {
         this.taskId = taskId;
@@ -47,17 +47,17 @@ public class WizardTask {
         }
 
         // Load source files
-        this.sourceFiles = new HashMap<>();
+        this.sourceFiles = new ArrayList<>();
         File sourceFilesFolder = new File(taskPath, "sources");
         for (String fileName : sourceFilesFolder.list()) {
-            sourceFiles.put(fileName, new SourceFile(new File(taskPath, "sources/" + fileName), false));
+            sourceFiles.add(new SourceFile(new File(taskPath, "sources/" + fileName), false));
         }
 
         // Load solution files
-        this.solutionFiles = new HashMap<>();
+        this.solutionFiles = new ArrayList<>();
         File solutionFilesFolder = new File(taskPath, "solutions");
         for (String fileName : solutionFilesFolder.list()) {
-            solutionFiles.put(fileName, new SourceFile(new File(taskPath, "solutions/" + fileName), false));
+            solutionFiles.add(new SourceFile(new File(taskPath, "solutions/" + fileName), false));
         }
     }
 
@@ -87,10 +87,10 @@ public class WizardTask {
         for (SourceFile sf : resultFiles.values()) {
             sf.save();
         }
-        for (SourceFile sf : sourceFiles.values()) {
+        for (SourceFile sf : sourceFiles) {
             sf.save();
         }
-        for (SourceFile sf : solutionFiles.values()) {
+        for (SourceFile sf : solutionFiles) {
             sf.save();
         }
     }
@@ -190,11 +190,11 @@ public class WizardTask {
         resultFiles.get(newName).rename(newName + ".result", false);
     }
 
-    public Map<String, SourceFile> getSourceFiles() {
+    public List<SourceFile> getSourceFiles() {
         return sourceFiles;
     }
 
-    public Map<String, SourceFile> getSolutionFiles() {
+    public List<SourceFile> getSolutionFiles() {
         return solutionFiles;
     }
 
