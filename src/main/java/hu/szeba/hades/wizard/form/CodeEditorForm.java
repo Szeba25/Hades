@@ -1,24 +1,17 @@
 package hu.szeba.hades.wizard.form;
 
-import hu.szeba.hades.main.controller.SourceUpdaterForClosableTabs;
 import hu.szeba.hades.main.model.task.data.SourceFile;
 import hu.szeba.hades.main.util.GridBagSetter;
-import hu.szeba.hades.main.view.TaskSolvingView;
-import hu.szeba.hades.main.view.components.ClosableTabComponent;
 import hu.szeba.hades.main.view.elements.MappedElement;
-import hu.szeba.hades.main.view.elements.TaskElement;
 import hu.szeba.hades.wizard.view.components.DynamicButtonListPanel;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.*;
-import java.util.List;
+import java.util.Map;
 
 public class CodeEditorForm extends JDialog {
 
