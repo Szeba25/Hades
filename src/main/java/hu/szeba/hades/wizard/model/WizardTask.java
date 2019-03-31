@@ -21,6 +21,9 @@ public class WizardTask {
     private Map<String, SourceFile> inputFiles;
     private Map<String, SourceFile> resultFiles;
 
+    private Map<String, SourceFile> sourceFiles;
+    private Map<String, SourceFile> solutionFiles;
+
     public WizardTask(String taskId, File taskPath, DescriptionFile description) throws IOException {
         this.taskId = taskId;
         this.taskPath = taskPath;
@@ -28,6 +31,7 @@ public class WizardTask {
         this.regExIncludeFile = new SourceFile(new File(taskPath, "regex/include.txt"), false);
         this.regExExcludeFile = new SourceFile(new File(taskPath, "regex/exclude.txt"), false);
 
+        // Load input result pairs
         this.inputFiles = new HashMap<>();
         this.resultFiles = new HashMap<>();
 
@@ -41,6 +45,20 @@ public class WizardTask {
                 resultFiles.put(pureFileName, finalFile);
             }
         }
+
+        // Load source files
+        this.sourceFiles = new HashMap<>();
+        File sourceFilesFolder = new File(taskPath, "sources");
+        for (String fileName : sourceFilesFolder.list()) {
+            sourceFiles.put(fileName, new SourceFile(new File(taskPath, "sources/" + fileName), false));
+        }
+
+        // Load solution files
+        this.solutionFiles = new HashMap<>();
+        File solutionFilesFolder = new File(taskPath, "solutions");
+        for (String fileName : solutionFilesFolder.list()) {
+            solutionFiles.put(fileName, new SourceFile(new File(taskPath, "solutions/" + fileName), false));
+        }
     }
 
     public void save() throws IOException {
@@ -48,9 +66,17 @@ public class WizardTask {
         regExIncludeFile.save();
         regExExcludeFile.save();
 
-        // First delete all input result pairs
+        // First delete all changeable data
         File inputResultFolder = new File(taskPath, "input_result_pairs");
         for (File file : inputResultFolder.listFiles()) {
+            file.delete();
+        }
+        File sourceFilesFolder = new File(taskPath, "sources");
+        for (File file : sourceFilesFolder.listFiles()) {
+            file.delete();
+        }
+        File solutionFilesFolder = new File(taskPath, "solutions");
+        for (File file : solutionFilesFolder.listFiles()) {
             file.delete();
         }
 
@@ -59,6 +85,12 @@ public class WizardTask {
             sf.save();
         }
         for (SourceFile sf : resultFiles.values()) {
+            sf.save();
+        }
+        for (SourceFile sf : sourceFiles.values()) {
+            sf.save();
+        }
+        for (SourceFile sf : solutionFiles.values()) {
             sf.save();
         }
     }
@@ -157,4 +189,13 @@ public class WizardTask {
         inputFiles.get(newName).rename(newName + ".input", false);
         resultFiles.get(newName).rename(newName + ".result", false);
     }
+
+    public Map<String, SourceFile> getSourceFiles() {
+        return sourceFiles;
+    }
+
+    public Map<String, SourceFile> getSolutionFiles() {
+        return solutionFiles;
+    }
+
 }

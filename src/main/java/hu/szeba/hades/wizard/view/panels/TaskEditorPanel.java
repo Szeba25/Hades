@@ -2,17 +2,14 @@ package hu.szeba.hades.wizard.view.panels;
 
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.elements.MappedElement;
+import hu.szeba.hades.wizard.form.CodeEditorForm;
 import hu.szeba.hades.wizard.form.InputResultEditorForm;
 import hu.szeba.hades.wizard.model.WizardTask;
-import hu.szeba.hades.wizard.model.WizardTaskCollection;
 import hu.szeba.hades.wizard.view.components.ModifiableListPanel;
 import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
-import jdk.nashorn.internal.scripts.JO;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.Map;
 
@@ -40,6 +37,8 @@ public class TaskEditorPanel extends JPanel {
     private JTextArea regexExclude;
 
     private InputResultEditorForm inputResultEditorForm;
+    private CodeEditorForm sourceEditorForm;
+    private CodeEditorForm solutionEditorForm;
 
     public TaskEditorPanel() {
         this.setLayout(new BorderLayout());
@@ -62,6 +61,8 @@ public class TaskEditorPanel extends JPanel {
         initializeRightPanel();
 
         inputResultEditorForm = new InputResultEditorForm();
+        sourceEditorForm = new CodeEditorForm();
+        solutionEditorForm = new CodeEditorForm();
     }
 
     private void initializeLeftPanel() {
@@ -399,6 +400,18 @@ public class TaskEditorPanel extends JPanel {
                     model.removeElement(selected);
                 }
             }
+        });
+
+        editSources.addActionListener((event) -> {
+            sourceEditorForm.setData(currentTask.getSourceFiles());
+            sourceEditorForm.setLocationRelativeTo(null);
+            sourceEditorForm.setVisible(true);
+        });
+
+        editSolutions.addActionListener((event) -> {
+            solutionEditorForm.setData(currentTask.getSolutionFiles());
+            solutionEditorForm.setLocationRelativeTo(null);
+            solutionEditorForm.setVisible(true);
         });
     }
 
