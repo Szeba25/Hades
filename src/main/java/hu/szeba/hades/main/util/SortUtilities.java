@@ -12,4 +12,8 @@ public class SortUtilities {
         return stringIntegerComparator(e1.getId(), e2.getId());
     }
 
+    public static int mappedElementStringComparator(MappedElement e1, MappedElement e2) {
+        return e1.getId().compareTo(e2.getId());
+    }
+
 }

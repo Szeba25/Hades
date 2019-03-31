@@ -110,6 +110,7 @@ public class CodeEditorForm extends JDialog {
                     }
                     codeArea.setEnabled(true);
                     codeArea.setText(files.get(value.getId()).getData());
+                    codeArea.setCaretPosition(0);
                     lastSourceFile = value.getId();
                 }
             }
@@ -138,10 +139,7 @@ public class CodeEditorForm extends JDialog {
                     DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) filePanel.getList().getModel();
                     model.addElement(new MappedElement(name, name));
                 } catch (IOException e) {
-                    JOptionPane.showMessageDialog(new JFrame(),
-                            "Cannot create file specified: " + e.getMessage(),
-                            "File creation error...",
-                            JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(new JFrame(), e.getMessage());
                 }
             }
         });
@@ -170,6 +168,43 @@ public class CodeEditorForm extends JDialog {
 
         filePanel.getModifier().getButton(2).addActionListener((event) -> {
             // Rename
+            MappedElement selected = filePanel.getList().getSelectedValue();
+            if (selected == null) {
+                JOptionPane.showMessageDialog(new JFrame(), "Please select a file from the list!", "No file selected", JOptionPane.WARNING_MESSAGE);
+            } else {
+                String newName = (String) JOptionPane.showInputDialog(new JFrame(),
+                        "New file name:",
+                        "Rename file",
+                        JOptionPane.PLAIN_MESSAGE, null, null, selected.getId());
+                if (files.containsKey(newName)) {
+                    JOptionPane.showMessageDialog(new JFrame(),
+                            "The specified file name already exists: " + newName,
+                            "File exists",
+                            JOptionPane.WARNING_MESSAGE);
+                } else if (newName != null) {
+                    try {
+                        // Test for invalid file names
+                        File testFile = new File(filesPath, newName);
+                        testFile.createNewFile();
+                        testFile.delete();
+
+                        // Proceed
+                        SourceFile src = files.remove(selected.getId());
+                        src.rename(newName, false);
+                        files.put(newName, src);
+
+                        // Last source is changing too!
+                        lastSourceFile = newName;
+
+                        // Set in list data
+                        selected.setId(newName);
+                        selected.setTitle(newName);
+                        filePanel.getList().repaint();
+                    } catch (IOException e) {
+                        JOptionPane.showMessageDialog(new JFrame(), e.getMessage());
+                    }
+                }
+            }
         });
     }
 
