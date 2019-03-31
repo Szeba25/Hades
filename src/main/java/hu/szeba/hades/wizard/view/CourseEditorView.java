@@ -183,6 +183,23 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
 
         tabbedPane.addChangeListener((e) -> modifyAllChanges());
 
+        modeList.getModifier().getButton(0).addActionListener((event) -> {
+            try {
+                controller.newMode();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            controller.setModeListContents(modeList.getList());
+        });
+
+        taskCollectionList.getModifier().getButton(0).addActionListener((event) -> {
+            controller.newTaskCollection();
+        });
+
+        taskList.getModifier().getButton(0).addActionListener((event) -> {
+            controller.newTask();
+        });
+
         modeList.getList().getSelectionModel().addListSelectionListener((event) -> {
             ListSelectionModel listSelectionModel = (ListSelectionModel) event.getSource();
             ListModel listModel = modeList.getList().getModel();

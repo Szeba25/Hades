@@ -16,6 +16,7 @@ public class WizardMode {
 
     private TabbedFile titleFile;
     private ConfigFile metaFile;
+
     private Graph graph;
 
     public WizardMode(File modesPath, String modeId) throws IOException {
@@ -25,6 +26,16 @@ public class WizardMode {
         titleFile = new TabbedFile(new File(modePath, "title.dat"));
         metaFile = new ConfigFile(new File(modePath, "meta.conf"));
         graph = new AdjacencyList(new File(modePath, "task_collections.graph"));
+    }
+
+    public void fillWithDefaults() {
+        titleFile.clear();
+        titleFile.addData("");
+        metaFile.clear();
+        metaFile.addData("ignore_dependency", "false");
+        metaFile.addData("ignore_story", "false");
+        metaFile.addData("iron_man", "false");
+        graph.clear();
     }
 
     public void save() throws IOException {

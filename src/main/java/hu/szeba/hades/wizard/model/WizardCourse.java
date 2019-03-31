@@ -1,6 +1,7 @@
 package hu.szeba.hades.wizard.model;
 
 import hu.szeba.hades.main.io.ConfigFile;
+import hu.szeba.hades.main.io.DataFile;
 import hu.szeba.hades.main.io.DescriptionFile;
 import hu.szeba.hades.main.io.TabbedFile;
 import hu.szeba.hades.main.meta.Options;
@@ -23,6 +24,7 @@ public class WizardCourse {
 
     private TabbedFile titleFile;
     private ConfigFile metaFile;
+    private ConfigFile indicesFile;
 
     private File modesPath;
     private File taskCollectionsPath;
@@ -47,6 +49,7 @@ public class WizardCourse {
 
         titleFile = new TabbedFile(new File(Options.getDatabasePath(), courseId + "/title.dat"));
         metaFile = new ConfigFile(new File(Options.getDatabasePath(), courseId  + "/meta.conf"));
+        indicesFile = new ConfigFile(new File(Options.getDatabasePath(), courseId + "/indices.conf"));
 
         possibleModes = new ArrayList<>();
         modeIdToTitle = new HashMap<>();
@@ -149,5 +152,28 @@ public class WizardCourse {
 
     public Map<String, WizardTask> getTasks() {
         return tasks;
+    }
+
+    public int createNewMode() throws IOException {
+        String sid = indicesFile.getData(0, 1);
+        int id = Integer.parseInt(sid);
+
+        WizardMode newMode = new WizardMode(modesPath, String.valueOf(indicesFile.getData(0, 1)));
+        newMode.fillWithDefaults();
+        possibleModes.add(new DescriptiveElement(sid, ""));
+        modeIdToTitle.put(sid, "");
+        modes.put(sid, newMode);
+
+        indicesFile.setData(0, 1, String.valueOf(id+1));
+        indicesFile.save();
+        return id;
+    }
+
+    public int createNewTaskCollection() {
+        return Integer.parseInt(indicesFile.getData(1, 1));
+    }
+
+    public int createNewTask() {
+        return Integer.parseInt(indicesFile.getData(2, 1));
     }
 }

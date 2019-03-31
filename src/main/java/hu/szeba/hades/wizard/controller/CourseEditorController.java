@@ -76,4 +76,15 @@ public class CourseEditorController {
         course.save();
     }
 
+    public void newMode() throws IOException {
+        System.out.println(course.createNewMode());
+    }
+
+    public void newTaskCollection() {
+        System.out.println(course.createNewTaskCollection());
+    }
+
+    public void newTask() {
+        System.out.println(course.createNewTask());
+    }
 }

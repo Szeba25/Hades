@@ -25,4 +25,5 @@ public interface Graph {
     void addViewNode(ViewNode viewNode);
     void removeViewNode(String node);
 
+    void clear();
 }

@@ -1,5 +1,7 @@
 package hu.szeba.hades.main.io;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -41,8 +43,6 @@ public class DataFile {
             reader.close();
             isr.close();
             fis.close();
-        } else if (!file.createNewFile()) {
-            throw new IOException("Couldn't create new file at: " + file.getAbsolutePath());
         }
     }
 
@@ -60,6 +60,7 @@ public class DataFile {
     public String getData(int lineNumber, int position) {
         if (lineNumber < 0 || lineNumber >= content.size() ||
                 position < 0 || position >= content.get(lineNumber).length) {
+            System.out.println("Invalid data requested at " + lineNumber + "/" + position);
             return "";
         } else {
             return content.get(lineNumber)[position];
@@ -71,11 +72,8 @@ public class DataFile {
     }
 
     public void setData(int lineNumber, int position, String data) {
-        if (!(lineNumber < 0 || lineNumber >= content.size() ||
-                position < 0 || position >= content.get(lineNumber).length)) {
-            String[] line = content.get(lineNumber);
-            line[position] = data;
-        }
+        String[] line = content.get(lineNumber);
+        line[position] = data;
     }
 
     public void addData(String... data) {
@@ -83,6 +81,8 @@ public class DataFile {
     }
 
     public void save() throws IOException {
+        FileUtils.forceMkdirParent(file);
+
         FileOutputStream fos = new FileOutputStream(file);
         OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
         BufferedWriter writer = new BufferedWriter(osw);

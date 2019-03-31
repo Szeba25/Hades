@@ -177,4 +177,12 @@ public class AdjacencyList implements Graph {
         viewNodes.remove(node);
     }
 
+    @Override
+    public void clear() {
+        nodes.clear();
+        childNodes.clear();
+        parentNodes.clear();
+        viewNodes.clear();
+    }
+
 }
