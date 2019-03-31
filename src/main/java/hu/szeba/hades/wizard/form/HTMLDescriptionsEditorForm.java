@@ -34,8 +34,8 @@ public class HTMLDescriptionsEditorForm extends JDialog {
         RSyntaxTextArea editor = new RSyntaxTextArea();
         editor.setTabSize(4);
         editor.setSyntaxEditingStyle(RSyntaxTextArea.SYNTAX_STYLE_HTML);
-        editor.setFont(new Font("Monospaced", Font.PLAIN, 12));
-        editor.setCodeFoldingEnabled(true);
+        editor.setFont(new Font("Monospaced", Font.PLAIN, 14));
+        editor.setCodeFoldingEnabled(false); // Hates HTML for some reason.........
         editor.setAutoIndentEnabled(true);
         editor.setCurrentLineHighlightColor(new Color(10, 30, 140, 35));
         return editor;
