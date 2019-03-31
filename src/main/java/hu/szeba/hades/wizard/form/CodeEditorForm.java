@@ -142,13 +142,12 @@ public class CodeEditorForm extends JDialog {
                     DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) filePanel.getList().getModel();
                     model.addElement(new MappedElement(name, name));
 
-                    // --- experimental
+                    // Sort the list, and select the old value!
                     MappedElement oldElement = filePanel.getList().getSelectedValue();
                     sortFileList();
                     if (oldElement != null) {
                         filePanel.getList().setSelectedValue(oldElement, true);
                     }
-                    // --- experimental
 
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(new JFrame(), e.getMessage());
@@ -211,10 +210,8 @@ public class CodeEditorForm extends JDialog {
                         lastSourceFile = newName;
 
                         // Sort list, and select the value there
-                        // --- experimental
                         sortFileList();
                         filePanel.getList().setSelectedValue(selected, true);
-                        // --- experimental
 
                         // Repaint list
                         filePanel.getList().repaint();
@@ -226,21 +223,23 @@ public class CodeEditorForm extends JDialog {
         });
     }
 
-    public void setFiles(Map<String, SourceFile> files, File taskPath) {
+    public void setFiles(Map<String, SourceFile> files, File filesPath) {
         lastSourceFile = null;
 
         this.files = files;
-        this.filesPath = new File(taskPath, "sources");
+        this.filesPath = filesPath;
         DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) filePanel.getList().getModel();
         model.removeAllElements();
         for (SourceFile src : files.values()) {
             model.addElement(new MappedElement(src.getName(), src.getName()));
         }
 
-        // --- experimental
         sortFileList();
         resetListSelection();
-        // --- experimental
+        if (files.size() > 0) {
+            filePanel.getList().setSelectedIndex(0);
+            lastSourceFile = filePanel.getList().getSelectedValue().getId();
+        }
     }
 
     private void resetListSelection() {

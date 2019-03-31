@@ -10,6 +10,7 @@ import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
@@ -403,13 +404,13 @@ public class TaskEditorPanel extends JPanel {
         });
 
         editSources.addActionListener((event) -> {
-            sourceEditorForm.setFiles(currentTask.getSourceFiles(), currentTask.getTaskPath());
+            sourceEditorForm.setFiles(currentTask.getSourceFiles(), new File(currentTask.getTaskPath(), "sources"));
             sourceEditorForm.setLocationRelativeTo(null);
             sourceEditorForm.setVisible(true);
         });
 
         editSolutions.addActionListener((event) -> {
-            solutionEditorForm.setFiles(currentTask.getSolutionFiles(), currentTask.getTaskPath());
+            solutionEditorForm.setFiles(currentTask.getSolutionFiles(), new File(currentTask.getTaskPath(), "solutions"));
             solutionEditorForm.setLocationRelativeTo(null);
             solutionEditorForm.setVisible(true);
         });
