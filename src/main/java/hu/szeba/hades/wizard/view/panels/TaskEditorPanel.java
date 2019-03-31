@@ -432,6 +432,7 @@ public class TaskEditorPanel extends JPanel {
             this.currentTask.setRegExExcludeData(regexExclude.getText());
 
             // We work directly on input/result data, no need to set it back!
+            // We work directly on sources and solutions data, no need to set it back!
 
             // Update references in task collection editor
             taskIdToTitle.put(currentElementRef.getId(), titleField.getText());
@@ -448,11 +449,15 @@ public class TaskEditorPanel extends JPanel {
         tags.setText(newTask.getTags());
         regexInclude.setText(newTask.getRegExIncludeData());
         regexExclude.setText(newTask.getRegExExcludeData());
+
+        // Only update the outer list for input result pairs
         DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) inputResultPanel.getList().getModel();
         model.removeAllElements();
         for (String name : newTask.getInputResultFileNames()) {
             model.addElement(new MappedElement(name, name));
         }
+
+        // We get the sources and solutions directly!
 
         // Update current task
         this.currentTask = newTask;

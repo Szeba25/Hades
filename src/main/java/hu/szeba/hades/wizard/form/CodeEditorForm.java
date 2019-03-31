@@ -6,6 +6,7 @@ import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.TaskSolvingView;
 import hu.szeba.hades.main.view.components.ClosableTabComponent;
 import hu.szeba.hades.main.view.elements.MappedElement;
+import hu.szeba.hades.main.view.elements.TaskElement;
 import hu.szeba.hades.wizard.view.components.DynamicButtonListPanel;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -19,16 +20,16 @@ import java.awt.event.WindowEvent;
 import java.util.*;
 import java.util.List;
 
-public class CodeEditorForm extends JDialog implements SourceUpdaterForClosableTabs {
+public class CodeEditorForm extends JDialog {
 
     private JPanel mainPanel;
 
     private DynamicButtonListPanel filePanel;
+    private RSyntaxTextArea codeArea;
+    private RTextScrollPane codeAreaScroll;
+    private Map<String, SourceFile> files;
 
-    private JTabbedPane codeTab;
-    private Map<String, JTextArea> codeTabByName;
-
-    private List<SourceFile> files;
+    private String lastSourceFile;
 
     public CodeEditorForm() {
         this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
@@ -37,6 +38,8 @@ public class CodeEditorForm extends JDialog implements SourceUpdaterForClosableT
         this.setMinimumSize(new Dimension(1000, 650));
         this.setResizable(true);
         this.setModal(true);
+
+        lastSourceFile = null;
 
         initializeComponents();
         setupEvents();
@@ -51,8 +54,16 @@ public class CodeEditorForm extends JDialog implements SourceUpdaterForClosableT
 
         filePanel = new DynamicButtonListPanel("Files", 200, "+", "-", "rename");
 
-        codeTab = new JTabbedPane();
-        codeTabByName = new HashMap<>();
+        codeArea = new RSyntaxTextArea();
+        codeArea.setTabSize(4);
+        codeArea.setSyntaxEditingStyle(RSyntaxTextArea.SYNTAX_STYLE_C);
+        codeArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
+        codeArea.setAutoIndentEnabled(true);
+        codeArea.setCurrentLineHighlightColor(new Color(10, 30, 140, 35));
+        codeArea.setEnabled(false);
+
+        codeAreaScroll = new RTextScrollPane(codeArea);
+        codeAreaScroll.setLineNumbersEnabled(true);
 
         GridBagSetter gs = new GridBagSetter();
         gs.setComponent(mainPanel);
@@ -67,7 +78,7 @@ public class CodeEditorForm extends JDialog implements SourceUpdaterForClosableT
                 1,
                 new Insets(0, 0, 0, 0));
 
-        gs.add(codeTab,
+        gs.add(codeAreaScroll,
                 1,
                 0,
                 GridBagConstraints.BOTH,
@@ -82,91 +93,43 @@ public class CodeEditorForm extends JDialog implements SourceUpdaterForClosableT
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                for (SourceFile src : files) {
-                    src.setData(codeTabByName.get(src.getName()).getText());
-                }
                 super.windowClosing(e);
+                if (lastSourceFile != null) {
+                    files.get(lastSourceFile).setData(codeArea.getText());
+                }
                 CodeEditorForm.this.setVisible(false);
             }
         });
 
-        // Switching and opening tabs with list
-        filePanel.getList().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
-                    JList list = (JList) e.getSource();
-                    boolean found = false;
-                    String value = ((MappedElement) list.getSelectedValue()).getId();
-                    for (int i = 0; i < codeTab.getTabCount(); i++) {
-                        String title = codeTab.getTitleAt(i);
-                        if (title.equals(value)) {
-                            codeTab.setSelectedIndex(i);
-                            found = true;
-                            break;
-                        }
+        filePanel.getList().getSelectionModel().addListSelectionListener((event) ->  {
+            ListSelectionModel listSelectionModel = (ListSelectionModel) event.getSource();
+            ListModel listModel = filePanel.getList().getModel();
+            if (!listSelectionModel.isSelectionEmpty()) {
+                int idx = listSelectionModel.getMinSelectionIndex();
+                if (listSelectionModel.isSelectedIndex(idx)) {
+                    MappedElement value = (MappedElement) listModel.getElementAt(idx);
+                    if (lastSourceFile != null) {
+                        files.get(lastSourceFile).setData(codeArea.getText());
                     }
-                    if (!found) {
-                        addCodeArea(value, RSyntaxTextArea.SYNTAX_STYLE_C);
-                        codeTabByName.get(value).setText(getSourceFileByName(value).getData());
-                        // Select the opened tab
-                        codeTab.setSelectedIndex(codeTab.getTabCount() - 1);
-                    }
+                    codeArea.setEnabled(true);
+                    codeArea.setText(files.get(value.getId()).getData());
+                    lastSourceFile = value.getId();
                 }
             }
         });
     }
 
-    private void addCodeArea(String name, String syntaxStyle) {
-        RSyntaxTextArea codeTabArea = new RSyntaxTextArea();
-        codeTabArea.setTabSize(4);
-        codeTabArea.setSyntaxEditingStyle(syntaxStyle);
-        codeTabArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
-        codeTabArea.setAutoIndentEnabled(true);
-        codeTabArea.setCodeFoldingEnabled(true);
-        codeTabArea.setCurrentLineHighlightColor(new Color(10, 30, 140, 35));
+    public void setFiles(Map<String, SourceFile> files) {
+        lastSourceFile = null;
+        codeArea.setEnabled(false);
+        codeArea.setText("");
 
-        RTextScrollPane codeTabScroll = new RTextScrollPane(codeTabArea);
-        codeTabScroll.setLineNumbersEnabled(true);
-
-        codeTab.add(name, codeTabScroll);
-        codeTab.setTabComponentAt(codeTab.getTabCount()-1, new ClosableTabComponent(codeTab, this));
-
-        codeTabByName.put(name, codeTabArea);
-    }
-
-    private void removeAllCodeArea() {
-        codeTab.removeAll();
-        codeTabByName.clear();
-    }
-
-    public void setFiles(List<SourceFile> files) {
         this.files = files;
-
-        removeAllCodeArea();
-
         DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) filePanel.getList().getModel();
         model.removeAllElements();
-
-        for (SourceFile src : files) {
+        for (SourceFile src : files.values()) {
             model.addElement(new MappedElement(src.getName(), src.getName()));
-            addCodeArea(src.getName(), RSyntaxTextArea.SYNTAX_STYLE_C);
-            codeTabByName.get(src.getName()).setText(src.getData());
         }
-    }
-
-    private SourceFile getSourceFileByName(String name) {
-        for (SourceFile src : files) {
-            if (src.getName().equals(name)) {
-                return src;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public void updateSourceFileData(String name, JTextArea codeArea) {
-        getSourceFileByName(name).setData(codeArea.getText());
     }
 
 }
