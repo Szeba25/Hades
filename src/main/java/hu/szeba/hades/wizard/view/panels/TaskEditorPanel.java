@@ -7,6 +7,7 @@ import hu.szeba.hades.wizard.model.WizardTask;
 import hu.szeba.hades.wizard.model.WizardTaskCollection;
 import hu.szeba.hades.wizard.view.components.ModifiableListPanel;
 import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
+import jdk.nashorn.internal.scripts.JO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -388,9 +389,15 @@ public class TaskEditorPanel extends JPanel {
         inputResultPanel.getModifier().getDelete().addActionListener((event) -> {
             MappedElement selected = inputResultPanel.getList().getSelectedValue();
             if (selected != null) {
-                currentTask.removeInputResultFile(selected.getId());
-                DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) inputResultPanel.getList().getModel();
-                model.removeElement(selected);
+                int result = JOptionPane.showConfirmDialog(new JFrame(),
+                        "Delete input/result pair: " + selected.getId() + "?",
+                        "Delete input/result pair",
+                        JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    currentTask.removeInputResultFile(selected.getId());
+                    DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) inputResultPanel.getList().getModel();
+                    model.removeElement(selected);
+                }
             }
         });
     }
