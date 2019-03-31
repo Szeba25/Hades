@@ -105,6 +105,8 @@ public class WizardCourse {
             task.save();
         }
 
+        indicesFile.save();
+
         System.out.println("Course " + courseId + " saved!");
     }
 
@@ -167,7 +169,6 @@ public class WizardCourse {
         modes.put(sid, newMode);
 
         indicesFile.setData(0, 1, String.valueOf(id+1));
-        indicesFile.save();
         return id;
     }
 
@@ -182,7 +183,6 @@ public class WizardCourse {
         taskCollections.put(sid, newTaskCollection);
 
         indicesFile.setData(1, 1, String.valueOf(id+1));
-        indicesFile.save();
         return id;
     }
 
@@ -197,7 +197,6 @@ public class WizardCourse {
         tasks.put(sid, newTask);
 
         indicesFile.setData(2, 1, String.valueOf(id+1));
-        indicesFile.save();
         return id;
     }
 }
