@@ -29,7 +29,6 @@ public class InputResultEditorForm extends JDialog {
         nameField = new JTextField();
         JLabel nameFieldLabel = new JLabel("Name:");
         nameFieldLabel.setLabelFor(nameField);
-        nameField.setEditable(false);
 
         gs.setComponent(topPanel);
 
@@ -134,4 +133,9 @@ public class InputResultEditorForm extends JDialog {
     public String getResultFileData() {
         return resultArea.getText();
     }
+
+    public String getNewName() {
+        return nameField.getText();
+    }
+
 }

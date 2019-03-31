@@ -151,4 +151,10 @@ public class WizardTask {
         resultFiles.remove(name);
     }
 
+    public void renameInputResultFile(String name, String newName) throws IOException {
+        inputFiles.put(newName, inputFiles.remove(name));
+        resultFiles.put(newName, resultFiles.remove(name));
+        inputFiles.get(newName).rename(newName + ".input", false);
+        resultFiles.get(newName).rename(newName + ".result", false);
+    }
 }

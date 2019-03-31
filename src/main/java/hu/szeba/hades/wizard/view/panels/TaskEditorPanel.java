@@ -323,6 +323,11 @@ public class TaskEditorPanel extends JPanel {
                         // Save back content
                         currentTask.setInputFileData(name, inputResultEditorForm.getInputFileData());
                         currentTask.setResultFileData(name, inputResultEditorForm.getResultFileData());
+
+                        currentTask.renameInputResultFile(name, inputResultEditorForm.getNewName());
+                        newElement.setId(inputResultEditorForm.getNewName());
+                        newElement.setTitle(inputResultEditorForm.getNewName());
+                        inputResultPanel.getList().repaint();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -338,15 +343,23 @@ public class TaskEditorPanel extends JPanel {
         inputResultPanel.getModifier().getEdit().addActionListener((event) -> {
             MappedElement selected = inputResultPanel.getList().getSelectedValue();
             if (selected != null) {
+                try {
+                    // Set contents, and open the editor
+                    inputResultEditorForm.setContents(selected.getId(), currentTask.getInputFileData(selected.getId()), currentTask.getResultFileData(selected.getId()));
+                    inputResultEditorForm.setLocationRelativeTo(null);
+                    inputResultEditorForm.setVisible(true);
 
-                // Set contents, and open the editor
-                inputResultEditorForm.setContents(selected.getId(), currentTask.getInputFileData(selected.getId()), currentTask.getResultFileData(selected.getId()));
-                inputResultEditorForm.setLocationRelativeTo(null);
-                inputResultEditorForm.setVisible(true);
+                    // Save back contents
+                    currentTask.setInputFileData(selected.getId(), inputResultEditorForm.getInputFileData());
+                    currentTask.setResultFileData(selected.getId(), inputResultEditorForm.getResultFileData());
 
-                // Save back contents
-                currentTask.setInputFileData(selected.getId(), inputResultEditorForm.getInputFileData());
-                currentTask.setResultFileData(selected.getId(), inputResultEditorForm.getResultFileData());
+                    currentTask.renameInputResultFile(selected.getId(), inputResultEditorForm.getNewName());
+                    selected.setId(inputResultEditorForm.getNewName());
+                    selected.setTitle(inputResultEditorForm.getNewName());
+                    inputResultPanel.getList().repaint();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
