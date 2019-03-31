@@ -23,12 +23,15 @@ public class CodeEditorForm extends JDialog {
     private JPanel mainPanel;
 
     private DynamicButtonListPanel filePanel;
+    private JTextArea readonlySourcesEditor;
     private RSyntaxTextArea codeArea;
     private RTextScrollPane codeAreaScroll;
+
     private Map<String, SourceFile> files;
 
     private String lastSourceFile;
     private File filesPath;
+    private String readonlySourcesData;
 
     public CodeEditorForm() {
         this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
@@ -52,7 +55,10 @@ public class CodeEditorForm extends JDialog {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
 
-        filePanel = new DynamicButtonListPanel("Files", 200, "+", "-", "rename");
+        filePanel = new DynamicButtonListPanel("File list:", 200, "+", "-", "rename");
+
+        readonlySourcesEditor = new JTextArea();
+        JScrollPane readonlySourcesEditorScroll = new JScrollPane(readonlySourcesEditor);
 
         codeArea = new RSyntaxTextArea();
         codeArea.setTabSize(4);
@@ -78,12 +84,32 @@ public class CodeEditorForm extends JDialog {
                 1,
                 new Insets(0, 0, 0, 0));
 
+        gs.add(new JLabel("Readonly file name list:"),
+                0,
+                1,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                0,
+                0,
+                new Insets(0, 5, 0, 0));
+
+        gs.add(readonlySourcesEditorScroll,
+                0,
+                2,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                0,
+                1,
+                new Insets(5, 5, 5, 5));
+
         gs.add(codeAreaScroll,
                 1,
                 0,
                 GridBagConstraints.BOTH,
                 1,
-                1,
+                3,
                 1,
                 1,
                 new Insets(5, 5, 5, 5));
@@ -223,11 +249,20 @@ public class CodeEditorForm extends JDialog {
         });
     }
 
-    public void setFiles(Map<String, SourceFile> files, File filesPath) {
+    public void setFiles(Map<String, SourceFile> files, File filesPath, String readonlySourcesData) {
         lastSourceFile = null;
 
         this.files = files;
         this.filesPath = filesPath;
+        this.readonlySourcesData = readonlySourcesData;
+
+        if (readonlySourcesData == null) {
+            readonlySourcesEditor.setEnabled(false);
+        } else {
+            readonlySourcesEditor.setEnabled(true);
+            readonlySourcesEditor.setText(readonlySourcesData);
+        }
+
         DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) filePanel.getList().getModel();
         model.removeAllElements();
         for (SourceFile src : files.values()) {
@@ -240,6 +275,10 @@ public class CodeEditorForm extends JDialog {
             filePanel.getList().setSelectedIndex(0);
             lastSourceFile = filePanel.getList().getSelectedValue().getId();
         }
+    }
+
+    public String getReadonlySourcesData() {
+        return readonlySourcesEditor.getText();
     }
 
     private void resetListSelection() {

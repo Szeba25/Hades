@@ -404,13 +404,19 @@ public class TaskEditorPanel extends JPanel {
         });
 
         editSources.addActionListener((event) -> {
-            sourceEditorForm.setFiles(currentTask.getSourceFiles(), new File(currentTask.getTaskPath(), "sources"));
+            sourceEditorForm.setFiles(currentTask.getSourceFiles(),
+                    new File(currentTask.getTaskPath(), "sources"), currentTask.getReadonlySourcesData());
+
             sourceEditorForm.setLocationRelativeTo(null);
             sourceEditorForm.setVisible(true);
+
+            currentTask.setReadonlySourcesData(sourceEditorForm.getReadonlySourcesData());
         });
 
         editSolutions.addActionListener((event) -> {
-            solutionEditorForm.setFiles(currentTask.getSolutionFiles(), new File(currentTask.getTaskPath(), "solutions"));
+            solutionEditorForm.setFiles(currentTask.getSolutionFiles(),
+                    new File(currentTask.getTaskPath(), "solutions"), null);
+
             solutionEditorForm.setLocationRelativeTo(null);
             solutionEditorForm.setVisible(true);
         });

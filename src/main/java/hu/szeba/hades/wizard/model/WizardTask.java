@@ -1,6 +1,7 @@
 package hu.szeba.hades.wizard.model;
 
 import hu.szeba.hades.main.io.DescriptionFile;
+import hu.szeba.hades.main.io.TabbedFile;
 import hu.szeba.hades.main.model.task.data.SourceFile;
 import hu.szeba.hades.main.util.FileUtilities;
 import org.apache.commons.io.FileUtils;
@@ -15,6 +16,7 @@ public class WizardTask {
     private File taskPath;
     private DescriptionFile description;
 
+    private SourceFile readonlySources;
     private SourceFile regExIncludeFile;
     private SourceFile regExExcludeFile;
 
@@ -28,6 +30,8 @@ public class WizardTask {
         this.taskId = taskId;
         this.taskPath = taskPath;
         this.description = description;
+
+        this.readonlySources = new SourceFile(new File(taskPath, "readonly_sources.txt"), false);
         this.regExIncludeFile = new SourceFile(new File(taskPath, "regex/include.txt"), false);
         this.regExExcludeFile = new SourceFile(new File(taskPath, "regex/exclude.txt"), false);
 
@@ -63,6 +67,8 @@ public class WizardTask {
 
     public void save() throws IOException {
         description.save();
+
+        readonlySources.save();
         regExIncludeFile.save();
         regExExcludeFile.save();
 
@@ -111,6 +117,10 @@ public class WizardTask {
         return String.join("\n", description.getTags());
     }
 
+    public String getReadonlySourcesData() {
+        return readonlySources.getData();
+    }
+
     public String getRegExIncludeData() {
         return regExIncludeFile.getData();
     }
@@ -153,6 +163,10 @@ public class WizardTask {
         String[] tags = text.split("\n");
         description.getTags().clear();
         description.getTags().addAll(Arrays.asList(tags));
+    }
+
+    public void setReadonlySourcesData(String data) {
+        readonlySources.setData(data);
     }
 
     public void setRegExIncludeData(String data) {
