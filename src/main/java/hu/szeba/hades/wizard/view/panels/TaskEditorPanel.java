@@ -313,48 +313,39 @@ public class TaskEditorPanel extends JPanel {
                     "New input/result pair name:",
                     "Add new input/result pair",
                     JOptionPane.PLAIN_MESSAGE);
-            if (name != null && name.length() > 0) {
-                if (!currentTask.isInputResultFileExists(name)) {
-                    try {
-                        // Add a new i/r pair
-                        currentTask.addInputResultFile(name);
-                        DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) inputResultPanel.getList().getModel();
-                        MappedElement newElement = new MappedElement(name, name);
-                        model.addElement(newElement);
-                        inputResultPanel.getList().setSelectedValue(newElement, true);
+            if (name != null && name.length() > 0 && FileUtilities.validFileName(name) && !currentTask.isInputResultFileExists(name)) {
+                try {
+                    // Add a new i/r pair
+                    currentTask.addInputResultFile(name);
+                    DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) inputResultPanel.getList().getModel();
+                    MappedElement newElement = new MappedElement(name, name);
+                    model.addElement(newElement);
+                    inputResultPanel.getList().setSelectedValue(newElement, true);
 
-                        // Open the editor
-                        inputResultEditorForm.setContents(name, "", "");
-                        inputResultEditorForm.setLocationRelativeTo(null);
-                        inputResultEditorForm.setVisible(true);
+                    // Open the editor
+                    inputResultEditorForm.setContents(name, "", "");
+                    inputResultEditorForm.setLocationRelativeTo(null);
+                    inputResultEditorForm.setVisible(true);
 
-                        // Save back content
-                        currentTask.setInputFileData(name, inputResultEditorForm.getInputFileData());
-                        currentTask.setResultFileData(name, inputResultEditorForm.getResultFileData());
+                    // Save back content
+                    currentTask.setInputFileData(name, inputResultEditorForm.getInputFileData());
+                    currentTask.setResultFileData(name, inputResultEditorForm.getResultFileData());
 
-                        // Rename if possible!
-                        String newName = inputResultEditorForm.getNewName();
-                        if (!name.equals(newName) && newName.length() > 0) {
-                            if (!currentTask.isInputResultFileExists(newName) && FileUtilities.validFileName(newName)) {
-                                currentTask.renameInputResultFile(name, newName);
-                                newElement.setId(newName);
-                                newElement.setTitle(newName);
-                                inputResultPanel.getList().repaint();
-                            } else {
-                                JOptionPane.showMessageDialog(new JFrame(),
-                                        "This input/result pair name is invalid! Other changes made were saved.",
-                                        "Invalid pair name",
-                                        JOptionPane.ERROR_MESSAGE);
-                            }
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    // Rename if possible!
+                    String newName = inputResultEditorForm.getNewName();
+                    if (!name.equals(newName) && newName.length() > 0 && FileUtilities.validFileName(newName) && !currentTask.isInputResultFileExists(newName)) {
+                        currentTask.renameInputResultFile(name, newName);
+                        newElement.setId(newName);
+                        newElement.setTitle(newName);
+                        inputResultPanel.getList().repaint();
+                    } else {
+                        JOptionPane.showMessageDialog(new JFrame(),
+                                "This input/result pair name is invalid! Other changes made were saved.",
+                                "Invalid pair name",
+                                JOptionPane.ERROR_MESSAGE);
                     }
-                } else {
-                    JOptionPane.showMessageDialog(new JFrame(),
-                            "This input/result pair already exists with this name! Files couldn't be created.",
-                            "Existing pair",
-                            JOptionPane.ERROR_MESSAGE);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             } else {
                 JOptionPane.showMessageDialog(new JFrame(),
@@ -379,18 +370,16 @@ public class TaskEditorPanel extends JPanel {
 
                     // Rename if possible!
                     String newName = inputResultEditorForm.getNewName();
-                    if (!selected.getId().equals(newName) && newName.length() > 0) {
-                        if (!currentTask.isInputResultFileExists(newName) && FileUtilities.validFileName(newName)) {
-                            currentTask.renameInputResultFile(selected.getId(), newName);
-                            selected.setId(newName);
-                            selected.setTitle(newName);
-                            inputResultPanel.getList().repaint();
-                        } else {
-                            JOptionPane.showMessageDialog(new JFrame(),
-                                    "This input/result pair name is invalid! Other changes made were saved.",
-                                    "Invalid pair name",
-                                    JOptionPane.ERROR_MESSAGE);
-                        }
+                    if (!selected.getId().equals(newName) && newName.length() > 0 && FileUtilities.validFileName(newName) && !currentTask.isInputResultFileExists(newName)) {
+                        currentTask.renameInputResultFile(selected.getId(), newName);
+                        selected.setId(newName);
+                        selected.setTitle(newName);
+                        inputResultPanel.getList().repaint();
+                    } else {
+                        JOptionPane.showMessageDialog(new JFrame(),
+                                "This input/result pair name is invalid! Other changes made were saved.",
+                                "Invalid pair name",
+                                JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
