@@ -1,6 +1,7 @@
 package hu.szeba.hades.wizard.view.panels;
 
 import hu.szeba.hades.main.util.GridBagSetter;
+import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.form.InputResultEditorForm;
 import hu.szeba.hades.wizard.model.WizardTask;
 import hu.szeba.hades.wizard.model.WizardTaskCollection;
@@ -299,6 +300,18 @@ public class TaskEditorPanel extends JPanel {
 
     private void setupEvents() {
         inputResultPanel.getModifier().getAdd().addActionListener((e) -> {
+            String name = JOptionPane.showInputDialog(new JFrame(),
+                    "New input/result pair name:",
+                    "Add new input/result pair",
+                    JOptionPane.PLAIN_MESSAGE);
+            if (name != null) {
+                inputResultEditorForm.setContents(name);
+                inputResultEditorForm.setLocationRelativeTo(null);
+                inputResultEditorForm.setVisible(true);
+            }
+        });
+
+        inputResultPanel.getModifier().getEdit().addActionListener((e) -> {
             inputResultEditorForm.setLocationRelativeTo(null);
             inputResultEditorForm.setVisible(true);
         });
@@ -320,6 +333,8 @@ public class TaskEditorPanel extends JPanel {
             this.currentTask.setRegExIncludeData(regexInclude.getText());
             this.currentTask.setRegExExcludeData(regexExclude.getText());
 
+            // We work directly on input/result data, no need to set it back!
+
             // Update references in task collection editor
             taskIdToTitle.put(currentElementRef.getId(), titleField.getText());
             taskCollectionEditor.updateGraphTitles(taskIdToTitle);
@@ -335,6 +350,11 @@ public class TaskEditorPanel extends JPanel {
         tags.setText(newTask.getTags());
         regexInclude.setText(newTask.getRegExIncludeData());
         regexExclude.setText(newTask.getRegExExcludeData());
+        DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) inputResultPanel.getList().getModel();
+        model.removeAllElements();
+        for (String name : newTask.getInputResultFileNames()) {
+            model.addElement(new MappedElement(name, name));
+        }
 
         // Update current task
         this.currentTask = newTask;

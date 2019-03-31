@@ -120,4 +120,7 @@ public class InputResultEditorForm extends JDialog {
         this.pack();
     }
 
+    public void setContents(String name) {
+        nameField.setText(name);
+    }
 }
