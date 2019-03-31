@@ -356,7 +356,7 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
                     try {
                         controller.deleteSourceFile(selectedSourceName, this);
                     } catch (IOException e) {
-                        JOptionPane.showMessageDialog(new JFrame(), "Unable to delete source file: " + e.getMessage());
+                        JOptionPane.showMessageDialog(new JFrame(), e.getMessage());
                     }
                 }
             }
@@ -377,7 +377,7 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
                     try {
                         controller.renameSourceFile(selectedSourceName, newName, this);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(new JFrame(), e.getMessage());
                     }
                 }
             }
