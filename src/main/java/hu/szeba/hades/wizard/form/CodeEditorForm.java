@@ -126,7 +126,7 @@ public class CodeEditorForm extends JDialog {
                         "The specified file name already exists: " + name,
                         "File exists",
                         JOptionPane.WARNING_MESSAGE);
-            } else if (name != null && name.length() > 0) {
+            } else if (name != null) {
                 try {
                     // Test for invalid file names
                     File testFile = new File(filesPath, name);
