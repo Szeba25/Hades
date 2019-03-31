@@ -324,16 +324,27 @@ public class TaskEditorPanel extends JPanel {
                         currentTask.setInputFileData(name, inputResultEditorForm.getInputFileData());
                         currentTask.setResultFileData(name, inputResultEditorForm.getResultFileData());
 
-                        currentTask.renameInputResultFile(name, inputResultEditorForm.getNewName());
-                        newElement.setId(inputResultEditorForm.getNewName());
-                        newElement.setTitle(inputResultEditorForm.getNewName());
-                        inputResultPanel.getList().repaint();
+                        // Rename if possible!
+                        String newName = inputResultEditorForm.getNewName();
+                        if (!name.equals(newName)) {
+                            if (!currentTask.isInputResultFileExists(newName)) {
+                                currentTask.renameInputResultFile(name, newName);
+                                newElement.setId(newName);
+                                newElement.setTitle(newName);
+                                inputResultPanel.getList().repaint();
+                            } else {
+                                JOptionPane.showMessageDialog(new JFrame(),
+                                        "This input/result pair already exists with this name! Other changes made were saved.",
+                                        "Existing pair name",
+                                        JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 } else {
                     JOptionPane.showMessageDialog(new JFrame(),
-                            "This input/result pair already exists with this name!",
+                            "This input/result pair already exists with this name! Files couldn't be created.",
                             "Existing pair",
                             JOptionPane.ERROR_MESSAGE);
                 }
@@ -353,10 +364,21 @@ public class TaskEditorPanel extends JPanel {
                     currentTask.setInputFileData(selected.getId(), inputResultEditorForm.getInputFileData());
                     currentTask.setResultFileData(selected.getId(), inputResultEditorForm.getResultFileData());
 
-                    currentTask.renameInputResultFile(selected.getId(), inputResultEditorForm.getNewName());
-                    selected.setId(inputResultEditorForm.getNewName());
-                    selected.setTitle(inputResultEditorForm.getNewName());
-                    inputResultPanel.getList().repaint();
+                    // Rename if possible!
+                    String newName = inputResultEditorForm.getNewName();
+                    if (!selected.getId().equals(newName)) {
+                        if (!currentTask.isInputResultFileExists(newName)) {
+                            currentTask.renameInputResultFile(selected.getId(), newName);
+                            selected.setId(newName);
+                            selected.setTitle(newName);
+                            inputResultPanel.getList().repaint();
+                        } else {
+                            JOptionPane.showMessageDialog(new JFrame(),
+                                    "This input/result pair already exists with this name! Other changes made were saved.",
+                                    "Existing pair name",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
