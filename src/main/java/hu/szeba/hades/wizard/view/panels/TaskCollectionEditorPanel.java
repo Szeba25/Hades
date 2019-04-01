@@ -141,7 +141,7 @@ public class TaskCollectionEditorPanel extends JPanel {
             this.currentTaskCollection.setTitle(titleField.getText());
 
             // Update references in ModeEditorPanel!!!
-            taskCollectionIdToTitle.put(currentElementRef.getId(), titleField.getText());
+            taskCollectionIdToTitle.put(currentElementRef.getId(), currentElementRef.getTitle());
             modeEditor.updateGraphTitles(taskCollectionIdToTitle);
 
             // If no number was entered, work with value 100

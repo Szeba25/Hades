@@ -469,7 +469,7 @@ public class TaskEditorPanel extends JPanel {
             // We work directly on sources and solutions data, no need to set it back!
 
             // Update references in task collection editor
-            taskIdToTitle.put(currentElementRef.getId(), titleField.getText());
+            taskIdToTitle.put(currentElementRef.getId(), currentElementRef.getTitle());
             taskCollectionEditor.updateGraphTitles(taskIdToTitle);
 
         } else {
