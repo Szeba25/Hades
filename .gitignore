@@ -16,3 +16,7 @@ out/
 
 # Hades files
 working_directory/
+
+# Other lang files
+config/language_files/DANK.lang
+config/language_files/MIX.lang
