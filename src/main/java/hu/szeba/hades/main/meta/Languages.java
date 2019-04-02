@@ -29,7 +29,7 @@ public class Languages {
             if (translatons.get(getDisplayLanguage()).containsKey(originalText)) {
                 return translatons.get(getDisplayLanguage()).get(originalText);
             } else {
-                return "?" + originalText + "?";
+                return originalText + "*";
             }
         } else {
             return originalText;

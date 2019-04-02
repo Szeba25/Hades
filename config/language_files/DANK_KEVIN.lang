@@ -5,27 +5,27 @@ Password:                       | The one that you always forget:
 Sign in                         | Descend
 Development build               | One build to rule them all
 
-Please select a task            | 
-Course:                         |
-Mode:                           |
-Task collections:               |
-Tasks:                          |
-Filters:                        |
-Start:                          |
-Continue:                       |
-Task description:               |
-Please select a task!           |
-Task collection details:        |
-Status:                         |
-Percent neded:                  |
-Task count for completion:      |
-Total progress:                 |
-Task collection prerequisites:  |
-Task details:                   |
-Status:                         |
-Difficulty:                     |
-Length:                         |
-Task prerequisites:             |
+Please select a task            | a
+Course:                         | a
+Mode:                           | a
+Task collections:               | a
+Tasks:                          | a
+Filters:                        | a
+Start:                          | a
+Continue:                       | a
+Task description:               | a
+Please select a task!           | a
+Task collection details:        | a
+Status:                         | a
+Percent needed:                 | a
+Task count for completion:      | a
+Total progress:                 | a
+Task collection prerequisites:  | a
+Task details:                   | a
+Status:                         | a
+Difficulty:                     | a
+Length:                         | a
+Task prerequisites:             | a
 
-This will delete all previous progress for this task. Continue? |
-"Start task from scratch..." |
+This will delete all previous progress for this task. Continue?        | a
+"Start task from scratch..."                                           | a
