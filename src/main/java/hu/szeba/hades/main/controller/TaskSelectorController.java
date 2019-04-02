@@ -1,6 +1,7 @@
 package hu.szeba.hades.main.controller;
 
 import hu.szeba.hades.main.form.TaskFilterForm;
+import hu.szeba.hades.main.meta.Languages;
 import hu.szeba.hades.main.model.course.Course;
 import hu.szeba.hades.main.model.course.CourseDatabase;
 import hu.szeba.hades.main.model.course.Mode;
@@ -137,9 +138,11 @@ public class TaskSelectorController {
                             JTextField difficultyField, JTextField lengthField,
                             JList<String> prerequisitesList) {
 
+
         statusField.setText(selectedTask.getState().toString());
-        difficultyField.setText(selectedTask.getDescription().getDifficulty());
-        lengthField.setText(selectedTask.getDescription().getLength());
+
+        difficultyField.setText(Languages.translate(selectedTask.getDescription().getDifficulty()));
+        lengthField.setText(Languages.translate(selectedTask.getDescription().getLength()));
 
         DefaultListModel<String> model = (DefaultListModel<String>) prerequisitesList.getModel();
         model.removeAllElements();
