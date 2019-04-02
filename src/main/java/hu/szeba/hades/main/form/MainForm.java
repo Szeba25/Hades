@@ -1,5 +1,6 @@
 package hu.szeba.hades.main.form;
 
+import hu.szeba.hades.main.meta.Languages;
 import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.meta.User;
 import hu.szeba.hades.main.model.course.CourseDatabase;
@@ -24,13 +25,13 @@ public class MainForm extends JFrame implements ViewableFrame {
     public MainForm() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setMinimumSize(new Dimension(520, 300));
-        this.setTitle("Welcome!");
+        this.setTitle(Languages.translate("Welcome!"));
         this.setResizable(false);
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
 
-        JLabel mainLabel = new JLabel("Welcome! Please sign in!");
+        JLabel mainLabel = new JLabel(Languages.translate("Welcome! Please sign in!"));
         mainLabel.setFont(mainLabel.getFont().deriveFont(18f));
 
         userBox = new JComboBox<>();
@@ -39,7 +40,7 @@ public class MainForm extends JFrame implements ViewableFrame {
         passwordField = new JPasswordField();
         passwordField.setEnabled(false);
 
-        signInButton = new JButtonGuarded("Sign in");
+        signInButton = new JButtonGuarded(Languages.translate("Sign in"));
         signInButton.setFocusPainted(false);
         signInButton.setPreferredSize(new Dimension(120, 25));
 
@@ -56,7 +57,7 @@ public class MainForm extends JFrame implements ViewableFrame {
                 0,
                 new Insets(15, 30, 25, 30));
 
-        gs.add(new JLabel("User:"),
+        gs.add(new JLabel(Languages.translate("User:")),
                 0,
                 1,
                 GridBagConstraints.BOTH,
@@ -76,7 +77,7 @@ public class MainForm extends JFrame implements ViewableFrame {
                 0,
                 new Insets(0, 30, 0, 30));
 
-        gs.add(new JLabel("Password:"),
+        gs.add(new JLabel(Languages.translate("Password:")),
                 0,
                 2,
                 GridBagConstraints.BOTH,
@@ -116,7 +117,7 @@ public class MainForm extends JFrame implements ViewableFrame {
                 0,
                 new Insets(15, 10, 40, 10));
 
-        gs.add(new JLabel("Development build"),
+        gs.add(new JLabel(Languages.translate("Development build")),
                 0,
                 5,
                 GridBagConstraints.NONE,

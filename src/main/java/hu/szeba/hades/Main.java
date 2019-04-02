@@ -1,6 +1,7 @@
 package hu.szeba.hades;
 
 import hu.szeba.hades.main.form.MainForm;
+import hu.szeba.hades.main.meta.Languages;
 import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.view.components.ViewableFrame;
 import hu.szeba.hades.wizard.model.WizardCourseDatabase;
@@ -22,6 +23,7 @@ public class Main {
     private void start() {
         try {
             Options.initialize();
+            Languages.initialize();
             if (args.length > 0 && args[0].equals("wizard")) {
                 courseView = new CourseSelectorView(new WizardCourseDatabase());
                 courseView.showView();
