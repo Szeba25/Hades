@@ -1,0 +1,48 @@
+Welcome!                        | Üdv!
+Welcome! Please sign in!        | Üdv! Kérlek jelentkezz be!
+User:                           | Felhasználónév:
+Password:                       | Jelszó:
+Sign in                         | Belépés
+Development build               | Fejlestés alatt (closd)
+
+Please select a task            | Kérlek válassz egy feladatot
+Course:                         | Kurzus:
+Mode:                           | Mód:
+Task collections:               | Feladatgyűjtemény:
+Tasks:                          | Feladatok:
+Task description:               | Feladat leírás:
+Please select a task!           | Kérlek válassz egy feladatot!
+Task collection details:        | Feladatgyűjtemény tulajdonsági:
+Status:                         | Állapot:
+Percent needed:                 | Feladatok szükséges % értéke:
+Task count for completion:      | Feladatok szükséges száma:
+Total progress:                 | Összes haladás:
+
+Task collection prerequisites:  | Feladatgyűjtemény előfeltételeii:
+Task details:                   | Feladat tulajdonsági
+Status:                         | Állapot:
+Difficulty:                     | Nehézség:
+Length:                         | Hosszúság:
+Task prerequisites:             | Feladat előfeltételei:
+Filters                         | Feladat szűrő
+Start                           | Elkezdés
+Continue                        | Folytatás
+
+This will delete all previous progress for this task. Continue?        | Ez újrakezdi a feladatot, és minden korábbi mentés elveszik
+Start task from scratch...                                             | Feladat újrakezdése...
+
+Short                           | Rövid
+Medium                          | Közepes
+Long                            | Hosszu
+
+Novice                          | Kezdő
+Easy                            | Könnyű
+Normal                          | Normál
+Hard                            | Nehéz
+Master                          | Mester
+
+All                             | Összes
+Unavailable                     | Nem elérhető
+Completed                       | Kész
+In progress                     | Fejlesztés alatt
+Available                       | Elérhető
