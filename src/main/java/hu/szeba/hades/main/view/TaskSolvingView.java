@@ -3,7 +3,7 @@ package hu.szeba.hades.main.view;
 import hu.szeba.hades.main.controller.TaskSolvingController;
 import hu.szeba.hades.main.meta.UltimateHelper;
 import hu.szeba.hades.main.model.task.Task;
-import hu.szeba.hades.main.model.task.data.SourceFile;
+import hu.szeba.hades.main.io.EditableTextFile;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.components.ClosableTabComponent;
 import hu.szeba.hades.main.view.components.LockedMenusWrapper;
@@ -472,8 +472,8 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         storyPresent = text.length() > 0;
     }
 
-    public void setCodeAreaContents(List<SourceFile> sources) {
-        for (SourceFile sf : sources) {
+    public void setCodeAreaContents(List<EditableTextFile> sources) {
+        for (EditableTextFile sf : sources) {
             codeTabByName.get(sf.getName()).setText(sf.getData());
         }
     }

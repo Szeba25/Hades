@@ -1,8 +1,7 @@
 package hu.szeba.hades.wizard.model;
 
 import hu.szeba.hades.main.io.DescriptionFile;
-import hu.szeba.hades.main.io.TabbedFile;
-import hu.szeba.hades.main.model.task.data.SourceFile;
+import hu.szeba.hades.main.io.EditableTextFile;
 import hu.szeba.hades.main.util.FileUtilities;
 import org.apache.commons.io.FileUtils;
 
@@ -16,24 +15,24 @@ public class WizardTask {
     private File taskPath;
     private DescriptionFile description;
 
-    private SourceFile readonlySources;
-    private SourceFile regExIncludeFile;
-    private SourceFile regExExcludeFile;
+    private EditableTextFile readonlySources;
+    private EditableTextFile regExIncludeFile;
+    private EditableTextFile regExExcludeFile;
 
-    private Map<String, SourceFile> inputFiles;
-    private Map<String, SourceFile> resultFiles;
+    private Map<String, EditableTextFile> inputFiles;
+    private Map<String, EditableTextFile> resultFiles;
 
-    private Map<String, SourceFile> sourceFiles;
-    private Map<String, SourceFile> solutionFiles;
+    private Map<String, EditableTextFile> sourceFiles;
+    private Map<String, EditableTextFile> solutionFiles;
 
     public WizardTask(File tasksPath, String taskId, DescriptionFile description) throws IOException {
         this.taskId = taskId;
         this.taskPath = new File(tasksPath, taskId);
         this.description = description;
 
-        this.readonlySources = new SourceFile(new File(taskPath, "readonly_sources.txt"), false);
-        this.regExIncludeFile = new SourceFile(new File(taskPath, "regex/include.txt"), false);
-        this.regExExcludeFile = new SourceFile(new File(taskPath, "regex/exclude.txt"), false);
+        this.readonlySources = new EditableTextFile(new File(taskPath, "readonly_sources.txt"), false);
+        this.regExIncludeFile = new EditableTextFile(new File(taskPath, "regex/include.txt"), false);
+        this.regExExcludeFile = new EditableTextFile(new File(taskPath, "regex/exclude.txt"), false);
 
         // Load input result pairs
         this.inputFiles = new HashMap<>();
@@ -43,7 +42,7 @@ public class WizardTask {
         if (inputResultFolder.exists()) {
             for (String fileName : inputResultFolder.list()) {
                 String pureFileName = FileUtilities.getFileNameWithoutExtension(fileName);
-                SourceFile finalFile = new SourceFile(new File(taskPath, "input_result_pairs/" + fileName), false);
+                EditableTextFile finalFile = new EditableTextFile(new File(taskPath, "input_result_pairs/" + fileName), false);
                 if (FileUtilities.getFileNameExtension(fileName).equals("input")) {
                     inputFiles.put(pureFileName, finalFile);
                 } else {
@@ -57,7 +56,7 @@ public class WizardTask {
         File sourceFilesFolder = new File(taskPath, "sources");
         if (sourceFilesFolder.exists()) {
             for (String fileName : sourceFilesFolder.list()) {
-                sourceFiles.put(fileName, new SourceFile(new File(taskPath, "sources/" + fileName), false));
+                sourceFiles.put(fileName, new EditableTextFile(new File(taskPath, "sources/" + fileName), false));
             }
         }
 
@@ -66,7 +65,7 @@ public class WizardTask {
         File solutionFilesFolder = new File(taskPath, "solutions");
         if (solutionFilesFolder.exists()) {
             for (String fileName : solutionFilesFolder.list()) {
-                solutionFiles.put(fileName, new SourceFile(new File(taskPath, "solutions/" + fileName), false));
+                solutionFiles.put(fileName, new EditableTextFile(new File(taskPath, "solutions/" + fileName), false));
             }
         }
     }
@@ -105,16 +104,16 @@ public class WizardTask {
         }
 
         // And save them all again
-        for (SourceFile sf : inputFiles.values()) {
+        for (EditableTextFile sf : inputFiles.values()) {
             sf.save();
         }
-        for (SourceFile sf : resultFiles.values()) {
+        for (EditableTextFile sf : resultFiles.values()) {
             sf.save();
         }
-        for (SourceFile sf : sourceFiles.values()) {
+        for (EditableTextFile sf : sourceFiles.values()) {
             sf.save();
         }
-        for (SourceFile sf : solutionFiles.values()) {
+        for (EditableTextFile sf : solutionFiles.values()) {
             sf.save();
         }
     }
@@ -208,8 +207,8 @@ public class WizardTask {
     }
 
     public void addInputResultFile(String name) throws IOException {
-        SourceFile inputSource = new SourceFile(new File(taskPath, "input_result_pairs/" + name + ".input"), false);
-        SourceFile resultSource = new SourceFile(new File(taskPath, "input_result_pairs/" + name + ".result"), false);
+        EditableTextFile inputSource = new EditableTextFile(new File(taskPath, "input_result_pairs/" + name + ".input"), false);
+        EditableTextFile resultSource = new EditableTextFile(new File(taskPath, "input_result_pairs/" + name + ".result"), false);
         inputFiles.put(name, inputSource);
         resultFiles.put(name, resultSource);
     }
@@ -226,11 +225,11 @@ public class WizardTask {
         resultFiles.get(newName).rename(newName + ".result", false);
     }
 
-    public Map<String, SourceFile> getSourceFiles() {
+    public Map<String, EditableTextFile> getSourceFiles() {
         return sourceFiles;
     }
 
-    public Map<String, SourceFile> getSolutionFiles() {
+    public Map<String, EditableTextFile> getSolutionFiles() {
         return solutionFiles;
     }
 

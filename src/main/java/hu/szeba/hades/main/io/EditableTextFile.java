@@ -1,4 +1,4 @@
-package hu.szeba.hades.main.model.task.data;
+package hu.szeba.hades.main.io;
 
 import org.apache.commons.io.FileUtils;
 
@@ -7,14 +7,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SourceFile {
+public class EditableTextFile {
 
     private File file;
     private String name;
     private String data;
     private boolean readonly;
 
-    public SourceFile(File file, boolean readonly) throws IOException {
+    public EditableTextFile(File file, boolean readonly) throws IOException {
         this.file = file;
         this.name = file.getName();
         if (file.exists()) {

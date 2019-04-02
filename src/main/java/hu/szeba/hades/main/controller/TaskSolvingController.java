@@ -2,7 +2,7 @@ package hu.szeba.hades.main.controller;
 
 import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.model.task.Task;
-import hu.szeba.hades.main.model.task.data.SourceFile;
+import hu.szeba.hades.main.io.EditableTextFile;
 import hu.szeba.hades.main.view.components.LockedMenusWrapper;
 import hu.szeba.hades.main.view.TaskSolvingView;
 import hu.szeba.hades.main.view.components.TerminalArea;
@@ -102,7 +102,7 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
 
     public void addNewSourceFile(String name, TaskSolvingView taskSolvingView) throws IOException {
         if (task.getSourceByName(name) == null) {
-            SourceFile src = task.addSource(name);
+            EditableTextFile src = task.addSource(name);
             if (src != null) {
                 // Add the file!
                 taskSolvingView.addSourceFile(name, src.isReadonly(), task.getSyntaxStyle());
@@ -121,7 +121,7 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
     }
 
     public void openExistingSourceFile(String name, TaskSolvingView taskSolvingView) {
-        SourceFile src = task.getSourceByName(name);
+        EditableTextFile src = task.getSourceByName(name);
         taskSolvingView.addSourceFile(name, src.isReadonly(), task.getSyntaxStyle());
         taskSolvingView.setCodeAreaContent(name, src.getData());
     }

@@ -1,6 +1,7 @@
 package hu.szeba.hades.main.model.task;
 
 import hu.szeba.hades.main.io.DescriptionFile;
+import hu.szeba.hades.main.io.EditableTextFile;
 import hu.szeba.hades.main.io.TabbedFile;
 import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.meta.TaskSolverAgent;
@@ -35,7 +36,7 @@ public class Task {
 
     private List<InputResultPair> inputResultPairs;
     private Set<String> readonlySources;
-    private List<SourceFile> sources;
+    private List<EditableTextFile> sources;
 
     private final CompilerOutputRegister compilerOutputRegister;
 
@@ -128,7 +129,7 @@ public class Task {
                 null,
                 false));
         for (File sourceFile : sourceFiles) {
-            sources.add(new SourceFile(
+            sources.add(new EditableTextFile(
                     sourceFile,
                     readonlySources.contains(sourceFile.getName())));
         }
@@ -178,12 +179,12 @@ public class Task {
         return copy;
     }
 
-    public List<SourceFile> getSources() {
+    public List<EditableTextFile> getSources() {
         return sources;
     }
 
-    public SourceFile getSourceByName(String name) {
-        for (SourceFile src : sources) {
+    public EditableTextFile getSourceByName(String name) {
+        for (EditableTextFile src : sources) {
             if (src.getName().equals(name)) {
                 return src;
             }
@@ -201,7 +202,7 @@ public class Task {
     }
 
     public void setSourceContents(Map<String, JTextArea> codeAreas) {
-        for (SourceFile sf : sources) {
+        for (EditableTextFile sf : sources) {
             sf.setData(codeAreas.get(sf.getName()).getText());
         }
     }
@@ -227,18 +228,18 @@ public class Task {
     }
 
     public void saveSources() throws IOException {
-        for (SourceFile sourceFile : sources) {
+        for (EditableTextFile sourceFile : sources) {
             sourceFile.save();
         }
     }
 
-    public SourceFile addSource(String name) throws IOException {
-        for (SourceFile src : sources) {
+    public EditableTextFile addSource(String name) throws IOException {
+        for (EditableTextFile src : sources) {
             if (src.getName().equals(name)) {
                 return null;
             }
         }
-        SourceFile source = new SourceFile(
+        EditableTextFile source = new EditableTextFile(
                 new File(taskWorkingDirectory + "/sources/" + name),
                 readonlySources.contains(name));
         source.save();
@@ -249,7 +250,7 @@ public class Task {
     }
 
     public void renameSource(String oldName, String newName) throws IOException {
-        SourceFile src = getSourceByName(oldName);
+        EditableTextFile src = getSourceByName(oldName);
         src.rename(newName);
     }
 

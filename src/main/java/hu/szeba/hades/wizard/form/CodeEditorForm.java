@@ -1,6 +1,6 @@
 package hu.szeba.hades.wizard.form;
 
-import hu.szeba.hades.main.model.task.data.SourceFile;
+import hu.szeba.hades.main.io.EditableTextFile;
 import hu.szeba.hades.main.util.FileUtilities;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.util.SortUtilities;
@@ -28,7 +28,7 @@ public class CodeEditorForm extends JDialog {
     private RSyntaxTextArea codeArea;
     private RTextScrollPane codeAreaScroll;
 
-    private Map<String, SourceFile> files;
+    private Map<String, EditableTextFile> files;
 
     private String lastSourceFile;
     private File filesPath;
@@ -161,7 +161,7 @@ public class CodeEditorForm extends JDialog {
                     // Test for invalid file names
                     if (FileUtilities.validFileName(name)) {
                         // Proceed
-                        files.put(name, new SourceFile(new File(filesPath, name), false));
+                        files.put(name, new EditableTextFile(new File(filesPath, name), false));
                         DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) filePanel.getList().getModel();
                         model.addElement(new MappedElement(name, name));
 
@@ -220,7 +220,7 @@ public class CodeEditorForm extends JDialog {
                         // Test for invalid file names!
                         if (FileUtilities.validFileName(newName)) {
                             // Proceed
-                            SourceFile src = files.remove(selected.getId());
+                            EditableTextFile src = files.remove(selected.getId());
                             src.rename(newName, false);
                             files.put(newName, src);
 
@@ -248,7 +248,7 @@ public class CodeEditorForm extends JDialog {
         });
     }
 
-    public void setFiles(Map<String, SourceFile> files, File filesPath, String readonlySourcesData) {
+    public void setFiles(Map<String, EditableTextFile> files, File filesPath, String readonlySourcesData) {
         lastSourceFile = null;
 
         this.files = files;
@@ -263,7 +263,7 @@ public class CodeEditorForm extends JDialog {
 
         DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) filePanel.getList().getModel();
         model.removeAllElements();
-        for (SourceFile src : files.values()) {
+        for (EditableTextFile src : files.values()) {
             model.addElement(new MappedElement(src.getName(), src.getName()));
         }
 
