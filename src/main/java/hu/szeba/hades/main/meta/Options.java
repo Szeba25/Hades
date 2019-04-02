@@ -36,8 +36,6 @@ public class Options {
             Map<String, String> dict = new HashMap<>();
             translatons.put(file.getName(), dict);
             for (int i = 0; i < dataFile.getLineCount(); i++) {
-                System.out.println(i);
-                System.out.println(dataFile.getData(i,0) + "/" + dataFile.getData(i, 1));
                 dict.put(dataFile.getData(i, 0), dataFile.getData(i, 1));
             }
         }
