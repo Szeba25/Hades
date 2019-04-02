@@ -185,6 +185,7 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
 
         filtersButton = new JButton(Languages.translate("Filters"));
         filtersButton.setFocusPainted(false);
+        filtersButton.setPreferredSize(new Dimension(200,25));
 
         gs.setComponent(leftPanel);
 
