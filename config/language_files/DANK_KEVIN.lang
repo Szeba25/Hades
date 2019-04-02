@@ -1,6 +1,31 @@
-Welcome!                 | Well, Hello there
-Welcome! Please sign in! | Welcome to the gates of hell(*), I will be your guide
-User:                    | Nom de plume:
-Password:                | The one that you always forget:
-Sign in                  | Descend
-Development build        | One build to rule them all
+Welcome!                        | Well, Hello there
+Welcome! Please sign in!        | Welcome to the gates of hell(*), I will be your guide
+User:                           | Nom de plume:
+Password:                       | The one that you always forget:
+Sign in                         | Descend
+Development build               | One build to rule them all
+
+Please select a task            | 
+Course:                         |
+Mode:                           |
+Task collections:               |
+Tasks:                          |
+Filters:                        |
+Start:                          |
+Continue:                       |
+Task description:               |
+Please select a task!           |
+Task collection details:        |
+Status:                         |
+Percent neded:                  |
+Task count for completion:      |
+Total progress:                 |
+Task collection prerequisites:  |
+Task details:                   |
+Status:                         |
+Difficulty:                     |
+Length:                         |
+Task prerequisites:             |
+
+This will delete all previous progress for this task. Continue? |
+"Start task from scratch..." |

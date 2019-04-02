@@ -1,6 +1,7 @@
 package hu.szeba.hades.main.view;
 
 import hu.szeba.hades.main.controller.TaskSelectorController;
+import hu.szeba.hades.main.meta.Languages;
 import hu.szeba.hades.main.model.course.CourseDatabase;
 import hu.szeba.hades.main.model.task.data.MissingResultFileException;
 import hu.szeba.hades.main.model.task.languages.InvalidLanguageException;
@@ -81,7 +82,7 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
         this.setResizable(true);
         this.setLayout(new BorderLayout());
         this.setMinimumSize(new Dimension(900, 680));
-        this.setTitle("Please select a task");
+        this.setTitle(Languages.translate("Please select a task"));
 
         // Initialize components, and setup events
         initializeComponents();
@@ -120,12 +121,12 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
         topPanel.setLayout(new GridBagLayout());
         topPanel.setBorder(new EmptyBorder(5, 5, 0, 5));
 
-        JLabel courseListLabel = new JLabel("Course:");
+        JLabel courseListLabel = new JLabel(Languages.translate("Course:"));
         courseList = new JComboBox<>();
         courseList.setPreferredSize(new Dimension(160, 20));
         courseListLabel.setLabelFor(courseList);
 
-        JLabel modeListLabel = new JLabel("Mode:");
+        JLabel modeListLabel = new JLabel(Languages.translate("Mode:"));
         modeList = new JComboBox<>();
         modeList.setPreferredSize(new Dimension(160, 20));
         modeListLabel.setLabelFor(modeList);
@@ -165,7 +166,7 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
         taskCollectionList.setModel(new DefaultListModel<>());
         taskCollectionList.setFixedCellWidth(200);
 
-        JLabel taskCollectionLabel = new JLabel("Task collections:");
+        JLabel taskCollectionLabel = new JLabel(Languages.translate("Task collections:"));
 
         JScrollPane taskCollectionListScroller = new JScrollPane(taskCollectionList);
         taskCollectionListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -176,13 +177,13 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
         taskList.setModel(new DefaultListModel<>());
         taskList.setFixedCellWidth(200);
 
-        JLabel taskLabel = new JLabel("Tasks:");
+        JLabel taskLabel = new JLabel(Languages.translate("Tasks:"));
 
         JScrollPane taskListScroller = new JScrollPane(taskList);
         taskListScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         taskListScroller.setBorder(BorderFactory.createEtchedBorder());
 
-        filtersButton = new JButton("Filters");
+        filtersButton = new JButton(Languages.translate("Filters"));
         filtersButton.setFocusPainted(false);
 
         gs.setComponent(leftPanel);
@@ -213,15 +214,15 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
         rightPanel.setLayout(new GridBagLayout());
         rightPanel.setBorder(new EmptyBorder(5, 0, 5, 5));
 
-        startButton = new JButtonGuarded("Start");
+        startButton = new JButtonGuarded(Languages.translate("Start"));
         startButton.setFocusPainted(false);
         startButton.setEnabled(false);
 
-        continueButton = new JButtonGuarded("Continue");
+        continueButton = new JButtonGuarded(Languages.translate("Continue"));
         continueButton.setFocusPainted(false);
         continueButton.setEnabled(false);
 
-        JLabel descriptionLabel = new JLabel("Task description:");
+        JLabel descriptionLabel = new JLabel(Languages.translate("Task description:"));
 
         descriptionArea = new JEditorPane();
         descriptionArea.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -231,7 +232,7 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
         HTMLEditorKit htmlEditorKit = (HTMLEditorKit) descriptionArea.getEditorKit();
         defaultDocument = (HTMLDocument) htmlEditorKit.createDefaultDocument();
         try {
-            htmlEditorKit.insertHTML(defaultDocument, 0, "<h3>Please select a task!</h3>", 0, 0, null);
+            htmlEditorKit.insertHTML(defaultDocument, 0, "<h3>" + Languages.translate("Please select a task!") + "</h3>", 0, 0, null);
         } catch (BadLocationException | IOException e) {
             e.printStackTrace();
         }
@@ -241,7 +242,7 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
         JScrollPane descriptionScroll = new JScrollPane(descriptionArea);
         descriptionScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
-        JLabel taskCollectionDetailsLabel = new JLabel("Task collection details:");
+        JLabel taskCollectionDetailsLabel = new JLabel(Languages.translate("Task collection details:"));
 
         JPanel taskCollectionDetails = new JPanel();
         taskCollectionDetails.setLayout(new GridBagLayout());
@@ -268,19 +269,19 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
 
         gs.setComponent(taskCollectionDetails);
 
-        gs.add(new JLabel("Status:"), 0, 0, GridBagConstraints.BOTH,
+        gs.add(new JLabel(Languages.translate("Status:")), 0, 0, GridBagConstraints.BOTH,
                 1, 1, 0, 0,
                 new Insets(5, 0, 5, 5));
 
-        gs.add(new JLabel("Percent needed:"), 0, 1, GridBagConstraints.BOTH,
+        gs.add(new JLabel(Languages.translate("Percent needed:")), 0, 1, GridBagConstraints.BOTH,
                 1, 1, 0, 0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(new JLabel("Task count for completion:"), 0, 2, GridBagConstraints.BOTH,
+        gs.add(new JLabel(Languages.translate("Task count for completion:")), 0, 2, GridBagConstraints.BOTH,
                 1, 1, 0, 0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(new JLabel("Total progress:"), 0, 3, GridBagConstraints.BOTH,
+        gs.add(new JLabel(Languages.translate("Total progress:")), 0, 3, GridBagConstraints.BOTH,
                 1, 1, 0, 0,
                 new Insets(0, 0, 5, 5));
 
@@ -300,7 +301,7 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
                 1, 1, 1.0, 0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(new JLabel("Task collection prerequisites:"), 0, 4, GridBagConstraints.HORIZONTAL,
+        gs.add(new JLabel(Languages.translate("Task collection prerequisites:")), 0, 4, GridBagConstraints.HORIZONTAL,
                 2, 1, 0, 0,
                 new Insets(0, 0, 5, 0));
 
@@ -308,7 +309,7 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
                 2, 1, 1.0, 0,
                 new Insets(0, 0, 0, 0));
 
-        JLabel taskDetailsLabel = new JLabel("Task details:");
+        JLabel taskDetailsLabel = new JLabel(Languages.translate("Task details:"));
 
         JPanel taskDetails = new JPanel();
         taskDetails.setLayout(new GridBagLayout());
@@ -332,15 +333,15 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
 
         gs.setComponent(taskDetails);
 
-        gs.add(new JLabel("Status:"), 0, 0, GridBagConstraints.BOTH,
+        gs.add(new JLabel(Languages.translate("Status:")), 0, 0, GridBagConstraints.BOTH,
                 1, 1, 0, 0,
                 new Insets(5, 0, 5, 5));
 
-        gs.add(new JLabel("Difficulty:"), 0, 1, GridBagConstraints.BOTH,
+        gs.add(new JLabel(Languages.translate("Difficulty:")), 0, 1, GridBagConstraints.BOTH,
                 1, 1, 0, 0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(new JLabel("Length:"), 0, 2, GridBagConstraints.BOTH,
+        gs.add(new JLabel(Languages.translate("Length:")), 0, 2, GridBagConstraints.BOTH,
                 1, 1, 0, 0,
                 new Insets(0, 0, 5, 5));
 
@@ -356,7 +357,7 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
                 1, 1, 1.0, 0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(new JLabel("Task prerequisites:"), 0, 3, GridBagConstraints.BOTH,
+        gs.add(new JLabel(Languages.translate("Task prerequisites:")), 0, 3, GridBagConstraints.BOTH,
                 2, 1, 0, 0,
                 new Insets(0, 0, 5, 0));
 
@@ -474,8 +475,8 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
                     // If progress exists, prompt if overwrite it!
                     if (selectedTask.getState() == AbstractState.COMPLETED || selectedTask.getState() == AbstractState.IN_PROGRESS) {
                         int option = JOptionPane.showConfirmDialog(new JFrame(),
-                                "This will delete all previous progress for this task. Continue?",
-                                "Start task from scratch...",
+                                Languages.translate("This will delete all previous progress for this task. Continue?"),
+                                Languages.translate("Start task from scratch..."),
                                 JOptionPane.YES_NO_OPTION);
                         if (option == JOptionPane.YES_OPTION) {
                             newTrigger = true;
