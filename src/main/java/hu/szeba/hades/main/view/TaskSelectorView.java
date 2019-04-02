@@ -314,7 +314,7 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
 
         JPanel taskDetails = new JPanel();
         taskDetails.setLayout(new GridBagLayout());
-        taskDetails.setPreferredSize(new Dimension(250, 50));
+        taskDetails.setPreferredSize(new Dimension(350, 50));
         taskDetails.setBorder(BorderFactory.createEtchedBorder());
 
         taskStatus = new JTextField();
