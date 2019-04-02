@@ -1,6 +1,7 @@
 package hu.szeba.hades.main.view;
 
 import hu.szeba.hades.main.controller.TaskSolvingController;
+import hu.szeba.hades.main.meta.Languages;
 import hu.szeba.hades.main.meta.UltimateHelper;
 import hu.szeba.hades.main.model.task.Task;
 import hu.szeba.hades.main.io.EditableTextFile;
@@ -95,11 +96,11 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         this.taskStoryPane.setCaretPosition(0);
 
         // Set title, and disable some menus based on the task
-        this.setTitle("Solving task: " + task.getTaskDescription().getTitle());
+        this.setTitle(Languages.translate("Solving task:") + " " + task.getTaskDescription().getTitle());
         this.runMenuItem.setEnabled(task.getCompilerOutputRegister().getCompilerOutput().isReady());
 
         // Set task story title
-        this.taskStoryDialog.setTitle("Story: " + task.getTaskDescription().getTitle());
+        this.taskStoryDialog.setTitle(Languages.translate("Story:") + " " + task.getTaskDescription().getTitle());
         SwingUtilities.getRootPane(taskStoryDialog).setDefaultButton(taskStoryOkButton);
         this.taskStoryShowButton.setEnabled(storyPresent);
 
@@ -120,8 +121,8 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         fileList.setFixedCellWidth(125);
         fileListPopup = new JPopupMenu();
-        deleteFilePopupItem = new JMenuItem("Delete");
-        renameFilePopupItem = new JMenuItem("Rename");
+        deleteFilePopupItem = new JMenuItem(Languages.translate("Delete"));
+        renameFilePopupItem = new JMenuItem(Languages.translate("Rename"));
 
         fileListPopup.add(deleteFilePopupItem);
         fileListPopup.add(renameFilePopupItem);
@@ -138,7 +139,7 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         JScrollPane taskInstructionsScroll = new JScrollPane(taskInstructionsPane);
         taskInstructionsScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-        taskStoryShowButton = new JButton("Show story");
+        taskStoryShowButton = new JButton(Languages.translate("Show story"));
         taskStoryShowButton.setPreferredSize(new Dimension(180, 30));
         taskStoryShowButton.setFocusPainted(false);
 
@@ -159,7 +160,7 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         JPanel taskStoryContents = new JPanel();
         taskStoryContents.setLayout(new GridBagLayout());
 
-        taskStoryOkButton = new JButton("Challenge accepted!");
+        taskStoryOkButton = new JButton(Languages.translate("Challenge accepted!"));
         taskStoryOkButton.setFocusPainted(false);
 
         GridBagSetter gs0 = new GridBagSetter();
@@ -237,10 +238,10 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
 
         menuBar = new JMenuBar();
 
-        fileMenu = new JMenu("File");
-        newFileMenuItem = new JMenuItem("New source file");
-        saveAllFileMenuItem = new JMenuItem("Save all now...");
-        clearTerminalMenuItem = new JMenuItem("Clear terminal");
+        fileMenu = new JMenu(Languages.translate("File"));
+        newFileMenuItem = new JMenuItem(Languages.translate("New source file"));
+        saveAllFileMenuItem = new JMenuItem(Languages.translate("Save all now..."));
+        clearTerminalMenuItem = new JMenuItem(Languages.translate("Clear termina"));
 
         fileMenu.add(newFileMenuItem);
         fileMenu.addSeparator();
@@ -248,11 +249,11 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         fileMenu.addSeparator();
         fileMenu.add(clearTerminalMenuItem);
 
-        buildMenu = new JMenu("Build");
-        buildMenuItem = new JMenuItem("Build all");
-        buildAndRunMenuItem = new JMenuItem("Build all and run...");
-        runMenuItem = new JMenuItem("Run...");
-        stopMenuItem = new JMenuItem("Stop!");
+        buildMenu = new JMenu(Languages.translate("Build"));
+        buildMenuItem = new JMenuItem(Languages.translate("Build all"));
+        buildAndRunMenuItem = new JMenuItem(Languages.translate("Build all and run..."));
+        runMenuItem = new JMenuItem(Languages.translate("Run..."));
+        stopMenuItem = new JMenuItem(Languages.translate("Stop!"));
         stopMenuItem.setEnabled(false);
 
         buildMenu.add(buildMenuItem);
@@ -263,9 +264,9 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         buildMenu.addSeparator();
         buildMenu.add(stopMenuItem);
 
-        helpMenu = new JMenu("Help");
-        ultimateHelpMenuItem = new JMenuItem("When nothing helps anymore...");
-        aboutMenuItem = new JMenuItem("About");
+        helpMenu = new JMenu(Languages.translate("Help"));
+        ultimateHelpMenuItem = new JMenuItem(Languages.translate("When nothing helps anymore..."));
+        aboutMenuItem = new JMenuItem(Languages.translate("About"));
 
         helpMenu.add(ultimateHelpMenuItem);
         helpMenu.add(aboutMenuItem);
@@ -293,10 +294,14 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
             @Override
             public void windowClosing(WindowEvent event) {
                 if (lockedMenusWrapper.getLockExit()) {
-                    JOptionPane.showMessageDialog(new JFrame(), "Compiling (and/or) running in process!", "Cant't exit", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(new JFrame(), Languages.translate("Compiling (and/or) running in process!"), "Cant't exit", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    Object[] options = {"Save and quit", "Cancel"};
-                    int result = JOptionPane.showOptionDialog(new JFrame(), "Save progress and close this task?", "Goodbye...", JOptionPane.YES_NO_OPTION,
+                    Object[] options = {Languages.translate("Save and quit"), Languages.translate("Cancel")};
+                    int result = JOptionPane.showOptionDialog(
+                            new JFrame(),
+                            Languages.translate("Save and quit?"),
+                            Languages.translate("Goodbye..."),
+                            JOptionPane.YES_NO_OPTION,
                             JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
                     switch (result) {
                         case JOptionPane.YES_OPTION:
@@ -318,16 +323,16 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         // Add new source file by a dialogue
         newFileMenuItem.addActionListener((event) -> {
             String name = JOptionPane.showInputDialog(new JFrame(),
-                    "New source file name:",
-                    "Add new source file",
+                    Languages.translate("New source file name:"),
+                    Languages.translate("Add new source file"),
                     JOptionPane.PLAIN_MESSAGE);
             if (name != null) {
                 try {
                     controller.addNewSourceFile(name, this);
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(new JFrame(),
-                            "Cannot create source file specified: " + e.getMessage(),
-                            "File creation error...",
+                            Languages.translate("Cannot create source file specified:")+ " " + e.getMessage(),
+                            Languages.translate("File creation error..."),
                             JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -346,12 +351,21 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         deleteFilePopupItem.addActionListener((event) -> {
             String selectedSourceName = fileList.getSelectedValue();
             if (selectedSourceName == null) {
-                JOptionPane.showMessageDialog(new JFrame(), "Please select a source file from the list!", "No source selected", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(
+                        new JFrame(),
+                        Languages.translate("Please select a source file from the list!"),
+                        Languages.translate("No source selected"), JOptionPane.WARNING_MESSAGE);
+
             } else if(controller.isSourceReadonly(selectedSourceName)) {
-                JOptionPane.showMessageDialog(new JFrame(), "This source is readonly!", "Readonly file", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(
+                        new JFrame(),
+                        Languages.translate("This source is readonly!"),
+                        Languages.translate("Readonly file"), JOptionPane.WARNING_MESSAGE);
             } else {
-                int result = JOptionPane.showConfirmDialog(new JFrame(), "Delete source file: " + selectedSourceName + "?",
-                        "Delete source file", JOptionPane.YES_NO_OPTION);
+                int result = JOptionPane.showConfirmDialog(
+                        new JFrame(),
+                        Languages.translate("Delete source file:") + "/" + selectedSourceName + "?",
+                        Languages.translate("Delete source file"), JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
                     try {
                         controller.deleteSourceFile(selectedSourceName, this);
@@ -365,12 +379,19 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         renameFilePopupItem.addActionListener((event) -> {
             String selectedSourceName = fileList.getSelectedValue();
             if (selectedSourceName == null) {
-                JOptionPane.showMessageDialog(new JFrame(), "Please select a source file from the list!", "No source selected", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(
+                        new JFrame(),
+                        Languages.translate("Please select a source file from the list!"),
+                        Languages.translate("No source selected"),
+                        JOptionPane.WARNING_MESSAGE);
             } else if(controller.isSourceReadonly(selectedSourceName)) {
-                JOptionPane.showMessageDialog(new JFrame(), "This source is readonly!", "Readonly file", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(
+                        new JFrame(),
+                        Languages.translate("This source is readonly!"),
+                        Languages.translate("Readonly file"), JOptionPane.WARNING_MESSAGE);
             } else {
                 String newName = (String) JOptionPane.showInputDialog(new JFrame(),
-                        "Rename source file:",
+                        Languages.translate("Rename source file:"),
                         "Rename source file",
                         JOptionPane.PLAIN_MESSAGE, null, null, selectedSourceName);
                 if (newName != null) {
@@ -447,11 +468,12 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         // About
         aboutMenuItem.addActionListener((event) -> {
             JOptionPane.showMessageDialog(new JFrame(),
-                    "Hades (development build)\n\n"  +
-                    "Contact: underworld.support@gmail.com\n" +
-                    "Source: https://github.com/Szeba25/hades\n" +
-                    "License: MIT (see repository)",
-                    "About...",  JOptionPane.PLAIN_MESSAGE);
+                    Languages.translate(
+                            "Hades (development build)\n\n"  +
+                                    "Contact: underworld.support@gmail.com\n" +
+                                    "Source: https://github.com/Szeba25/hades\n" +
+                                    "License: MIT (see repository)"),
+                            "Hades",  JOptionPane.PLAIN_MESSAGE);
         });
         // Show story
         taskStoryShowButton.addActionListener((event) -> {

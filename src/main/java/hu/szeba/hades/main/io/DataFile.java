@@ -5,6 +5,7 @@ import org.apache.commons.io.FileUtils;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -31,7 +32,7 @@ public class DataFile {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                if (!line.equals("")) {
+                if (line.length() > 0 && line.charAt(0) != '#') {
                     String[] tmp = line.split(Pattern.quote(separator));
                     for (int i = 0; i < tmp.length; i++) {
                         tmp[i] = tmp[i].trim();

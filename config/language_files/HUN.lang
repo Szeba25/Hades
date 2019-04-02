@@ -1,9 +1,13 @@
+# Login form
+
 Welcome!                        | Üdv!
 Welcome! Please sign in!        | Üdv! Kérlek jelentkezz be!
 User:                           | Felhasználónév:
 Password:                       | Jelszó:
 Sign in                         | Belépés
 Development build               | Fejlestés alatt (closd)
+
+# Task választó
 
 Please select a task            | Kérlek válassz egy feladatot
 Course:                         | Kurzus:
@@ -18,6 +22,8 @@ Percent needed:                 | Feladatok szükséges % értéke:
 Task count for completion:      | Feladatok szükséges száma:
 Total progress:                 | Összes haladás:
 
+# Feladatgyűjtemény előfeltétel panel
+
 Task collection prerequisites:  | Feladatgyűjtemény előfeltételeii:
 Task details:                   | Feladat tulajdonsági
 Status:                         | Állapot:
@@ -28,8 +34,12 @@ Filters                         | Feladat szűrő
 Start                           | Elkezdés
 Continue                        | Folytatás
 
+# Feladat újrakezdése
+
 This will delete all previous progress for this task. Continue?        | Ez újrakezdi a feladatot, és minden korábbi mentés elveszik
 Start task from scratch...                                             | Feladat újrakezdése...
+
+# Task SOLVER
 
 Short                           | Rövid
 Medium                          | Közepes
@@ -46,3 +56,61 @@ Unavailable                     | Nem elérhető
 Completed                       | Kész
 In progress                     | Fejlesztés alatt
 Available                       | Elérhető
+
+# Task solving editor
+
+Solving task:                   | Feladat megoldása:
+Story                           | Történet
+Delete                          | Törlés
+Rename                          | Átnevezés
+Show story                      | Történet megjelenítése
+Challenge accepted              | Kihívás elfogadva
+
+File                            | Fájl
+New source file                 | Új forrásfile
+Save all now...                 | Összes forrásfile mentése
+Clear terminal                  | Terminál törlése
+
+Build                           | Fordítás
+Build all                       | Összes fordítsása
+Build all and run...            | Összes fordítása és futtatás
+Run                             | Futattés
+Stop!                           | Leállítás!
+
+Help                            | Segítség
+When nothing helps anymore...   | Amikor már semmi sem segít...
+About                           | Programról
+
+Compiling (and/or) running in process! | Fordítás, vagy futtatás folyamatban!
+Save and quit                          | Mentés és kilépés
+Cancel                                 | Mégse
+Save and quit?                         | Mentés és kilépés?
+Goodbye...                             | Viszlát...
+
+New source file name:                  | Új forrás fájl név:
+Add new source file                    | Új forrás fájl hozzáadása
+Cannot create source file specified:   | Az új fájl nem lehetett létrehozni:
+File creation error...                 | Fájl készítés hiba...
+
+Please select a source file from the list!  | Válasszon egy forrás fájlt a listából!
+No source selected                          | Nincs kiválasztott forrás fájl
+This source is readonly!                    | Ez a forrás readonly!
+Readonly file                               | Írásvédett fájl
+Delete source file:                         | Forrásfájl törlése:
+Delete source file                          | Forrásfájl törlése
+
+Please select a source file from the list!  | Kérem válasson ki egy forrásfájlt a listából!
+No source selected                          | Nincs forrásfájl kiválasztva
+
+This source is readonly!              | Ez a forrásfájl írásvédett
+Readonly file                         | Írásvédett file
+
+Rename source file:                   | Forrásfájl átnevezése:
+Rename source file                    | Forrásfájl átnevezése
+
+# About
+
+Hades (development build)\n\nContact: underworld.support@gmail.com\n"Source: https://github.com/Szeba25/hades\nLicense: MIT (see repository)") | Hades (Fejlesztővi verzió)\n\nKapcsolat: underworld.support.hades@gmail.com\n"Források: https://github.com/Szeba25/hades\nLincensz: MIT (lásd repositoryt)")
+
+# Task wizards
+# ...
