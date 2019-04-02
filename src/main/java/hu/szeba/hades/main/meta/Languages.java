@@ -37,7 +37,7 @@ public class Languages {
     }
 
     public static String getDisplayLanguage() {
-        return Options.getConfigData("language");
+        return Options.getConfigData("language") + ".lang";
     }
 
 }

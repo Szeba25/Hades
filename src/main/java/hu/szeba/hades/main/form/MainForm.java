@@ -42,7 +42,9 @@ public class MainForm extends JFrame implements ViewableFrame {
 
         signInButton = new JButtonGuarded(Languages.translate("Sign in"));
         signInButton.setFocusPainted(false);
-        signInButton.setPreferredSize(new Dimension(120, 25));
+
+        JTextField bottomText = new JTextField(Languages.translate("Development build"));
+        bottomText.setEditable(false);
 
         GridBagSetter gs = new GridBagSetter();
         gs.setComponent(mainPanel);
@@ -65,7 +67,7 @@ public class MainForm extends JFrame implements ViewableFrame {
                 1,
                 0,
                 0,
-                new Insets(0, 30, 0, 30));
+                new Insets(0, 30, 0, 10));
 
         gs.add(userBox,
                 1,
@@ -75,7 +77,7 @@ public class MainForm extends JFrame implements ViewableFrame {
                 1,
                 0,
                 0,
-                new Insets(0, 30, 0, 30));
+                new Insets(0, 10, 0, 30));
 
         gs.add(new JLabel(Languages.translate("Password:")),
                 0,
@@ -85,7 +87,7 @@ public class MainForm extends JFrame implements ViewableFrame {
                 1,
                 0,
                 0,
-                new Insets(15, 30, 0, 30));
+                new Insets(15, 30, 0, 10));
 
         gs.add(passwordField,
                 1,
@@ -95,7 +97,7 @@ public class MainForm extends JFrame implements ViewableFrame {
                 1,
                 1,
                 0,
-                new Insets(15, 30, 0, 30));
+                new Insets(15, 10, 0, 30));
 
         gs.add(signInButton,
                 0,
@@ -117,7 +119,7 @@ public class MainForm extends JFrame implements ViewableFrame {
                 0,
                 new Insets(15, 10, 40, 10));
 
-        gs.add(new JLabel(Languages.translate("Development build")),
+        gs.add(bottomText,
                 0,
                 5,
                 GridBagConstraints.NONE,
