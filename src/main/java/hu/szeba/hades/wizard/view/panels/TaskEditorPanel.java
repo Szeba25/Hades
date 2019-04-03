@@ -391,10 +391,11 @@ public class TaskEditorPanel extends JPanel {
                             selected.setTitle(newName);
                             inputResultPanel.getList().repaint();
                         } else {
-                            JOptionPane.showMessageDialog(new JFrame(),
-                                    "This input/result pair name is invalid",
-                                    "Invalid pair name",
-                                    JOptionPane.ERROR_MESSAGE);
+
+                            DialogFactory.showCustomError(
+                                    Languages.translate("This input/result pair name is invalid)"),
+                                    Languages.translate("Invalid pair name"));
+
                         }
                     }
                 } catch (IOException e) {

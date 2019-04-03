@@ -172,7 +172,7 @@ Task collections (in this mode):                 | A mód feladatgyűjteményei:
 Tasks (in this collection):                      | A Gyűjtemény feladatai:
 
 Preview graph data                               | Gráf struktúra megtekintése
-Dependencies                                     | Ráépülések
+Dependencies:                                    | Ráépülések:
 Input result pairs:                              | Bemenet-Kimenet párok:
 RegEx include:                                   | Elfogadató RegEx minták:
 RegEx exclude:                                   | Rossz RegEx minták:
