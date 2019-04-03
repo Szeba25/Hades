@@ -325,8 +325,8 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         newFileMenuItem.addActionListener((event) -> {
             String name = DialogFactory.showCustomInputDialog(
                     "",
-                    Languages.translate("Add new source file"),
                     Languages.translate("New source file name:"),
+                    Languages.translate("Add new source file"),
                     Languages.translate("Ok"),
                     Languages.translate("Cancel"));
             if (name != null) {
@@ -399,8 +399,8 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
 
                 String newName = DialogFactory.showCustomInputDialog(
                         selectedSourceName,
-                        Languages.translate("Rename source file"),
                         Languages.translate("Rename source file:"),
+                        Languages.translate("Rename source file"),
                         Languages.translate("Ok"),
                         Languages.translate("Cancel"));
 
