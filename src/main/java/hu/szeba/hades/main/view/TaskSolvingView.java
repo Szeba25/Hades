@@ -241,7 +241,7 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         fileMenu = new JMenu(Languages.translate("File"));
         newFileMenuItem = new JMenuItem(Languages.translate("New source file"));
         saveAllFileMenuItem = new JMenuItem(Languages.translate("Save all now..."));
-        clearTerminalMenuItem = new JMenuItem(Languages.translate("Clear termina"));
+        clearTerminalMenuItem = new JMenuItem(Languages.translate("Clear terminal"));
 
         fileMenu.add(newFileMenuItem);
         fileMenu.addSeparator();

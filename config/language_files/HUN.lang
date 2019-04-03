@@ -7,7 +7,7 @@ Password:                                        | Jelszó:
 Sign in                                          | Belépés
 Development build                                | Fejlestés alatt (closd)
 
-# Task választó
+# Task selection
 
 Please select a task                             | Kérlek válassz egy feladatot
 Course:                                          | Kurzus:
@@ -22,7 +22,7 @@ Percent needed:                                  | Feladatok szükséges % ért�
 Task count for completion:                       | Feladatok szükséges száma:
 Total progress:                                  | Összes haladás:
 
-# Feladatgyűjtemény előfeltétel panel
+# Task collection info
 
 Task collection prerequisites:                   | Feladatgyűjtemény előfeltételei:
 Task details:                                    | Feladat tulajdonsági
@@ -34,7 +34,7 @@ Filters                                          | Feladat szűrő
 Start                                            | Elkezdés
 Continue                                         | Folytatás
 
-# Feladat újrakezdése
+# Start over...
 
 This will delete all previous progress for this task. Continue?    | Ez újrakezdi a feladatot, és minden korábbi mentés elveszik!
 Start task from scratch...                                         | Feladat újrakezdése...
