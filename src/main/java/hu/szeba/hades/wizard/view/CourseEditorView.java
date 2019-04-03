@@ -50,7 +50,7 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setTitle("Wizard: Course editor");
         this.setLayout(new BorderLayout(0, 10));
-        this.setMinimumSize(new Dimension(1100, 680));
+        this.setMinimumSize(new Dimension(1100, 700));
         this.setResizable(true);
 
         initializeComponents();

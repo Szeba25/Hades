@@ -18,7 +18,7 @@ public class MultiSelectorForm extends JDialog {
         this.setTitle(title);
         this.setLayout(new BorderLayout());
         this.setMinimumSize(new Dimension(300, 500));
-        this.setResizable(false);
+        this.setResizable(true);
         this.setModal(true);
 
         mainPanel = new JPanel();

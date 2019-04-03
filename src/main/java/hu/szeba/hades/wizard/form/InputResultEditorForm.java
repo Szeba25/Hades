@@ -17,8 +17,8 @@ public class InputResultEditorForm extends JDialog {
         this.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
         this.setTitle("Edit input/result pairs");
         this.setLayout(new BorderLayout());
-        this.setMinimumSize(new Dimension(640, 480));
-        this.setResizable(false);
+        this.setMinimumSize(new Dimension(800, 600));
+        this.setResizable(tru);
         this.setModal(true);
 
         GridBagSetter gs = new GridBagSetter();

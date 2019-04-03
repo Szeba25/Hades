@@ -37,7 +37,7 @@ public class CodeEditorForm extends JDialog {
         this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         this.setTitle("Edit files");
         this.setLayout(new BorderLayout());
-        this.setMinimumSize(new Dimension(1000, 650));
+        this.setMinimumSize(new Dimension(1100, 700));
         this.setResizable(true);
         this.setModal(true);
 

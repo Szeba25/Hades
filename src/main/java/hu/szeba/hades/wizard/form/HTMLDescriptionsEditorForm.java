@@ -20,7 +20,7 @@ public class HTMLDescriptionsEditorForm extends JDialog {
         this.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
         this.setTitle("Edit HTML descriptions");
         this.setLayout(new BorderLayout());
-        this.setMinimumSize(new Dimension(1100, 680));
+        this.setMinimumSize(new Dimension(1100, 700));
         this.setResizable(true);
         this.setModal(true);
 
