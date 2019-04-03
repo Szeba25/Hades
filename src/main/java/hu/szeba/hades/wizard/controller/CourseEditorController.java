@@ -1,5 +1,7 @@
 package hu.szeba.hades.wizard.controller;
 
+import hu.szeba.hades.main.meta.Languages;
+import hu.szeba.hades.main.view.components.DialogFactory;
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.model.WizardCourse;
 import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
@@ -130,7 +132,11 @@ public class CourseEditorController {
     public void deleteTask(JList<MappedElement> taskList, TaskEditorPanel taskEditor) {
         MappedElement element = taskList.getSelectedValue();
         if (element != null) {
-            int result = JOptionPane.showConfirmDialog(new JFrame(), "Delete \"" + element.toString() + "\"?", "Delete task...", JOptionPane.YES_NO_OPTION);
+            int result = DialogFactory.showCustomChoiceDialog(
+                    Languages.translate("Delete this task?"),
+                    Languages.translate("Delete task..."),
+                    Languages.translate("Yes"),
+                    Languages.translate("No"));
             if (result == JOptionPane.YES_OPTION) {
                 if (course.deleteTask(element.getId())) {
                     setTaskListContents(taskList);

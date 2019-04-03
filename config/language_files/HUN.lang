@@ -5,6 +5,8 @@ Add                                              | Hozzáad
 Edit                                             | Szerkesztés
 Delete                                           | Törlés
 Select                                           | Kiválaszt
+Yes                                              | Igen
+No                                               | Nem
 
 ### SOLVER MODULE
 
@@ -186,3 +188,6 @@ This input/result pair name is invalid           | Ez a Bemenet-Kimenet pár fá
 Invalid pair name                                | Helytelen fájlnév
 Delete this input/result pair?                   | Törli ezt a Bemenet-Kimenet párt?
 Delete input/result pair                         | Bemenet-Kimenet pár törlése
+
+Delete this task?                                | Töröljük ezt a feladatot?
+Delete task...                                   | Feladat törlése...
