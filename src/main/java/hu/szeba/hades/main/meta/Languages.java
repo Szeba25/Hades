@@ -17,23 +17,24 @@ public class Languages {
         for (File file : fileList.listFiles()) {
             DataFile dataFile = new DataFile(new File(file.getAbsolutePath()));
             Map<String, String> dict = new HashMap<>();
-            translatons.put(file.getName(), dict);
             for (int i = 0; i < dataFile.getLineCount(); i++) {
                 dict.put(dataFile.getData(i, 0), dataFile.getData(i, 1));
+            }
+            translatons.put(file.getName(), dict);
+            for (Map.Entry<String, String> element : dict.entrySet()) {
+                System.out.println(element);
             }
         }
     }
 
     public static String translate(String originalText) {
-        if(translatons.containsKey(getDisplayLanguage())) {
-            if (translatons.get(getDisplayLanguage()).containsKey(originalText)) {
-                return translatons.get(getDisplayLanguage()).get(originalText);
-            } else {
-                return originalText + "*";
+        Map<String, String> dict = translatons.get(getDisplayLanguage());
+        for (Map.Entry<String, String> val : dict.entrySet()) {
+            if (val.getKey().equals(originalText)) {
+                 return val.getValue();
             }
-        } else {
-            return originalText;
         }
+        return originalText + "*";
     }
 
     public static String getDisplayLanguage() {

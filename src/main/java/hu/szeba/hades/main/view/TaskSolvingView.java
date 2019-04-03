@@ -468,11 +468,10 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         // About
         aboutMenuItem.addActionListener((event) -> {
             JOptionPane.showMessageDialog(new JFrame(),
-                    Languages.translate(
-                            "Hades (development build)\n\n"  +
-                                    "Contact: underworld.support@gmail.com\n" +
-                                    "Source: https://github.com/Szeba25/hades\n" +
-                                    "License: MIT (see repository)"),
+                    Languages.translate("Hades (development build)") + "\n" +
+                            Languages.translate("Contact: underworld.support@gmail.com") + "\n" +
+                            Languages.translate("Source: https://github.com/Szeba25/hades") + "\n" +
+                            Languages.translate("License: MIT (see repository)"),
                             "Hades",  JOptionPane.PLAIN_MESSAGE);
         });
         // Show story
