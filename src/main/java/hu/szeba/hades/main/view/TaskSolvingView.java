@@ -291,21 +291,19 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
             @Override
             public void windowClosing(WindowEvent event) {
                 if (lockedMenusWrapper.getLockExit()) {
-                    Object[] options = {Languages.translate("Ok")};
-                    JOptionPane.showOptionDialog(
-                            new JFrame(),
+
+                    DialogFactory.showCustomError(
                             Languages.translate("Compiling (and/or) running in process!"),
-                            Languages.translate("Cant't exit"),
-                            JOptionPane.DEFAULT_OPTION,
-                            JOptionPane.WARNING_MESSAGE, null, options,  options[0]);
+                            Languages.translate("Cant't exit"));
+
                 } else {
-                    Object[] options = {Languages.translate("Save and quit"), Languages.translate("Cancel")};
-                    int result = JOptionPane.showOptionDialog(
-                            new JFrame(),
+
+                    int result = DialogFactory.showCustomChoiceDialog(
                             Languages.translate("Save and quit?"),
                             Languages.translate("Goodbye..."),
-                            JOptionPane.YES_NO_OPTION,
-                            JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+                            Languages.translate("Save and quit"),
+                            Languages.translate("Cancel"));
+
                     switch (result) {
                         case JOptionPane.YES_OPTION:
                             try {
@@ -335,10 +333,11 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
                 try {
                     controller.addNewSourceFile(name, this);
                 } catch (IOException e) {
-                    JOptionPane.showMessageDialog(new JFrame(),
+
+                    DialogFactory.showCustomError(
                             Languages.translate("Cannot create source file specified:")+ " " + e.getMessage(),
-                            Languages.translate("File creation error..."),
-                            JOptionPane.ERROR_MESSAGE);
+                            Languages.translate("File creation error..."));
+
                 }
             }
         });
@@ -356,26 +355,27 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         deleteFilePopupItem.addActionListener((event) -> {
             String selectedSourceName = fileList.getSelectedValue();
             if (selectedSourceName == null) {
-                JOptionPane.showMessageDialog(
-                        new JFrame(),
+
+                DialogFactory.showCustomWarning(
                         Languages.translate("Please select a source file from the list!"),
-                        Languages.translate("No source selected"), JOptionPane.WARNING_MESSAGE);
+                        Languages.translate("No source selected"));
 
             } else if(controller.isSourceReadonly(selectedSourceName)) {
-                JOptionPane.showMessageDialog(
-                        new JFrame(),
+
+                DialogFactory.showCustomWarning(
                         Languages.translate("This source is readonly!"),
-                        Languages.translate("Readonly file"), JOptionPane.WARNING_MESSAGE);
+                        Languages.translate("Readonly file"));
+
             } else {
-                int result = JOptionPane.showConfirmDialog(
-                        new JFrame(),
-                        Languages.translate("Delete source file:") + "/" + selectedSourceName + "?",
-                        Languages.translate("Delete source file"), JOptionPane.YES_NO_OPTION);
+                int result = DialogFactory.showCustomChoiceDialog(
+                        Languages.translate("Delete source file:") + " " + selectedSourceName + "?",
+                        Languages.translate("Delete source file"),
+                        "Delete", "Cancel");
                 if (result == JOptionPane.YES_OPTION) {
                     try {
                         controller.deleteSourceFile(selectedSourceName, this);
                     } catch (IOException e) {
-                        JOptionPane.showMessageDialog(new JFrame(), e.getMessage());
+                        DialogFactory.showCustomMessage(e.getMessage(), "IOException");
                     }
                 }
             }
@@ -408,7 +408,7 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
                     try {
                         controller.renameSourceFile(selectedSourceName, newName, this);
                     } catch (IOException e) {
-                        JOptionPane.showMessageDialog(new JFrame(), e.getMessage());
+                        DialogFactory.showCustomMessage(e.getMessage(), "IOException");
                     }
                 }
             }
