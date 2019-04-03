@@ -39,11 +39,11 @@ Continue                                         | Folytatás
 This will delete all previous progress for this task. Continue?    | Ez újrakezdi a feladatot, és minden korábbi mentés elveszik!
 Start task from scratch...                                         | Feladat újrakezdése...
 
-# Task SOLVER
+# Task SOLVER and FILTER
 
 Short                                            | Rövid
 Medium                                           | Közepes
-Long                                             | Hosszu
+Long                                             | Hosszú
 
 Novice                                           | Kezdő
 Easy                                             | Könnyű
@@ -60,7 +60,7 @@ Available                                        | Elérhető
 # Task solving editor
 
 Solving task:                                    | Feladat megoldása:
-Story                                            | Történet
+Story:                                           | Történet:
 Delete                                           | Törlés
 Rename                                           | Átnevezés
 Show story                                       | Történet megjelenítése
@@ -74,7 +74,7 @@ Clear terminal                                   | Terminál törlése
 Build                                            | Fordítás
 Build all                                        | Összes fordítsása
 Build all and run...                             | Összes fordítása és futtatás
-Run                                              | Futattés
+Run...                                           | Futattás...
 Stop!                                            | Leállítás!
 
 Help                                             | Segítség
@@ -114,6 +114,18 @@ Hades (development build)                        | Hades (Fejlesztői verzió)
 Contact: underworld.support@gmail.com            | Kapcsolat: underworld.support.hades@gmail.com
 Source: https://github.com/Szeba25/hades         | Forráskód: https://github.com/Szeba25/hades
 License: MIT (see repository)                    | Lincensz: MIT (lásd repositoryt)")
+
+# Filter
+
+Set filters for the task list                    | Szűrések beállítása a feladat listához
+Status:                                          | Állapot:
+Difficulty:                                      | Nehézség:
+Length:                                          | Hosszúság:
+Tags:                                            | Tagek:
+
+All                                              | Összes
+Clear                                            | Egyik sem
+Ok                                               | Oké
 
 # Task wizards
 # ...

@@ -1,6 +1,7 @@
 package hu.szeba.hades.main.view.elements;
 
 import hu.szeba.hades.main.io.DescriptionFile;
+import hu.szeba.hades.main.meta.Languages;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,8 +31,8 @@ public class TaskFilterData {
 
     public void reset() {
         this.titleFilter = "";
-        this.difficultyFilter = "All";
-        this.lengthFilter = "All";
+        this.difficultyFilter = Languages.translate("All");
+        this.lengthFilter = Languages.translate("All");
         this.stateFilter = AbstractState.ALL;
         this.tagFilters.clear();
     }
@@ -61,11 +62,11 @@ public class TaskFilterData {
 
         boolean matchesTitle = description.getTitle().toLowerCase().contains(titleFilter.toLowerCase());
 
-        boolean matchesDifficulty = difficultyFilter.equals("All") ||
-                description.getDifficulty().equals(difficultyFilter);
+        boolean matchesDifficulty = difficultyFilter.equals(Languages.translate("All")) ||
+                Languages.translate(description.getDifficulty()).equals(difficultyFilter);
 
-        boolean matchesLength = lengthFilter.equals("All") ||
-                description.getLength().equals(lengthFilter);
+        boolean matchesLength = lengthFilter.equals(Languages.translate("All")) ||
+                Languages.translate(description.getLength()).equals(lengthFilter);
 
         boolean matchesStatus = (stateFilter == AbstractState.ALL) || stateFilter == element.getState();
 

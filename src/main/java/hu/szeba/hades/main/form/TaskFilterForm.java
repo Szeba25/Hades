@@ -1,5 +1,6 @@
 package hu.szeba.hades.main.form;
 
+import hu.szeba.hades.main.meta.Languages;
 import hu.szeba.hades.main.model.course.TaskCollection;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.util.SpringUtilities;
@@ -36,7 +37,7 @@ public class TaskFilterForm extends JDialog {
         this.setLayout(new BorderLayout());
         this.setMinimumSize(new Dimension(300, 200));
         this.setModal(true);
-        this.setTitle("Set filters for the task list");
+        this.setTitle(Languages.translate("Set filters for the task list"));
 
         initializeComponents();
         setupEvents();
@@ -52,26 +53,26 @@ public class TaskFilterForm extends JDialog {
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new SpringLayout());
 
-        JLabel titleLabel = new JLabel("Task title:");
-        JLabel difficultyLabel = new JLabel("Difficulty:");
-        JLabel lengthLabel = new JLabel("Length:");
-        JLabel statusLabel = new JLabel("Status:");
+        JLabel titleLabel = new JLabel(Languages.translate("Task title:"));
+        JLabel difficultyLabel = new JLabel(Languages.translate("Difficulty:"));
+        JLabel lengthLabel = new JLabel(Languages.translate("Length:"));
+        JLabel statusLabel = new JLabel(Languages.translate("Status:"));
 
         titleField = new JTextField();
 
         difficultyList = new JComboBox<>();
-        difficultyList.addItem("All");
-        difficultyList.addItem("Novice");
-        difficultyList.addItem("Easy");
-        difficultyList.addItem("Normal");
-        difficultyList.addItem("Hard");
-        difficultyList.addItem("Master");
+        difficultyList.addItem(Languages.translate("All"));
+        difficultyList.addItem(Languages.translate("Novice"));
+        difficultyList.addItem(Languages.translate("Easy"));
+        difficultyList.addItem(Languages.translate("Normal"));
+        difficultyList.addItem(Languages.translate("Hard"));
+        difficultyList.addItem(Languages.translate("Master"));
 
         lengthSpinner = new JComboBox<>();
-        lengthSpinner.addItem("All");
-        lengthSpinner.addItem("Short");
-        lengthSpinner.addItem("Medium");
-        lengthSpinner.addItem("Long");
+        lengthSpinner.addItem(Languages.translate("All"));
+        lengthSpinner.addItem(Languages.translate("Short"));
+        lengthSpinner.addItem(Languages.translate("Medium"));
+        lengthSpinner.addItem(Languages.translate("Long"));
 
         stateList = new JComboBox<>();
         stateList.addItem(AbstractState.ALL);
@@ -93,7 +94,7 @@ public class TaskFilterForm extends JDialog {
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new GridBagLayout());
 
-        JLabel tagLabel = new JLabel("Tags:");
+        JLabel tagLabel = new JLabel(Languages.translate("Tags:"));
 
         tagPanel = new JPanel();
         tagPanel.setLayout(new GridLayout(0,  1));
@@ -108,11 +109,11 @@ public class TaskFilterForm extends JDialog {
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
 
-        selectAll = new JButton("All");
+        selectAll = new JButton(Languages.translate("All"));
         selectAll.setFocusPainted(false);
         selectAll.setAlignmentX(Component.CENTER_ALIGNMENT);
         selectAll.setMaximumSize(new Dimension(70, 20));
-        clearAll = new JButton("Clear");
+        clearAll = new JButton(Languages.translate("Clear"));
         clearAll.setFocusPainted(false);
         clearAll.setAlignmentX(Component.CENTER_ALIGNMENT);
         clearAll.setMaximumSize(new Dimension(70, 20));
@@ -159,7 +160,7 @@ public class TaskFilterForm extends JDialog {
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new FlowLayout());
 
-        okButton = new JButton("Ok");
+        okButton = new JButton(Languages.translate("Ok"));
         okButton.setFocusPainted(false);
         okButton.setPreferredSize(new Dimension(120, 25));
 
