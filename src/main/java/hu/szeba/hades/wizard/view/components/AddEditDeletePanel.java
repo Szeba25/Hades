@@ -1,24 +1,25 @@
 package hu.szeba.hades.wizard.view.components;
 
 import hu.szeba.hades.main.util.GridBagSetter;
+import hu.szeba.hades.main.view.components.JButtonGuarded;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class AddEditDeletePanel extends JPanel {
 
-    private JButton add;
-    private JButton edit;
-    private JButton delete;
+    private JButtonGuarded add;
+    private JButtonGuarded edit;
+    private JButtonGuarded delete;
 
     public AddEditDeletePanel() {
         this.setLayout(new GridBagLayout());
 
-        add = new JButton("Add");
+        add = new JButtonGuarded("Add");
         add.setFocusPainted(false);
-        edit = new JButton("Edit");
+        edit = new JButtonGuarded("Edit");
         edit.setFocusPainted(false);
-        delete = new JButton("Delete");
+        delete = new JButtonGuarded("Delete");
         delete.setFocusPainted(false);
 
         GridBagSetter gs = new GridBagSetter();
@@ -55,15 +56,15 @@ public class AddEditDeletePanel extends JPanel {
                 new Insets(0, 0, 0, 0));
     }
 
-    public JButton getAdd() {
+    public JButtonGuarded getAdd() {
         return add;
     }
 
-    public JButton getEdit() {
+    public JButtonGuarded getEdit() {
         return edit;
     }
 
-    public JButton getDelete() {
+    public JButtonGuarded getDelete() {
         return delete;
     }
 

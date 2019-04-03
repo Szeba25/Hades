@@ -1,5 +1,7 @@
 package hu.szeba.hades.wizard.view;
 
+import hu.szeba.hades.main.view.components.ActionGuard;
+import hu.szeba.hades.main.view.components.JButtonGuarded;
 import hu.szeba.hades.main.view.components.ViewableFrame;
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.controller.CourseSelectorController;
@@ -49,10 +51,16 @@ public class CourseSelectorView extends JFrame implements ViewableFrame {
 
     private void setupEvents() {
         courseListPanel.getModifier().getEdit().addActionListener((event) -> {
+            ActionGuard guard = courseListPanel.getModifier().getEdit().getActionGuard();
+            if (guard.isGuarded()) {
+                return;
+            }
+            guard.guard();
+
             try {
                 MappedElement selectedCourse = courseListPanel.getList().getSelectedValue();
                 if (selectedCourse != null) {
-                    new CourseEditorView(this, selectedCourse.getId()).showView();
+                    new CourseEditorView(this, selectedCourse.getId()).showViewMaximized();
                     this.hideView();
                 }
             } catch (ParserConfigurationException | SAXException | IOException e) {
@@ -66,6 +74,9 @@ public class CourseSelectorView extends JFrame implements ViewableFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.requestFocus();
+
+        // Reset guarded buttons
+        courseListPanel.getModifier().getEdit().getActionGuard().reset();
     }
 
     @Override
