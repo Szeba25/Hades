@@ -1,5 +1,6 @@
 package hu.szeba.hades.wizard.view.panels;
 
+import hu.szeba.hades.main.meta.Languages;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.form.MultiSelectorForm;
@@ -33,7 +34,7 @@ public class TaskCollectionEditorPanel extends JPanel {
         currentElementRef = null;
         currentTaskCollection = null;
 
-        taskSelectorForm = new MultiSelectorForm("Wizard: Select tasks");
+        taskSelectorForm = new MultiSelectorForm(Languages.translate("Wizard: Select tasks"));
 
         initializeComponents();
         setupEvents();
@@ -48,11 +49,11 @@ public class TaskCollectionEditorPanel extends JPanel {
         topPanel = new JPanel();
         topPanel.setLayout(new GridBagLayout());
 
-        JLabel titleLabel = new JLabel("Title:");
+        JLabel titleLabel = new JLabel(Languages.translate("Title:"));
         titleField = new JTextField();
         titleLabel.setLabelFor(titleField);
 
-        JLabel thresholdLabel = new JLabel("Task threshold (%):");
+        JLabel thresholdLabel = new JLabel(Languages.translate("Task threshold (%):"));
         thresholdField = new JTextField();
 
         thresholdLabel.setLabelFor(thresholdField);
@@ -110,7 +111,7 @@ public class TaskCollectionEditorPanel extends JPanel {
                 0,
                 new Insets(5, 0, 5, 0));
 
-        dependenciesPanel = new GraphEditorPanel("Tasks (in this collection):", 2048, 2048);
+        dependenciesPanel = new GraphEditorPanel(Languages.translate("Tasks (in this collection):"), 2048, 2048);
     }
 
     private void setupEvents() {

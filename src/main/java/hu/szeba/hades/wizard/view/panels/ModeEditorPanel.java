@@ -1,5 +1,6 @@
 package hu.szeba.hades.wizard.view.panels;
 
+import hu.szeba.hades.main.meta.Languages;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.form.MultiSelectorForm;
@@ -35,7 +36,7 @@ public class ModeEditorPanel extends JPanel {
         currentElementRef = null;
         currentMode = null;
 
-        taskCollectionSelectorForm = new MultiSelectorForm("Wizard: Select task collections");
+        taskCollectionSelectorForm = new MultiSelectorForm(Languages.translate("Wizard: Select task collections"));
 
         initializeComponents();
         setupEvents();
@@ -50,21 +51,21 @@ public class ModeEditorPanel extends JPanel {
         topPanel = new JPanel();
         topPanel.setLayout(new GridBagLayout());
 
-        JLabel titleLabel = new JLabel("Title:");
+        JLabel titleLabel = new JLabel(Languages.translate("Title:"));
         titleField = new JTextField();
         titleLabel.setLabelFor(titleField);
 
-        JLabel ignoreDependencyLabel = new JLabel("Ignore dependency:");
+        JLabel ignoreDependencyLabel = new JLabel(Languages.translate("Ignore dependency:"));
         ignoreDependency = new JCheckBox();
         ignoreDependency.setSelected(false);
         ignoreDependencyLabel.setLabelFor(ignoreDependency);
 
-        JLabel ignoreStoryLabel = new JLabel("Ignore story:");
+        JLabel ignoreStoryLabel = new JLabel(Languages.translate("Ignore story:"));
         ignoreStory = new JCheckBox();
         ignoreStory.setSelected(false);
         ignoreStoryLabel.setLabelFor(ignoreStory);
 
-        JLabel ironManLabel = new JLabel("Iron man:");
+        JLabel ironManLabel = new JLabel(Languages.translate("Iron man:"));
         ironMan = new JCheckBox();
         ironMan.setSelected(false);
         ironManLabel.setLabelFor(ironMan);
@@ -162,7 +163,7 @@ public class ModeEditorPanel extends JPanel {
                 0,
                 new Insets(5, 0, 5, 0));
 
-        dependenciesPanel = new GraphEditorPanel("Task collections (in this mode):", 2048, 2048);
+        dependenciesPanel = new GraphEditorPanel(Languages.translate("Task collections (in this mode):"), 2048, 2048);
     }
 
     private void setupEvents() {

@@ -19,6 +19,25 @@ public class DialogFactory {
                 new JFrame(), message, title, JOptionPane.ERROR_MESSAGE);
     }
 
+    public static String showCustomInputDialog(String initial, String message, String title, String ok) {
+        Object[] options = {ok};
+
+        JTextField textField = new JTextField(15);
+
+        JPanel panel = new JPanel();
+        panel.add(new JLabel(message));
+        panel.add(textField);
+        textField.setText(initial);
+
+        int result = JOptionPane.showOptionDialog(null, panel, title, JOptionPane.DEFAULT_OPTION,
+                JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+        if (result == JOptionPane.YES_OPTION) {
+            return textField.getText();
+        } else {
+            return null;
+        }
+    }
+
     public static String showCustomInputDialog(String initial, String message, String title, String ok, String cancel) {
         Object[] options = {ok, cancel};
 

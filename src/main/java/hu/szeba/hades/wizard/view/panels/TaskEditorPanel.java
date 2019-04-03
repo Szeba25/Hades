@@ -1,7 +1,9 @@
 package hu.szeba.hades.wizard.view.panels;
 
+import hu.szeba.hades.main.meta.Languages;
 import hu.szeba.hades.main.util.FileUtilities;
 import hu.szeba.hades.main.util.GridBagSetter;
+import hu.szeba.hades.main.view.components.DialogFactory;
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.form.CodeEditorForm;
 import hu.szeba.hades.wizard.form.HTMLDescriptionsEditorForm;
@@ -78,23 +80,29 @@ public class TaskEditorPanel extends JPanel {
         leftPanel.setPreferredSize(new Dimension(250, 0));
 
         titleField = new JTextField();
-        JLabel titleLabel = new JLabel("Title:");
+        JLabel titleLabel = new JLabel(Languages.translate("Title:"));
         titleLabel.setLabelFor(titleField);
 
+        // TODO: Translate these too!
         difficultyBox = new JComboBox<>();
         difficultyBox.addItem("Novice");
         difficultyBox.addItem("Easy");
         difficultyBox.addItem("Normal");
         difficultyBox.addItem("Hard");
         difficultyBox.addItem("Master");
-        JLabel difficultyLabel = new JLabel("Difficulty:");
+        // TODO: Translate these too!
+
+        JLabel difficultyLabel = new JLabel(Languages.translate("Difficulty:"));
         difficultyLabel.setLabelFor(difficultyBox);
 
+        // TODO: Translate these too!
         lengthBox = new JComboBox<>();
         lengthBox.addItem("Short");
         lengthBox.addItem("Medium");
         lengthBox.addItem("Long");
-        JLabel lengthLabel = new JLabel("Length:");
+        // TODO: Translate these too!
+
+        JLabel lengthLabel = new JLabel(Languages.translate("Length:"));
         lengthLabel.setLabelFor(lengthBox);
 
         tags = new JTextArea();
@@ -164,7 +172,7 @@ public class TaskEditorPanel extends JPanel {
                 0,
                 new Insets(0, 5, 5, 0));
 
-        gs.add(new JLabel("Tags:"),
+        gs.add(new JLabel(Languages.translate("Tags:")),
                 0,
                 3,
                 GridBagConstraints.BOTH,
@@ -189,7 +197,7 @@ public class TaskEditorPanel extends JPanel {
         rightPanel = new JPanel();
         rightPanel.setLayout(new GridBagLayout());
 
-        inputResultPanel = new ModifiableListPanel("Input result pairs:", 200);
+        inputResultPanel = new ModifiableListPanel(Languages.translate("Input result pairs:"), 200);
         inputResultPanel.setBorder(BorderFactory.createEtchedBorder());
 
         regexPanel = new JPanel();
@@ -207,7 +215,7 @@ public class TaskEditorPanel extends JPanel {
         GridBagSetter gs = new GridBagSetter();
         gs.setComponent(regexPanel);
 
-        gs.add(new JLabel("RegEx include:"),
+        gs.add(new JLabel(Languages.translate("RegEx include:")),
                 0,
                 0,
                 GridBagConstraints.BOTH,
@@ -227,7 +235,7 @@ public class TaskEditorPanel extends JPanel {
                 1,
                 new Insets(0, 5, 5, 5));
 
-        gs.add(new JLabel("RegEx exclude:"),
+        gs.add(new JLabel(Languages.translate("RegEx exclude:")),
                 0,
                 2,
                 GridBagConstraints.BOTH,
@@ -247,11 +255,11 @@ public class TaskEditorPanel extends JPanel {
                 1,
                 new Insets(0, 5, 5, 5));
 
-        editSources = new JButton("Edit sources");
+        editSources = new JButton(Languages.translate("Edit sources"));
         editSources.setFocusPainted(false);
-        editSolutions = new JButton("Edit solutions");
+        editSolutions = new JButton(Languages.translate("Edit solutions"));
         editSolutions.setFocusPainted(false);
-        editDescriptions = new JButton("Edit descriptions");
+        editDescriptions = new JButton(Languages.translate("Edit descriptions"));
         editDescriptions.setFocusPainted(false);
 
         gs.setComponent(rightPanel);
@@ -309,10 +317,13 @@ public class TaskEditorPanel extends JPanel {
 
     private void setupEvents() {
         inputResultPanel.getModifier().getAdd().addActionListener((event) -> {
-            String name = JOptionPane.showInputDialog(new JFrame(),
-                    "New input/result pair name:",
-                    "Add new input/result pair",
-                    JOptionPane.PLAIN_MESSAGE);
+
+            String name = DialogFactory.showCustomInputDialog(
+                    "",
+                    Languages.translate("New input/result pair name:"),
+                    Languages.translate("Add new input/result pair"),
+                    Languages.translate("Ok"));
+
             if (name != null && name.length() > 0 && FileUtilities.validFileName(name) && !currentTask.isInputResultFileExists(name)) {
                 try {
                     // Add a new i/r pair
@@ -341,20 +352,20 @@ public class TaskEditorPanel extends JPanel {
                             newElement.setTitle(newName);
                             inputResultPanel.getList().repaint();
                         } else {
-                            JOptionPane.showMessageDialog(new JFrame(),
-                                    "This input/result pair name is invalid: " + newName + ". Other changes made were saved.",
-                                    "Invalid pair name",
-                                    JOptionPane.ERROR_MESSAGE);
+
+                            DialogFactory.showCustomError(
+                                    Languages.translate("This input/result pair name is invalid)"),
+                                    Languages.translate("Invalid pair name"));
+
                         }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             } else {
-                JOptionPane.showMessageDialog(new JFrame(),
-                        "This input/result pair name is invalid: " + name + ".",
-                        "Invalid pair name",
-                        JOptionPane.ERROR_MESSAGE);
+                DialogFactory.showCustomError(
+                        Languages.translate("This input/result pair name is invalid)"),
+                        Languages.translate("Invalid pair name"));
             }
         });
 
@@ -382,7 +393,7 @@ public class TaskEditorPanel extends JPanel {
                             inputResultPanel.getList().repaint();
                         } else {
                             JOptionPane.showMessageDialog(new JFrame(),
-                                    "This input/result pair name is invalid: " + newName + ". Other changes made were saved.",
+                                    "This input/result pair name is invalid",
                                     "Invalid pair name",
                                     JOptionPane.ERROR_MESSAGE);
                         }
@@ -396,10 +407,13 @@ public class TaskEditorPanel extends JPanel {
         inputResultPanel.getModifier().getDelete().addActionListener((event) -> {
             MappedElement selected = inputResultPanel.getList().getSelectedValue();
             if (selected != null) {
-                int result = JOptionPane.showConfirmDialog(new JFrame(),
-                        "Delete input/result pair: " + selected.getId() + "?",
-                        "Delete input/result pair",
-                        JOptionPane.YES_NO_OPTION);
+
+                int result = DialogFactory.showCustomChoiceDialog(
+                        Languages.translate("Delete this input/result pair?"),
+                        Languages.translate("Delete input/result pair"),
+                        Languages.translate("Delete"),
+                        Languages.translate("Cancel"));
+
                 if (result == JOptionPane.YES_OPTION) {
                     currentTask.removeInputResultFile(selected.getId());
                     DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) inputResultPanel.getList().getModel();

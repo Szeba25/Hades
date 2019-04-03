@@ -1,5 +1,6 @@
 package hu.szeba.hades.wizard.view.components;
 
+import hu.szeba.hades.main.meta.Languages;
 import hu.szeba.hades.main.model.task.graph.Graph;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.util.SortUtilities;
@@ -36,14 +37,14 @@ public class GraphEditorPanel extends JPanel {
         canvasScroller.getVerticalScrollBar().setUnitIncrement(10);
         canvasScroller.getHorizontalScrollBar().setUnitIncrement(10);
 
-        dataPreviewButton = new JButton("Preview graph data");
+        dataPreviewButton = new JButton(Languages.translate("Preview graph data"));
         dataPreviewButton.setFocusPainted(false);
 
         dataPreview = new JDialog();
         dataPreview.setMinimumSize(new Dimension(400, 400));
         dataPreview.setLayout(new BorderLayout());
         dataPreview.setModal(true);
-        dataPreview.setTitle("Preview graph data");
+        dataPreview.setTitle(Languages.translate("Preview graph data"));
 
         dataArea = new JTextArea();
         dataArea.setEditable(false);
@@ -68,7 +69,7 @@ public class GraphEditorPanel extends JPanel {
                 1,
                 new Insets(0, 0, 0, 10));
 
-        gs.add(new JLabel("Dependencies:"),
+        gs.add(new JLabel(Languages.translate("Dependencies:")),
                 1,
                 0,
                 GridBagConstraints.BOTH,

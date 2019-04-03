@@ -1,9 +1,10 @@
 ### BASICS
-Continue                                          | Folytatás
-Back                                              | Vissza
-Add                                               | Hozzáad
-Edit                                              | Szerkesztés
-Delete                                            | Törlés
+Continue                                         | Folytatás
+Back                                             | Vissza
+Add                                              | Hozzáad
+Edit                                             | Szerkesztés
+Delete                                           | Törlés
+Select                                           | Kiválaszt
 
 ### SOLVER MODULE
 
@@ -156,4 +157,32 @@ Save and quit                                    | Mentés és kilépés
 Just quit                                        | Csak kilépés
 Cancel                                           | Mégse
 Save progress?                                   | Módosítások mentése?
-Leave course...                                  | Kilépés a kurzusból
+Leave course...                                  | Kilépés a kurzusból...
+
+Wizard: Select task collections                  | Varázsló: Válasszon gyűjteményeket
+Title:                                           | Cím:
+Ignore dependency:                               | Ráépülés figyelmen kívül hagyása:
+Ignore story:                                    | Történet figyelmen kívül hagyása:
+Iron man:                                        | Extra nehéz mód:
+
+Wizard: Select tasks                             | Varázsló: Válasszon feladatokat
+Task threshold (%):                              | Szükséges % teljesítmény
+
+Task collections (in this mode):                 | A mód feladatgyűjteményei:
+Tasks (in this collection):                      | A Gyűjtemény feladatai:
+
+Preview graph data                               | Gráf struktúra megtekintése
+Dependencies                                     | Ráépülések
+Input result pairs:                              | Bemenet-Kimenet párok:
+RegEx include:                                   | Elfogadató RegEx minták:
+RegEx exclude:                                   | Rossz RegEx minták:
+Edit sources                                     | Forrásfájlok
+Edit solutions                                   | Megoldások
+Edit descriptions                                | Leírások
+
+New input/result pair name:                      | Új Bemenet-Kimenet pár fájlneve:
+Add new input/result pair                        | Új Bemenet-Kimenet pár
+This input/result pair name is invalid           | Ez a Bemenet-Kimenet pár fájlnév helytelen
+Invalid pair name                                | Helytelen fájlnév
+Delete this input/result pair?                   | Törli ezt a Bemenet-Kimenet párt?
+Delete input/result pair                         | Bemenet-Kimenet pár törlése

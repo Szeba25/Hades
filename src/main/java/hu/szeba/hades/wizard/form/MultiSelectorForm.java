@@ -1,5 +1,6 @@
 package hu.szeba.hades.wizard.form;
 
+import hu.szeba.hades.main.meta.Languages;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.elements.MappedElement;
 
@@ -29,7 +30,7 @@ public class MultiSelectorForm extends JDialog {
         list.setModel(new DefaultListModel<>());
         JScrollPane taskCollectionListScroll = new JScrollPane(list);
 
-        okButton = new JButton("Select");
+        okButton = new JButton(Languages.translate("Select"));
         okButton.setFocusPainted(false);
 
         okButton.addActionListener((e) -> {
