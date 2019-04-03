@@ -6,13 +6,13 @@ import hu.szeba.hades.main.model.course.CourseDatabase;
 import hu.szeba.hades.main.model.task.data.MissingResultFileException;
 import hu.szeba.hades.main.model.task.languages.InvalidLanguageException;
 import hu.szeba.hades.main.util.GridBagSetter;
+import hu.szeba.hades.main.view.components.DialogFactory;
 import hu.szeba.hades.main.view.components.JButtonGuarded;
 import hu.szeba.hades.main.view.components.ViewableFrame;
 import hu.szeba.hades.main.view.elements.AbstractState;
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.main.view.elements.StatefulElement;
 import hu.szeba.hades.main.view.elements.TaskElement;
-import jdk.nashorn.internal.scripts.JO;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
@@ -690,13 +690,12 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
                     boolean newTrigger = false;
                     // If progress exists, prompt if overwrite it!
                     if (selectedTask.getState() == AbstractState.COMPLETED || selectedTask.getState() == AbstractState.IN_PROGRESS) {
-                        Object[] chooseFrom = { Languages.translate("Restart"), Languages.translate("Back") };
-                        int option = JOptionPane.showOptionDialog(new JFrame(),
+
+                        int option = DialogFactory.showCustomChoiceDialog(
                                 Languages.translate("This will delete all previous progress for this task. Continue?"),
                                 Languages.translate("Start task from scratch..."),
-                                JOptionPane.YES_NO_OPTION,
-                                JOptionPane.QUESTION_MESSAGE,
-                                null, chooseFrom, chooseFrom[0]);
+                                Languages.translate("Restart"), Languages.translate("Back"));
+
                         if (option == JOptionPane.YES_OPTION) {
                             newTrigger = true;
                         } else {

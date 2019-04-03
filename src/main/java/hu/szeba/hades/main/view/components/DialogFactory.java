@@ -1,7 +1,5 @@
 package hu.szeba.hades.main.view.components;
 
-import hu.szeba.hades.main.meta.Languages;
-
 import javax.swing.*;
 
 public class DialogFactory {
