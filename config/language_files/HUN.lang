@@ -1,4 +1,4 @@
-### Basic dialogues
+### BASICS
 Continue                                          | Folytatás
 Back                                              | Vissza
 Add                                               | Hozzáad
@@ -12,7 +12,7 @@ Welcome! Please sign in!                         | Üdv! Kérlek jelentkezz be!
 User:                                            | Felhasználónév:
 Password:                                        | Jelszó:
 Sign in                                          | Belépés
-Development build                                | Fejlestés alatt (closd)
+Development build                                | Fejlesztés alatt
 
 # Task selection
 
