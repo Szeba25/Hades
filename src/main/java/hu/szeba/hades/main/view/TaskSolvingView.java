@@ -326,8 +326,10 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         });
         // Add new source file by a dialogue
         newFileMenuItem.addActionListener((event) -> {
-            String name = InputDialogFactory.showCustomInputDialog(Languages.translate("New source file name:"),
-                    Languages.translate("Add new source file"), "Ok", "Cancel");
+            String name = InputDialogFactory.showCustomInputDialog(Languages.translate("Add new source file"),
+                    Languages.translate("New source file name:"),
+                    Languages.translate("Ok"),
+                    Languages.translate("Cancel"));
             if (name != null) {
                 try {
                     controller.addNewSourceFile(name, this);
@@ -392,10 +394,10 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
                         Languages.translate("This source is readonly!"),
                         Languages.translate("Readonly file"), JOptionPane.WARNING_MESSAGE);
             } else {
-                String newName = (String) JOptionPane.showInputDialog(new JFrame(),
+                String newName = InputDialogFactory.showCustomInputDialog(Languages.translate("Rename source file"),
                         Languages.translate("Rename source file:"),
-                        Languages.translate("Rename source file"),
-                        JOptionPane.PLAIN_MESSAGE, null, null, selectedSourceName);
+                        Languages.translate("Ok"),
+                        Languages.translate("Cancel"));
                 if (newName != null) {
                     try {
                         controller.renameSourceFile(selectedSourceName, newName, this);

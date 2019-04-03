@@ -10,10 +10,10 @@ public class InputDialogFactory {
         JTextField textField = new JTextField(15);
 
         JPanel panel = new JPanel();
-        panel.add(new JLabel(title));
+        panel.add(new JLabel(message));
         panel.add(textField);
 
-        int result = JOptionPane.showOptionDialog(null, panel, message, JOptionPane.YES_NO_OPTION,
+        int result = JOptionPane.showOptionDialog(null, panel, title, JOptionPane.YES_NO_OPTION,
                 JOptionPane.PLAIN_MESSAGE, null, options, null);
         if (result == JOptionPane.YES_OPTION) {
             return textField.getText();
