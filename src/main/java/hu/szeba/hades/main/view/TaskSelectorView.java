@@ -362,76 +362,174 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
 
         gs.setComponent(taskDetails);
 
-        gs.add(new JLabel(Languages.translate("Status:")), 0, 0, GridBagConstraints.BOTH,
-                1, 1, 0, 0,
+        gs.add(new JLabel(Languages.translate("Status:")),
+                0,
+                0, GridBagConstraints.BOTH,
+                1,
+                1,
+                0,
+                0,
                 new Insets(5, 0, 5, 5));
 
-        gs.add(new JLabel(Languages.translate("Difficulty:")), 0, 1, GridBagConstraints.BOTH,
-                1, 1, 0, 0,
+        gs.add(new JLabel(Languages.translate("Difficulty:")),
+                0,
+                1, GridBagConstraints.BOTH,
+                1,
+                1,
+                0,
+                0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(new JLabel(Languages.translate("Length:")), 0, 2, GridBagConstraints.BOTH,
-                1, 1, 0, 0,
+        gs.add(new JLabel(Languages.translate("Length:")),
+                0,
+                2,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                0,
+                0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(taskStatus, 1, 0, GridBagConstraints.HORIZONTAL,
-                1, 1, 1.0, 0,
+        gs.add(taskStatus,
+                1,
+                0,
+                GridBagConstraints.HORIZONTAL,
+                1,
+                1,
+                1,
+                0,
                 new Insets(5, 0, 5, 5));
 
-        gs.add(taskDifficulty, 1, 1, GridBagConstraints.HORIZONTAL,
-                1, 1, 1.0, 0,
+        gs.add(taskDifficulty,
+                1,
+                1,
+                GridBagConstraints.HORIZONTAL,
+                1,
+                1,
+                1.0,
+                0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(taskLength, 1, 2, GridBagConstraints.HORIZONTAL,
-                1, 1, 1.0, 0,
+        gs.add(taskLength,
+                1,
+                2, GridBagConstraints.HORIZONTAL,
+                1,
+                1,
+                1,
+                0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(new JLabel(Languages.translate("Task prerequisites:")), 0, 3, GridBagConstraints.BOTH,
-                2, 1, 0, 0,
+        gs.add(new JLabel(Languages.translate("Task prerequisites:")),
+                0,
+                3,
+                GridBagConstraints.BOTH,
+                2,
+                1,
+                0,
+                0,
                 new Insets(0, 0, 5, 0));
 
-        gs.add(taskPrerequisitesScroll, 0, 4, GridBagConstraints.BOTH,
-                2, 1, 1.0, 1.0,
+        gs.add(taskPrerequisitesScroll,
+                0,
+                4,
+                GridBagConstraints.BOTH,
+                2,
+                1,
+                1,
+                1,
                 new Insets(0, 0, 0, 0));
 
         JSeparator buttonsSeparator = new JSeparator(JSeparator.HORIZONTAL);
 
         gs.setComponent(rightPanel);
 
-        gs.add(descriptionLabel, 0, 0, GridBagConstraints.BOTH,
-                1, 1, 0, 0,
+        gs.add(descriptionLabel,
+                0,
+                0,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                0,
+                0,
                 new Insets(0, 0, 5, 0));
 
-        gs.add(descriptionScroll, 0, 1, GridBagConstraints.BOTH,
-                1, 6, 1.0, 1.0,
+        gs.add(descriptionScroll,
+                0,
+                1,
+                GridBagConstraints.BOTH,
+                1,
+                6,
+                1,
+                1,
                 new Insets(0, 0, 0, 5));
 
-        gs.add(taskCollectionDetailsLabel, 1, 0, GridBagConstraints.BOTH,
-                1, 1, 0, 0,
+        gs.add(taskCollectionDetailsLabel,
+                1,
+                0, GridBagConstraints.BOTH,
+                1,
+                1,
+                0,
+                0,
                 new Insets(0, 0, 5, 0));
 
-        gs.add(taskCollectionDetails, 1, 1, GridBagConstraints.BOTH,
-                1, 1, 0, 0,
+        gs.add(taskCollectionDetails,
+                1,
+                1,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                0,
+                0,
                 new Insets(0, 0, 0, 0));
 
-        gs.add(taskDetailsLabel, 1, 2, GridBagConstraints.BOTH,
-                1, 1, 0, 0,
+        gs.add(taskDetailsLabel,
+                1,
+                2,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                0,
+                0,
                 new Insets(5, 0, 5, 0));
 
-        gs.add(taskDetails, 1, 3, GridBagConstraints.BOTH,
-                1, 1, 0, 0.7,
+        gs.add(taskDetails,
+                1,
+                3,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                0,
+                0.7,
                 new Insets(0, 0, 0, 0));
 
-        gs.add(buttonsSeparator, 1, 4, GridBagConstraints.BOTH,
-                1, 1, 0, 0,
+        gs.add(buttonsSeparator,
+                1,
+                4,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                0,
+                0,
                 new Insets(10, 0, 10, 0));
 
-        gs.add(startButton, 1, 5, GridBagConstraints.BOTH,
-                1, 1, 0, 0,
+        gs.add(startButton,
+                1,
+                5,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                0,
+                0,
                 new Insets(0, 0, 5, 0));
 
-        gs.add(continueButton, 1, 6, GridBagConstraints.BOTH,
-                1, 1, 0, 0,
+        gs.add(continueButton,
+                1,
+                6,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                0,
+                0,
                 new Insets(0, 0, 0, 0));
     }
 
