@@ -21,9 +21,6 @@ public class Languages {
                 dict.put(dataFile.getData(i, 0), dataFile.getData(i, 1));
             }
             translatons.put(file.getName(), dict);
-            for (Map.Entry<String, String> element : dict.entrySet()) {
-                System.out.println(element);
-            }
         }
     }
 
