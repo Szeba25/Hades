@@ -6,10 +6,7 @@ import hu.szeba.hades.main.meta.UltimateHelper;
 import hu.szeba.hades.main.model.task.Task;
 import hu.szeba.hades.main.io.EditableTextFile;
 import hu.szeba.hades.main.util.GridBagSetter;
-import hu.szeba.hades.main.view.components.ClosableTabComponent;
-import hu.szeba.hades.main.view.components.LockedMenusWrapper;
-import hu.szeba.hades.main.view.components.TerminalArea;
-import hu.szeba.hades.main.view.components.ViewableFrame;
+import hu.szeba.hades.main.view.components.*;
 import jdk.nashorn.internal.scripts.JO;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -329,10 +326,8 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         });
         // Add new source file by a dialogue
         newFileMenuItem.addActionListener((event) -> {
-            String name = (String) JOptionPane.showInputDialog(new JFrame(),
-                    Languages.translate("New source file name:"),
-                    Languages.translate("Add new source file"),
-                    JOptionPane.PLAIN_MESSAGE, null, null, "");
+            String name = InputDialogFactory.showCustomInputDialog(Languages.translate("New source file name:"),
+                    Languages.translate("Add new source file"), "Ok", "Cancel");
             if (name != null) {
                 try {
                     controller.addNewSourceFile(name, this);

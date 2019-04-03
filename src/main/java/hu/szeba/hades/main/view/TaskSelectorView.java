@@ -690,7 +690,7 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
                     boolean newTrigger = false;
                     // If progress exists, prompt if overwrite it!
                     if (selectedTask.getState() == AbstractState.COMPLETED || selectedTask.getState() == AbstractState.IN_PROGRESS) {
-                        Object[] chooseFrom = { Languages.translate("Continue"), Languages.translate("Back") };
+                        Object[] chooseFrom = { Languages.translate("Restart"), Languages.translate("Back") };
                         int option = JOptionPane.showOptionDialog(new JFrame(),
                                 Languages.translate("This will delete all previous progress for this task. Continue?"),
                                 Languages.translate("Start task from scratch..."),
