@@ -7,7 +7,6 @@ import hu.szeba.hades.main.model.task.Task;
 import hu.szeba.hades.main.io.EditableTextFile;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.components.*;
-import jdk.nashorn.internal.scripts.JO;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
@@ -326,7 +325,9 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         });
         // Add new source file by a dialogue
         newFileMenuItem.addActionListener((event) -> {
-            String name = InputDialogFactory.showCustomInputDialog(Languages.translate("Add new source file"),
+            String name = DialogFactory.showCustomInputDialog(
+                    "",
+                    Languages.translate("Add new source file"),
                     Languages.translate("New source file name:"),
                     Languages.translate("Ok"),
                     Languages.translate("Cancel"));
@@ -383,21 +384,26 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         renameFilePopupItem.addActionListener((event) -> {
             String selectedSourceName = fileList.getSelectedValue();
             if (selectedSourceName == null) {
-                JOptionPane.showMessageDialog(
-                        new JFrame(),
+
+                DialogFactory.showCustomWarning(
                         Languages.translate("Please select a source file from the list!"),
-                        Languages.translate("No source selected"),
-                        JOptionPane.WARNING_MESSAGE);
+                        Languages.translate("No source selected"));
+
             } else if(controller.isSourceReadonly(selectedSourceName)) {
-                JOptionPane.showMessageDialog(
-                        new JFrame(),
+
+                DialogFactory.showCustomWarning(
                         Languages.translate("This source is readonly!"),
-                        Languages.translate("Readonly file"), JOptionPane.WARNING_MESSAGE);
+                        Languages.translate("Readonly file"));
+
             } else {
-                String newName = InputDialogFactory.showCustomInputDialog(Languages.translate("Rename source file"),
+
+                String newName = DialogFactory.showCustomInputDialog(
+                        selectedSourceName,
+                        Languages.translate("Rename source file"),
                         Languages.translate("Rename source file:"),
                         Languages.translate("Ok"),
                         Languages.translate("Cancel"));
+
                 if (newName != null) {
                     try {
                         controller.renameSourceFile(selectedSourceName, newName, this);
@@ -471,12 +477,11 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         });
         // About
         aboutMenuItem.addActionListener((event) -> {
-            JOptionPane.showMessageDialog(new JFrame(),
-                    Languages.translate("Hades (development build)") + "\n" +
+            DialogFactory.showCustomMessage(Languages.translate("Hades (development build)") + "\n" +
                             Languages.translate("Contact: underworld.support@gmail.com") + "\n" +
                             Languages.translate("Source: https://github.com/Szeba25/hades") + "\n" +
                             Languages.translate("License: MIT (see repository)"),
-                            "Hades",  JOptionPane.PLAIN_MESSAGE);
+                            "Hades");
         });
         // Show story
         taskStoryShowButton.addActionListener((event) -> {
