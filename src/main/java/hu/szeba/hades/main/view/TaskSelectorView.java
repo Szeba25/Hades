@@ -190,24 +190,51 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
 
         gs.setComponent(leftPanel);
 
-        gs.add(taskCollectionLabel, 0, 0, GridBagConstraints.BOTH,
-                1, 1, 1.0, 0,
+        gs.add(taskCollectionLabel,
+                0,
+                0,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                1,
+                0,
                 new Insets(0, 0, 5, 0));
 
-        gs.add(taskCollectionListScroller, 0, 1, GridBagConstraints.BOTH,
-                1, 1, 1.0, 0,
+        gs.add(taskCollectionListScroller,
+                0,
+                1, GridBagConstraints.BOTH,
+                1,
+                1,
+                1,
+                0,
                 new Insets(0, 0, 0, 0));
 
-        gs.add(taskLabel, 0, 2, GridBagConstraints.BOTH,
-                1, 1, 1.0, 0,
+        gs.add(taskLabel,
+                0,
+                2, GridBagConstraints.BOTH,
+                1,
+                1,
+                1,
+                0,
                 new Insets(5, 0, 5, 0));
 
-        gs.add(taskListScroller, 0, 3, GridBagConstraints.BOTH,
-                1, 1, 1.0, 1.0,
+        gs.add(taskListScroller,
+                0,
+                3, GridBagConstraints.BOTH,
+                1,
+                1,
+                1,
+                1,
                 new Insets(0, 0, 0, 0));
 
-        gs.add(filtersButton, 0, 4, GridBagConstraints.BOTH,
-                1, 1, 1.0, 0,
+        gs.add(filtersButton,
+                0,
+                4,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                1.0,
+                0,
                 new Insets(5, 0, 0, 0));
 
         /* RIGHT PART */
