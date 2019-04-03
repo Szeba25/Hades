@@ -81,7 +81,7 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setResizable(true);
         this.setLayout(new BorderLayout());
-        this.setMinimumSize(new Dimension(110, 700));
+        this.setMinimumSize(new Dimension(1100, 700));
         this.setTitle(Languages.translate("Please select a task"));
 
         // Initialize components, and setup events
