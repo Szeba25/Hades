@@ -692,7 +692,7 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
                     if (selectedTask.getState() == AbstractState.COMPLETED || selectedTask.getState() == AbstractState.IN_PROGRESS) {
 
                         int option = DialogFactory.showCustomChoiceDialog(
-                                Languages.translate("This will delete all previous progress for this task. Continue?"),
+                                Languages.translate("This will delete all progress. Continue?"),
                                 Languages.translate("Start task from scratch..."),
                                 Languages.translate("Restart"), Languages.translate("Back"));
 

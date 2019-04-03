@@ -46,4 +46,12 @@ public class DialogFactory {
                 obj, obj[0]);
     }
 
+    public static int showCustomCancellableChoiceDialog(String message, String title, String ok, String no, String cancel) {
+        Object[] obj = {ok, no, cancel};
+        return JOptionPane.showOptionDialog(new JFrame(), message, title,
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE, null,
+                obj, obj[0]);
+    }
+
 }

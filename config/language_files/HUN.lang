@@ -45,8 +45,8 @@ Restart                                          | Újrakezdés
 
 # Start over...
 
-This will delete all previous progress for this task. Continue?    | Ez újrakezdi a feladatot, és minden korábbi mentés elveszik!
-Start task from scratch...                                         | Feladat újrakezdése...
+This will delete all progress. Continue?         | Ez újrakezdi a feladatot, és minden korábbi mentés elveszik!
+Start task from scratch...                       | Feladat újrakezdése...
 
 # Task SOLVER and FILTER
 
@@ -141,4 +141,19 @@ Ok                                               | Oké
 
 Wizard: Courses                                  | Varázsló: Kurzusok
 All courses:                                     | Összes kurzus:
+All modes:                                       | Összes mód:
+All task collections:                            | Összes feladatgyűjtemény
+All tasks:                                       | Összes feladat:
+Wizard: Course editor                            | Varázsló: Kurzus szerkesztő
+Title:                                           | Cím:
+Programming language:                            | Programozási nyelv:
 
+Modes                                            | Módok
+Task collections                                 | Feladatgyűjtemények
+Tasks                                            | Feladatok
+
+Save and quit                                    | Mentés és kilépés
+Just quit                                        | Csak kilépés
+Cancel                                           | Mégse
+Save progress?                                   | Módosítások mentése?
+Leave course...                                  | Kilépés a kurzusból

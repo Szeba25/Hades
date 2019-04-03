@@ -1,6 +1,8 @@
 package hu.szeba.hades.wizard.view;
 
+import hu.szeba.hades.main.meta.Languages;
 import hu.szeba.hades.main.util.GridBagSetter;
+import hu.szeba.hades.main.view.components.DialogFactory;
 import hu.szeba.hades.main.view.components.ViewableFrame;
 import hu.szeba.hades.wizard.controller.CourseEditorController;
 import hu.szeba.hades.wizard.model.WizardCourse;
@@ -48,7 +50,7 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
         this.parentView = parentView;
 
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.setTitle("Wizard: Course editor");
+        this.setTitle(Languages.translate("Wizard: Course editor"));
         this.setLayout(new BorderLayout(0, 10));
         this.setMinimumSize(new Dimension(1100, 700));
         this.setResizable(true);
@@ -76,11 +78,11 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
         topPanel = new JPanel();
         topPanel.setLayout(new GridBagLayout());
 
-        JLabel titleLabel = new JLabel("Title:");
+        JLabel titleLabel = new JLabel(Languages.translate("Title:"));
         titleField = new JTextField();
         titleLabel.setLabelFor(titleField);
 
-        JLabel languageLabel = new JLabel("Programming language:");
+        JLabel languageLabel = new JLabel(Languages.translate("Programming language:"));
         languageBox = new JComboBox<>();
         languageBox.setEditable(true);
         languageLabel.setLabelFor(languageBox);
@@ -130,9 +132,9 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
 
         tabbedPane = new JTabbedPane();
 
-        modeList = new DynamicButtonListPanel("All modes:", 300, "+", "-");
-        taskCollectionList = new DynamicButtonListPanel("All task collections:", 300, "+", "-");
-        taskList = new DynamicButtonListPanel("All tasks:", 300, "+", "-");
+        modeList = new DynamicButtonListPanel(Languages.translate("All modes:"), 300, "+", "-");
+        taskCollectionList = new DynamicButtonListPanel(Languages.translate("All task collections:"), 300, "+", "-");
+        taskList = new DynamicButtonListPanel(Languages.translate("All tasks:"), 300, "+", "-");
 
         modesTab = new JPanel();
         modesTab.setLayout(new BorderLayout(5, 0));
@@ -155,9 +157,9 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
         taskEditor = new TaskEditorPanel();
         tasksTab.add(taskEditor, BorderLayout.CENTER);
 
-        tabbedPane.addTab("Modes", modesTab);
-        tabbedPane.addTab("Task collections", taskCollectionsTab);
-        tabbedPane.addTab("Tasks", tasksTab);
+        tabbedPane.addTab(Languages.translate("Modes"), modesTab);
+        tabbedPane.addTab(Languages.translate("Task collections"), taskCollectionsTab);
+        tabbedPane.addTab(Languages.translate("Tasks"), tasksTab);
     }
 
     private void setupEvents() {
@@ -170,9 +172,13 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
                 modifyAllChanges();
 
                 // Prompt user for saving
-                Object[] options = {"Save and quit", "Just quit", "Cancel"};
-                int result = JOptionPane.showOptionDialog(new JFrame(), "Save progress?", "Leave course...", JOptionPane.YES_NO_CANCEL_OPTION,
-                        JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                int result = DialogFactory.showCustomCancellableChoiceDialog(
+                        Languages.translate("Save progress?"),
+                        Languages.translate("Leave course..."),
+                        Languages.translate("Save and quit"),
+                        Languages.translate("Just quit"),
+                        Languages.translate("Cancel"));
+
                 switch (result) {
                     case JOptionPane.YES_OPTION:
                         try {
