@@ -1,5 +1,6 @@
 package hu.szeba.hades.wizard.view.components;
 
+import hu.szeba.hades.main.meta.Languages;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.view.components.JButtonGuarded;
 
@@ -15,11 +16,11 @@ public class AddEditDeletePanel extends JPanel {
     public AddEditDeletePanel() {
         this.setLayout(new GridBagLayout());
 
-        add = new JButtonGuarded("Add");
+        add = new JButtonGuarded(Languages.translate("Add"));
         add.setFocusPainted(false);
-        edit = new JButtonGuarded("Edit");
+        edit = new JButtonGuarded(Languages.translate("Edit"));
         edit.setFocusPainted(false);
-        delete = new JButtonGuarded("Delete");
+        delete = new JButtonGuarded(Languages.translate("Delete"));
         delete.setFocusPainted(false);
 
         GridBagSetter gs = new GridBagSetter();

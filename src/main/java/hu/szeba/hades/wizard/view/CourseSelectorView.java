@@ -1,5 +1,6 @@
 package hu.szeba.hades.wizard.view;
 
+import hu.szeba.hades.main.meta.Languages;
 import hu.szeba.hades.main.view.components.ActionGuard;
 import hu.szeba.hades.main.view.components.JButtonGuarded;
 import hu.szeba.hades.main.view.components.ViewableFrame;
@@ -24,7 +25,7 @@ public class CourseSelectorView extends JFrame implements ViewableFrame {
 
     public CourseSelectorView(WizardCourseDatabase database) {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Wizard: Courses");
+        this.setTitle(Languages.translate("Wizard: Courses"));
         this.setLayout(new BorderLayout());
         this.setMinimumSize(new Dimension(480, 500));
         this.setResizable(false);
@@ -44,7 +45,7 @@ public class CourseSelectorView extends JFrame implements ViewableFrame {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
 
-        courseListPanel = new ModifiableListPanel("All courses:", 300);
+        courseListPanel = new ModifiableListPanel(Languages.translate("All courses:"), 300);
 
         mainPanel.add(courseListPanel, BorderLayout.CENTER);
     }

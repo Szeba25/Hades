@@ -2,6 +2,8 @@
 Continue                                          | Folytatás
 Back                                              | Vissza
 Add                                               | Hozzáad
+Edit                                              | Szerkesztés
+Delete                                            | Törlés
 
 ### SOLVER MODULE
 
@@ -136,4 +138,7 @@ Clear                                            | Egyik sem
 Ok                                               | Oké
 
 ### WIZARD MODULE
+
+Wizard: Courses                                  | Varázsló: Kurzusok
+All courses:                                     | Összes kurzus:
 
