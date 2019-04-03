@@ -135,24 +135,52 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
 
         gs.setComponent(topPanel);
 
-        gs.add(courseListLabel, 0, 0, GridBagConstraints.BOTH,
-                1, 1, 0, 0,
+        gs.add(courseListLabel,
+                0,
+                0,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                0,
+                0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(courseList, 1, 0, GridBagConstraints.BOTH,
-                1, 1, 1.0, 0,
+        gs.add(courseList,
+                1,
+                0,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                1,
+                0,
                 new Insets(0, 0, 5, 0));
 
-        gs.add(modeListLabel, 0, 1, GridBagConstraints.BOTH,
-                1, 1, 0, 0,
+        gs.add(modeListLabel,
+                0,
+                1, GridBagConstraints.BOTH,
+                1,
+                1,
+                0,
+                0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(modeList, 1, 1, GridBagConstraints.BOTH,
-                1, 1, 1.0, 0,
+        gs.add(modeList,
+                1,
+                1, GridBagConstraints.BOTH,
+                1,
+                1,
+                1,
+                0,
                 new Insets(0, 0, 5, 0));
 
-        gs.add(headerSeparator, 0, 2, GridBagConstraints.BOTH,
-                2, 1, 0, 0,
+        gs.add(headerSeparator,
+                0,
+                2,
+                GridBagConstraints.BOTH,
+                2,
+                1,
+                0,
+                0,
                 new Insets(10, 0, 10, 0));
 
         /* LEFT PART */
@@ -298,44 +326,104 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
 
         gs.setComponent(taskCollectionDetails);
 
-        gs.add(new JLabel(Languages.translate("Status:")), 0, 0, GridBagConstraints.BOTH,
-                1, 1, 0, 0,
+        gs.add(new JLabel(Languages.translate("Status:")),
+                0,
+                0,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                0,
+                0,
                 new Insets(5, 0, 5, 5));
 
-        gs.add(new JLabel(Languages.translate("Percent needed:")), 0, 1, GridBagConstraints.BOTH,
-                1, 1, 0, 0,
+        gs.add(new JLabel(Languages.translate("Percent needed:")),
+                0,
+                1,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                0,
+                0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(new JLabel(Languages.translate("Task count for completion:")), 0, 2, GridBagConstraints.BOTH,
-                1, 1, 0, 0,
+        gs.add(new JLabel(Languages.translate("Task count for completion:")),
+                0,
+                2,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                0,
+                0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(new JLabel(Languages.translate("Total progress:")), 0, 3, GridBagConstraints.BOTH,
-                1, 1, 0, 0,
+        gs.add(new JLabel(Languages.translate("Total progress:")),
+                0,
+                3,
+                GridBagConstraints.BOTH,
+                1,
+                1,
+                0,
+                0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(taskCollectionStatus, 1, 0, GridBagConstraints.HORIZONTAL,
-                1, 1, 1.0, 0,
+        gs.add(taskCollectionStatus,
+                1,
+                0,
+                GridBagConstraints.HORIZONTAL,
+                1,
+                1,
+                1,
+                0,
                 new Insets(5, 0, 5, 5));
 
-        gs.add(taskCollectionPercentNeeded, 1, 1, GridBagConstraints.HORIZONTAL,
-                1, 1, 1.0, 0,
+        gs.add(taskCollectionPercentNeeded,
+                1,
+                1,
+                GridBagConstraints.HORIZONTAL,
+                1,
+                1,
+                1,
+                0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(taskCollectionTaskCount, 1, 2, GridBagConstraints.HORIZONTAL,
-                1, 1, 1.0, 0,
+        gs.add(taskCollectionTaskCount,
+                1,
+                2,
+                GridBagConstraints.HORIZONTAL,
+                1,
+                1,
+                1,
+                0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(taskCollectionProgress, 1, 3, GridBagConstraints.HORIZONTAL,
-                1, 1, 1.0, 0,
+        gs.add(taskCollectionProgress,
+                1,
+                3,
+                GridBagConstraints.HORIZONTAL,
+                1,
+                1,
+                1,
+                0,
                 new Insets(0, 0, 5, 5));
 
-        gs.add(new JLabel(Languages.translate("Task collection prerequisites:")), 0, 4, GridBagConstraints.HORIZONTAL,
-                2, 1, 0, 0,
+        gs.add(new JLabel(Languages.translate("Task collection prerequisites:")),
+                0,
+                4,
+                GridBagConstraints.HORIZONTAL,
+                2,
+                1,
+                0,
+                0,
                 new Insets(0, 0, 5, 0));
 
-        gs.add(taskCollectionPrerequisitesScroll, 0, 5, GridBagConstraints.BOTH,
-                2, 1, 1.0, 0,
+        gs.add(taskCollectionPrerequisitesScroll,
+                0,
+                5,
+                GridBagConstraints.BOTH,
+                2,
+                1,
+                1,
+                0,
                 new Insets(0, 0, 0, 0));
 
         JLabel taskDetailsLabel = new JLabel(Languages.translate("Task details:"));
