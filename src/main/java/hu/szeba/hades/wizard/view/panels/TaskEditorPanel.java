@@ -322,50 +322,49 @@ public class TaskEditorPanel extends JPanel {
                     "",
                     Languages.translate("New input/result pair name:"),
                     Languages.translate("Add new input/result pair"),
-                    Languages.translate("Ok"));
+                    Languages.translate("Ok"),
+                    Languages.translate("Cancel"));
 
-            if (name != null && name.length() > 0 && FileUtilities.validFileName(name) && !currentTask.isInputResultFileExists(name)) {
-                try {
-                    // Add a new i/r pair
-                    currentTask.addInputResultFile(name);
-                    DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) inputResultPanel.getList().getModel();
-                    MappedElement newElement = new MappedElement(name, name);
-                    model.addElement(newElement);
-                    inputResultPanel.getList().setSelectedValue(newElement, true);
+            if (name != null) {
+                if (name.length() > 0 && FileUtilities.validFileName(name) && !currentTask.isInputResultFileExists(name)) {
+                    try {
+                        // Add a new i/r pair
+                        currentTask.addInputResultFile(name);
+                        DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) inputResultPanel.getList().getModel();
+                        MappedElement newElement = new MappedElement(name, name);
+                        model.addElement(newElement);
+                        inputResultPanel.getList().setSelectedValue(newElement, true);
 
-                    // Open the editor
-                    inputResultEditorForm.setContents(name, "", "");
-                    inputResultEditorForm.setLocationRelativeTo(null);
-                    inputResultEditorForm.setVisible(true);
+                        // Open the editor
+                        inputResultEditorForm.setContents(name, "", "");
+                        inputResultEditorForm.setLocationRelativeTo(null);
+                        inputResultEditorForm.setVisible(true);
 
-                    // Save back content
-                    currentTask.setInputFileData(name, inputResultEditorForm.getInputFileData());
-                    currentTask.setResultFileData(name, inputResultEditorForm.getResultFileData());
+                        // Save back content
+                        currentTask.setInputFileData(name, inputResultEditorForm.getInputFileData());
+                        currentTask.setResultFileData(name, inputResultEditorForm.getResultFileData());
 
-                    // Rename if possible!
-                    String newName = inputResultEditorForm.getNewName();
-                    if (!name.equals(newName)) {
-                        // Only rename if changed!
-                        if (newName.length() > 0 && FileUtilities.validFileName(newName) && !currentTask.isInputResultFileExists(newName)) {
-                            currentTask.renameInputResultFile(name, newName);
-                            newElement.setId(newName);
-                            newElement.setTitle(newName);
-                            inputResultPanel.getList().repaint();
-                        } else {
+                        // Rename if possible!
+                        String newName = inputResultEditorForm.getNewName();
+                        if (!name.equals(newName)) {
+                            // Only rename if changed!
+                            if (newName.length() > 0 && FileUtilities.validFileName(newName) && !currentTask.isInputResultFileExists(newName)) {
+                                currentTask.renameInputResultFile(name, newName);
+                                newElement.setId(newName);
+                                newElement.setTitle(newName);
+                                inputResultPanel.getList().repaint();
+                            } else {
 
-                            DialogFactory.showCustomError(
-                                    Languages.translate("This input/result pair name is invalid)"),
-                                    Languages.translate("Invalid pair name"));
+                                DialogFactory.showCustomError(
+                                        Languages.translate("This input/result pair name is invalid)"),
+                                        Languages.translate("Invalid pair name"));
 
+                            }
                         }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
-            } else {
-                DialogFactory.showCustomError(
-                        Languages.translate("This input/result pair name is invalid)"),
-                        Languages.translate("Invalid pair name"));
             }
         });
 

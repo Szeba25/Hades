@@ -323,12 +323,14 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         });
         // Add new source file by a dialogue
         newFileMenuItem.addActionListener((event) -> {
+
             String name = DialogFactory.showCustomInputDialog(
                     "",
                     Languages.translate("New source file name:"),
                     Languages.translate("Add new source file"),
                     Languages.translate("Ok"),
                     Languages.translate("Cancel"));
+
             if (name != null) {
                 try {
                     controller.addNewSourceFile(name, this);
