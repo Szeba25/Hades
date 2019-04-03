@@ -294,7 +294,10 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
             @Override
             public void windowClosing(WindowEvent event) {
                 if (lockedMenusWrapper.getLockExit()) {
-                    JOptionPane.showMessageDialog(new JFrame(), Languages.translate("Compiling (and/or) running in process!"), "Cant't exit", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(new JFrame(),
+                            Languages.translate("Compiling (and/or) running in process!"),
+                            Languages.translate("Cant't exit"),
+                            JOptionPane.WARNING_MESSAGE);
                 } else {
                     Object[] options = {Languages.translate("Save and quit"), Languages.translate("Cancel")};
                     int result = JOptionPane.showOptionDialog(
@@ -392,7 +395,7 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
             } else {
                 String newName = (String) JOptionPane.showInputDialog(new JFrame(),
                         Languages.translate("Rename source file:"),
-                        "Rename source file",
+                        Languages.translate("Rename source file"),
                         JOptionPane.PLAIN_MESSAGE, null, null, selectedSourceName);
                 if (newName != null) {
                     try {

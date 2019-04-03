@@ -1,3 +1,9 @@
+### Basic dialogues
+Continue                                          | Tovább
+Back                                              | Vissza
+
+### SOLVER MODULE
+
 # Login form
 
 Welcome!                                         | Üdv!
@@ -82,6 +88,7 @@ When nothing helps anymore...                    | Amikor már semmi sem segít.
 About                                            | Programról
 
 Compiling (and/or) running in process!           | Fordítás, vagy futtatás folyamatban!
+Cant't exit                                      | Most nem lehet kilépni!
 Save and quit                                    | Mentés és kilépés
 Cancel                                           | Mégse
 Save and quit?                                   | Mentés és kilépés?
@@ -127,5 +134,5 @@ All                                              | Összes
 Clear                                            | Egyik sem
 Ok                                               | Oké
 
-# Task wizards
-# ...
+### WIZARD MODULE
+

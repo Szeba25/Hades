@@ -12,6 +12,7 @@ import hu.szeba.hades.main.view.elements.AbstractState;
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.main.view.elements.StatefulElement;
 import hu.szeba.hades.main.view.elements.TaskElement;
+import jdk.nashorn.internal.scripts.JO;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
@@ -689,10 +690,13 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
                     boolean newTrigger = false;
                     // If progress exists, prompt if overwrite it!
                     if (selectedTask.getState() == AbstractState.COMPLETED || selectedTask.getState() == AbstractState.IN_PROGRESS) {
-                        int option = JOptionPane.showConfirmDialog(new JFrame(),
+                        Object[] chooseFrom = { Languages.translate("Continue"), Languages.translate("Back") };
+                        int option = JOptionPane.showOptionDialog(new JFrame(),
                                 Languages.translate("This will delete all previous progress for this task. Continue?"),
                                 Languages.translate("Start task from scratch..."),
-                                JOptionPane.YES_NO_OPTION);
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE,
+                                null, chooseFrom, chooseFrom[0]);
                         if (option == JOptionPane.YES_OPTION) {
                             newTrigger = true;
                         } else {
