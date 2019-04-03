@@ -36,8 +36,8 @@ Continue                                         | Folytatás
 
 # Feladat újrakezdése
 
-This will delete all  progress for this task.    | Ez újrakezdi a feladatot, és minden korábbi mentés elveszik
-Start task from scratch...                       | Feladat újrakezdése...
+This will delete all previous progress for this task. Continue?    | Ez újrakezdi a feladatot, és minden korábbi mentés elveszik!
+Start task from scratch...                                         | Feladat újrakezdése...
 
 # Task SOLVER
 
