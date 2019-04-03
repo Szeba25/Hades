@@ -192,7 +192,7 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
         taskCollectionList = new JList<>();
         taskCollectionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         taskCollectionList.setModel(new DefaultListModel<>());
-        taskCollectionList.setFixedCellWidth(200);
+        taskCollectionList.setFixedCellWidth(250);
 
         JLabel taskCollectionLabel = new JLabel(Languages.translate("Task collections:"));
 
@@ -203,7 +203,7 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
         taskList = new JList<>();
         taskList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         taskList.setModel(new DefaultListModel<>());
-        taskList.setFixedCellWidth(200);
+        taskList.setFixedCellWidth(250);
 
         JLabel taskLabel = new JLabel(Languages.translate("Tasks:"));
 
@@ -213,7 +213,7 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
 
         filtersButton = new JButton(Languages.translate("Filters"));
         filtersButton.setFocusPainted(false);
-        filtersButton.setPreferredSize(new Dimension(200,25));
+        filtersButton.setPreferredSize(new Dimension(250,25));
         filtersButton.setToolTipText(Languages.translate("Filters"));
 
         gs.setComponent(leftPanel);
@@ -261,7 +261,7 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
                 GridBagConstraints.BOTH,
                 1,
                 1,
-                1.0,
+                1,
                 0,
                 new Insets(5, 0, 0, 0));
 
@@ -430,7 +430,7 @@ public class TaskSelectorView extends JFrame implements ViewableFrame {
 
         JPanel taskDetails = new JPanel();
         taskDetails.setLayout(new GridBagLayout());
-        taskDetails.setPreferredSize(new Dimension(350, 50));
+        taskDetails.setPreferredSize(new Dimension(450, 0));
         taskDetails.setBorder(BorderFactory.createEtchedBorder());
 
         taskStatus = new JTextField();

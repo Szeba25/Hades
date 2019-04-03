@@ -140,7 +140,7 @@ public class MainForm extends JFrame implements ViewableFrame {
                 User user = new User((String) userBox.getSelectedItem());
                 TaskSelectorView taskSelectorView = new TaskSelectorView(this, new CourseDatabase(user));
                 this.hideView();
-                taskSelectorView.showView();
+                taskSelectorView.showViewMaximized();
             } catch (IOException | SAXException | ParserConfigurationException e) {
                 e.printStackTrace();
             }
