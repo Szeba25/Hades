@@ -107,7 +107,11 @@ public class CourseEditorController {
     public void deleteMode(JList<MappedElement> modeList, ModeEditorPanel modeEditor) {
         MappedElement element = modeList.getSelectedValue();
         if (element != null) {
-            int result = JOptionPane.showConfirmDialog(new JFrame(), "Delete \"" + element.toString() + "\"?", "Delete mode...", JOptionPane.YES_NO_OPTION);
+            int result = DialogFactory.showCustomChoiceDialog(
+                    Languages.translate("Delete this mode?"),
+                    Languages.translate("Delete mode..."),
+                    Languages.translate("Yes"),
+                    Languages.translate("No"));
             if (result == JOptionPane.YES_OPTION) {
                 course.deleteMode(element.getId());
                 setModeListContents(modeList);
@@ -119,7 +123,11 @@ public class CourseEditorController {
     public void deleteTaskCollection(JList<MappedElement> taskCollectionList, TaskCollectionEditorPanel taskCollectionEditor) {
         MappedElement element = taskCollectionList.getSelectedValue();
         if (element != null) {
-            int result = JOptionPane.showConfirmDialog(new JFrame(), "Delete \"" + element.toString() + "\"?", "Delete task collection...", JOptionPane.YES_NO_OPTION);
+            int result = DialogFactory.showCustomChoiceDialog(
+                    Languages.translate("Delete this task collection?"),
+                    Languages.translate("Delete task collection..."),
+                    Languages.translate("Yes"),
+                    Languages.translate("No"));
             if (result == JOptionPane.YES_OPTION) {
                 if (course.deleteTaskCollection(element.getId())) {
                     setTaskCollectionListContents(taskCollectionList);
