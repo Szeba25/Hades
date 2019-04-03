@@ -10,6 +10,7 @@ import hu.szeba.hades.main.view.components.ClosableTabComponent;
 import hu.szeba.hades.main.view.components.LockedMenusWrapper;
 import hu.szeba.hades.main.view.components.TerminalArea;
 import hu.szeba.hades.main.view.components.ViewableFrame;
+import jdk.nashorn.internal.scripts.JO;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
@@ -294,10 +295,13 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
             @Override
             public void windowClosing(WindowEvent event) {
                 if (lockedMenusWrapper.getLockExit()) {
-                    JOptionPane.showMessageDialog(new JFrame(),
+                    Object[] options = {Languages.translate("Ok")};
+                    JOptionPane.showOptionDialog(
+                            new JFrame(),
                             Languages.translate("Compiling (and/or) running in process!"),
                             Languages.translate("Cant't exit"),
-                            JOptionPane.WARNING_MESSAGE);
+                            JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.WARNING_MESSAGE, null, options,  options[0]);
                 } else {
                     Object[] options = {Languages.translate("Save and quit"), Languages.translate("Cancel")};
                     int result = JOptionPane.showOptionDialog(
@@ -325,10 +329,11 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         });
         // Add new source file by a dialogue
         newFileMenuItem.addActionListener((event) -> {
-            String name = JOptionPane.showInputDialog(new JFrame(),
+            Object[] options = {Languages.translate("Add"), Languages.translate("Cancel")};
+            String name = (String) JOptionPane.showInputDialog(new JFrame(),
                     Languages.translate("New source file name:"),
                     Languages.translate("Add new source file"),
-                    JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
             if (name != null) {
                 try {
                     controller.addNewSourceFile(name, this);
