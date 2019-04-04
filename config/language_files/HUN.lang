@@ -112,6 +112,7 @@ Source: https://github.com/Szeba25/hades         | Forráskód: https://github.c
 License: MIT (see repository)                    | Lincensz: MIT (lásd githubon)
 
 Set filters for the task list                    | Szűrések beállítása a feladat listához
+Task title:                                      | Feladat neve:
 Status:                                          | Állapot:
 Difficulty:                                      | Nehézség:
 Length:                                          | Hosszúság:
