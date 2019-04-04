@@ -393,7 +393,7 @@ public class TaskEditorPanel extends JPanel {
                         } else {
 
                             DialogFactory.showCustomError(
-                                    Languages.translate("This input/result pair name is invalid)"),
+                                    Languages.translate("This input/result pair name is invalid"),
                                     Languages.translate("Invalid pair name"));
 
                         }
