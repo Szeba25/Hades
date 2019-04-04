@@ -64,14 +64,14 @@ Show story                                       | Történet megjelenítése
 Challenge accepted!                              | Kihívás elfogadva!
 
 File                                             | Fájl
-New source file                                  | Új forrásfile
-Save all now...                                  | Összes forrásfile mentése
-Clear terminal                                   | Terminál törlése
+New source file                                  | Új forrásfájl
+Save all now...                                  | Összes forrásfájl mentése
+Clear terminal                                   | Terminál tartalmának törlése
 
 Build                                            | Fordítás
-Build all                                        | Összes fordítsása
+Build all                                        | Összes fordítása
 Build all and run...                             | Összes fordítása és futtatás
-Run...                                           | Futattás...
+Run...                                           | Futtatás...
 Stop!                                            | Leállítás!
 
 Help                                             | Segítség
