@@ -195,3 +195,8 @@ Delete this task collection?                     | Töröljük ezt a feladatotgy
 Delete task collection...                        | Feladatgyűjtemény törlése...
 Delete this mode?                                | Töröljük ezt a módot?
 Delete mode...                                   | Mód törlése...
+
+Can't delete task collection!                    | Feladatgyűjtemény nem törölhető!
+Can't delete task!                               | Feladat nem törölhető!
+The following task collections refer to this:    | A következő feladatgyűjtemények hivatkoznak erre:
+The following modes refer to this:               | A következő módok hivatkoznak erre:

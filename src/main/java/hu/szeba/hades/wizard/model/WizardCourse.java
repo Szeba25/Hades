@@ -3,14 +3,15 @@ package hu.szeba.hades.wizard.model;
 import hu.szeba.hades.main.io.ConfigFile;
 import hu.szeba.hades.main.io.DescriptionFile;
 import hu.szeba.hades.main.io.TabbedFile;
+import hu.szeba.hades.main.meta.Languages;
 import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.util.SortUtilities;
+import hu.szeba.hades.main.view.components.DialogFactory;
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
 import org.apache.commons.io.FileUtils;
 import org.xml.sax.SAXException;
 
-import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
@@ -221,7 +222,8 @@ public class WizardCourse {
     public boolean deleteTaskCollection(String taskCollectionId) {
         boolean canBeDeleted = true;
         StringBuilder builder = new StringBuilder();
-        builder.append("The following modes refer to this collection:\n");
+        builder.append(Languages.translate("The following modes refer to this:"));
+        builder.append("\n");
         for (WizardMode mode : modes.values()) {
             if (mode.getGraph().getNodes().contains(taskCollectionId)) {
                 builder.append("> ");
@@ -233,7 +235,7 @@ public class WizardCourse {
             }
         }
         if (!canBeDeleted) {
-            JOptionPane.showMessageDialog(new JFrame(), builder.toString(), "Can't delete task collection!", JOptionPane.ERROR_MESSAGE);
+            DialogFactory.showCustomError(builder.toString(), Languages.translate("Can't delete task collection!"));
         } else {
             for (int i = possibleTaskCollections.size() - 1; i >= 0; i--) {
                 if (possibleTaskCollections.get(i).getId().equals(taskCollectionId)) {
@@ -250,7 +252,8 @@ public class WizardCourse {
     public boolean deleteTask(String taskId) {
         boolean canBeDeleted = true;
         StringBuilder builder = new StringBuilder();
-        builder.append("The following task collections refer to this task:\n");
+        builder.append(Languages.translate("The following task collections refer to this:"));
+        builder.append("\n");
         for (WizardTaskCollection taskCollection : taskCollections.values()) {
             if (taskCollection.getGraph().getNodes().contains(taskId)) {
                 builder.append("> ");
@@ -262,7 +265,7 @@ public class WizardCourse {
             }
         }
         if (!canBeDeleted) {
-            JOptionPane.showMessageDialog(new JFrame(), builder.toString(), "Can't delete task!", JOptionPane.ERROR_MESSAGE);
+            DialogFactory.showCustomError(builder.toString(), Languages.translate("Can't delete task!"));
         } else {
             for (int i = possibleTasks.size() - 1; i >= 0; i--) {
                 if (possibleTasks.get(i).getId().equals(taskId)) {
