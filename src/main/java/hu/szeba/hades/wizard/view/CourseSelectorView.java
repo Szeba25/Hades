@@ -56,11 +56,11 @@ public class CourseSelectorView extends JFrame implements ViewableFrame {
             if (guard.isGuarded()) {
                 return;
             }
-            guard.guard();
 
             try {
                 MappedElement selectedCourse = courseListPanel.getList().getSelectedValue();
                 if (selectedCourse != null) {
+                    guard.guard();
                     new CourseEditorView(this, selectedCourse.getId()).showViewMaximized();
                     this.hideView();
                 }
