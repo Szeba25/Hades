@@ -364,7 +364,15 @@ public class TaskEditorPanel extends JPanel {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                } else {
+                    DialogFactory.showCustomError(
+                            Languages.translate("This input/result pair name is invalid"),
+                            Languages.translate("Invalid pair name"));
                 }
+            } else {
+                DialogFactory.showCustomError(
+                        Languages.translate("This input/result pair name is invalid"),
+                        Languages.translate("Invalid pair name"));
             }
         });
 
