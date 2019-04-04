@@ -25,13 +25,18 @@ public class Languages {
     }
 
     public static String translate(String originalText) {
-        Map<String, String> dict = translatons.get(getDisplayLanguage());
-        for (Map.Entry<String, String> val : dict.entrySet()) {
-            if (val.getKey().equals(originalText)) {
-                 return val.getValue();
+        String lang = getDisplayLanguage();
+        if (lang.equals("ENG.lang")) {
+            return originalText;
+        } else {
+            Map<String, String> dict = translatons.get(getDisplayLanguage());
+            for (Map.Entry<String, String> val : dict.entrySet()) {
+                if (val.getKey().equals(originalText)) {
+                    return val.getValue();
+                }
             }
+            return "<<" + originalText + ">>";
         }
-        return "<<"+originalText+">>";
     }
 
     public static String getDisplayLanguage() {
