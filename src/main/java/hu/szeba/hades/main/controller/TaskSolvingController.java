@@ -1,8 +1,10 @@
 package hu.szeba.hades.main.controller;
 
+import hu.szeba.hades.main.meta.Languages;
 import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.model.task.Task;
 import hu.szeba.hades.main.io.EditableTextFile;
+import hu.szeba.hades.main.view.components.DialogFactory;
 import hu.szeba.hades.main.view.components.LockedMenusWrapper;
 import hu.szeba.hades.main.view.TaskSolvingView;
 import hu.szeba.hades.main.view.components.TerminalArea;
@@ -96,7 +98,7 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
     public void stopCurrentProcess(TerminalArea terminalArea) {
         if (!stopFlag.get()) {
             stopFlag.set(true);
-            terminalArea.add("> Stop running process...\n");
+            terminalArea.add("> " + Languages.translate("Stop running process...") + "\n");
         }
     }
 
@@ -108,16 +110,18 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
                 taskSolvingView.addSourceFile(name, src.isReadonly(), task.getSyntaxStyle());
             }
         } else {
-            JOptionPane.showMessageDialog(new JFrame(), "Source file with this name already exists!");
+            DialogFactory.showCustomWarning(
+                    Languages.translate("Source file with this name already exists!"),
+                    Languages.translate("Existing source file"));
         }
     }
 
     public void saveSourceContentsWithTerminalOutput(Map<String, JTextArea> codeAreas, TerminalArea terminalArea)
             throws IOException {
         terminalArea.clear();
-        terminalArea.add(">>> Saving sources...\n\n");
+        terminalArea.add(">>> " + Languages.translate("Saving sources...") + "\n\n");
         saveSourceContents(codeAreas);
-        terminalArea.add("#Save successful!\n\n");
+        terminalArea.add("#" + Languages.translate("Save successful!") + "\n\n");
     }
 
     public void openExistingSourceFile(String name, TaskSolvingView taskSolvingView) {
@@ -145,7 +149,9 @@ public class TaskSolvingController implements SourceUpdaterForClosableTabs {
             task.renameSource(oldName, newName);
             taskSolvingView.renameSourceFile(oldName, newName);
         } else {
-            JOptionPane.showMessageDialog(new JFrame(), "Source file with this name already exists!");
+            DialogFactory.showCustomWarning(
+                    Languages.translate("Source file with this name already exists!"),
+                    Languages.translate("Existing source file"));
         }
     }
 

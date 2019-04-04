@@ -1,5 +1,6 @@
 package hu.szeba.hades.main.controller;
 
+import hu.szeba.hades.main.meta.Languages;
 import hu.szeba.hades.main.model.compiler.CompilerOutput;
 import hu.szeba.hades.main.model.compiler.ProgramCompiler;
 
@@ -25,7 +26,7 @@ public class TaskCompilerWork implements Work {
 
     @Override
     public void execute(Publisher publisher) throws IOException, InterruptedException {
-        publisher.customPublish(">>> Compilation started...\n\n");
+        publisher.customPublish(">>> " + Languages.translate("Compilation started...") + "\n\n");
         output = compiler.compile(sources, path);
         for (String message : output.getCompilerMessages()) {
             publisher.customPublish("@" + message + "\n");

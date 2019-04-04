@@ -1,6 +1,7 @@
 package hu.szeba.hades.main.controller;
 
 import hu.szeba.hades.main.meta.AudioPlayer;
+import hu.szeba.hades.main.meta.Languages;
 import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.meta.TaskSolverAgent;
 import hu.szeba.hades.main.model.task.data.InputResultPair;
@@ -36,30 +37,30 @@ public class TaskRunnerWork implements Work {
 
     @Override
     public void execute(Publisher publisher) throws IOException, InterruptedException {
-        publisher.customPublish(">>> Running program...\n\n");
+        publisher.customPublish(">>> " + Languages.translate("Running program...") + "\n\n");
 
         ResultMatcher matcher = new ResultMatcher();
 
         for (InputResultPair inputResultPair : inputResultPairs) {
-            publisher.customPublish(">>> Using input: " + inputResultPair.getProgramInput().getFile().getName() + "\n");
+            publisher.customPublish(">>> " + Languages.translate("Using input:") + " " + inputResultPair.getProgramInput().getFile().getName() + "\n");
             Result result = program.run(inputResultPair.getProgramInput(), maxByteCount, stopFlag);
 
             if (stopFlag.get()) {
-                publisher.customPublish("~> Process force closed!\n");
+                publisher.customPublish("~> " + Languages.translate("Process force closed!") + "\n");
                 return;
             }
 
             if (!result.anyInputPresent()) {
                 matcher.noResponseHappened();
-                publisher.customPublish("~> No response...\n\n");
+                publisher.customPublish("~> " + Languages.translate("No response...") + "\n\n");
             } else {
                 if (result.getDebugLineCount() > 0) {
-                    publisher.customPublish("\n> Debug log:\n");
+                    publisher.customPublish("\n> " + Languages.translate("Debug log:") + "\n");
                 }
                 for (int i = 0; i < result.getDebugLineCount(); i++) {
                     publisher.customPublish("@" + (i + 1) + ". " + result.getDebugLineByIndex(i) + "\n");
                 }
-                publisher.customPublish("\n> Output:\n");
+                publisher.customPublish("\n> " + Languages.translate("Output:") + "\n");
                 for (int i = 0; i < result.getResultLineCount(); i++) {
                     publisher.customPublish("#" + (i + 1) + ". " + result.getResultLineByIndex(i).getData() + "\n");
                 }
@@ -67,7 +68,8 @@ public class TaskRunnerWork implements Work {
                 matcher.match(result, inputResultPair.getDesiredResult());
                 for (int i = 0; i < matcher.getDifferencesSize(); i++) {
                     ResultDifference diff = matcher.getDifference(i);
-                    publisher.customPublish("~* difference at line: " + diff.getLineNumber() + ". \"" + diff.getFirstLine().getData() + "\" should be \""
+                    publisher.customPublish("~* " + Languages.translate("difference at line:") + " " + diff.getLineNumber() +
+                            ". \"" + diff.getFirstLine().getData() + "\"" + Languages.translate("should be") + " \""
                             + diff.getSecondLine().getData() + "\"\n");
                 }
                 if (matcher.getDifferencesSize() > 0) {
@@ -77,20 +79,23 @@ public class TaskRunnerWork implements Work {
         }
 
         if (agent.isCurrentTaskCompleted()) {
-            publisher.customPublish("#> Task was already completed... (" + matcher.getAllDifferencesCount() +
-                    " differences, and " + matcher.getAllNoResponsesCount() + " no responses)\n\n");
+            publisher.customPublish("#> " + Languages.translate("Task was already completed...") + " (" + matcher.getAllDifferencesCount() +
+                    " " + Languages.translate("differences, and") +
+                    " " + matcher.getAllNoResponsesCount() + " " + Languages.translate("no responses") + ")\n\n");
         } else if (matcher.getAllDifferencesCount() == 0 && matcher.getAllNoResponsesCount() == 0) {
             if (Options.getConfigBooleanData("wow")) {
                 new AudioPlayer(new File("resources/wow.wav")).play();
             }
             agent.markCurrentTaskAsCompleted();
-            publisher.customPublish("#> Task successfully COMPLETED! (no errors)\n\n");
+            publisher.customPublish("#> " + Languages.translate("Task successfully COMPLETED!") +
+                    " " + Languages.translate("(no errors)") + "\n\n");
         } else {
-            publisher.customPublish("~> There were a total of " + matcher.getAllDifferencesCount() +
-                    " differences, and " + matcher.getAllNoResponsesCount() + " no responses!\n\n");
+            publisher.customPublish("~> " + Languages.translate("There were a total of") + " " + matcher.getAllDifferencesCount() +
+                    " " + Languages.translate("differences, and") +
+                    " " + matcher.getAllNoResponsesCount() + " " + Languages.translate("no responses") + "\n\n");
         }
 
-        publisher.customPublish("... End of running!");
+        publisher.customPublish(Languages.translate("... End of running!"));
     }
 
 }

@@ -206,3 +206,25 @@ Short story:                                     | Rövid történet:
 Story:                                           | Történet:
 Short instructions:                              | Rövid utasítások:
 Instructions:                                    | Utasítások:
+
+Compilation started...                           | Fordítás elkezdődött...
+Running program...                               | Program futtatása...
+Using input:                                     | Bemenet:
+Process force closed!                            | Futtatás manuálisan leállítva!
+No response...                                   | Nincs válasz...
+Debug log:                                       | Debug üzenetek:
+Output:                                          | Kimenet:
+difference at line:                              | különbség ebben a sorban:
+should be                                        | ennek kéne lennie
+Task was already completed...                    | A feladat már korábban meg lett oldva...
+differences, and                                 | hibás sor, és
+no responses                                     | alkalommal nem válaszolt
+Task successfully COMPLETED!                     | Feladat sikeresen TELJESÍTVE!
+(no errors)                                      | (hibátlan)
+There were a total of                            | Összesen
+... End of running!                              | ...Futtatás vége!
+Stop running process...                          | Futó folyamatok leállítása
+Saving sources...                                | Forrásfájlok mentése...
+Save successful!                                 | Sikeres mentés!
+Source file with this name already exists!       | Forrásfájl ilyen névvel már létezik!
+Existing source file                             | Forrásfájl létezik
