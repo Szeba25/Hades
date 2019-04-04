@@ -372,7 +372,8 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
                 int result = DialogFactory.showCustomChoiceDialog(
                         Languages.translate("Delete source file:") + " " + selectedSourceName + "?",
                         Languages.translate("Delete source file"),
-                        "Delete", "Cancel");
+                        Languages.translate("Ok"),
+                        Languages.translate("Cancel"));
                 if (result == JOptionPane.YES_OPTION) {
                     try {
                         controller.deleteSourceFile(selectedSourceName, this);

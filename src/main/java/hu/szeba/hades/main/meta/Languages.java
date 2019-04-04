@@ -31,7 +31,7 @@ public class Languages {
                  return val.getValue();
             }
         }
-        return "<< " + originalText + " >>";
+        return "<<"+originalText+">>";
     }
 
     public static String getDisplayLanguage() {
