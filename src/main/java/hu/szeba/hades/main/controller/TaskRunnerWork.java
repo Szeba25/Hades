@@ -69,7 +69,7 @@ public class TaskRunnerWork implements Work {
                 for (int i = 0; i < matcher.getDifferencesSize(); i++) {
                     ResultDifference diff = matcher.getDifference(i);
                     publisher.customPublish("~* " + Languages.translate("difference at line:") + " " + diff.getLineNumber() +
-                            ". \"" + diff.getFirstLine().getData() + "\" ->" + Languages.translate("should be") + " \""
+                            ". \"" + diff.getFirstLine().getData() + "\" -> " + Languages.translate("should be") + " \""
                             + diff.getSecondLine().getData() + "\"\n");
                 }
                 if (matcher.getDifferencesSize() > 0) {

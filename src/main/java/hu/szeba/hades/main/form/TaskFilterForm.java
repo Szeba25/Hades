@@ -35,7 +35,7 @@ public class TaskFilterForm extends JDialog {
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setResizable(false);
         this.setLayout(new BorderLayout());
-        this.setMinimumSize(new Dimension(300, 200));
+        this.setMinimumSize(new Dimension(450, 250));
         this.setModal(true);
         this.setTitle(Languages.translate("Set filters for the task list"));
 
@@ -112,11 +112,11 @@ public class TaskFilterForm extends JDialog {
         selectAll = new JButton(Languages.translate("All"));
         selectAll.setFocusPainted(false);
         selectAll.setAlignmentX(Component.CENTER_ALIGNMENT);
-        selectAll.setMaximumSize(new Dimension(70, 20));
+        selectAll.setMaximumSize(new Dimension(120, 20));
         clearAll = new JButton(Languages.translate("Clear"));
         clearAll.setFocusPainted(false);
         clearAll.setAlignmentX(Component.CENTER_ALIGNMENT);
-        clearAll.setMaximumSize(new Dimension(70, 20));
+        clearAll.setMaximumSize(new Dimension(120, 20));
 
         buttonsPanel.add(selectAll);
         buttonsPanel.add(Box.createRigidArea(new Dimension(0, 5)));
