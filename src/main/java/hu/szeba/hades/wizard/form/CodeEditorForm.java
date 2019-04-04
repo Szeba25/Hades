@@ -1,9 +1,11 @@
 package hu.szeba.hades.wizard.form;
 
 import hu.szeba.hades.main.io.EditableTextFile;
+import hu.szeba.hades.main.meta.Languages;
 import hu.szeba.hades.main.util.FileUtilities;
 import hu.szeba.hades.main.util.GridBagSetter;
 import hu.szeba.hades.main.util.SortUtilities;
+import hu.szeba.hades.main.view.components.DialogFactory;
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.view.components.DynamicButtonListPanel;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -35,7 +37,7 @@ public class CodeEditorForm extends JDialog {
 
     public CodeEditorForm() {
         this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-        this.setTitle("Edit files");
+        this.setTitle(Languages.translate("Edit files"));
         this.setLayout(new BorderLayout());
         this.setMinimumSize(new Dimension(1100, 700));
         this.setResizable(true);
@@ -55,7 +57,9 @@ public class CodeEditorForm extends JDialog {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
 
-        filePanel = new DynamicButtonListPanel("File list:", 200, "+", "-", "rename");
+        filePanel = new DynamicButtonListPanel(Languages.translate("File list:"),
+                200,
+                "+", "-", Languages.translate("rename"));
 
         readonlySourcesEditor = new JTextArea();
         JScrollPane readonlySourcesEditorScroll = new JScrollPane(readonlySourcesEditor);
@@ -84,7 +88,7 @@ public class CodeEditorForm extends JDialog {
                 1,
                 new Insets(0, 0, 0, 0));
 
-        gs.add(new JLabel("Readonly file name list:"),
+        gs.add(new JLabel(Languages.translate("Readonly file name list:")),
                 0,
                 1,
                 GridBagConstraints.BOTH,
@@ -147,15 +151,20 @@ public class CodeEditorForm extends JDialog {
 
         filePanel.getModifier().getButton(0).addActionListener((event) -> {
             // Add
-            String name = JOptionPane.showInputDialog(new JFrame(),
-                    "New file name:",
-                    "Add new file",
-                    JOptionPane.PLAIN_MESSAGE);
+
+            String name = DialogFactory.showCustomInputDialog(
+                    "",
+                    Languages.translate("New file name:"),
+                    Languages.translate("Add new file"),
+                    Languages.translate("Ok"),
+                    Languages.translate("Cancel"));
+
             if (files.containsKey(name)) {
-                JOptionPane.showMessageDialog(new JFrame(),
-                        "The specified file name already exists: " + name,
-                        "File exists",
-                        JOptionPane.WARNING_MESSAGE);
+
+                DialogFactory.showCustomWarning(
+                        Languages.translate("The specified file already exists:") + name,
+                        Languages.translate("File exists"));
+
             } else if (name != null) {
                 try {
                     // Test for invalid file names
@@ -172,10 +181,12 @@ public class CodeEditorForm extends JDialog {
                             filePanel.getList().setSelectedValue(oldElement, true);
                         }
                     } else {
-                        JOptionPane.showMessageDialog(new JFrame(), "Invalid file name: " + name);
+                        DialogFactory.showCustomWarning(
+                                Languages.translate("Invalid file name:") + name,
+                                Languages.translate("Filename invalid"));
                     }
                 } catch (IOException e) {
-                    JOptionPane.showMessageDialog(new JFrame(), e.getMessage());
+                    e.printStackTrace();
                 }
             }
         });
@@ -184,10 +195,17 @@ public class CodeEditorForm extends JDialog {
             // Delete
             MappedElement selected = filePanel.getList().getSelectedValue();
             if (selected == null) {
-                JOptionPane.showMessageDialog(new JFrame(), "Please select a file from the list!", "No file selected", JOptionPane.WARNING_MESSAGE);
+                DialogFactory.showCustomWarning(
+                        Languages.translate("Please select a file from the list!"),
+                        Languages.translate("No file selected"));
             } else {
-                int result = JOptionPane.showConfirmDialog(new JFrame(), "Delete source file: " + selected.getId() + "?",
-                        "Delete source file", JOptionPane.YES_NO_OPTION);
+
+                int result = DialogFactory.showCustomChoiceDialog(
+                        Languages.translate("Delete selected source file?"),
+                        Languages.translate("Delete source..."),
+                        Languages.translate("Yes"),
+                        Languages.translate("No"));
+
                 if (result == JOptionPane.YES_OPTION) {
                     files.remove(selected.getId());
                     DefaultListModel<MappedElement> model = (DefaultListModel<MappedElement>) filePanel.getList().getModel();
@@ -204,17 +222,23 @@ public class CodeEditorForm extends JDialog {
             // Rename
             MappedElement selected = filePanel.getList().getSelectedValue();
             if (selected == null) {
-                JOptionPane.showMessageDialog(new JFrame(), "Please select a file from the list!", "No file selected", JOptionPane.WARNING_MESSAGE);
+                DialogFactory.showCustomWarning(
+                        Languages.translate("Please select a file from the list!"),
+                        Languages.translate("No file selected"));
             } else {
-                String newName = (String) JOptionPane.showInputDialog(new JFrame(),
-                        "New file name:",
-                        "Rename file",
-                        JOptionPane.PLAIN_MESSAGE, null, null, selected.getId());
+
+                String newName = DialogFactory.showCustomInputDialog(selected.getId(),
+                        Languages.translate("Rename selected source file:"),
+                        Languages.translate("Rename source..."),
+                        Languages.translate("Ok"),
+                        Languages.translate("Cancel"));
+
                 if (files.containsKey(newName)) {
-                    JOptionPane.showMessageDialog(new JFrame(),
-                            "The specified file name already exists: " + newName,
-                            "File exists",
-                            JOptionPane.WARNING_MESSAGE);
+
+                    DialogFactory.showCustomWarning(
+                            Languages.translate("The specified file already exists:"),
+                            Languages.translate("File exists"));
+
                 } else if (newName != null) {
                     try {
                         // Test for invalid file names!
@@ -238,10 +262,14 @@ public class CodeEditorForm extends JDialog {
                             // Repaint list
                             filePanel.getList().repaint();
                         } else {
-                            JOptionPane.showMessageDialog(new JFrame(), "Invalid file name: " + newName);
+
+                            DialogFactory.showCustomWarning(
+                                    Languages.translate("Invalid file name:") + newName,
+                                    Languages.translate("Filename invalid"));
+
                         }
                     } catch (IOException e) {
-                        JOptionPane.showMessageDialog(new JFrame(), e.getMessage());
+                        e.printStackTrace();
                     }
                 }
             }

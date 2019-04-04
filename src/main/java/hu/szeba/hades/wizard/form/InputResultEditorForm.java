@@ -1,5 +1,6 @@
 package hu.szeba.hades.wizard.form;
 
+import hu.szeba.hades.main.meta.Languages;
 import hu.szeba.hades.main.util.GridBagSetter;
 
 import javax.swing.*;
@@ -15,7 +16,7 @@ public class InputResultEditorForm extends JDialog {
 
     public InputResultEditorForm() {
         this.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-        this.setTitle("Edit input/result pairs");
+        this.setTitle(Languages.translate("Edit input/result pairs"));
         this.setLayout(new BorderLayout());
         this.setMinimumSize(new Dimension(800, 600));
         this.setResizable(true);
@@ -27,7 +28,7 @@ public class InputResultEditorForm extends JDialog {
         topPanel.setLayout(new GridBagLayout());
 
         nameField = new JTextField();
-        JLabel nameFieldLabel = new JLabel("Name:");
+        JLabel nameFieldLabel = new JLabel(Languages.translate("Name:"));
         nameFieldLabel.setLabelFor(nameField);
 
         gs.setComponent(topPanel);
@@ -65,7 +66,7 @@ public class InputResultEditorForm extends JDialog {
 
         gs.setComponent(mainPanel);
 
-        gs.add(new JLabel("Input:"),
+        gs.add(new JLabel(Languages.translate("Input:")),
                 0,
                 0,
                 GridBagConstraints.BOTH,
@@ -75,7 +76,7 @@ public class InputResultEditorForm extends JDialog {
                 0,
                 new Insets(10, 5, 0, 0));
 
-        gs.add(new JLabel("Result:"),
+        gs.add(new JLabel(Languages.translate("Result:")),
                 2,
                 0,
                 GridBagConstraints.BOTH,

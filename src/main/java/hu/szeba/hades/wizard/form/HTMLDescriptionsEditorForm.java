@@ -1,5 +1,6 @@
 package hu.szeba.hades.wizard.form;
 
+import hu.szeba.hades.main.meta.Languages;
 import hu.szeba.hades.main.util.GridBagSetter;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -18,7 +19,7 @@ public class HTMLDescriptionsEditorForm extends JDialog {
 
     public HTMLDescriptionsEditorForm() {
         this.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-        this.setTitle("Edit HTML descriptions");
+        this.setTitle(Languages.translate("Edit HTML descriptions"));
         this.setLayout(new BorderLayout());
         this.setMinimumSize(new Dimension(1100, 700));
         this.setResizable(true);
@@ -95,14 +96,14 @@ public class HTMLDescriptionsEditorForm extends JDialog {
 
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BorderLayout());
-        leftPanel.add(createPanelWithLabel(shortStoryAreaScroll, "Short story:"), BorderLayout.NORTH);
-        leftPanel.add(createPanelWithLabel(storyAreaScroll, "Story:"), BorderLayout.CENTER);
+        leftPanel.add(createPanelWithLabel(shortStoryAreaScroll, Languages.translate("Short story:")), BorderLayout.NORTH);
+        leftPanel.add(createPanelWithLabel(storyAreaScroll, Languages.translate("Story:")), BorderLayout.CENTER);
         leftPanel.setPreferredSize(new Dimension(450, 0));
 
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BorderLayout());
-        rightPanel.add(createPanelWithLabel(shortInstructionsAreaScroll, "Short instructions:"), BorderLayout.NORTH);
-        rightPanel.add(createPanelWithLabel(instructionsAreaScroll, "Instructions:"), BorderLayout.CENTER);
+        rightPanel.add(createPanelWithLabel(shortInstructionsAreaScroll, Languages.translate("Short instructions:")), BorderLayout.NORTH);
+        rightPanel.add(createPanelWithLabel(instructionsAreaScroll, Languages.translate("Instructions:")), BorderLayout.CENTER);
 
         mainPanel.add(leftPanel, BorderLayout.WEST);
         mainPanel.add(rightPanel, BorderLayout.CENTER);

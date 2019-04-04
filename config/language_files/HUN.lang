@@ -1,4 +1,3 @@
-### BASICS
 Continue                                         | Folytatás
 Back                                             | Vissza
 Add                                              | Hozzáad
@@ -8,18 +7,12 @@ Select                                           | Kiválaszt
 Yes                                              | Igen
 No                                               | Nem
 
-### SOLVER MODULE
-
-# Login form
-
 Welcome!                                         | Üdv!
 Welcome! Please sign in!                         | Üdv! Kérlek jelentkezz be!
 User:                                            | Felhasználónév:
 Password:                                        | Jelszó:
 Sign in                                          | Belépés
 Development build                                | Fejlesztés alatt
-
-# Task selection
 
 Please select a task                             | Kérlek válassz egy feladatot
 Course:                                          | Kurzus:
@@ -34,8 +27,6 @@ Percent needed:                                  | Feladatok szükséges % ért�
 Task count for completion:                       | Feladatok szükséges száma:
 Total progress:                                  | Összes haladás:
 
-# Task collection info
-
 Task collection prerequisites:                   | Feladatgyűjtemény előfeltételei:
 Task details:                                    | Feladat tulajdonsági
 Status:                                          | Állapot:
@@ -46,12 +37,8 @@ Filters                                          | Feladat szűrő
 Start                                            | Elkezdés
 Restart                                          | Újrakezdés
 
-# Start over...
-
 This will delete all progress. Continue?         | Ez újrakezdi a feladatot, és minden korábbi mentés elveszik!
 Start task from scratch...                       | Feladat újrakezdése...
-
-# Task SOLVER and FILTER
 
 Short                                            | Rövid
 Medium                                           | Közepes
@@ -68,8 +55,6 @@ Unavailable                                      | Nem elérhető
 Completed                                        | Kész
 In progress                                      | Fejlesztés alatt
 Available                                        | Elérhető
-
-# Task solving editor
 
 Solving task:                                    | Feladat megoldása:
 Story:                                           | Történet:
@@ -121,14 +106,10 @@ Readonly file                                    | Írásvédett file
 Rename source file:                              | Forrásfájl átnevezése:
 Rename source file                               | Forrásfájl átnevezése
 
-# About
-
 Hades (development build)                        | Hades (Fejlesztői verzió)
 Contact: underworld.support@gmail.com            | Kapcsolat: underworld.support.hades@gmail.com
 Source: https://github.com/Szeba25/hades         | Forráskód: https://github.com/Szeba25/hades
 License: MIT (see repository)                    | Lincensz: MIT (lásd githubon)
-
-# Filter
 
 Set filters for the task list                    | Szűrések beállítása a feladat listához
 Status:                                          | Állapot:
@@ -139,8 +120,6 @@ Tags:                                            | Tagek:
 All                                              | Összes
 Clear                                            | Egyik sem
 Ok                                               | Oké
-
-### WIZARD MODULE
 
 Wizard: Courses                                  | Varázsló: Kurzusok
 All courses:                                     | Összes kurzus:
@@ -168,26 +147,26 @@ Ignore story:                                    | Történet figyelmen kívül 
 Iron man:                                        | Extra nehéz mód:
 
 Wizard: Select tasks                             | Varázsló: Válasszon feladatokat
-Task threshold (%):                              | Szükséges % teljesítmény
+Task threshold (%):                              | Szükséges feladat %
 
 Task collections (in this mode):                 | A mód feladatgyűjteményei:
 Tasks (in this collection):                      | A Gyűjtemény feladatai:
 
 Preview graph data                               | Gráf struktúra megtekintése
 Dependencies:                                    | Ráépülések:
-Input result pairs:                              | Bemenet-Kimenet párok:
+Input result pairs:                              | Bemenet-Eredmény párok:
 RegEx include:                                   | Elfogadató RegEx minták:
 RegEx exclude:                                   | Rossz RegEx minták:
 Edit sources                                     | Forrásfájlok
 Edit solutions                                   | Megoldások
 Edit descriptions                                | Leírások
 
-New input/result pair name:                      | Új Bemenet-Kimenet pár fájlneve:
-Add new input/result pair                        | Új Bemenet-Kimenet pár
-This input/result pair name is invalid           | Ez a Bemenet-Kimenet pár fájlnév helytelen
+New input/result pair name:                      | Új Bemenet-Eredmény pár fájlneve:
+Add new input/result pair                        | Új Bemenet-Eredmény pár
+This input/result pair name is invalid           | Ez a Bemenet-Eredmény pár fájlnév helytelen
 Invalid pair name                                | Helytelen fájlnév
-Delete this input/result pair?                   | Törli ezt a Bemenet-Kimenet párt?
-Delete input/result pair                         | Bemenet-Kimenet pár törlése
+Delete this input/result pair?                   | Törli ezt a Bemenet-Eredmény párt?
+Delete input/result pair                         | Bemenet-Eredmány pár törlése
 
 Delete this task?                                | Töröljük ezt a feladatot?
 Delete task...                                   | Feladat törlése...
@@ -200,3 +179,30 @@ Can't delete task collection!                    | Feladatgyűjtemény nem tör�
 Can't delete task!                               | Feladat nem törölhető!
 The following task collections refer to this:    | A következő feladatgyűjtemények hivatkoznak erre:
 The following modes refer to this:               | A következő módok hivatkoznak erre:
+
+New file name:                                   | Új fájlnév:
+Add new file                                     | Új fájl hozzáadása
+The specified file already exists:               | A megadott fájl már létezik:
+File exists                                      | A fájl létezik
+Invalid file name:                               | A fájlnév helytelen:
+Filename invalid                                 | Helytelen fájlnév
+Please select a file from the list!              | Kérem válasszon egy fájlt a listából!
+No file selected                                 | Nincs kiválasztott fájl
+Delete selected source file?                     | Törölje a kiválasztott forrásfájlt?
+Delete source...                                 | Forrásfájl törlése
+Rename selected source file:                     | Kiválasztott forrásfájl átnevezése:
+Rename source...                                 | Forrásfájl átnevezése
+
+Edit files                                       | Fájlok szerkesztése
+File list:                                       | Fájl lista
+rename                                           | átnevezés
+Readonly file name list:                         | Csak olvasható fájlok listája:
+Edit input/result pairs                          | Bemenet-Eredmény pár szerkesztő
+Name:                                            | Név:
+Input:                                           | Bemenet:
+Result:                                          | Eredmény:
+Edit HTML descriptions                           | HTML Leírások szerkesztése
+Short story:                                     | Rövid történet:
+Story:                                           | Történet:
+Short instructions:                              | Rövid utasítások:
+Instructions:                                    | Utasítások:
