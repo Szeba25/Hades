@@ -216,7 +216,7 @@ No response...                                   | Nincs válasz...
 Debug log:                                       | Debug üzenetek:
 Output:                                          | Kimenet:
 difference at line:                              | különbség ebben a sorban:
-should be                                        | ennek kéne lennie
+should be                                        | ennek kellene lennie
 Task was already completed...                    | A feladat már korábban meg lett oldva...
 differences, and                                 | hibás sor, és
 no responses                                     | alkalommal nem válaszolt
