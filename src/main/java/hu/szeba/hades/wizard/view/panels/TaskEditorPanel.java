@@ -207,10 +207,12 @@ public class TaskEditorPanel extends JPanel {
         regexInclude = new JTextArea();
         JScrollPane regexIncludeScroll = new JScrollPane(regexInclude);
         regexIncludeScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        regexInclude.setEnabled(false);
 
         regexExclude = new JTextArea();
         JScrollPane regexExcludeScroll = new JScrollPane(regexExclude);
         regexExcludeScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        regexExclude.setEnabled(false);
 
         GridBagSetter gs = new GridBagSetter();
         gs.setComponent(regexPanel);
