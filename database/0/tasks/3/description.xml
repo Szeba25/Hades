@@ -3,10 +3,31 @@
 <Title>Rendezés</Title>
 <ShortInstructions>
 <![CDATA[
+<![CDATA[
+<![CDATA[
+<![CDATA[
+<![CDATA[
+<![CDATA[
+<![CDATA[
+<![CDATA[
 <p>A feladat számok rendezése. (fix méretű tömb)</p>
+]]>
+]]>
+]]>
+]]>
+]]>
+]]>
+]]>
 ]]>
 </ShortInstructions>
 <Instructions>
+<![CDATA[
+<![CDATA[
+<![CDATA[
+<![CDATA[
+<![CDATA[
+<![CDATA[
+<![CDATA[
 <![CDATA[
 <h2>A feladata a következő:</h2>
 <ul>
@@ -24,6 +45,13 @@
 45<br>
 <br>
 <img src="file:resources/sorting.gif"></img>
+]]>
+]]>
+]]>
+]]>
+]]>
+]]>
+]]>
 ]]>
 </Instructions>
 <ShortStory>

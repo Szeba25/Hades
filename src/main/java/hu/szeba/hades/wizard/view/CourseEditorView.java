@@ -16,6 +16,7 @@ import org.xml.sax.SAXException;
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -274,6 +275,19 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
                 if (listSelectionModel.isSelectedIndex(idx)) {
                     DescriptiveElement element = (DescriptiveElement) listModel.getElementAt(idx);
                     controller.setCurrentTask(taskEditor, element, taskCollectionEditor);
+                }
+            }
+        });
+
+        // Saving with CTRL+S
+        tabbedPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ctrl S"), "save course");
+        tabbedPane.getActionMap().put("save course", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    controller.save();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
             }
         });
