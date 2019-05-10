@@ -119,7 +119,7 @@ public class Task {
     }
 
     private void makeSources() throws IOException {
-        TabbedFile file = new TabbedFile(new File(taskDirectory, "readonly_sources.txt"));
+        TabbedFile file = new TabbedFile(new File(taskDirectory, "readonly_sources.dat"));
         for (int i = 0; i < file.getLineCount(); i++) {
             readonlySources.add(file.getData(i, 0));
         }

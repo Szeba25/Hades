@@ -30,7 +30,7 @@ public class WizardTask {
         this.taskPath = new File(tasksPath, taskId);
         this.description = description;
 
-        this.readonlySources = new EditableTextFile(new File(taskPath, "readonly_sources.txt"), false);
+        this.readonlySources = new EditableTextFile(new File(taskPath, "readonly_sources.dat"), false);
         this.regExIncludeFile = new EditableTextFile(new File(taskPath, "regex/include.txt"), false);
         this.regExExcludeFile = new EditableTextFile(new File(taskPath, "regex/exclude.txt"), false);
 
