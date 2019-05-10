@@ -33,30 +33,30 @@ public class User implements TaskSolverAgent {
         if (!userWorkingDirectoryPath.exists()) {
             // Create the meta folder, (and the id folder in the meantime)
             FileUtils.forceMkdir(new File(Options.getWorkingDirectoryPath(), id + "/.meta"));
-            // Create the completed_task_collections.txt file
+            // Create the completed_task_collections.dat file
             if (!new File(Options.getWorkingDirectoryPath(), id + "/.meta/completed_task_collections.dat").createNewFile()) {
                 throw new IOException("Couldn't create completed_task_collections.dat for user: " + id);
             }
-            // Create the completed_tasks.txt file
+            // Create the completed_tasks.dat file
             if (!new File(Options.getWorkingDirectoryPath(), id + "/.meta/completed_tasks.dat").createNewFile()) {
                 throw new IOException("Couldn't create completed_tasks.dat for user: " + id);
             }
-            // Create the started_tasks.txt file
+            // Create the started_tasks.dat file
             if (!new File(Options.getWorkingDirectoryPath(), id + "/.meta/started_tasks.dat").createNewFile()) {
                 throw new IOException("Couldn't create started_tasks.dat for user: " + id);
             }
         } else {
-            // Load completed_task_collections.txt file!
+            // Load completed_task_collections.dat file!
             SingleDataFile tFile = new SingleDataFile(new File(userWorkingDirectoryPath, ".meta/completed_task_collections.dat"));
             for (int i = 0; i < tFile.getLineCount(); i++) {
                 completedTaskCollections.add(tFile.getData(i, 0));
             }
-            // Load completed_tasks.txt file!
+            // Load completed_tasks.dat file!
             SingleDataFile cFile = new SingleDataFile(new File(userWorkingDirectoryPath, ".meta/completed_tasks.dat"));
             for (int i = 0; i < cFile.getLineCount(); i++) {
                 completedTasks.add(cFile.getData(i, 0));
             }
-            // Load started_tasks.txt file!
+            // Load started_tasks.dat file!
             SingleDataFile pFile = new SingleDataFile(new File(userWorkingDirectoryPath, ".meta/started_tasks.dat"));
             for (int i = 0; i < pFile.getLineCount(); i++) {
                 startedTasks.add(pFile.getData(i, 0));
