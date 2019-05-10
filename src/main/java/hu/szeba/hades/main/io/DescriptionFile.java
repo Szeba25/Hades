@@ -114,8 +114,7 @@ public class DescriptionFile {
         writer.write("<ShortInstructions>");
         writer.newLine();
         if (shortInstructions.length() > 0) {
-            shortInstructions = "<![CDATA[\n" + shortInstructions + "\n]]>";
-            writer.write(shortInstructions);
+            writer.write("<![CDATA[\n" + shortInstructions + "\n]]>");
             writer.newLine();
         }
         writer.write("</ShortInstructions>");
@@ -124,8 +123,7 @@ public class DescriptionFile {
         writer.write("<Instructions>");
         writer.newLine();
         if (instructions.length() > 0) {
-            instructions = "<![CDATA[\n" + instructions + "\n]]>";
-            writer.write(instructions);
+            writer.write("<![CDATA[\n" + instructions + "\n]]>");
             writer.newLine();
         }
         writer.write("</Instructions>");
@@ -134,8 +132,7 @@ public class DescriptionFile {
         writer.write("<ShortStory>");
         writer.newLine();
         if (shortStory.length() > 0) {
-            shortStory = "<![CDATA[\n" + shortStory + "\n]]>";
-            writer.write(shortStory);
+            writer.write("<![CDATA[\n" + shortStory + "\n]]>");
             writer.newLine();
         }
         writer.write("</ShortStory>");
@@ -144,8 +141,7 @@ public class DescriptionFile {
         writer.write("<Story>");
         writer.newLine();
         if (story.length() > 0) {
-            story = "<![CDATA[\n" + story + "\n]]>";
-            writer.write(story);
+            writer.write("<![CDATA[\n" + story + "\n]]>");
             writer.newLine();
         }
         writer.write("</Story>");
