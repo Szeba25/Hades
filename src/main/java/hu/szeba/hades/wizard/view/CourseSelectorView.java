@@ -51,6 +51,14 @@ public class CourseSelectorView extends JFrame implements ViewableFrame {
     }
 
     private void setupEvents() {
+        courseListPanel.getModifier().getAdd().addActionListener((event) -> {
+            ActionGuard guard = courseListPanel.getModifier().getAdd().getActionGuard();
+            if (guard.isGuarded()) {
+                return;
+            }
+
+        });
+
         courseListPanel.getModifier().getEdit().addActionListener((event) -> {
             ActionGuard guard = courseListPanel.getModifier().getEdit().getActionGuard();
             if (guard.isGuarded()) {
@@ -68,6 +76,14 @@ public class CourseSelectorView extends JFrame implements ViewableFrame {
                 e.printStackTrace();
             }
         });
+
+        courseListPanel.getModifier().getDelete().addActionListener((event) -> {
+            ActionGuard guard = courseListPanel.getModifier().getDelete().getActionGuard();
+            if (guard.isGuarded()) {
+                return;
+            }
+
+        });
     }
 
     @Override
@@ -77,7 +93,9 @@ public class CourseSelectorView extends JFrame implements ViewableFrame {
         this.requestFocus();
 
         // Reset guarded buttons
+        courseListPanel.getModifier().getAdd().getActionGuard().reset();
         courseListPanel.getModifier().getEdit().getActionGuard().reset();
+        courseListPanel.getModifier().getDelete().getActionGuard().reset();
     }
 
     @Override
