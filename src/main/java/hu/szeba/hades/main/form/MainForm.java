@@ -43,8 +43,7 @@ public class MainForm extends JFrame implements ViewableFrame {
         signInButton = new JButtonGuarded(Languages.translate("Sign in"));
         signInButton.setFocusPainted(false);
 
-        JTextField bottomText = new JTextField(Languages.translate("version:") + " 1.0");
-        bottomText.setEditable(false);
+        JLabel bottomText = new JLabel(Languages.translate("Version:") + " 1.0");
 
         GridBagSetter gs = new GridBagSetter();
         gs.setComponent(mainPanel);
