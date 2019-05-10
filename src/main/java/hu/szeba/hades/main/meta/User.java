@@ -34,30 +34,30 @@ public class User implements TaskSolverAgent {
             // Create the meta folder, (and the id folder in the meantime)
             FileUtils.forceMkdir(new File(Options.getWorkingDirectoryPath(), id + "/.meta"));
             // Create the completed_task_collections.txt file
-            if (!new File(Options.getWorkingDirectoryPath(), id + "/.meta/completed_task_collections.txt").createNewFile()) {
-                throw new IOException("Couldn't create completed_task_collections.txt for user: " + id);
+            if (!new File(Options.getWorkingDirectoryPath(), id + "/.meta/completed_task_collections.dat").createNewFile()) {
+                throw new IOException("Couldn't create completed_task_collections.dat for user: " + id);
             }
             // Create the completed_tasks.txt file
-            if (!new File(Options.getWorkingDirectoryPath(), id + "/.meta/completed_tasks.txt").createNewFile()) {
-                throw new IOException("Couldn't create completed_tasks.txt for user: " + id);
+            if (!new File(Options.getWorkingDirectoryPath(), id + "/.meta/completed_tasks.dat").createNewFile()) {
+                throw new IOException("Couldn't create completed_tasks.dat for user: " + id);
             }
             // Create the started_tasks.txt file
-            if (!new File(Options.getWorkingDirectoryPath(), id + "/.meta/started_tasks.txt").createNewFile()) {
-                throw new IOException("Couldn't create started_tasks.txt for user: " + id);
+            if (!new File(Options.getWorkingDirectoryPath(), id + "/.meta/started_tasks.dat").createNewFile()) {
+                throw new IOException("Couldn't create started_tasks.dat for user: " + id);
             }
         } else {
             // Load completed_task_collections.txt file!
-            SingleDataFile tFile = new SingleDataFile(new File(userWorkingDirectoryPath, ".meta/completed_task_collections.txt"));
+            SingleDataFile tFile = new SingleDataFile(new File(userWorkingDirectoryPath, ".meta/completed_task_collections.dat"));
             for (int i = 0; i < tFile.getLineCount(); i++) {
                 completedTaskCollections.add(tFile.getData(i, 0));
             }
             // Load completed_tasks.txt file!
-            SingleDataFile cFile = new SingleDataFile(new File(userWorkingDirectoryPath, ".meta/completed_tasks.txt"));
+            SingleDataFile cFile = new SingleDataFile(new File(userWorkingDirectoryPath, ".meta/completed_tasks.dat"));
             for (int i = 0; i < cFile.getLineCount(); i++) {
                 completedTasks.add(cFile.getData(i, 0));
             }
             // Load started_tasks.txt file!
-            SingleDataFile pFile = new SingleDataFile(new File(userWorkingDirectoryPath, ".meta/started_tasks.txt"));
+            SingleDataFile pFile = new SingleDataFile(new File(userWorkingDirectoryPath, ".meta/started_tasks.dat"));
             for (int i = 0; i < pFile.getLineCount(); i++) {
                 startedTasks.add(pFile.getData(i, 0));
             }
@@ -112,7 +112,7 @@ public class User implements TaskSolverAgent {
             // Complete the task
             completedTasks.add(currentTaskFullId);
             System.out.println("User: " + currentTaskFullId + " completed!");
-            SingleDataFile file = new SingleDataFile(new File(userWorkingDirectoryPath, ".meta/completed_tasks.txt"));
+            SingleDataFile file = new SingleDataFile(new File(userWorkingDirectoryPath, ".meta/completed_tasks.dat"));
             file.addData(currentTaskFullId);
             file.save();
             // A new task was completed, now check if we finished the task collection too!
@@ -130,7 +130,7 @@ public class User implements TaskSolverAgent {
                 if (count >= currentTaskCollectionInfo.getTaskCompletionCount()) {
                     completedTaskCollections.add(currentTaskCollectionFullId);
                     System.out.println("User: " + currentTaskCollectionFullId + " completed!!!");
-                    SingleDataFile file2 = new SingleDataFile(new File(userWorkingDirectoryPath, ".meta/completed_task_collections.txt"));
+                    SingleDataFile file2 = new SingleDataFile(new File(userWorkingDirectoryPath, ".meta/completed_task_collections.dat"));
                     file2.addData(currentTaskCollectionFullId);
                     file2.save();
                 }
@@ -144,7 +144,7 @@ public class User implements TaskSolverAgent {
         // Add only if does not exist!
         if (!startedTasks.contains(currentTaskFullId)) {
             startedTasks.add(currentTaskFullId);
-            SingleDataFile file = new SingleDataFile(new File(userWorkingDirectoryPath, ".meta/started_tasks.txt"));
+            SingleDataFile file = new SingleDataFile(new File(userWorkingDirectoryPath, ".meta/started_tasks.dat"));
             file.addData(currentTaskFullId);
             file.save();
         }
