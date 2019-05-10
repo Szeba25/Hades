@@ -1,6 +1,6 @@
 package hu.szeba.hades.main.model.task.program;
 
-import hu.szeba.hades.main.io.TabbedFile;
+import hu.szeba.hades.main.io.SingleDataFile;
 import hu.szeba.hades.main.model.task.result.Result;
 import hu.szeba.hades.main.model.task.result.ResultLine;
 import hu.szeba.hades.main.util.StreamUtilities;
@@ -25,7 +25,7 @@ public class ProgramC extends Program {
         Process process = processBuilder.start();
 
         OutputStreamWriter ow = new OutputStreamWriter(process.getOutputStream());
-        TabbedFile file = input.getFile();
+        SingleDataFile file = input.getFile();
         for (int i = 0; i < file.getLineCount(); i++) {
             ow.write(file.getData(i, 0) + "\n");
         }

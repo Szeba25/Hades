@@ -1,6 +1,6 @@
 package hu.szeba.hades.main.model.task.result;
 
-import hu.szeba.hades.main.io.TabbedFile;
+import hu.szeba.hades.main.io.SingleDataFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,9 +20,9 @@ public class Result {
     public Result(File file) throws IOException {
         resultLines = new ArrayList<>();
 
-        TabbedFile tabbedFile = new TabbedFile(file);
-        for (int i = 0; i < tabbedFile.getLineCount(); i++) {
-            ResultLine resultLine = new ResultLine(tabbedFile.getData(i, 0));
+        SingleDataFile singleDataFile = new SingleDataFile(file);
+        for (int i = 0; i < singleDataFile.getLineCount(); i++) {
+            ResultLine resultLine = new ResultLine(singleDataFile.getData(i, 0));
             resultLines.add(resultLine);
         }
     }

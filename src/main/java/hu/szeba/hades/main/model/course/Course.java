@@ -1,7 +1,7 @@
 package hu.szeba.hades.main.model.course;
 
 import hu.szeba.hades.main.io.ConfigFile;
-import hu.szeba.hades.main.io.TabbedFile;
+import hu.szeba.hades.main.io.SingleDataFile;
 import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.meta.User;
 import hu.szeba.hades.main.view.elements.MappedElement;
@@ -30,7 +30,7 @@ public class Course {
         possibleModes = new ArrayList<>();
         File pathFile = new File(Options.getDatabasePath(), courseId + "/modes");
         for (String id : pathFile.list()) {
-            TabbedFile metaFile = new TabbedFile(new File(pathFile, id + "/title.dat"));
+            SingleDataFile metaFile = new SingleDataFile(new File(pathFile, id + "/title.dat"));
             possibleModes.add(new MappedElement(id, metaFile.getData(0, 0)));
         }
 

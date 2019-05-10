@@ -2,7 +2,7 @@ package hu.szeba.hades.wizard.model;
 
 import hu.szeba.hades.main.io.ConfigFile;
 import hu.szeba.hades.main.io.DescriptionFile;
-import hu.szeba.hades.main.io.TabbedFile;
+import hu.szeba.hades.main.io.SingleDataFile;
 import hu.szeba.hades.main.meta.Languages;
 import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.util.SortUtilities;
@@ -24,7 +24,7 @@ public class WizardCourse {
 
     private String courseId;
 
-    private TabbedFile titleFile;
+    private SingleDataFile titleFile;
     private ConfigFile metaFile;
     private ConfigFile indicesFile;
 
@@ -49,7 +49,7 @@ public class WizardCourse {
 
         this.courseId = courseId;
 
-        titleFile = new TabbedFile(new File(Options.getDatabasePath(), courseId + "/title.dat"));
+        titleFile = new SingleDataFile(new File(Options.getDatabasePath(), courseId + "/title.dat"));
         metaFile = new ConfigFile(new File(Options.getDatabasePath(), courseId  + "/meta.conf"));
         indicesFile = new ConfigFile(new File(Options.getDatabasePath(), courseId + "/indices.conf"));
 
@@ -66,7 +66,7 @@ public class WizardCourse {
 
         modesPath = new File(Options.getDatabasePath(), courseId + "/modes");
         for (String modeId : modesPath.list()) {
-            TabbedFile metaFile = new TabbedFile(new File(modesPath, modeId + "/title.dat"));
+            SingleDataFile metaFile = new SingleDataFile(new File(modesPath, modeId + "/title.dat"));
             possibleModes.add(new DescriptiveElement(modeId, metaFile.getData(0, 0)));
             modeIdToTitle.put(modeId, metaFile.getData(0, 0));
             modes.put(modeId, new WizardMode(modesPath, modeId));
@@ -75,7 +75,7 @@ public class WizardCourse {
 
         taskCollectionsPath = new File(Options.getDatabasePath(), courseId + "/task_collections");
         for (String taskCollectionId : taskCollectionsPath.list()) {
-            TabbedFile metaFile = new TabbedFile(new File(taskCollectionsPath, taskCollectionId + "/title.dat"));
+            SingleDataFile metaFile = new SingleDataFile(new File(taskCollectionsPath, taskCollectionId + "/title.dat"));
             possibleTaskCollections.add(new DescriptiveElement(taskCollectionId, metaFile.getData(0, 0)));
             taskCollectionIdToTitle.put(taskCollectionId, metaFile.getData(0, 0));
             taskCollections.put(taskCollectionId, new WizardTaskCollection(taskCollectionsPath, taskCollectionId));

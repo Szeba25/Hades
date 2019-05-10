@@ -1,7 +1,7 @@
 package hu.szeba.hades.wizard.model;
 
 import hu.szeba.hades.main.io.ConfigFile;
-import hu.szeba.hades.main.io.TabbedFile;
+import hu.szeba.hades.main.io.SingleDataFile;
 import hu.szeba.hades.main.model.task.graph.Graph;
 import hu.szeba.hades.main.model.task.graph.AdjacencyList;
 
@@ -14,7 +14,7 @@ public class WizardMode {
 
     private File modePath;
 
-    private TabbedFile titleFile;
+    private SingleDataFile titleFile;
     private ConfigFile metaFile;
 
     private Graph graph;
@@ -23,7 +23,7 @@ public class WizardMode {
         this.modeId = modeId;
         this.modePath = new File(modesPath, modeId);
 
-        titleFile = new TabbedFile(new File(modePath, "title.dat"));
+        titleFile = new SingleDataFile(new File(modePath, "title.dat"));
         metaFile = new ConfigFile(new File(modePath, "meta.conf"));
         graph = new AdjacencyList(new File(modePath, "task_collections.graph"));
     }

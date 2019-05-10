@@ -1,7 +1,7 @@
 package hu.szeba.hades.main.model.course;
 
 import hu.szeba.hades.main.io.ConfigFile;
-import hu.szeba.hades.main.io.TabbedFile;
+import hu.szeba.hades.main.io.SingleDataFile;
 import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.meta.User;
 import hu.szeba.hades.main.model.helper.ModeData;
@@ -9,7 +9,6 @@ import hu.szeba.hades.main.model.task.graph.Graph;
 import hu.szeba.hades.main.model.task.graph.AdjacencyList;
 import hu.szeba.hades.main.util.SortUtilities;
 import hu.szeba.hades.main.view.elements.AbstractState;
-import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.main.view.elements.StatefulElement;
 import org.xml.sax.SAXException;
 
@@ -43,7 +42,7 @@ public class Mode {
         possibleTaskCollections = new ArrayList<>();
         idToTitleMap = new HashMap<>();
         for (String id : taskCollectionGraph.getNodes()) {
-            TabbedFile titleFile = new TabbedFile(new File(Options.getDatabasePath(), courseId + "/task_collections/" + id + "/title.dat"));
+            SingleDataFile titleFile = new SingleDataFile(new File(Options.getDatabasePath(), courseId + "/task_collections/" + id + "/title.dat"));
             possibleTaskCollections.add(new StatefulElement(id, titleFile.getData(0, 0)));
             idToTitleMap.put(id, titleFile.getData(0, 0));
         }

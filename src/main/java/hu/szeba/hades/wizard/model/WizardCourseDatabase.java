@@ -1,6 +1,6 @@
 package hu.szeba.hades.wizard.model;
 
-import hu.szeba.hades.main.io.TabbedFile;
+import hu.szeba.hades.main.io.SingleDataFile;
 import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.view.elements.DescriptiveElement;
@@ -17,7 +17,7 @@ public class WizardCourseDatabase {
     public WizardCourseDatabase() throws IOException {
         courses = new ArrayList<>();
         for (String id : Options.getDatabasePath().list()) {
-            TabbedFile metaFile = new TabbedFile(new File(Options.getDatabasePath(), id + "/title.dat"));
+            SingleDataFile metaFile = new SingleDataFile(new File(Options.getDatabasePath(), id + "/title.dat"));
             courses.add(new DescriptiveElement(id, metaFile.getData(0, 0)));
         }
     }

@@ -1,6 +1,6 @@
 package hu.szeba.hades.main.meta;
 
-import hu.szeba.hades.main.io.TabbedFile;
+import hu.szeba.hades.main.io.SingleDataFile;
 import hu.szeba.hades.main.model.helper.TaskCollectionInfo;
 import org.apache.commons.io.FileUtils;
 
@@ -47,17 +47,17 @@ public class User implements TaskSolverAgent {
             }
         } else {
             // Load completed_task_collections.txt file!
-            TabbedFile tFile = new TabbedFile(new File(userWorkingDirectoryPath, ".meta/completed_task_collections.txt"));
+            SingleDataFile tFile = new SingleDataFile(new File(userWorkingDirectoryPath, ".meta/completed_task_collections.txt"));
             for (int i = 0; i < tFile.getLineCount(); i++) {
                 completedTaskCollections.add(tFile.getData(i, 0));
             }
             // Load completed_tasks.txt file!
-            TabbedFile cFile = new TabbedFile(new File(userWorkingDirectoryPath, ".meta/completed_tasks.txt"));
+            SingleDataFile cFile = new SingleDataFile(new File(userWorkingDirectoryPath, ".meta/completed_tasks.txt"));
             for (int i = 0; i < cFile.getLineCount(); i++) {
                 completedTasks.add(cFile.getData(i, 0));
             }
             // Load started_tasks.txt file!
-            TabbedFile pFile = new TabbedFile(new File(userWorkingDirectoryPath, ".meta/started_tasks.txt"));
+            SingleDataFile pFile = new SingleDataFile(new File(userWorkingDirectoryPath, ".meta/started_tasks.txt"));
             for (int i = 0; i < pFile.getLineCount(); i++) {
                 startedTasks.add(pFile.getData(i, 0));
             }
@@ -112,7 +112,7 @@ public class User implements TaskSolverAgent {
             // Complete the task
             completedTasks.add(currentTaskFullId);
             System.out.println("User: " + currentTaskFullId + " completed!");
-            TabbedFile file = new TabbedFile(new File(userWorkingDirectoryPath, ".meta/completed_tasks.txt"));
+            SingleDataFile file = new SingleDataFile(new File(userWorkingDirectoryPath, ".meta/completed_tasks.txt"));
             file.addData(currentTaskFullId);
             file.save();
             // A new task was completed, now check if we finished the task collection too!
@@ -130,7 +130,7 @@ public class User implements TaskSolverAgent {
                 if (count >= currentTaskCollectionInfo.getTaskCompletionCount()) {
                     completedTaskCollections.add(currentTaskCollectionFullId);
                     System.out.println("User: " + currentTaskCollectionFullId + " completed!!!");
-                    TabbedFile file2 = new TabbedFile(new File(userWorkingDirectoryPath, ".meta/completed_task_collections.txt"));
+                    SingleDataFile file2 = new SingleDataFile(new File(userWorkingDirectoryPath, ".meta/completed_task_collections.txt"));
                     file2.addData(currentTaskCollectionFullId);
                     file2.save();
                 }
@@ -144,7 +144,7 @@ public class User implements TaskSolverAgent {
         // Add only if does not exist!
         if (!startedTasks.contains(currentTaskFullId)) {
             startedTasks.add(currentTaskFullId);
-            TabbedFile file = new TabbedFile(new File(userWorkingDirectoryPath, ".meta/started_tasks.txt"));
+            SingleDataFile file = new SingleDataFile(new File(userWorkingDirectoryPath, ".meta/started_tasks.txt"));
             file.addData(currentTaskFullId);
             file.save();
         }

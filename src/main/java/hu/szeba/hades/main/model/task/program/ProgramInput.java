@@ -1,23 +1,23 @@
 package hu.szeba.hades.main.model.task.program;
 
-import hu.szeba.hades.main.io.TabbedFile;
+import hu.szeba.hades.main.io.SingleDataFile;
 
 import java.io.File;
 import java.io.IOException;
 
 public class ProgramInput {
 
-    private TabbedFile file;
+    private SingleDataFile file;
 
     public ProgramInput(File inputFilePath) throws IOException {
-        this.file = new TabbedFile(inputFilePath);
+        this.file = new SingleDataFile(inputFilePath);
     }
 
     public ProgramInput(ProgramInput other) {
-        this.file = new TabbedFile(other.file);
+        this.file = new SingleDataFile(other.file);
     }
 
-    public TabbedFile getFile() {
+    public SingleDataFile getFile() {
         return file;
     }
 

@@ -2,7 +2,7 @@ package hu.szeba.hades.main.model.task;
 
 import hu.szeba.hades.main.io.DescriptionFile;
 import hu.szeba.hades.main.io.EditableTextFile;
-import hu.szeba.hades.main.io.TabbedFile;
+import hu.szeba.hades.main.io.SingleDataFile;
 import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.meta.TaskSolverAgent;
 import hu.szeba.hades.main.model.compiler.ProgramCompiler;
@@ -119,7 +119,7 @@ public class Task {
     }
 
     private void makeSources() throws IOException {
-        TabbedFile file = new TabbedFile(new File(taskDirectory, "readonly_sources.dat"));
+        SingleDataFile file = new SingleDataFile(new File(taskDirectory, "readonly_sources.dat"));
         for (int i = 0; i < file.getLineCount(); i++) {
             readonlySources.add(file.getData(i, 0));
         }

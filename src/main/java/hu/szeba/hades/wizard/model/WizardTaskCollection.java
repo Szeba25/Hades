@@ -1,7 +1,7 @@
 package hu.szeba.hades.wizard.model;
 
 import hu.szeba.hades.main.io.ConfigFile;
-import hu.szeba.hades.main.io.TabbedFile;
+import hu.szeba.hades.main.io.SingleDataFile;
 import hu.szeba.hades.main.model.task.graph.AdjacencyList;
 import hu.szeba.hades.main.model.task.graph.Graph;
 
@@ -14,7 +14,7 @@ public class WizardTaskCollection {
 
     private File taskCollectionPath;
 
-    private TabbedFile titleFile;
+    private SingleDataFile titleFile;
     private ConfigFile metaFile;
     private Graph graph;
 
@@ -22,7 +22,7 @@ public class WizardTaskCollection {
         this.taskCollectionId = taskCollectionId;
         this.taskCollectionPath = new File(taskCollectionsPath, taskCollectionId);
 
-        titleFile = new TabbedFile(new File(taskCollectionPath, "title.dat"));
+        titleFile = new SingleDataFile(new File(taskCollectionPath, "title.dat"));
         metaFile = new ConfigFile(new File(taskCollectionPath, "meta.conf"));
         graph = new AdjacencyList(new File(taskCollectionPath, "tasks.graph"));
     }
