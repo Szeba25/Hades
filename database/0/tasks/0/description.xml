@@ -3,31 +3,10 @@
 <Title>Számok 1-10-ig</Title>
 <ShortInstructions>
 <![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
 <p>A feladat számokat kiírni 1-10-ig.</p>
-]]>
-]]>
-]]>
-]]>
-]]>
-]]>
-]]>
 ]]>
 </ShortInstructions>
 <Instructions>
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
 <![CDATA[
 <h2>A feladata a következő:</h2>
 <ul>
@@ -50,36 +29,15 @@
 <p><i>Segítség:</i></p>
 <pre>for (i = 0; ...</pre>
 ]]>
-]]>
-]]>
-]]>
-]]>
-]]>
-]]>
-]]>
 </Instructions>
 <ShortStory>
 </ShortStory>
 <Story>
 <![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
 <h2>Számolós kaland</h2>
 <p>Szép délutánt derék kalandor! Lehetséges, hogy még nem tudod, de nagyon nehéz feladatra szántad el magad! A kedves zöld manó nem tud számolni, és neked kell segíteni neki, de nem akárhogy!</p>
 <p>Egy ijesztő, villogó, karakterekkel, és mindenféle fényekkel teli lapos ablakon keresztül kell segítened neki, mert szegény oda beszorult... Mindezt sok-sok gomb megnyomásával a megfelelő sorrendben teheted csak meg...</p>
 <p>Sok sikert!</p>
-]]>
-]]>
-]]>
-]]>
-]]>
-]]>
-]]>
 ]]>
 </Story>
 <Difficulty>Novice</Difficulty>

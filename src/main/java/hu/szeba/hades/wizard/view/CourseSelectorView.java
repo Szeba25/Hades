@@ -57,6 +57,12 @@ public class CourseSelectorView extends JFrame implements ViewableFrame {
                 return;
             }
 
+            try {
+                controller.addCourse();
+                controller.setCourseListContent(courseListPanel.getList());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
 
         courseListPanel.getModifier().getEdit().addActionListener((event) -> {

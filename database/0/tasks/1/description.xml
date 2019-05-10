@@ -3,31 +3,10 @@
 <Title>Számok kétszerese!</Title>
 <ShortInstructions>
 <![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
 <p>A feladat számokat bekérni, és azok kétszeresét kiírni.</p>
-]]>
-]]>
-]]>
-]]>
-]]>
-]]>
-]]>
 ]]>
 </ShortInstructions>
 <Instructions>
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
 <![CDATA[
 <h2>A feladata a következő:</h2>
 <ul>
@@ -45,52 +24,17 @@
 <br>
 <img src="file:resources/hello.gif"></img>
 ]]>
-]]>
-]]>
-]]>
-]]>
-]]>
-]]>
-]]>
 </Instructions>
 <ShortStory>
 <![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
 <h3>A rövid történet (feladat_1):</h3>
-]]>
-]]>
-]]>
-]]>
-]]>
-]]>
-]]>
 ]]>
 </ShortStory>
 <Story>
 <![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
-<![CDATA[
 <h2>A történet (feladat_1):</h2>
 <p>Itt a történet szövege.</p>
 <p>És itt egy másik sor!</p>
-]]>
-]]>
-]]>
-]]>
-]]>
-]]>
-]]>
 ]]>
 </Story>
 <Difficulty>Easy</Difficulty>
