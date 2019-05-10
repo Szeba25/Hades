@@ -2,7 +2,7 @@ package hu.szeba.hades.wizard.view;
 
 import hu.szeba.hades.main.meta.Languages;
 import hu.szeba.hades.main.view.components.ActionGuard;
-import hu.szeba.hades.main.view.components.JButtonGuarded;
+import hu.szeba.hades.main.view.components.DialogFactory;
 import hu.szeba.hades.main.view.components.ViewableFrame;
 import hu.szeba.hades.main.view.elements.MappedElement;
 import hu.szeba.hades.wizard.controller.CourseSelectorController;
@@ -52,11 +52,6 @@ public class CourseSelectorView extends JFrame implements ViewableFrame {
 
     private void setupEvents() {
         courseListPanel.getModifier().getAdd().addActionListener((event) -> {
-            ActionGuard guard = courseListPanel.getModifier().getAdd().getActionGuard();
-            if (guard.isGuarded()) {
-                return;
-            }
-
             try {
                 controller.addCourse();
                 controller.setCourseListContent(courseListPanel.getList());
@@ -84,11 +79,22 @@ public class CourseSelectorView extends JFrame implements ViewableFrame {
         });
 
         courseListPanel.getModifier().getDelete().addActionListener((event) -> {
-            ActionGuard guard = courseListPanel.getModifier().getDelete().getActionGuard();
-            if (guard.isGuarded()) {
-                return;
-            }
+            MappedElement selectedCourse = courseListPanel.getList().getSelectedValue();
+            if (selectedCourse != null) {
+                int option = DialogFactory.showCustomChoiceDialog(
+                        Languages.translate("This will delete the course. Continue?"),
+                        Languages.translate("Delete course..."),
+                        Languages.translate("Yes"), Languages.translate("No"));
 
+                if (option == JOptionPane.YES_OPTION) {
+                    try {
+                        controller.deleteCourse(selectedCourse);
+                        controller.setCourseListContent(courseListPanel.getList());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         });
     }
 
@@ -99,9 +105,7 @@ public class CourseSelectorView extends JFrame implements ViewableFrame {
         this.requestFocus();
 
         // Reset guarded buttons
-        courseListPanel.getModifier().getAdd().getActionGuard().reset();
         courseListPanel.getModifier().getEdit().getActionGuard().reset();
-        courseListPanel.getModifier().getDelete().getActionGuard().reset();
 
         // Refresh list
         try {

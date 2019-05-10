@@ -59,6 +59,16 @@ public class CourseSelectorController {
         name.save();
     }
 
+    public void deleteCourse(MappedElement selectedCourse) throws IOException {
+        for (int i = 0; i < database.getCourses().size(); i++) {
+            if (database.getCourses().get(i).getId().equals(selectedCourse.getId())) {
+                database.getCourses().remove(i);
+                break;
+            }
+        }
+        FileUtils.deleteDirectory(new File(Options.getDatabasePath(), selectedCourse.getId()));
+    }
+
     public void refreshCourseDatabase() throws IOException {
         database.refresh();
     }

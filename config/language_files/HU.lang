@@ -229,3 +229,6 @@ Saving sources...                                | Forrásfájlok mentése...
 Save successful!                                 | Sikeres mentés!
 Source file with this name already exists!       | Forrásfájl ilyen névvel már létezik!
 Existing source file                             | Forrásfájl létezik
+
+This will delete the course. Continue?           | A kurzus törlődni fog. Folytatja?
+Delete course...                                 | Kurzus törlése...
