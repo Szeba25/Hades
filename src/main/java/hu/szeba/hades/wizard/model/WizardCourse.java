@@ -93,8 +93,11 @@ public class WizardCourse {
 
     }
 
-    public void save() throws IOException {
+    public void save(String newTitle, String newProgrammingLanguage) throws IOException {
+        titleFile.setData(0, 0, newTitle);
         titleFile.save();
+
+        metaFile.setData(0, 1, newProgrammingLanguage);
         metaFile.save();
 
         // Clean up directories

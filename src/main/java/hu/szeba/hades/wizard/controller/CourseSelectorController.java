@@ -59,4 +59,8 @@ public class CourseSelectorController {
         name.save();
     }
 
+    public void refreshCourseDatabase() throws IOException {
+        database.refresh();
+    }
+
 }

@@ -88,8 +88,8 @@ public class CourseEditorController {
         );
     }
 
-    public void save() throws IOException {
-        course.save();
+    public void save(String newTitle, String newProgrammingLanguage) throws IOException {
+        course.save(newTitle, newProgrammingLanguage);
     }
 
     public void newMode() throws IOException {

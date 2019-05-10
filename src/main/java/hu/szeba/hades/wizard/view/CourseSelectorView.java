@@ -102,6 +102,14 @@ public class CourseSelectorView extends JFrame implements ViewableFrame {
         courseListPanel.getModifier().getAdd().getActionGuard().reset();
         courseListPanel.getModifier().getEdit().getActionGuard().reset();
         courseListPanel.getModifier().getDelete().getActionGuard().reset();
+
+        // Refresh list
+        try {
+            controller.refreshCourseDatabase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        controller.setCourseListContent(courseListPanel.getList());
     }
 
     @Override

@@ -15,6 +15,10 @@ public class WizardCourseDatabase {
     public List<MappedElement> courses;
 
     public WizardCourseDatabase() throws IOException {
+        refresh();
+    }
+
+    public void refresh() throws IOException {
         courses = new ArrayList<>();
         for (String id : Options.getDatabasePath().list()) {
             SingleDataFile metaFile = new SingleDataFile(new File(Options.getDatabasePath(), id + "/title.dat"));

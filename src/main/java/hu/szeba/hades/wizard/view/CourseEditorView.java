@@ -29,7 +29,7 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
 
     private JPanel topPanel;
     private JTextField titleField;
-    private JComboBox<String> languageBox;
+    private JTextField languageField;
 
     private JTabbedPane tabbedPane;
 
@@ -68,7 +68,7 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
         controller.setTaskListContents(taskList.getList());
 
         titleField.setText(course.getCourseTitle());
-        languageBox.getEditor().setItem(course.getLanguage());
+        languageField.setText(course.getLanguage());
 
         this.getContentPane().add(topPanel, BorderLayout.NORTH);
         this.getContentPane().add(tabbedPane, BorderLayout.CENTER);
@@ -84,9 +84,8 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
         titleLabel.setLabelFor(titleField);
 
         JLabel languageLabel = new JLabel(Languages.translate("Programming language:"));
-        languageBox = new JComboBox<>();
-        languageBox.setEditable(true);
-        languageLabel.setLabelFor(languageBox);
+        languageField = new JTextField();
+        languageLabel.setLabelFor(languageField);
 
         GridBagSetter gs = new GridBagSetter();
         gs.setComponent(topPanel);
@@ -121,7 +120,7 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
                 0,
                 new Insets(5, 5, 0, 5));
 
-        gs.add(languageBox,
+        gs.add(languageField,
                 1,
                 1,
                 GridBagConstraints.HORIZONTAL,
@@ -184,7 +183,7 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
                     case JOptionPane.YES_OPTION:
                         try {
                             // Save the course!
-                            controller.save();
+                            controller.save(titleField.getText(), languageField.getText());
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }
@@ -285,7 +284,7 @@ public class CourseEditorView extends JFrame implements ViewableFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    controller.save();
+                    controller.save(titleField.getText(), languageField.getText());
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
