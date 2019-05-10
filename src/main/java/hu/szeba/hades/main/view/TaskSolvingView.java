@@ -2,6 +2,7 @@ package hu.szeba.hades.main.view;
 
 import hu.szeba.hades.main.controller.TaskSolvingController;
 import hu.szeba.hades.main.meta.Languages;
+import hu.szeba.hades.main.meta.Options;
 import hu.szeba.hades.main.meta.UltimateHelper;
 import hu.szeba.hades.main.model.task.Task;
 import hu.szeba.hades.main.io.EditableTextFile;
@@ -480,10 +481,10 @@ public class TaskSolvingView extends JFrame implements ViewableFrame {
         });
         // About
         aboutMenuItem.addActionListener((event) -> {
-            DialogFactory.showCustomMessage(Languages.translate("Hades (development build)") + "\n" +
-                            Languages.translate("Contact: underworld.support@gmail.com") + "\n" +
-                            Languages.translate("Source: https://github.com/Szeba25/hades") + "\n" +
-                            Languages.translate("License: MIT (see repository)"),
+            DialogFactory.showCustomMessage(Languages.translate("Hades") + "\n" +
+                            Languages.translate("Instructor:") + " " + Options.getConfigData("instructor_name") + "\n" +
+                            Languages.translate("Contact:") + " " + Options.getConfigData("instructor_email") + "\n" +
+                            Languages.translate("Credits: Pertic Szebasztián"),
                             "Hades");
         });
         // Show story

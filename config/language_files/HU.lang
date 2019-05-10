@@ -12,7 +12,7 @@ Welcome! Please sign in!                         | Üdv! Kérlek jelentkezz be!
 User:                                            | Felhasználónév:
 Password:                                        | Jelszó:
 Sign in                                          | Belépés
-Development build                                | Fejlesztés alatt
+version:                                         | verzió:
 
 Please select a task                             | Kérlek válassz egy feladatot
 Course:                                          | Kurzus:
@@ -106,10 +106,10 @@ Readonly file                                    | Írásvédett file
 Rename source file:                              | Forrásfájl átnevezése:
 Rename source file                               | Forrásfájl átnevezése
 
-Hades (development build)                        | Hades (Fejlesztői verzió)
-Contact: underworld.support@gmail.com            | Kapcsolat: underworld.support.hades@gmail.com
-Source: https://github.com/Szeba25/hades         | Forráskód: https://github.com/Szeba25/hades
-License: MIT (see repository)                    | Lincensz: MIT (lásd githubon)
+Hades                                            | Hades
+Instructor:                                      | Oktató:
+Contact:                                         | Kapcsolat:
+Credits: Pertic Szebasztián                      | Készítette: Pertic Szebasztián
 
 Set filters for the task list                    | Szűrések beállítása a feladat listához
 Task title:                                      | Feladat neve:
