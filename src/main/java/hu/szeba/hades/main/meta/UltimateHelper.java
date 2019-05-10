@@ -16,7 +16,7 @@ public class UltimateHelper {
     public UltimateHelper() {
         try {
             random = new Random();
-            links = new DataFile(new File("config/helper.txt"));
+            links = new DataFile(new File("config/helper.dat"));
         } catch (IOException e) {
             links = null;
         }
