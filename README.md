@@ -6,12 +6,12 @@ The user interface currently supports Hungarian, and English language files.
 # Examples (from the Hungarian version)
 
 Built-in IDE for solving tasks
-![alt text](showcase/1.png)
+![alt text](showcase/1.png)  
 &nbsp;
 
 Add more chapters, and tasks
-![alt text](showcase/2.png)
+![alt text](showcase/2.png)  
 &nbsp;
 
 Get instant feedback, and progress
-![alt text](showcase/3.png)
+![alt text](showcase/3.png)  
