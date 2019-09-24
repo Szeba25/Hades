@@ -16,3 +16,19 @@ Add more chapters, and tasks
 Get instant feedback, and progress
 
 ![alt text](showcase/3.png)  
+
+# Building requirements
+- JDK 8
+- MinGW (32 bit edition for windows), gcc for linux
+
+## Building
+>./gradlew.bat jar
+
+The gradle task will create a jar file in build/libs
+
+## Setting up
+- Copy the jar file to the root directory (hades)
+- Open config/paths.conf
+- Edit the the compiler_c path to point to...
+  - Windows: the MinGW folder
+  - Linux: The folder containing the bin folder where gcc is located. (For example, to /usr if gcc is located in /usr/bin/gcc)
