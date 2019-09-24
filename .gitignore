@@ -15,9 +15,4 @@ build/
 out/
 
 # Hades files
-working_directory/
 database_backup/
-
-# Other lang files
-config/language_files/DANK.lang
-config/language_files/MIX.lang
