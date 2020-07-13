@@ -1,6 +1,6 @@
 # Hades
 Educational tool for teaching programming. 
-For programming, the tool currently supports creating, and solving tasks in C programming language, but thanks to the underlying structure it can be easily extended to support more! 
+The tool currently supports creating, and solving tasks in C programming language, but thanks to the underlying structure it can be easily extended to support more! 
 The user interface currently supports Hungarian, and English language files.
 
 # Examples (from the Hungarian version)
